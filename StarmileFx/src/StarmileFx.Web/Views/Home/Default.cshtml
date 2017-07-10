@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "Default";
+}
+<style>
+    #copyrightcontent {
+        height: 30px;
+        line-height: 29px;
+        overflow: hidden;
+        position: absolute;
+        top: 100%;
+        margin-top: -30px;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #e6e6e6;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+   
+    .panel-default {
+        border: none;
+        border-radius: 0px;
+        margin-bottom: 0px;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+        .panel-default > .panel-heading {
+            color: #777;
+            background-color: #fff;
+            border-color: #e6e6e6;
+            padding: 10px 10px;
+        }
+
+        .panel-default > .panel-body {
+            padding: 10px;
+            padding-bottom: 0px;
+        }
+
+            .panel-default > .panel-body ul {
+                overflow: hidden;
+                padding: 0;
+                margin: 0px;
+                margin-top: -5px;
+            }
+
+                .panel-default > .panel-body ul li {
+                    line-height: 27px;
+                    list-style-type: none;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                    .panel-default > .panel-body ul li .time {
+                        color: #a1a1a1;
+                        float: right;
+                        padding-right: 5px;
+                    }
+</style>
+
+<div id="areascontent" style="margin-bottom: 1%; border: 1px solid #e6e6e6; ">
+    <div class="rows" style="overflow: hidden; padding-left: 1px;">
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                <i class="fa fa-line-chart fa-lg" style="padding-right: 5px;"></i>关键数据实时指标
+                <div style="float: right; position: relative; top: -4px; right: 0px;">
+                    <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=1" width="330" height="35" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+                </div>
+            </div>*@
+                <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list " style="margin-top:20px;">
+                    <li><a href="javascript:;" class="am-text-success"><span class="am-icon-btn am-icon-file-text"></span><br />新增订单<br />0</a></li>
+                    <li><a href="javascript:;" class="am-text-warning"><span class="am-icon-btn am-icon-envelope"></span><br />留言信箱<br />0</a></li>
+                    <li><a href="javascript:;" class="am-text-danger"><span class="am-icon-btn am-icon-globe"></span><br />昨日访问<br />0</a></li>
+                    <li><a href="javascript:;" class="am-text-secondary"><span class="am-icon-btn am-icon-group"></span><br />在线用户<br />0</a></li>
+                </ul>
+        </div>
+    </div>
+    <div class="rows" style="overflow: hidden;">
+        <div class="col-lg-7">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf"><i class="fa fa-area-chart fa-lg" style="padding-right: 5px;"></i>订单统计</div>
+                <div class="am-in2">
+                    <div class="panel-heading">
+                        <div style="float: right">
+                            <span style="font-weight: 500;"><i class="fa fa-square" style="color: #dcdcdc; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>订单数量</span>
+                            @*<span style="margin-left: 10px; font-weight: 500;"><i class="fa fa-square" style="color: #97bbcd; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>缺卡</span>*@
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding-bottom: 0px;">
+                        <canvas id="salarychart" style="height: 260px; width: 100%; padding-right: 10px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf"><i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>访问统计</div>
+                <div class="am-in2">
+                        <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
+                        <div style="text-align: center; padding-top: 20px;">
+                            <span><i class="fa fa-square" style="color: #F7464A; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>谷歌</span>
+                            <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #46BFBD; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>IE</span>
+                            <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #949FB1; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>火狐</span>
+                            <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #726dd1; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>Safari</span>
+                            <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #FDB45C; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>其他</span>
+                        </div>
+                        <div style="margin-top: 20px; padding-top: 18px; height: 60px; border-top: 1px solid #e6e6e6;">
+                            <div style="width: 20%; text-align: center; float: left;">
+                                <span id="a_value"></span>
+                                <p style="color: #a1a1a1">谷歌</p>
+                            </div>
+                            <div style="width: 20%; text-align: center; float: left;">
+                                <span id="b_value"></span>
+                                <p style="color: #a1a1a1">IE</p>
+                            </div>                            
+                            <div style="width: 20%; text-align: center; float: left;">
+                                <span id="d_value"></span>
+                                <p style="color: #a1a1a1">火狐</p>
+                            </div>
+                            <div style="width: 20%; text-align: center; float: left;">
+                                <span id="e_value"></span>
+                                <p style="color: #a1a1a1">Safari</p>
+                            </div>
+                            <div style="width: 20%; text-align: center; float: left;">
+                                <span id="c_value"></span>
+                                <p style="color: #a1a1a1">其他</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rows" style="overflow: hidden;">
+        <div class="col-lg-4">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}"><i class="fa fa-paste fa-lg" style="padding-right: 5px;"></i>个人任务<span class="am-icon-angle-down am-fr"></span></div>
+                <div id="collapse-panel-1" class="am-in list-group">
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a class="more">更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}"><i class="fa fa-rss fa-lg" style="padding-right: 5px;"></i>网站公告<span class="am-icon-angle-down am-fr"></span></div>
+                <div id="collapse-panel-2" class="am-in list-group">
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a class="more">更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4"">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}"><i class="fa fa-list-alt fa-lg" style="padding-right: 5px;"></i>登录日志<span class="am-icon-angle-down am-fr"></span></div>
+                <div id="collapse-panel-3" class="am-in list-group">
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                        <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a href="#" class="list-group-item">南京森鹿皮件服饰有限公司<span class="time">2016-07-21</span></a>
+                    <a class="more">更多</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿{
+  "SysMenus": {
+    "MainMenuList": [
+      {
+        "Name": "系统开发",
+        "Url": "",
+        "Icon": "fa-cogs",
+        "Code": "Development",
+        "State": true,
+        "MainMenuBase": [
+          {
+            "Name": "模块开发",
+            "State": true,
+            "Code": "Modular",
+            "Url": "Modular",
+            "MenuList": [
+              {
+                "Name": "上传控件",
+                "Url": "Upload",
+                "Icon": "fa-cloud-upload",
+                "Code": "Upload",
+                "State": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "系统管理",
+        "Url": "",
+        "Icon": "fa-cogs",
+        "Code": "SysModule",
+        "State": true,
+        "MainMenuBase": [
+          {
+            "Name": "基础设置",
+            "State": true,
+            "Url": "Sys",
+            "Code": "Sys",
+            "MenuList": [
+              {
+                "Name": "角色管理",
+                "Url": "SysRoles",
+                "Icon": "fa-group",
+                "Code": "SysRoles",
+                "State": true
+              },
+              {
+                "Name": "权限管理",
+                "Url": "SysAuthorities",
+                "Icon": "fa-key",
+                "Code": "SysAuthorities",
+                "State": true
+              },
+              {
+                "Name": "页面管理",
+                "Url": "SysViews",
+                "Icon": "fa-laptop",
+                "Code": "SysViews",
+                "State": true
+              },
+              {
+                "Name": "系统设置",
+                "Url": "SysSetting",
+                "Icon": "fa-wrench",
+                "Code": "SysSetting",
+                "State": true
+              },
+              {
+                "Name": "系统日志",
+                "Url": "SysLogs",
+                "Icon": "fa-book",
+                "Code": "SysLogs",
+                "State": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

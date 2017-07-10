@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<distributed-cache name="mycache" expires-after="TimeSpan.FromSeconds(10)">
+    <p>缓存项10秒过期-LineZero</p>
+    @DateTime.Now
+</distributed-cache>
+<distributed-cache name="mycachenew" expires-sliding="TimeSpan.FromSeconds(10)">
+    <p>缓存项有人访问就不会过期，无人访问10秒过期-LineZero</p>
+    @DateTime.Now
+</distributed-cache>
