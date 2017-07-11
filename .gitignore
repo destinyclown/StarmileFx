@@ -241,3 +241,21 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 webapi/
+/StarmileFx/src/StarmileFx/obj
+/StarmileFx/src/StarmileFx/bin
+/StarmileFx/src/StarmileFx.Api/obj
+/StarmileFx/src/StarmileFx.Api/bin
+/StarmileFx/src/StarmileFx.Api.Server/bin
+/StarmileFx/src/StarmileFx.Api.Server/obj
+/StarmileFx/src/StarmileFx.Common/obj
+/StarmileFx/src/StarmileFx.Common/bin
+/StarmileFx/src/StarmileFx.Models/obj
+/StarmileFx/src/StarmileFx.Models/bin
+/StarmileFx/src/StarmileFx.Server/obj
+/StarmileFx/src/StarmileFx.Server/bin
+/StarmileFx/src/StarmileFx.Wap/obj
+/StarmileFx/src/StarmileFx.Wap/bin
+/StarmileFx/src/StarmileFx.Wap.Server/obj
+/StarmileFx/src/StarmileFx.Wap.Server/bin
+/StarmileFx/src/StarmileFx.Web/obj
+/StarmileFx/src/StarmileFx.Web/bin
