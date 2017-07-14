@@ -14,6 +14,7 @@
             $(this).hasClass("am-collapsed") ?
             $(this).children(".am-fr").removeClass("am-icon-angle-left").addClass("am-icon-angle-down") :
             $(this).children(".am-fr").removeClass("am-icon-angle-down").addClass("am-icon-angle-left");
+            $('.am-dropdown-content').click();
         });
     });
 

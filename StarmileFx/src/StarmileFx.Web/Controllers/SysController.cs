@@ -8,10 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
-    public class SysController : Controller
+    public class SysController : BaseController
     {
         // GET: /<controller>/
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult SysRoles()
         {
             return View();
         }
