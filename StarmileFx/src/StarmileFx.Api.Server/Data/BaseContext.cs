@@ -167,6 +167,25 @@ namespace StarmileFx.Api.Server.Data
             }
         }
 
+        /// <summary>
+        /// 执行SQL
+        /// </summary>
+        /// <typeparam name="TEntity">泛型</typeparam>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters">参数</param>
+        /// <returns></returns>
+        public IQueryable<TEntity> ExecuteSql<TEntity>(string sql, params object[] parameters) where TEntity : ModelBase
+        {
+            return Set<TEntity>().FromSql(sql, parameters);
+        }
+
+
+        public IQueryable<TEntity> ExecuteSqlProcedure<TEntity>(string procedureName, params object[] parameters) where TEntity : ModelBase
+        {
+            string sql = "exec" + procedureName; 
+            return ExecuteSql<TEntity>(sql, parameters);
+        }
+
         #endregion 获取列表
 
         public DbSet<SysAuthorities> SysAuthorities { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StarmileFx.Models.Enum;
 
-namespace StarmileFx.Models.H5
+namespace StarmileFx.Models.Wap
 {
     /// <summary>
     /// 平台订单（临时）

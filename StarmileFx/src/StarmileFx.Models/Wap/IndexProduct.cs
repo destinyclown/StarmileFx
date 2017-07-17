@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using StarmileFx.Models.Youngo;
 
-namespace StarmileFx.Models.H5
+namespace StarmileFx.Models.Wap
 {
     /// <summary>
-    /// 搜索商品实体
+    /// 首页商品实体
     /// </summary>
-    public class SearchProduct : ModelBase
+    public class IndexProduct : ModelBase
     {
         /// <summary>
         /// 商品类型
