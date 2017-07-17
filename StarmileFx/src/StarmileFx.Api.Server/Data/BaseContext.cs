@@ -6,6 +6,7 @@ using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data.SqlClient;
 
 namespace StarmileFx.Api.Server.Data
 {
@@ -167,6 +168,9 @@ namespace StarmileFx.Api.Server.Data
             }
         }
 
+        #endregion 获取列表
+
+        #region SQL
         /// <summary>
         /// 执行SQL
         /// </summary>
@@ -179,14 +183,24 @@ namespace StarmileFx.Api.Server.Data
             return Set<TEntity>().FromSql(sql, parameters);
         }
 
-
-        public IQueryable<TEntity> ExecuteSqlProcedure<TEntity>(string procedureName, params object[] parameters) where TEntity : ModelBase
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="procedureName">存储过程名称</param>
+        /// <param name="parameters">参数</param>
+        /// <returns></returns>
+        public IQueryable<TEntity> ExecuteSqlProcedure<TEntity>(string procedureName, SqlParameter[] parameters) where TEntity : ModelBase
         {
-            string sql = "exec" + procedureName; 
+            string sql = "exec" + procedureName;
+            foreach (SqlParameter parame in parameters)
+            {
+                sql += " @" + parame.ParameterName + ",";
+            }
+            sql = sql.Substring(0, sql.Length - 1);
             return ExecuteSql<TEntity>(sql, parameters);
         }
-
-        #endregion 获取列表
+        #endregion SQL
 
         public DbSet<SysAuthorities> SysAuthorities { get; set; }
         public DbSet<SysEmailLogs> SysEmailLogs { get; set; }

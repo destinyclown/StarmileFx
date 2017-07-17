@@ -7,6 +7,7 @@ using StarmileFx.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using StarmileFx.Models.Youngo;
+using System.Data.SqlClient;
 
 namespace StarmileFx.Api.Server.Data
 {
@@ -169,6 +170,38 @@ namespace StarmileFx.Api.Server.Data
         }
 
         #endregion 获取列表
+
+        #region SQL
+        /// <summary>
+        /// 执行SQL
+        /// </summary>
+        /// <typeparam name="TEntity">泛型</typeparam>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters">参数</param>
+        /// <returns></returns>
+        public IQueryable<TEntity> ExecuteSql<TEntity>(string sql, params object[] parameters) where TEntity : ModelBase
+        {
+            return Set<TEntity>().FromSql(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="procedureName">存储过程名称</param>
+        /// <param name="parameters">参数</param>
+        /// <returns></returns>
+        public IQueryable<TEntity> ExecuteSqlProcedure<TEntity>(string procedureName, SqlParameter[] parameters) where TEntity : ModelBase
+        {
+            string sql = "exec" + procedureName;
+            foreach (SqlParameter parame in parameters)
+            {
+                sql += " @" + parame.ParameterName + ",";
+            }
+            sql = sql.Substring(0, sql.Length - 1);
+            return ExecuteSql<TEntity>(sql, parameters);
+        }
+        #endregion SQL
 
         public DbSet<Customer> Customer { get; set; }
         public DbSet<CustomerComment> CustomerComment { get; set; }
