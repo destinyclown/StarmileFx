@@ -240,6 +240,14 @@ namespace StarmileFx.Api.Server.Services
             }
             return null;
         }
+
+        public List<SysRoleLogs> GetSysRoleLogsList(PageData page)
+        {
+            List<SysRoleLogs> sysRoleLogsList = new List<SysRoleLogs>();
+            int total = 0;
+            sysRoleLogsList = PageData<SysRoleLogs>(page, null, null, out total).ToList();
+            return sysRoleLogsList;
+        }
         #endregion home
     }
 }

@@ -128,6 +128,8 @@ namespace StarmileFx.Api.Server.IServices
         //Task<List<SysViews>> LoadViewList(string roleid, Guid menuid);
 
         SysMenusModel LoadMenuByRoleAsync(SysRoles role);
+
+        List<SysRoleLogs> GetSysRoleLogsList(PageData page);
         #endregion
     }
 }

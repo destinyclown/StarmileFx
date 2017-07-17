@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StarmileFx.Common;
@@ -103,6 +104,27 @@ namespace StarmileFx.Server.Services
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<SysMenusModel>>(result);
+            });
+        }
+
+        public Task<ResponseResult<List<SysRoleLogs>>> GetSysRoleLogsList(PageData page)
+        {
+            return Task.Run(() =>
+            {
+                return GetSysRoleLogsListAsync(page);
+            });
+        }
+
+        public async Task<ResponseResult<List<SysRoleLogs>>> GetSysRoleLogsListAsync(PageData page)
+        {
+            string Action = "Api";
+            string Function = "/GetSysRoleLogsListAsync";
+            string Parameters = string.Empty;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, page);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<List<SysRoleLogs>>>(result);
             });
         }
     }

@@ -11,6 +11,8 @@ using StarmileFx.Models;
 using StarmileFx.Common;
 using StarmileFx.Server.IServices;
 using static StarmileFx.Models.Web.HomeFromModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -133,6 +135,32 @@ namespace StarmileFx.Web.Controllers.Controllers
         public IActionResult About()
         {
             return View();
+        }
+
+        public async Task<IActionResult> GetSysRoleLogsList([FromForm]PageData page)
+        {
+            page.IsAsc = false;
+            page.PageIndex = 1;
+            page.PageSize = 20;
+            ResponseResult<List<SysRoleLogs>> responseResult = await _BaseServer.GetSysRoleLogsList(page);
+            if (!responseResult.IsSuccess)
+            {
+                result.ReasonDescription = responseResult.ErrorMsg;
+                return Json(result);
+            }
+            return Json(new
+            {
+                total = 0,
+                row = from m in responseResult.Content
+                      select new
+                      {
+                          id = m.ID,
+                          用户id = m.RoleID,
+                          IP地址 = m.LoginIP,
+                          登录时间 = m.CreatTime
+
+                      }
+            });
         }
     }
 }

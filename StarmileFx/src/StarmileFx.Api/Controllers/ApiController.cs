@@ -55,8 +55,7 @@ namespace StarmileFx.Api.Controllers
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                var model = BaseService.Refresh(Token, HttpContext);
-                responseModel.Content = model;
+                responseModel.Content = BaseService.Refresh(Token, HttpContext);
                 responseModel.IsSuccess = true;
                 return responseModel;
             };
@@ -133,6 +132,18 @@ namespace StarmileFx.Api.Controllers
                     result.ReasonDescription = "Token错误，请检查！";
                 }
                 responseModel.Content = result;
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        public string GetSysRoleLogsList([FromForm]PageData page)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _BaseServer.GetSysRoleLogsList(page);
+                responseModel.IsSuccess = true;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
