@@ -15,7 +15,7 @@ namespace StarmileFx.Models.Youngo
         /// </summary>
         public int CustomerID { get; set; }
         /// <summary>
-        /// 订单ID
+        /// 订单编号
         /// </summary>
         public string OrderID { get; set; }
         /// <summary>

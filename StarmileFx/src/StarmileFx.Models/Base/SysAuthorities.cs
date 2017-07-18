@@ -7,5 +7,9 @@
     {
         public int PermissionsID { get; set; }
         public string Code { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
     }
 }

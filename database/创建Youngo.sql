@@ -20,7 +20,7 @@ IF NOT EXISTS `ProductType` (
 CREATE TABLE
 IF NOT EXISTS `Product` (
 	`ID` INT (11) NOT NULL auto_increment PRIMARY KEY,
-	`ProductCode` varchar(50)  NULL UNIQUE COMMENT '标识SKU',
+	`ProductID` varchar(50)  NULL UNIQUE COMMENT '标识SKU',
 	`Label` varchar(50)  NULL COMMENT '产品标签',
 	`CnName` varchar(50)  NULL COMMENT '中文名称',
 	`EnName` varchar(50)  NULL COMMENT '英文名称',
@@ -79,6 +79,7 @@ IF NOT EXISTS `OnLineOrderParent` (
 	`UpdateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 	`DeliveryTime` TIMESTAMP NULL COMMENT '发货时间',
 	`PayTime` TIMESTAMP NULL COMMENT '付款时间',
+	`FinishTime` TIMESTAMP NULL COMMENT '完成时间',
 	`CreatTime` TIMESTAMP COMMENT '创建时间'
 );
 

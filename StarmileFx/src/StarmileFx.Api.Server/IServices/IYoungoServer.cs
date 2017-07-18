@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using StarmileFx.Models;
 using StarmileFx.Models.Enum;
+using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 
@@ -103,19 +104,10 @@ namespace StarmileFx.Api.Server.IServices
 
         #region 手机商城
         /// <summary>
-        /// 首页商品列表
+        /// 获取商品列表
         /// </summary>
-        /// <param name="page"></param>
         /// <returns></returns>
-        List<IndexProduct> IndexProductList(PageData page);
-
-        /// <summary>
-        /// 搜索页商品列表
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        List<SearchProduct> SearchProductList(string keyword, PageData page);
+        CacheProductList GetCacheProductList();
 
         /// <summary>
         /// 获取用户信息
@@ -127,32 +119,43 @@ namespace StarmileFx.Api.Server.IServices
         /// <summary>
         /// 获取订单列表
         /// </summary>
+        /// <param name="OrderState"></param>
         /// <param name="CustomerId"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId);
+        List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, PageData page);
 
         /// <summary>
         /// 创建订单
         /// </summary>
-        /// <param name="OrderParent"></param>
+        /// <param name="shopCart"></param>
         /// <returns></returns>
-        bool CreateOrderParent(OrderParent OrderParent);
+        bool CreateOrderParent(ShopCart shopCart);
 
         /// <summary>
-        /// 删除订单
+        /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="OrderId"></param>
         /// <returns></returns>
-        bool DeleteOrderParent(string OrderId);
-
+        bool CancelOrderParent(string OrderId);
 
         /// <summary>
-        /// 会员签到
+        /// 会员积分变动记录
         /// </summary>
         /// <param name="CustomerId"></param>
+        /// <param name="signEnum"></param>
         /// <returns></returns>
-        bool CustomerSign(int CustomerId);
+        bool ChangeCustomerSign(int CustomerId, SignEnum signEnum);
 
+        /// <summary>
+        /// 提交评论
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="OrderID"></param>
+        /// <param name="ProductID"></param>
+        /// <param name="Comment"></param>
+        /// <returns></returns>
+        bool SubmitComment(int CustomerId, string OrderID, string ProductID, string Comment, int? Reply);
 
         #endregion
 

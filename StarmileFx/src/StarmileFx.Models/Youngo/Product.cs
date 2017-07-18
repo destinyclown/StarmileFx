@@ -13,7 +13,7 @@ namespace StarmileFx.Models.Youngo
         /// <summary>
         /// 商品标识（即SKU,其他表记录的均为此字段）
         /// </summary>
-        public string ProductCode { get; set; }
+        public string ProductID { get; set; }
         /// <summary>
         /// 标签
         /// </summary>
@@ -66,6 +66,10 @@ namespace StarmileFx.Models.Youngo
         /// 是否清货
         /// </summary>
         public bool IsClearStock { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
         /// <summary>
         /// 是否删除
         /// </summary>

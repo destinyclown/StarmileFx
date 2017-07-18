@@ -8,6 +8,8 @@ using StarmileFx.Models;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using StarmileFx.Models.Enum;
+using StarmileFx.Models.Redis;
+using MySql.Data.MySqlClient;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -20,6 +22,10 @@ namespace StarmileFx.Api.Server.Services
         /// 依赖注入
         /// </summary>
         private YoungoContext _DataContext;
+        /// <summary>
+        /// 开启事务(重要)
+        /// </summary>
+        private static bool Transaction = false;
 
         public YoungoManager(YoungoContext DataContext)
         {
@@ -175,28 +181,31 @@ namespace StarmileFx.Api.Server.Services
 
         #region 手机商城
         /// <summary>
-        /// 首页商品列表
+        /// 获取商品列表
         /// </summary>
-        /// <param name="page"></param>
         /// <returns></returns>
-        public List<IndexProduct> IndexProductList(PageData page)
+        public CacheProductList GetCacheProductList()
         {
-            List<IndexProduct> indexProductList = new List<IndexProduct>();
+            CacheProductList _CacheProductList = new CacheProductList();
             int total = 0;
-            indexProductList = PageData<IndexProduct>(page, null, null, out total).ToList();
-            return indexProductList;
-        }
-
-        /// <summary>
-        /// 搜索页商品列表
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public List<SearchProduct> SearchProductList(string keyword, PageData page)
-        {
-            List<SearchProduct> searchProductList = new List<SearchProduct>();
-            return searchProductList;
+            _CacheProductList.ProductTypeList = List<ProductType>(a => a.State, out total).ToList();
+            _CacheProductList.ProductList = List<Product>(a => a.State, out total).ToList();
+            string sql = @"SELECT
+	                        cc.ID,
+	                        cc.`Comment`,
+	                        cc.CustomerID,
+	                        cc.OrderID,
+	                        cc.Reply,
+	                        cc.ProductID,
+	                        cc.UpdateTime,
+	                        cc.CreatTime
+                        FROM
+	                        CustomerComment AS cc
+                        INNER JOIN product AS p ON P.ProductID = cc.ProductID
+                        AND p.State";
+            MySqlParameter[] parameters = new MySqlParameter[]{};
+            _CacheProductList.CommentList = _DataContext.ExecuteSql<CustomerComment>(sql, parameters).ToList();
+            return _CacheProductList;
         }
 
         /// <summary>
@@ -206,50 +215,216 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public Customer GetCustomer(string WeCharKey)
         {
-            Customer customer = new Customer();
+            Customer customer = Get<Customer>(a => a.State & a.WeCharKey == WeCharKey);
             return customer;
         }
 
         /// <summary>
         /// 获取订单列表
         /// </summary>
+        /// <param name="OrderState"></param>
         /// <param name="CustomerId"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId)
+        public List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, PageData page)
         {
-            List<OrderParent> orderParentList = new List<OrderParent>();
+            //sql语句
+            string sql = @"SELECT
+	                        op.ID,
+	                        op.CustomerID,
+	                        od.ProductID,
+	                        op.OrderID,
+	                        op.TraceID,
+	                        op.PackPrice,
+	                        op.ExpressPrice,
+	                        op.OrderState,
+	                        op.PaymentType,
+	                        da.ReceiveName,
+	                        da.Address,
+	                        da.Province,
+	                        da.City,
+	                        da.Area,
+	                        da.Phone,
+	                        od.Number,
+	                        op.TotalPrice,
+	                        op.CustomerRemarks,
+	                        op.DeliveryTime,
+	                        op.PayTime,
+	                        op.FinishTime,
+	                        op.UpdateTime,
+	                        op.CreatTime
+                        FROM
+	                        OnLineOrderParent AS op
+                        INNER JOIN onlineorderdetail AS od ON op.OrderID = od.OrderID
+                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
+                        WHERE op.IsDelet = 0 AND op.CustomerID = @customerId ";
+            if (OrderState != OrderStateEnum.All) {
+                sql += "AND op.OrderState = @orderState ";
+            }
+            sql +="LIMIT @pageIndex,@page";
+
+            MySqlParameter[] parameters = new MySqlParameter[]
+            {
+                new MySqlParameter("@orderState", OrderState),
+                new MySqlParameter("@customerId", CustomerId),
+                new MySqlParameter("@pageIndex", (page.PageIndex - 1) * page.PageSize),
+                new MySqlParameter("@page", page.PageSize)  
+            };
+            parameters[0].MySqlDbType = MySqlDbType.Int32;
+            parameters[1].MySqlDbType = MySqlDbType.Int32;
+            parameters[2].MySqlDbType = MySqlDbType.Int32;
+            parameters[3].MySqlDbType = MySqlDbType.Int32;
+
+            List<OrderParent> orderParentList = _DataContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
             return orderParentList;
         }
 
         /// <summary>
         /// 创建订单
         /// </summary>
-        /// <param name="OrderParent"></param>
+        /// <param name="shopCart"></param>
         /// <returns></returns>
-        public bool CreateOrderParent(OrderParent OrderParent)
+        public bool CreateOrderParent(ShopCart shopCart)
         {
-            return false;
+            if (shopCart == null)
+            {
+                throw new Exception("购物车为空！");
+            }
+            int detailCount = 0;
+
+            //主表数据
+            OnLineOrderParent order = new OnLineOrderParent();
+            order.DeliveryAddressID = shopCart.DeliveryAddressID;
+            order.OrderID = shopCart.OrderId;
+            order.OrderState = shopCart.OrderState;
+            order.OrderType = 1;
+            order.PayTime = shopCart.PayTime;
+            order.PaymentType = shopCart.PaymentType;
+            order.CustomerRemarks = shopCart.CustomerRemarks;
+            order.CustomerID = shopCart.CustomerID;
+            order.TotalPrice = shopCart.TotalPrice;
+            order.IsDelet = false;
+            if (Add(order, Transaction))
+            {
+                //明细数据
+                foreach (var Product in shopCart.ProductList)
+                {
+                    OnLineOrderDetail orderDetail = new OnLineOrderDetail();
+                    orderDetail.OrderID = shopCart.OrderId;
+                    orderDetail.ProductID = Product.ProductID;
+                    orderDetail.Number = Product.Number;
+                    if (Add(orderDetail, Transaction))
+                    {
+                        detailCount++;
+                    }
+                }
+                //判断是否全部提交成功
+                if (detailCount == shopCart.ProductList.Count)
+                {
+                    //提交事务
+                    Commit();
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("创建订单异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("创建订单异常！");
+            }
         }
 
         /// <summary>
-        /// 删除订单
+        /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="OrderId"></param>
         /// <returns></returns>
-        public bool DeleteOrderParent(string OrderId)
+        public bool CancelOrderParent(string OrderId)
         {
-            return false;
+            if (string.IsNullOrWhiteSpace(OrderId))
+            {
+                throw new Exception("订单号为空！");
+            }
+            OrderId = OrderId.ToUpper();
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID.Equals(OrderId) & a.IsDelet == false);
+            if (order == null)
+            {
+                throw new Exception("订单信息为空，请检查！");
+            }
+            order.IsDelet = true;
+            if (Update(order, Transaction))
+            {
+                //提交事务
+                Commit();
+                return true;
+            }
+            else
+            {
+                throw new Exception("删除订单异常！");
+            }
         }
 
         /// <summary>
-        /// 会员签到
+        /// 会员积分变动记录
         /// </summary>
         /// <param name="CustomerId"></param>
+        /// <param name="signEnum"></param>
         /// <returns></returns>
-        public bool CustomerSign(int CustomerId)
+        public bool ChangeCustomerSign(int CustomerId, SignEnum signEnum)
         {
-            return false;
+            Customer customer = Get<Customer>(a => a.State & a.ID == CustomerId);
+            customer.Integral += (int)signEnum;
+            if (Update(customer, Transaction))
+            {
+                CustomerSign sign = new CustomerSign();
+                sign.CustomerID = CustomerId;
+                sign.Integral = (int)signEnum;
+                sign.Mode = signEnum.ToString();
+                if (Add(sign, Transaction))
+                {
+                    //提交事务
+                    Commit();
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("添加积分记录异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("会员签到异常！");
+            }
         }
+
+        /// <summary>
+        /// 提交评论
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="OrderID"></param>
+        /// <param name="ProductID"></param>
+        /// <param name="Comment"></param>
+        /// <param name="Reply"></param>
+        /// <returns></returns>
+        public bool SubmitComment(int CustomerId, string OrderID, string ProductID, string Comment, int? Reply)
+        {
+            CustomerComment comment = new CustomerComment();
+            comment.CustomerID = CustomerId;
+            comment.OrderID = OrderID;
+            comment.ProductID = ProductID;
+            comment.Reply = Reply;
+            if (Add(comment, Transaction))
+            {
+                return ChangeCustomerSign(CustomerId, SignEnum.添加评论5点积分);
+            }
+            else
+            {
+                throw new Exception("提交评论异常！");
+            }
+        }
+
         #endregion
 
         #region 网站后台

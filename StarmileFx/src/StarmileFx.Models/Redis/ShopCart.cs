@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Models.Enum;
 using StarmileFx.Models.Youngo;
 
 namespace StarmileFx.Models.Redis
@@ -15,6 +16,30 @@ namespace StarmileFx.Models.Redis
         /// 用户ID
         /// </summary>
         public int CustomerID { get; set; }
+        /// <summary>
+        /// 订单编号
+        /// </summary>
+        public string OrderId { get; set; }
+        /// <summary>
+        /// 收货地址ID
+        /// </summary>
+        public int DeliveryAddressID { get; set; }
+        /// <summary>
+        /// 订单状态1、待付款2、待发货3、待收货
+        /// </summary>
+        public OrderStateEnum OrderState { get; set; }
+        /// <summary>
+        /// 支付类型1、微信支付2、支付宝支付3、货到付款（暂不支持）
+        /// </summary>
+        public PaymentTypeEnum PaymentType { get; set; }
+        /// <summary>
+        /// 用户备注
+        /// </summary>
+        public string CustomerRemarks { get; set; }
+        /// <summary>
+        /// 支付时间
+        /// </summary>
+        public DateTime? PayTime { get; set; }
         /// <summary>
         /// 商品列表
         /// </summary>

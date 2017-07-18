@@ -11,7 +11,7 @@ namespace StarmileFx.Models.Youngo
     public class OffLineOrderDetail : ModelBase
     {
         /// <summary>
-        /// 订单ID
+        /// 订单编号
         /// </summary>
         public string OrderID { get; set; }
         /// <summary>

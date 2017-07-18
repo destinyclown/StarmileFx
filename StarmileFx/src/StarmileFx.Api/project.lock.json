@@ -4459,10 +4459,10 @@
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
           "Microsoft.AspNetCore.Http": "1.0.0",
+          "MySql.Data.EntityFrameworkCore": "7.0.7-m61",
           "NETStandard.Library": "1.6.0",
           "StarmileFx.Common": "1.0.0",
-          "StarmileFx.Models": "1.0.0",
-          "System.Data.SqlClient": "4.1.0"
+          "StarmileFx.Models": "1.0.0"
         },
         "compile": {
           "netstandard1.6/StarmileFx.Api.Server.dll": {}

@@ -11,7 +11,7 @@ namespace StarmileFx.Models.Youngo
     public class OrderEstablish : ModelBase
     {
         /// <summary>
-        /// 原始订单ID
+        /// 原始订单编号
         /// </summary>
         public int OriginalOrderID { get; set; }
     }

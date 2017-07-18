@@ -23,5 +23,9 @@ namespace StarmileFx.Models.Youngo
         /// 介绍
         /// </summary>
         public string Introduce { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
     }
 }

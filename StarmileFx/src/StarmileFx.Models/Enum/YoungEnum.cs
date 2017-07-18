@@ -20,6 +20,10 @@ namespace StarmileFx.Models.Enum
     public enum OrderStateEnum : int
     {
         /// <summary>
+        /// 全部
+        /// </summary>
+        All = 0,
+        /// <summary>
         /// 待付款
         /// </summary>
         WaitPayment = 1,
@@ -59,5 +63,21 @@ namespace StarmileFx.Models.Enum
     public enum OrderTypeEnum : int
     {
 
+    }
+
+    public enum SignEnum : int
+    {
+        /// <summary>
+        /// 会员签到10点积分
+        /// </summary>
+        会员签到10点积分 = 10,
+        /// <summary>
+        /// 购买商品20点积分
+        /// </summary>
+        购买商品20点积分 = 20,
+        /// <summary>
+        /// 添加评论5点积分
+        /// </summary>
+        添加评论5点积分 = 5,
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using StarmileFx.Models.Youngo;
 using System.Data.SqlClient;
+using StarmileFx.Models.Wap;
 
 namespace StarmileFx.Api.Server.Data
 {
@@ -219,5 +220,6 @@ namespace StarmileFx.Api.Server.Data
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<ViewHistory> ViewHistory { get; set; }
         public DbSet<SreachHistory> SreachHistory { get; set; }
+        public DbSet<OrderParent> OrderParent { get; set; }
     }
 }

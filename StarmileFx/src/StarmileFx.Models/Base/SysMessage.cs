@@ -13,5 +13,9 @@
         public string Title { get; set; }
         public string Content { get; set; }
         public int Type { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
     }
 }

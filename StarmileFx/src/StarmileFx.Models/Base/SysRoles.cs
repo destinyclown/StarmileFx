@@ -12,5 +12,9 @@
         public string Pwd { get; set; }
         public int Permissions { get; set; }
         public string Url { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
     }
 }

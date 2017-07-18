@@ -10,7 +10,8 @@ namespace StarmileFx.Api.Server
     {
         public static void AddCoreServices(this IServiceCollection services)
         {
-            services.AddTransient<IBaseServer, BaseManager>();
+            services.AddTransient<IBaseServer, BaseManager>()
+                .AddTransient<IYoungoServer, YoungoManager>();
         }
     }
 }

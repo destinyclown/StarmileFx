@@ -12,7 +12,7 @@ namespace StarmileFx.Models.Youngo
     public class OnLineOrderParent : ModelBase
     {
         /// <summary>
-        /// 订单ID
+        /// 订单编号
         /// </summary>
         public string OrderID { get; set; }
         /// <summary>
@@ -99,5 +99,9 @@ namespace StarmileFx.Models.Youngo
         /// 支付时间
         /// </summary>
         public DateTime? PayTime { get; set; }
+        /// <summary>
+        /// 完成时间
+        /// </summary>
+        public DateTime? FinishTime { get; set; }
     }
 }

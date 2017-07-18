@@ -16,9 +16,14 @@ namespace StarmileFx.Models
 
         [Key]
         public virtual int ID { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
         public virtual DateTime CreatTime { get; set; }
-        //public virtual DateTime UpdateTime { get; set; }
-        public virtual bool State { get; set; }
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        public virtual DateTime UpdateTime { get; set; }
 
         /// <summary>
         /// 清除对象属性数据;给对象重新赋值前，最好先清除旧数据。

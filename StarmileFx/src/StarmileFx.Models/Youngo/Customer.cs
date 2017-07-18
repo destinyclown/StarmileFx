@@ -27,5 +27,9 @@ namespace StarmileFx.Models.Youngo
         /// 用户类型（1、普通用户2、白金会员3、黄金会员）
         /// </summary>
         public CustomerTypeEnum CustomerType { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public bool State { get; set; }
     }
 }

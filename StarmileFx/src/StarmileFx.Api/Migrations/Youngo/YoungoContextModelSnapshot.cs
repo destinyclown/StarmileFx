@@ -15,6 +15,60 @@ namespace StarmileFx.Api.Migrations.Youngo
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
+            modelBuilder.Entity("StarmileFx.Models.Wap.OrderParent", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Area");
+
+                    b.Property<string>("City");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<int>("CustomerID");
+
+                    b.Property<string>("CustomerRemarks");
+
+                    b.Property<DateTime?>("DeliveryTime");
+
+                    b.Property<float>("ExpressPrice");
+
+                    b.Property<DateTime?>("FinishTime");
+
+                    b.Property<int>("Number");
+
+                    b.Property<string>("OrderID");
+
+                    b.Property<int>("OrderState");
+
+                    b.Property<float>("PackPrice");
+
+                    b.Property<DateTime?>("PayTime");
+
+                    b.Property<int>("PaymentType");
+
+                    b.Property<string>("Phone");
+
+                    b.Property<string>("ProductID");
+
+                    b.Property<string>("Province");
+
+                    b.Property<string>("ReceiveName");
+
+                    b.Property<float>("TotalPrice");
+
+                    b.Property<string>("TraceID");
+
+                    b.Property<DateTime>("UpdateTime");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("OrderParent");
+                });
+
             modelBuilder.Entity("StarmileFx.Models.Youngo.Customer", b =>
                 {
                     b.Property<int>("ID")
@@ -27,6 +81,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("Integral");
 
                     b.Property<bool>("State");
+
+                    b.Property<DateTime>("UpdateTime");
 
                     b.Property<string>("UserName");
 
@@ -54,7 +110,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int?>("Reply");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -74,7 +130,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Mode");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -104,7 +160,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ReceiveName");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.Property<string>("Zip");
 
@@ -126,7 +182,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Phone");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -146,7 +202,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ProductID");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -172,9 +228,9 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("PaymentType");
 
-                    b.Property<bool>("State");
-
                     b.Property<float>("TotalPrice");
+
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -194,7 +250,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ProductID");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -222,6 +278,8 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<float>("ExpressPrice");
 
+                    b.Property<DateTime?>("FinishTime");
+
                     b.Property<bool>("IsDelay");
 
                     b.Property<bool>("IsDelet");
@@ -246,11 +304,11 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("PostID");
 
-                    b.Property<bool>("State");
-
                     b.Property<float>("TotalPrice");
 
                     b.Property<string>("TraceID");
+
+                    b.Property<DateTime>("UpdateTime");
 
                     b.Property<float>("Weight");
 
@@ -268,7 +326,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("OriginalOrderID");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -288,7 +346,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("PostName");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -322,7 +380,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<DateTime?>("OnlineTime");
 
-                    b.Property<string>("ProductCode");
+                    b.Property<string>("ProductID");
 
                     b.Property<float>("PurchasePrice");
 
@@ -333,6 +391,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("Stock");
 
                     b.Property<int>("Type");
+
+                    b.Property<DateTime>("UpdateTime");
 
                     b.Property<float>("Weight");
 
@@ -356,6 +416,8 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("TypeName");
 
+                    b.Property<DateTime>("UpdateTime");
+
                     b.HasKey("ID");
 
                     b.ToTable("ProductType");
@@ -370,7 +432,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("OriginalSKU");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -388,7 +450,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Keyword");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -406,7 +468,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ProductID");
 
-                    b.Property<bool>("State");
+                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
