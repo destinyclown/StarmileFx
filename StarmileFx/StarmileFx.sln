@@ -24,7 +24,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap.Server", "sr
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap", "src\StarmileFx.Wap\StarmileFx.Wap.xproj", "{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFxTest", "StarmileFxTest\StarmileFxTest.csproj", "{342C3B93-B0B0-423F-A3A8-7DA9D9C575A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFxTest", "src\StarmileFxTest\StarmileFxTest.csproj", "{342C3B93-B0B0-423F-A3A8-7DA9D9C575A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
