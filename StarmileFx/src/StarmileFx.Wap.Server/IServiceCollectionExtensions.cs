@@ -3,6 +3,8 @@ using StarmileFx.Common.Redis;
 using StarmileFx.Wap.Server.Services;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using StarmileFx.Wap.Server.IService;
+using StarmileFx.Wap.Server.Service;
 
 namespace StarmileFx.Wap.Server
 {
@@ -20,8 +22,9 @@ namespace StarmileFx.Wap.Server
             //        }));
 
             //依赖服务
-            services.AddTransient<IRedisServer, RedisManager>();
-            services.AddTransient<IBaseServer, BaseManager>();
+            services.AddTransient<IRedisServer, RedisManager>()
+                .AddTransient<IBaseServer, BaseManager>()
+                .AddTransient<IYoungoServer, YoungoManager>();
         }
     }
 }

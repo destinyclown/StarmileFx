@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Models;
 using StarmileFx.Models.Redis;
+using StarmileFx.Models.Wap;
 
 namespace StarmileFx.Wap.Server.IService
 {
@@ -19,26 +21,28 @@ namespace StarmileFx.Wap.Server.IService
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        bool AddShopCart(int CustomerID, Dictionary<string, int> productList);
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="CustomerID"></param>
-        /// <param name="ProductID"></param>
-        /// <returns></returns>
-        bool AddShopCartProduct(int CustomerID, string ProductID);
+        bool CreateShopCart(ShopCart shopCart);
         /// <summary>
         /// 修改购物车
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        bool ModifyShopCart(int CustomerID, Dictionary<string, int> productList);
+        bool ModifyShopCart(ShopCart shopCart);
         /// <summary>
         /// 清空购物车
         /// </summary>
         /// <param name="CustomerID"></param>
         /// <returns></returns>
-        bool DeleteShopCart(int CustomerID);
-        
+        bool ClearShopCart(int CustomerID);
+        /// <summary>
+        /// 获取缓存中的商品列表
+        /// </summary>
+        /// <returns></returns>
+        Task<CacheProductList> GetCacheProductList();
+        /// <summary>
+        /// api获取商品列表
+        /// </summary>
+        /// <returns></returns>
+        Task<ResponseResult<CacheProductList>> GetProductList();
     }
 }

@@ -21,15 +21,15 @@ namespace StarmileFx.Api.Server.Services
         /// <summary>
         /// 依赖注入
         /// </summary>
-        private YoungoContext _DataContext;
+        private YoungoContext _YoungoContext;
         /// <summary>
         /// 开启事务(重要)
         /// </summary>
         private static bool Transaction = false;
 
-        public YoungoManager(YoungoContext DataContext)
+        public YoungoManager(YoungoContext YoungoContext)
         {
-            _DataContext = DataContext;
+            _YoungoContext = YoungoContext;
         }
 
         #region 基本数据库处理
@@ -41,7 +41,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         private bool Commit()
         {
-            return _DataContext.SaveChanges() > 0;
+            return _YoungoContext.SaveChanges() > 0;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public TEntity Get<TEntity>(Expression<Func<TEntity, bool>> whereLambda) where TEntity : ModelBase
         {
-            return _DataContext.Get<TEntity>(whereLambda);
+            return _YoungoContext.Get<TEntity>(whereLambda);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool Update<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
         {
-            _DataContext.Update<TEntity>(entity);
+            _YoungoContext.Update<TEntity>(entity);
             if (IsCommit)
             {
                 return Commit();
@@ -81,7 +81,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool Add<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
         {
-            _DataContext.Add<TEntity>(entity);
+            _YoungoContext.Add<TEntity>(entity);
             if (IsCommit)
             {
                 return Commit();
@@ -100,7 +100,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool AddRange(IEnumerable<object> entities)
         {
-            _DataContext.AddRange(entities);
+            _YoungoContext.AddRange(entities);
             return Commit();
         }
 
@@ -111,7 +111,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool UpdateRange(IEnumerable<object> entities)
         {
-            _DataContext.UpdateRange(entities);
+            _YoungoContext.UpdateRange(entities);
             return Commit();
         }
 
@@ -122,7 +122,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool RemoveRange(IEnumerable<object> entities)
         {
-            _DataContext.RemoveRange(entities);
+            _YoungoContext.RemoveRange(entities);
             return Commit();
         }
 
@@ -140,7 +140,7 @@ namespace StarmileFx.Api.Server.Services
         public IQueryable<TEntity> List<TEntity>(Expression<Func<TEntity, bool>> whereLambda,
             out int total) where TEntity : ModelBase
         {
-            return _DataContext.List<TEntity>(whereLambda, out total);
+            return _YoungoContext.List<TEntity>(whereLambda, out total);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace StarmileFx.Api.Server.Services
             Func<TEntity, object> orderbyLambda,
             out int total) where TEntity : ModelBase
         {
-            return _DataContext.List<TEntity>(whereLambda, orderbyLambda, out total);
+            return _YoungoContext.List<TEntity>(whereLambda, orderbyLambda, out total);
         }
 
         /// <summary>  
@@ -174,7 +174,7 @@ namespace StarmileFx.Api.Server.Services
             out int total
             ) where TEntity : ModelBase
         {
-            return _DataContext.PageData<TEntity>(pageData, whereLambda, orderbyLambda, out total);
+            return _YoungoContext.PageData<TEntity>(pageData, whereLambda, orderbyLambda, out total);
         }
         #endregion 获取列表
         #endregion
@@ -204,7 +204,7 @@ namespace StarmileFx.Api.Server.Services
                         INNER JOIN product AS p ON P.ProductID = cc.ProductID
                         AND p.State";
             MySqlParameter[] parameters = new MySqlParameter[]{};
-            _CacheProductList.CommentList = _DataContext.ExecuteSql<CustomerComment>(sql, parameters).ToList();
+            _CacheProductList.CommentList = _YoungoContext.ExecuteSql<CustomerComment>(sql, parameters).ToList();
             return _CacheProductList;
         }
 
@@ -275,7 +275,7 @@ namespace StarmileFx.Api.Server.Services
             parameters[2].MySqlDbType = MySqlDbType.Int32;
             parameters[3].MySqlDbType = MySqlDbType.Int32;
 
-            List<OrderParent> orderParentList = _DataContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
+            List<OrderParent> orderParentList = _YoungoContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
             return orderParentList;
         }
 
@@ -321,9 +321,7 @@ namespace StarmileFx.Api.Server.Services
                 //判断是否全部提交成功
                 if (detailCount == shopCart.ProductList.Count)
                 {
-                    //提交事务
-                    Commit();
-                    return true;
+                    return ChangeCustomerSign(shopCart.CustomerID, SignEnum.购买商品20点积分); ;
                 }
                 else
                 {
@@ -357,8 +355,7 @@ namespace StarmileFx.Api.Server.Services
             if (Update(order, Transaction))
             {
                 //提交事务
-                Commit();
-                return true;
+                return Commit();
             }
             else
             {
@@ -385,8 +382,7 @@ namespace StarmileFx.Api.Server.Services
                 if (Add(sign, Transaction))
                 {
                     //提交事务
-                    Commit();
-                    return true;
+                    return Commit();
                 }
                 else
                 {
