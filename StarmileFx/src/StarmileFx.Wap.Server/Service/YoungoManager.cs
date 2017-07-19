@@ -175,5 +175,8 @@ namespace StarmileFx.Wap.Server.Service
             });
         }
         #endregion 网站商品缓存CacheProductList
+
+        #region 
+        #endregion
     }
 }
