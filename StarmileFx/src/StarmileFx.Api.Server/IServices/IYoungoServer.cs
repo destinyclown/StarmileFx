@@ -7,6 +7,7 @@ using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
+using static StarmileFx.Models.Wap.WapFrom;
 
 namespace StarmileFx.Api.Server.IServices
 {
@@ -150,13 +151,30 @@ namespace StarmileFx.Api.Server.IServices
         /// <summary>
         /// 提交评论
         /// </summary>
-        /// <param name="CustomerId"></param>
-        /// <param name="OrderID"></param>
-        /// <param name="ProductID"></param>
-        /// <param name="Comment"></param>
+        /// <param name="CommentFrom"></param>
         /// <returns></returns>
-        bool SubmitComment(int CustomerId, string OrderID, string ProductID, string Comment, int? Reply);
+        bool SubmitComment(CommentFrom CommentFrom);
 
+        /// <summary>
+        /// 提交地址
+        /// </summary>
+        /// <param name="DeliveryAddressFrom"></param>
+        /// <returns></returns>
+        bool SubmitDeliveryAddress(DeliveryAddressFrom DeliveryAddressFrom);
+
+        /// <summary>
+        /// 获取地址列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        List<DeliveryAddress> GetDeliveryAddressList(int CustomerId);
+
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        DeliveryAddress GetDefaultAddress(int CustomerId)
         #endregion
 
         #region 网站后台

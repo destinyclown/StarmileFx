@@ -22,6 +22,6 @@ namespace StarmileFx.Models.Wap
         /// <summary>
         /// 评论列表
         /// </summary>
-        public List<CustomerComment> CommentList { get; set; }
+        public List<ProductComment> CommentList { get; set; }
     }
 }

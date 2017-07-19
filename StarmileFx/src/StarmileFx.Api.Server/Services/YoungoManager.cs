@@ -10,6 +10,7 @@ using StarmileFx.Models.Youngo;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using MySql.Data.MySqlClient;
+using static StarmileFx.Models.Wap.WapFrom;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -193,7 +194,7 @@ namespace StarmileFx.Api.Server.Services
             string sql = @"SELECT
 	                        cc.ID,
 	                        cc.`Comment`,
-	                        cc.CustomerID,
+	                        c.UserName,
 	                        cc.OrderID,
 	                        cc.Reply,
 	                        cc.ProductID,
@@ -201,10 +202,10 @@ namespace StarmileFx.Api.Server.Services
 	                        cc.CreatTime
                         FROM
 	                        CustomerComment AS cc
-                        INNER JOIN product AS p ON P.ProductID = cc.ProductID
-                        AND p.State";
+                        INNER JOIN product AS p ON P.ProductID = cc.ProductID AND p.State
+                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID";
             MySqlParameter[] parameters = new MySqlParameter[]{};
-            _CacheProductList.CommentList = _YoungoContext.ExecuteSql<CustomerComment>(sql, parameters).ToList();
+            _CacheProductList.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
             return _CacheProductList;
         }
 
@@ -398,27 +399,94 @@ namespace StarmileFx.Api.Server.Services
         /// <summary>
         /// 提交评论
         /// </summary>
-        /// <param name="CustomerId"></param>
-        /// <param name="OrderID"></param>
-        /// <param name="ProductID"></param>
-        /// <param name="Comment"></param>
-        /// <param name="Reply"></param>
+        /// <param name="CommentFrom"></param>
         /// <returns></returns>
-        public bool SubmitComment(int CustomerId, string OrderID, string ProductID, string Comment, int? Reply)
+        public bool SubmitComment(CommentFrom CommentFrom)
         {
             CustomerComment comment = new CustomerComment();
-            comment.CustomerID = CustomerId;
-            comment.OrderID = OrderID;
-            comment.ProductID = ProductID;
-            comment.Reply = Reply;
+            comment.CustomerID = CommentFrom.CustomerID;
+            comment.OrderID = CommentFrom.OrderID;
+            comment.ProductID = CommentFrom.ProductID;
+            comment.Reply = CommentFrom.Reply;
             if (Add(comment, Transaction))
             {
-                return ChangeCustomerSign(CustomerId, SignEnum.添加评论5点积分);
+                return ChangeCustomerSign(CommentFrom.CustomerID, SignEnum.添加评论5点积分);
             }
             else
             {
                 throw new Exception("提交评论异常！");
             }
+        }
+
+        /// <summary>
+        /// 提交地址
+        /// </summary>
+        /// <param name="DeliveryAddressFrom"></param>
+        /// <returns></returns>
+        public bool SubmitDeliveryAddress(DeliveryAddressFrom DeliveryAddressFrom)
+        {
+            if (DeliveryAddressFrom.IsModify)
+            {
+                DeliveryAddress model = Get<DeliveryAddress>(a => a.ID == DeliveryAddressFrom.ID);
+                model.Address = DeliveryAddressFrom.Address;
+                model.Area = DeliveryAddressFrom.Area;
+                model.City = DeliveryAddressFrom.City;
+                model.Phone = DeliveryAddressFrom.Phone;
+                model.Province = DeliveryAddressFrom.Province;
+                model.ReceiveName = DeliveryAddressFrom.ReceiveName;
+                model.IsDefault = DeliveryAddressFrom.IsDefault;
+                if (Update(model, Transaction))
+                {
+                    //提交事务
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("提交地址异常！");
+                }
+            }
+            else
+            {
+                DeliveryAddress model = new DeliveryAddress();
+                model.Address = DeliveryAddressFrom.Address;
+                model.Area = DeliveryAddressFrom.Area;
+                model.City = DeliveryAddressFrom.City;
+                model.Phone = DeliveryAddressFrom.Phone;
+                model.Province = DeliveryAddressFrom.Province;
+                model.ReceiveName = DeliveryAddressFrom.ReceiveName;
+                model.IsDefault = DeliveryAddressFrom.IsDefault;
+                if (Add(model, Transaction))
+                {
+                    //提交事务
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("提交地址异常！");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取地址列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public List<DeliveryAddress> GetDeliveryAddressList(int CustomerId)
+        {
+            int total = 0;
+            List<DeliveryAddress> DeliveryAddressList = List<DeliveryAddress>(a => a.CustomerID == CustomerId, out total).ToList();
+            return DeliveryAddressList;
+        }
+
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public DeliveryAddress GetDefaultAddress(int CustomerId)
+        {
+            return Get<DeliveryAddress>(a => a.CustomerID == CustomerId && a.IsDefault);
         }
 
         #endregion
