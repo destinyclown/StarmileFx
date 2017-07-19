@@ -174,7 +174,7 @@ namespace StarmileFx.Api.Server.IServices
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
-        DeliveryAddress GetDefaultAddress(int CustomerId)
+        DeliveryAddress GetDefaultAddress(int CustomerId);
         #endregion
 
         #region 网站后台
