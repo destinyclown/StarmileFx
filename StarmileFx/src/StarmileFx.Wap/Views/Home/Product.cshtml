@@ -1,91 +1,176 @@
-﻿@inject IOptions<WebConfigModel> WebConfigModel
-
-@{
-    ViewData["Title"] = ViewData["Title"] + "-" + WebConfigModel.Value.WebName;
-}
-<div id="loading" style="display: none;"><img src="~/images/loading.gif"></div>
-<div class="con">
-    <div class="category-top">
-        <header>
-            <section class="search">
-                <div class="text-all dis-box j-text-all">
-                    <div class="box-flex input-text">
-                        <a class="a-search-input j-search-input" href="javascript:void(0)"></a>
-                        <input type="text" placeholder="商品搜索">
-                        <i class="iconfont icon-guanbi is-null j-is-null"></i>
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>产品列表</title>
+    <link rel="stylesheet" href="style/common.css">
+    <link rel="stylesheet" href="style/swiper.css">
+    <link rel="stylesheet" href="style/product.css">
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/swiper.min.js"></script>
+    <script type="text/javascript">
+		$(function(){
+			$(".proTabConItem").eq(0).show();
+			$(".proTab ul li").click(function(){
+		    var num =$(".proTab ul li").index(this);
+		    $(".proTabConItem").hide();
+		    $(".proTabConItem").eq(num).show();
+		    $(this).addClass('cur').siblings().removeClass('cur');
+		  })
+		})
+    </script>
+</head>
+<body>
+    <div class="headerBar">
+        <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
+        <div class="headerTit">产品详情</div>
+        <a class="headerMessage"><i class="iSearch"></i></a>
+    </div>
+    <!-- end.headerBar -->
+    <div class="pageContainer">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="images/banner0.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="images/banner1.jpg" alt=""></a>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <script>
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationType: 'fraction',
+	        paginationClickable: true
+	    });
+        </script>
+        <!-- end.swiper -->
+        <div class="productCon">
+            <div class="proName">自然之源面膜橄榄红参黄瓜蓝莓绿豆牛油果乳木果</div>
+            <div class="proBar">
+                <div class="proPrice">
+                    <span class="now">
+                        ￥<b>1999.99</b>
+                    </span>
+                    <del class="old">$2999.99</del>
+                </div>
+                <div class="proSale">
+                    <span>0</span>人已购买
+                </div>
+            </div>
+            <div class="proDesc">大肚子睫毛膏，睫毛膏家族的明星。防水不晕染，不脱妆而且好涂。轻如羽翼有木有。更不用担心会结块，变苍蝇腿，又长又浓又卷翘。卷翘保持度也是普通睫毛膏望尘莫及的。</div>
+            <!-- end.proBar -->
+            <div class="proTabBox">
+                <div class="proTab">
+                    <ul>
+                        <li class="cur">图文详情</li>
+                        <li>商品参数</li>
+                        <li>商品评论</li>
+                    </ul>
+                </div>
+                <div class="proTabCon">
+                    <div class="proTabConItem">
+                        <img src="images/product.jpg" alt="" style="width:100%;">
+                        <img src="images/product.jpg" alt="">
+                        <img src="images/product.jpg" alt="">
+                        <img src="images/product.jpg" alt="">
+                        <img src="images/product.jpg" alt="">
+                        <img src="images/product.jpg" alt="">
+                    </div>
+                    <!-- end.proTabConItem -->
+                    <div class="proTabConItem">
+                        <div class="productDataItem">
+                            <label>品牌</label>
+                            <span>韩国THE FACE SHOP菲诗小铺黑杆大肚子睫毛膏7ml 卷翘纤长浓密</span>
+                        </div>
+                        <div class="productDataItem">
+                            <label>品牌</label>
+                            <span>韩国THE FACE SHOP菲诗小铺黑杆大肚子睫毛膏7ml 卷翘纤长浓密</span>
+                        </div>
+                        <div class="productDataItem">
+                            <label>品牌</label>
+                            <span>韩国THE FACE SHOP菲诗小铺黑杆大肚子睫毛膏7ml 卷翘纤长浓密</span>
+                        </div>
+                        <div class="productDataItem">
+                            <label>品牌</label>
+                            <span>韩国THE FACE SHOP菲诗小铺黑杆大肚子睫毛膏7ml 卷翘纤长浓密</span>
+                        </div>
+                    </div>
+                    <!-- end.proTabConItem -->
+                    <div class="proTabConItem">
+                        <ul class="proCommentTab">
+                            <li class="cur">
+                                <span>全部</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                            <li>
+                                <span>好评</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                            <li>
+                                <span>中评</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                            <li>
+                                <span>差评</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                            <li>
+                                <span>晒图</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                            <li>
+                                <span>追评</span>
+                                <span class="n">(1000)</span>
+                            </li>
+                        </ul>
+                        <div class="proCommentCon">
+                            <div class="commentConItem">
+                                <div class="commentUserBox">
+                                    <div class="commentUser">用户：张**三</div>
+                                    <div class="commentDate">2017-07-18</div>
+                                </div>
+                                <div class="commentScore">
+                                    <span class="commentScoreText">评分：</span>
+                                    <span class="star light"><i class="iStar"></i></span>
+                                    <span class="star light"><i class="iStar"></i></span>
+                                    <span class="star light"><i class="iStar"></i></span>
+                                    <span class="star light"><i class="iStar"></i></span>
+                                    <span class="star light"><i class="iStar"></i></span>
+                                </div>
+                                <div class="commentCon">
+                                    <p>用过才来评论的。挺好的。拉长了。一定等它干了再眨眼。</p>
+                                </div>
+                                <div class="commentPic">
+                                    <div class="commentPicItem">
+                                        <img src="images/product.jpg" alt="">
+                                    </div>
+                                    <div class="commentPicItem">
+                                        <img src="images/product.jpg" alt="">
+                                    </div>
+                                    <div class="commentPicItem">
+                                        <img src="images/product.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </header>
+            </div>
+        </div>
     </div>
-    <aside>
-        <div class="menu-left scrollbar-none" id="sidebar">
-            <ul>
-                <li class="active">鞋/箱包</li>
-                <li>珠宝首饰/手表眼镜</li>
-                <li>美妆护肤</li>
-                <li class="">家用电器</li>
-                <li>居家生活</li>
-                <li class="">家具建材</li>
-                <li>食品/医药保健</li>
-                <li class="">图书音像</li>
-                <li>手机/数码</li>
-                <li class="">女装</li>
-                <li>男装</li>
-                <li>母婴用品</li>
-                <li>全新整车/车品</li>
-            </ul>
-        </div>
-    </aside>
-    <section class="menu-right padding-all j-content">
-        <h5>鞋/箱包</h5>
+    <!-- end.pageContainer -->
+    <div class="footerNavPro">
         <ul>
-            <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"></a> <img src="~/images/tp.png"><span>时尚女鞋</span></li>
+            <li class="price">￥<span>381.00</span></li>
+            <li class="bbtn"><a href="shoppingcart.html"><i class="iShoppingCart"><em>1</em></i></a></li>
+            <li class="buy"><a href="javascript:;">加入购物车</a></li>
         </ul>
-    </section>
-</div>
-<div class="search-div j-search-div ts-3">
-    <section class="search">
-        <form action="http://www.jq22.com/index.php?m=default&amp;c=category&amp;a=index&amp;u=0" method="post">
-            <div class="text-all dis-box j-text-all">
-                <div class="box-flex input-texts">
-                    <input class="j-input-text" type="text" name="keywords" placeholder="请输入搜索关键词！">
-                    <i class="iconfont icon-guanbi is-null j-is-null"></i>
-                </div>
-                <button type="submit" class="btn-submit">搜索</button>
-            </div>
-        </form>
-    </section>
-    <section class="search-con">
-        <div class="swiper-scroll history-search swiper-container-vertical swiper-container-free-mode">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-active">
-                    <p>
-                        <label class="fl">热门搜索</label>
-                    </p>
-                    <ul class="hot-search a-text-more">
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>美国</span></a></li>
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>新生婴儿</span></a></li>
-                    </ul>
-                    <p class="hos-search">
-                        <label class="fl">最近搜索</label>
-                        <span class="fr" onclick="javascript:clearHistroy();"><i class="fr"></i></span>
-                    </p>
-                    <ul class="hot-search a-text-more a-text-one" id="search_histroy"></ul>
-                </div>
-            </div>
-            <div class="swiper-scrollbar" style="display: none; opacity: 0;"><div class="swiper-scrollbar-drag" style="height: 515px;"></div></div>
-        </div>
-    </section>
-    <footer class="close-search j-close-search"> 点击关闭 </footer>
-</div>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script type="text/javascript">
-    $(function ($) {
-        $('#sidebar ul li').click(function () {
-            $(this).addClass('active').siblings('li').removeClass('active');
-            var index = $(this).index();
-            $('.j-content').eq(index).show().siblings('.j-content').hide();
-        })
-    })
-</script>
+    </div>
+    <!-- end.footerNav -->
+</body>
+</html>

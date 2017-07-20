@@ -1,91 +1,70 @@
-﻿@inject IOptions<WebConfigModel> WebConfigModel
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>新增收货地址</title>
+    <link rel="stylesheet" href="style/common.css">
+    <link rel="stylesheet" href="style/swiper.css">
+    <link rel="stylesheet" href="style/user.css">
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/swiper.min.js"></script>
+    <script type="text/javascript" src="js/adress.js"></script>
 
-@{
-    ViewData["Title"] = ViewData["Title"] + "-" + WebConfigModel.Value.WebName;
-}
-<div id="loading" style="display: none;"><img src="~/images/loading.gif"></div>
-<div class="con">
-    <div class="category-top">
-        <header>
-            <section class="search">
-                <div class="text-all dis-box j-text-all">
-                    <div class="box-flex input-text">
-                        <a class="a-search-input j-search-input" href="javascript:void(0)"></a>
-                        <input type="text" placeholder="商品搜索">
-                        <i class="iconfont icon-guanbi is-null j-is-null"></i>
-                    </div>
-                </div>
-            </section>
-        </header>
+
+</head>
+<body>
+    <div class="headerBar">
+        <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
+        <div class="headerTit">新增收货地址</div>
+        <a class="headerMessage"></a>
     </div>
-    <aside>
-        <div class="menu-left scrollbar-none" id="sidebar">
-            <ul>
-                <li class="active">鞋/箱包</li>
-                <li>珠宝首饰/手表眼镜</li>
-                <li>美妆护肤</li>
-                <li class="">家用电器</li>
-                <li>居家生活</li>
-                <li class="">家具建材</li>
-                <li>食品/医药保健</li>
-                <li class="">图书音像</li>
-                <li>手机/数码</li>
-                <li class="">女装</li>
-                <li>男装</li>
-                <li>母婴用品</li>
-                <li>全新整车/车品</li>
-            </ul>
-        </div>
-    </aside>
-    <section class="menu-right padding-all j-content">
-        <h5>鞋/箱包</h5>
-        <ul>
-            <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"></a> <img src="~/images/tp.png"><span>时尚女鞋</span></li>
-        </ul>
-    </section>
-</div>
-<div class="search-div j-search-div ts-3">
-    <section class="search">
-        <form action="http://www.jq22.com/index.php?m=default&amp;c=category&amp;a=index&amp;u=0" method="post">
-            <div class="text-all dis-box j-text-all">
-                <div class="box-flex input-texts">
-                    <input class="j-input-text" type="text" name="keywords" placeholder="请输入搜索关键词！">
-                    <i class="iconfont icon-guanbi is-null j-is-null"></i>
-                </div>
-                <button type="submit" class="btn-submit">搜索</button>
+    <!-- end.headerBar -->
+    <div class="pageContainer">
+        <div class="tgContent">
+            <div class="tgItem">
+                <span class="l">收货人：</span>
+                <span class="r"><input type="text" placeholder="请输入收货人姓名"></span>
             </div>
-        </form>
-    </section>
-    <section class="search-con">
-        <div class="swiper-scroll history-search swiper-container-vertical swiper-container-free-mode">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-active">
-                    <p>
-                        <label class="fl">热门搜索</label>
-                    </p>
-                    <ul class="hot-search a-text-more">
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>美国</span></a></li>
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>新生婴儿</span></a></li>
-                    </ul>
-                    <p class="hos-search">
-                        <label class="fl">最近搜索</label>
-                        <span class="fr" onclick="javascript:clearHistroy();"><i class="fr"></i></span>
-                    </p>
-                    <ul class="hot-search a-text-more a-text-one" id="search_histroy"></ul>
-                </div>
+            <div class="tgItem">
+                <span class="l">手机号码：</span>
+                <span class="r"><input type="number" placeholder="请输入收货人手机号码"></span>
             </div>
-            <div class="swiper-scrollbar" style="display: none; opacity: 0;"><div class="swiper-scrollbar-drag" style="height: 515px;"></div></div>
+            <div class="tgItem">
+                <span class="l">省份：</span>
+                <span class="r">
+                    <select name="" id="Select1"></select>
+                </span>
+            </div>
+            <div class="tgItem">
+                <span class="l">市区：</span>
+                <span class="r">
+                    <select name="" id="Select2"></select>
+                </span>
+            </div>
+            <div class="tgItem">
+                <span class="l">县城：</span>
+                <span class="r">
+                    <select name="" id="Select3"></select>
+                </span>
+            </div>
+            <div class="tgItem">
+                <span class="l">详细地址：</span>
+                <span class="r"><input type="text"></span>
+            </div>
+            <div class="tgItem setDefault">
+                <span class="l">
+                    <input type="checkbox">
+                </span>
+                <span class="r">
+                    设为默认地址
+                </span>
+            </div>
+            <script type="text/javascript">
+				addressInit('Select1', 'Select2', 'Select3','请选择', '请选择','请选择');
+            </script>
         </div>
-    </section>
-    <footer class="close-search j-close-search"> 点击关闭 </footer>
-</div>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script type="text/javascript">
-    $(function ($) {
-        $('#sidebar ul li').click(function () {
-            $(this).addClass('active').siblings('li').removeClass('active');
-            var index = $(this).index();
-            $('.j-content').eq(index).show().siblings('.j-content').hide();
-        })
-    })
-</script>
+        <a class="endBtn">保存</a>
+    </div>
+</body>
+</html>

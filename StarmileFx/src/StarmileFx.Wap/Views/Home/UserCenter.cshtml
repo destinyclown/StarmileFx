@@ -1,91 +1,77 @@
-﻿@inject IOptions<WebConfigModel> WebConfigModel
-
-@{
-    ViewData["Title"] = ViewData["Title"] + "-" + WebConfigModel.Value.WebName;
+﻿@section Header{
+    <link href="~/css/user.css" rel="stylesheet" />
 }
-<div id="loading" style="display: none;"><img src="~/images/loading.gif"></div>
-<div class="con">
-    <div class="category-top">
-        <header>
-            <section class="search">
-                <div class="text-all dis-box j-text-all">
-                    <div class="box-flex input-text">
-                        <a class="a-search-input j-search-input" href="javascript:void(0)"></a>
-                        <input type="text" placeholder="商品搜索">
-                        <i class="iconfont icon-guanbi is-null j-is-null"></i>
-                    </div>
-                </div>
-            </section>
-        </header>
+<div class="userInfo">
+    <div class="userPic">
+        <div class="userLogo">
+            <img src="/images/tx.jpg" alt="">
+        </div>
     </div>
-    <aside>
-        <div class="menu-left scrollbar-none" id="sidebar">
-            <ul>
-                <li class="active">鞋/箱包</li>
-                <li>珠宝首饰/手表眼镜</li>
-                <li>美妆护肤</li>
-                <li class="">家用电器</li>
-                <li>居家生活</li>
-                <li class="">家具建材</li>
-                <li>食品/医药保健</li>
-                <li class="">图书音像</li>
-                <li>手机/数码</li>
-                <li class="">女装</li>
-                <li>男装</li>
-                <li>母婴用品</li>
-                <li>全新整车/车品</li>
-            </ul>
-        </div>
-    </aside>
-    <section class="menu-right padding-all j-content">
-        <h5>鞋/箱包</h5>
-        <ul>
-            <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"></a> <img src="~/images/tp.png"><span>时尚女鞋</span></li>
-        </ul>
-    </section>
+    <div class="userName">用户名</div>
+    <div class="userLevel">会员等级：黄金等级</div>
 </div>
-<div class="search-div j-search-div ts-3">
-    <section class="search">
-        <form action="http://www.jq22.com/index.php?m=default&amp;c=category&amp;a=index&amp;u=0" method="post">
-            <div class="text-all dis-box j-text-all">
-                <div class="box-flex input-texts">
-                    <input class="j-input-text" type="text" name="keywords" placeholder="请输入搜索关键词！">
-                    <i class="iconfont icon-guanbi is-null j-is-null"></i>
-                </div>
-                <button type="submit" class="btn-submit">搜索</button>
-            </div>
-        </form>
-    </section>
-    <section class="search-con">
-        <div class="swiper-scroll history-search swiper-container-vertical swiper-container-free-mode">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-active">
-                    <p>
-                        <label class="fl">热门搜索</label>
-                    </p>
-                    <ul class="hot-search a-text-more">
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>美国</span></a></li>
-                        <li class="w-3"><a href="http://www.jq22.com/demo/jdyddh201701141116/#"><span>新生婴儿</span></a></li>
-                    </ul>
-                    <p class="hos-search">
-                        <label class="fl">最近搜索</label>
-                        <span class="fr" onclick="javascript:clearHistroy();"><i class="fr"></i></span>
-                    </p>
-                    <ul class="hot-search a-text-more a-text-one" id="search_histroy"></ul>
-                </div>
-            </div>
-            <div class="swiper-scrollbar" style="display: none; opacity: 0;"><div class="swiper-scrollbar-drag" style="height: 515px;"></div></div>
-        </div>
-    </section>
-    <footer class="close-search j-close-search"> 点击关闭 </footer>
+<div class="userMenu">
+    <ul>
+        <li>
+            <a href="javascript:;">
+                <i class="iMapMarker"></i>
+                <span>全部订单</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+    </ul>
 </div>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script type="text/javascript">
-    $(function ($) {
-        $('#sidebar ul li').click(function () {
-            $(this).addClass('active').siblings('li').removeClass('active');
-            var index = $(this).index();
-            $('.j-content').eq(index).show().siblings('.j-content').hide();
-        })
-    })
-</script>
+
+<!-- end.userInfo -->
+<div class="userOrder">
+    <ul>
+        <li><a href="javascript:;"><i class="iCreditCard"><em>22</em></i><span>待付款</span></a></li>
+        <li><a href="javascript:;"><i class="iTruck"><em>22</em></i><span>待收货</span></a></li>
+        <li><a href="javascript:;"><i class="iFileTextO"><em>22</em></i><span>待评价</span></a></li>
+        <li><a href="javascript:;"><i class="iFax"><em>22</em></i><span>申请售后</span></a></li>
+    </ul>
+</div>
+<!-- end.userOrder -->
+<div class="userMenu">
+    <ul>
+        <li>
+            <a href="takeGoods.html">
+                <i class="iMapMarker"></i>
+                <span>收货地址</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <i class="iStreetView"></i>
+                <span>会员特权</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <i class="iEdit"></i>
+                <span>意见反馈</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <i class="iVolumeDown"></i>
+                <span>购物说明</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:;">
+                <i class="iQuestionCircle"></i>
+                <span>常见问题</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- end.userMenu -->
+@section scripts{
+    <script src="~/js/usercenter.js"></script>
+}

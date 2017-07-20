@@ -1,0 +1,16 @@
+.headerBar .headerMessage{font-size:12px;}
+.paySuccess{padding:20px 0;width:100%;height:auto;color:#ff465a;text-align:center;}
+.paySuccess i{display:block;font-size:100px;}
+.paySuccess p{font-size:18px;line-height:2;}
+.payText{margin:0 10px;border-top:1px solid #ddd;}
+.payText .payTextTit{font-size:15px;line-height:2;}
+.payText .payTextCon{font-size:12px;line-height:1.5;}
+.payText .payTextBtn{margin:10px 0 20px;width:100%;height:auto;overflow:hidden;}
+.payText .payTextBtn a{width:45%;box-sizing:border-box;border-radius:3px;display:block;font-size:14px;height:30px;border:1px solid #ddd;text-align:center;line-height:30px;}
+.payText .payTextBtn .l{float:left;color:#ff465a;border-color:#ff465a;}
+.payText .payTextBtn .r{float:right;color:#555;border-color:#555;}
+.payTips{font-size:12px;line-height:1.5;clear:both;border-top:1px solid #ddd;padding:8px 10px;box-sizing:border-box;color:#8e8e8e;background:#f8f8f8;}
+
+.payError{padding:20px 0;width:100%;height:auto;color:#ff465a;text-align:center;}
+.payError i{display:block;font-size:100px;}
+.payError p{font-size:18px;line-height:2;}
