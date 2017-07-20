@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>新增收货地址</title>
+	<link rel="stylesheet" href="style/common.css">
+	<link rel="stylesheet" href="style/swiper.css">
+	<link rel="stylesheet" href="style/user.css">
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="js/swiper.min.js"></script>
+	<script type="text/javascript" src="js/adress.js"></script>
+	
+
+</head>
+<body>
+	<div class="headerBar">
+		<a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
+		<div class="headerTit">新增收货地址</div>
+		<a class="headerMessage"></a>
+	</div>
+	<!-- end.headerBar -->
+	<div class="pageContainer">
+		<div class="tgContent">
+			<div class="tgItem">
+				<span class="l">收货人：</span>
+				<span class="r"><input type="text" placeholder="请输入收货人姓名"></span>
+			</div>
+			<div class="tgItem">
+				<span class="l">手机号码：</span>
+				<span class="r"><input type="number" placeholder="请输入收货人手机号码"></span>
+			</div>
+			<div class="tgItem">
+				<span class="l">省份：</span>
+				<span class="r">
+					<select name="" id="Select1">
+					</select>
+				</span>
+			</div>
+			<div class="tgItem">
+				<span class="l">市区：</span>
+				<span class="r">
+					<select name="" id="Select2">
+					</select>
+				</span>
+			</div>
+			<div class="tgItem">
+				<span class="l">县城：</span>
+				<span class="r">
+					<select name="" id="Select3">
+					</select>
+				</span>
+			</div>
+			<div class="tgItem">
+				<span class="l">详细地址：</span>
+				<span class="r"><input type="text"></span>
+			</div>
+			<div class="tgItem setDefault">
+				<span class="l">
+					<input type="checkbox">
+				</span>
+				<span class="r">
+					设为默认地址
+				</span>
+			</div>
+			<script type="text/javascript">
+				addressInit('Select1', 'Select2', 'Select3','请选择', '请选择','请选择');
+			</script>
+		</div>
+		<a class="endBtn">保存</a>
+	</div>
+</body>
+</html>

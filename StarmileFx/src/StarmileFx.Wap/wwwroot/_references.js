@@ -1,4 +1,7 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="../views/shop/js/adress.js" />
+/// <reference path="../views/shop/js/jquery-1.8.2.min.js" />
+/// <reference path="../views/shop/js/swiper.min.js" />
 /// <reference path="js/common.js" />
 /// <reference path="js/ectouch.js" />
 /// <reference path="js/site.js" />

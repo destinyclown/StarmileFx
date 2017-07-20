@@ -1,0 +1,81 @@
+/* CssReset */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td{margin:0;padding:0;font-size:100%;}
+body{font-family:Arial,"\5FAE\8F6F\96C5\9ED1";}
+ol,ul,li{list-style:none;}
+img{border:none;}
+a{text-decoration:none;}
+:focus{outline:none;}
+.clear{clear:both;font-size:0px;}
+input,select,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-appearance:none;border:0;border-radius:0;}
+
+/* font */
+@font-face{font-family:'FontAwesome';src:url('../fonts/fontawesome-webfont.eot?v=4.4.0');src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),url('../fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),url('../fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'),url('../fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),url('../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');font-weight:normal;font-style:normal;}
+i{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.iHome:before{content:"\f015";}
+.iList:before{content:"\f03a";}
+.iShoppingCart:before{content:"\f07a";}
+.iUser:before{content:"\f007";}
+.iAngleLeft:before{content:"\f060";}
+.iAngleRight:before{content:"\f105";}
+.iMapMarker:before{content:"\f041";}
+.iStreetView:before{content:"\f21d";}
+.iEdit:before{content:"\f044";}
+.iVolumeDown:before{content:"\f027";}
+.iQuestionCircle:before{content:"\f059";}
+.iCreditCard:before{content:"\f09d";}
+.iTruck:before{content:"\f0d1";}
+.iFileTextO:before{content:"\f0f6";}
+.iFax:before{content:"\f1ac";}
+.iTrash:before{content:"\f1f8";}
+
+/*
+.iStar:before {content: "005";}
+.iStarO:before {content: "006";}
+*/
+.light .iStar:before{content:"\f005";}
+.iStar:before{content:"\f006";}
+.iEnvelope:before{content:"\f0e0";}
+.iSearch:before{content:"\f002";}
+.iPlusSquareO:before{content:"\f196";}
+.iPlus:before{content:"\f067";}
+.iMinus:before{content:"\f068";}
+.iCheckCircle:before{content:"\f058";}
+.iExclamationCircle:before{content:"\f06a";}
+.iTimesCircle:before{content:"\f057";}
+.pageContainer{width:100%;height:auto;overflow:hidden;margin-bottom:55px;}
+
+/* headerBar */
+.headerBar{width:100%;height:30px;background:#ff465a;padding:5px 0;color:#fff;text-align:center;}
+.headerBar a{display:block;width:30px;height:30px;text-align:center;font-size:18px;line-height:30px;color:#fff;}
+.headerBar a i{line-height:30px;font-size:14px;}
+.headerBar .headerBack{float:left;}
+.headerBar .headerTit{display:inline-block;font-size:18px;text-align:center;line-height:30px;width:80%;margin:0 auto;text-align:center;cursor:default;}
+.headerBar .headerMessage{float:right;}
+
+/* searchBar */
+.searchBar{width:100%;height:30px;background:#ff465a;padding:5px 0;}
+.searchBox{width:80%;height:30px;margin:0px auto;background:#d84555;border-radius:5px;}
+.searchBox .searchInput{background:none;border:none;outline:none;color:#fff;height:30px;line-height:30px;text-align:left;width:80%;float:left;}
+.searchBox .searchInput::-webkit-input-placeholder{ /* WebKit browsers */color:#fff;}
+.searchBox .searchInput:-moz-placeholder{ /* Mozilla Firefox 4 to 18 */color:#fff;}
+.searchBox .searchInput::-moz-placeholder{ /* Mozilla Firefox 19+ */color:#fff;}
+.searchBox .searchInput:-ms-input-placeholder{ /* Internet Explorer 10+ */color:#fff;}
+.searchBox a{float:right;width:30px;height:30px;background:url(../images/searchBtn.png) center center no-repeat;background-size:60%;float:left;}
+
+/* searchTag */
+.searchTag{margin-top:5px;}
+.searchTag .searchTagTit{font-size:14px;line-height:2;width:95%;height:auto;margin:0 auto;}
+.searchTag .searchTagList{}
+.searchTag .searchTagList ul{width:95%;margin:0 auto;overflow:hidden;}
+.searchTag .searchTagList ul li{display:block;max-width:100%;overflow:hidden;margin-right:10px;margin-bottom:10px;float:left;border-radius:5px;}
+.searchTag .searchTagList ul li a{white-space:nowrap;text-overflow:ellipsis;background-color:#e5e5e5;padding:5px 13px;overflow:hidden;border-radius:5px;display:block;color:#686868;font-size:12px;height:18px;line-height:18px;}
+
+/* footerNav */
+.footerNav{display:-webkit-box;background:#fff;border-top:1px solid #ddd;width:100%;height:50px;position:fixed;bottom:0;z-index:999}
+.footerNav ul{width:100%;height:50px;overflow:hidden;}
+.footerNav ul li{width:25%;float:left;box-sizing:border-box;height:50px;text-align:center;}
+.footerNav ul li a{font-size:12px;color:#aaa;display:block;padding-top:2px;}
+.footerNav ul li.cur a{color:#ff465a;}
+.footerNav ul li a i{line-height:26px;font-size:20px;position:relative;}
+.footerNav ul li a i em{position:absolute;width:14px;height:14px;background:#ff465a;border-radius:50%;color:#fff;text-align:center;right:-8px;top:0px;font-size:12px;line-height:14px;font-style:normal;}
+.footerNav ul li a span{display:block;line-height:20px;}
