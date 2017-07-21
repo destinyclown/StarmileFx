@@ -2,51 +2,55 @@
     <link href="~/css/shoppingcart.css" rel="stylesheet" />
 }
 <!-- end.headerBar -->
-<div class="pageContainer cart">
-    @if (ViewBag.ShopCart == null)
-    {
-    <div class="shoppingcartEmpty">
-        <span></span>
-        <p>您的购物车暂时没有商品</p>
-        <a href="/home/index">再去逛逛</a>
-    </div>
-    }
-    else
-    {
-    <div class="shoppingcartList">
-        <ul>
-            <li>
-                <input class="cartCheck" type="checkbox">
-                <a class="cartPic" href="/home/product">
-                    <img src="/images/product.jpg" alt="">
-                </a>
-                <div class="cartDetail">
-                    <div class="proName"><a href="product.html">韩国The Face Shop菲诗小铺控油补水气垫修颜乳气垫BB 15g</a></div>
-                    <div class="proPrice">￥1999.99</div>
-                    <div class="proAmount">
-                        <a class="minus" href="javascript:;"><i class="iMinus"></i></a>
-                        <input type="text" value="2">
-                        <a class="add" href="javascript:;"><i class="iPlus"></i></a>
-                    </div>
+<form>
+    <div class="pageContainer cart">
+        @if (ViewBag.ShopCart == null)
+        {
+            <div class="shoppingcartEmpty">
+                <span></span>
+                <p>您的购物车暂时没有商品</p>
+                <a href="/home/index">再去逛逛</a>
+            </div>
+        }
+        else
+        {
+            <div class="shoppingcartList">
+                <ul>
+                    @foreach (var productlist in (ViewBag.ShopCart as ShopCart).ProductList)
+                    {
+                        <li>
+                            <input name="cartCheck"  class="cartCheck" type="checkbox" value="false">
+                            <input name="ProductID" class="ProductID" value="@productlist.Product.ProductID" type="hidden" />
+                            <a class="cartPic" href="/home/product?productid=@productlist.Product.ProductID">
+                                <img src="/images/product.jpg" alt="">
+                            </a>
+                            <div class="cartDetail">
+                                <div class="proName"><a href="/home/product?productid=@productlist.Product.ProductID">@productlist.Product.CnName</a></div>
+                                <div class="proPrice">￥<span class="price">@productlist.Product.PurchasePrice</span></div>
+                                <div class="proAmount">
+                                    <a class="minus" href="javascript:;"><i class="iMinus"></i></a>
+                                    <input class="number" type="text" value="@productlist.Number">
+                                    <a class="add" href="javascript:;"><i class="iPlus"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div class="deleteBar">
+                    <a href="javascript:;"><i class="iTrash"></i>删除勾选产品</a>
                 </div>
-            </li>
-        </ul>
-        <div class="deleteBar">
-            <a href="javascript:;"><i class="iTrash"></i>删除勾选产品</a>
-        </div>
+            </div>
+            <div class="total">
+                <label for=""><input class="cartCheckAll" type="checkbox">全选</label>
+                <div class="totalNum">合计：￥<b class="totalPrice">0</b></div>
+                <a href="order.html" class="goahead">去结算</a>
+            </div>
+
+        }
     </div>
-    <div class="total">
-        <label for=""><input class="cartCheckAll" type="checkbox">全选</label>
-        <div class="totalNum">合计：￥99999.99</div>
-        <a href="order.html" class="goahead">去结算(999)</a>
-    </div>
-    }
-</div>
+</form>
 <!-- end.pageContainer -->
 @section scripts{
-    <script>
-        $(function () {
-            $('#shoppingcart').parent().addClass('cur');
-        });
-    </script>
+    <script src="~/js/shoppingcart.js"></script>
 }
+
