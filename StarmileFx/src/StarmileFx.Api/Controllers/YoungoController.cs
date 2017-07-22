@@ -7,6 +7,7 @@ using StarmileFx.Api.Server.IServices;
 using StarmileFx.Models;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
+using static StarmileFx.Models.Wap.WapFrom;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,6 +21,23 @@ namespace StarmileFx.Api.Controllers
         public YoungoController(IYoungoServer IYoungoServer)
         {
             _YoungoServer = IYoungoServer;
+        }
+
+        /// <summary>
+        /// 获取商品列表
+        /// </summary>
+        /// <returns></returns>
+        public string GetCacheProductList()
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetCacheProductList();
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
         }
 
         /// <summary>
@@ -71,6 +89,96 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult();
                 responseModel.Content = _YoungoServer.CancelOrderParent(orderId);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="WeCharKey"></param>
+        /// <returns></returns>
+        public string GetCustomer(string WeCharKey)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetCustomer(WeCharKey);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public string GetDefaultAddress(int CustomerId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetDefaultAddress(CustomerId);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取地址列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public string GetDeliveryAddressList(int CustomerId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetDeliveryAddressList(CustomerId);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 提交评论
+        /// </summary>
+        /// <param name="CommentFrom"></param>
+        /// <returns></returns>
+        public string SubmitComment([FromForm]CommentFrom CommentFrom)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.SubmitComment(CommentFrom);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 提交地址
+        /// </summary>
+        /// <param name="DeliveryAddressFrom"></param>
+        /// <returns></returns>
+        public string SubmitDeliveryAddress([FromForm]DeliveryAddressFrom DeliveryAddressFrom)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

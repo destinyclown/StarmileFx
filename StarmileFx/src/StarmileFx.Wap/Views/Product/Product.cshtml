@@ -1,0 +1,119 @@
+﻿@model ProductWap
+@section Header{
+    <link href="~/css/index.css" rel="stylesheet" />
+}
+    <!-- end.headerBar -->
+    <div class="pageContainer">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="images/banner0.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="images/banner1.jpg" alt=""></a>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div> 
+        <!-- end.swiper -->
+        <div class="productCon">
+            <div class="proName">@Model.Name</div>
+            <div class="proBar">
+                <div class="proPrice">
+                    <span class="now">
+                        ￥<b>@Model.PurchasePrice</b>
+                    </span>
+                    <del class="old">$@Model.CostPrice</del>
+                </div>
+                <div class="proSale">
+                    <span>@Model.Stock</span>人已购买
+                </div>
+            </div>
+            <div class="proDesc">@Model.Introduce</div>
+            <!-- end.proBar -->
+            <div class="proTabBox">
+                <div class="proTab">
+                    <ul>
+                        <li class="cur">图文详情</li>
+                        <li>商品评论</li>
+                    </ul>
+                </div>
+                <div class="proTabCon">
+                    <div class="proTabConItem">
+                        <img src="images/product.jpg" alt="" style="width:100%;">
+                    </div>
+                    <!-- end.proTabConItem -->
+                    <div class="proTabConItem">
+                        <div class="proCommentCon">
+                            @if (Model.CommentList != null && Model.CommentList.Count > 0)
+                            {
+                                foreach (ProductComment comment in Model.CommentList)
+                                {
+                                <div class="commentConItem">
+                                    <div class="commentUserBox">
+                                        <div class="commentUser">用户：@comment.UserName</div>
+                                        <div class="commentDate">@comment.CreatTime.ToString("yyyy-MM-dd")</div>
+                                    </div>
+                                    <div class="commentScore">
+                                        <span class="commentScoreText">评分：</span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                    </div>
+                                    <div class="commentCon">
+                                        <p>@comment.Comment</p>
+                                    </div>
+                                    <div class="commentPic">
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <div>暂无评论</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end.pageContainer -->
+    <div class="footerNavPro">
+        <ul>
+            <li class="price">￥<span>381.00</span></li>
+            <li class="bbtn"><a href="shoppingcart.html"><i class="iShoppingCart"><em>1</em></i></a></li>
+            <li class="buy"><a href="javascript:;">加入购物车</a></li>
+        </ul>
+    </div>
+    <!-- end.footerNav -->
+@section scripts{
+    <script>
+        $(function () {
+            $(".proTabConItem").eq(0).show();
+            $(".proTab ul li").click(function () {
+                var num = $(".proTab ul li").index(this);
+                $(".proTabConItem").hide();
+                $(".proTabConItem").eq(num).show();
+                $(this).addClass('cur').siblings().removeClass('cur');
+            })
+        });
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationType: 'fraction',
+	        paginationClickable: true
+	    });
+    </script>
+}

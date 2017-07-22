@@ -76,7 +76,7 @@ namespace StarmileFx.Common.Redis
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
@@ -93,7 +93,7 @@ namespace StarmileFx.Common.Redis
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
@@ -111,9 +111,9 @@ namespace StarmileFx.Common.Redis
                 string json = JsonConvert.SerializeObject(obj);
                 return db.StringSet(key, json, expiry);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return false;
+                throw;
             }
         }
 
@@ -130,7 +130,7 @@ namespace StarmileFx.Common.Redis
             }
             catch (Exception)
             {
-                return "";
+                throw;
             }
         }
 
@@ -148,7 +148,7 @@ namespace StarmileFx.Common.Redis
             }
             catch (Exception)
             {
-                return null;
+                throw;
             }
         }
 
@@ -166,7 +166,7 @@ namespace StarmileFx.Common.Redis
             }
             catch (Exception)
             {
-                return default(T);
+                throw;
             }
         }
 
@@ -330,7 +330,15 @@ namespace StarmileFx.Common.Redis
         /// <returns></returns>
         public bool KeyExists(string key)
         {
-            return db.KeyExists(key);
+            try
+            {
+                return db.KeyExists(key);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>

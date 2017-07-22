@@ -2,13 +2,18 @@
     <link href="~/css/user.css" rel="stylesheet" />
 }
 <div class="userInfo">
+    <!--
+    <a href="message.html" class="userMess">
+        <i class="iEnvelope"><em>2</em></i>
+    </a>-->
+    <input type="button" value="每日签到" class="userComeIn">
     <div class="userPic">
         <div class="userLogo">
-            <img src="/images/tx.jpg" alt="">
+            <img src="images/tx.jpg" alt="">
         </div>
     </div>
     <div class="userName">用户名</div>
-    <div class="userLevel">会员等级：黄金等级</div>
+    <div class="userLevel">会员积分：2000<br>会员等级：黄金等级</div>
 </div>
 <div class="userMenu">
     <ul>
@@ -25,15 +30,22 @@
 <!-- end.userInfo -->
 <div class="userOrder">
     <ul>
-        <li><a href="javascript:;"><i class="iCreditCard"><em>22</em></i><span>待付款</span></a></li>
+        <li><a href="orderList.html"><i class="iCreditCard"><em>22</em></i><span>待付款</span></a></li>
         <li><a href="javascript:;"><i class="iTruck"><em>22</em></i><span>待收货</span></a></li>
         <li><a href="javascript:;"><i class="iFileTextO"><em>22</em></i><span>待评价</span></a></li>
-        <li><a href="javascript:;"><i class="iFax"><em>22</em></i><span>申请售后</span></a></li>
+        <li><a href="serviceList.html"><i class="iFax"><em>22</em></i><span>申请售后</span></a></li>
     </ul>
 </div>
 <!-- end.userOrder -->
 <div class="userMenu">
     <ul>
+        <li>
+            <a href="message.html">
+                <i class="iEnvelope"><em>1</em></i>
+                <span>消息提醒</span>
+                <i class="iAngleRight"></i>
+            </a>
+        </li>
         <li>
             <a href="takeGoods.html">
                 <i class="iMapMarker"></i>
@@ -42,7 +54,7 @@
             </a>
         </li>
         <li>
-            <a href="javascript:;">
+            <a href="vip.html">
                 <i class="iStreetView"></i>
                 <span>会员特权</span>
                 <i class="iAngleRight"></i>
@@ -71,7 +83,6 @@
         </li>
     </ul>
 </div>
-<!-- end.userMenu -->
 @section scripts{
     <script src="~/js/usercenter.js"></script>
 }

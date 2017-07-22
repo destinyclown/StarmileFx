@@ -11,150 +11,63 @@
     <div class="headerTit">网站名称</div>
     <a class="headerMessage" href="search.html"><i class="iSearch"></i></a>
 </div>*@
+
 @section Header{
     <link href="~/css/index.css" rel="stylesheet" />
 }
-<!-- end.headerBar -->
-<div class="pageContainer">
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <a href="javascript:;"><img src="/images/banner0.jpg" alt=""></a>
+<distributed-cache name="mycache" expires-after="TimeSpan.FromMinutes(15)">
+    <!-- end.headerBar -->
+    <div class="pageContainer">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="/images/banner0.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="/images/banner1.jpg" alt=""></a>
+                </div>
             </div>
-            <div class="swiper-slide">
-                <a href="javascript:;"><img src="/images/banner1.jpg" alt=""></a>
-            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
+        <!-- end.swiper -->
+        <div class="productListRank">
+            <div class="productListRankTit">品质·购物</div>
+            <ul>
+                <li class="productListRankItem">
+                    <a asp-controller="product" asp-action="product" asp-route-productid="1">
+                        <span class="pic">
+                            <img src="/images/product.jpg" alt="">
+                        </span>
+                        <span class="tit">
+                            又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
+                        </span>
+                        <span class="info">
+                            <span class="price">
+                                ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
+                            </span>
+                            <span class="praise">
+                                <em>好评率100%</em>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <a class="productListMore">
+                加载更多内容
+            </a>
+        </div>
     </div>
-    <!-- end.swiper -->
-    <div class="productListRank">
-        <div class="productListRankTit">品质·购物</div>
-        <ul>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="productListRankItem">
-                <a href="product.html">
-                    <span class="pic">
-                        <img src="/images/product.jpg" alt="">
-                    </span>
-                    <span class="tit">
-                        又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
-                    </span>
-                    <span class="info">
-                        <span class="price">
-                            ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
-                        </span>
-                        <span class="praise">
-                            <em>好评率100%</em>
-                        </span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-        <a class="productListMore">
-            加载更多内容
-        </a>
-    </div>
-</div>
-<!-- end.pageContainer -->
-@section scripts{
-    <script>
-        var swiper = new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination',
-            paginationClickable: true
-        });
-        $(function () {
-            $('#home').parent().addClass('cur');
-        });
-    </script>
-}
+    <!-- end.pageContainer -->
+</distributed-cache>
+    @section scripts{
+        <script>
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                paginationClickable: true
+            });
+            $(function () {
+                $('#home').parent().addClass('cur');
+            });
+        </script>
+    }

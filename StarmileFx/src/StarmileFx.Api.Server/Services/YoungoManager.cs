@@ -191,6 +191,7 @@ namespace StarmileFx.Api.Server.Services
             int total = 0;
             _CacheProductList.ProductTypeList = List<ProductType>(a => a.State, out total).ToList();
             _CacheProductList.ProductList = List<Product>(a => a.State, out total).ToList();
+            _CacheProductList.ResourcesList = List<Resources>(a => a.Type == ResourcesEnum.Product || a.Type == ResourcesEnum.Comment, out total).ToList();
             string sql = @"SELECT
 	                        cc.ID,
 	                        cc.`Comment`,
@@ -202,8 +203,8 @@ namespace StarmileFx.Api.Server.Services
 	                        cc.CreatTime
                         FROM
 	                        CustomerComment AS cc
-                        INNER JOIN product AS p ON P.ProductID = cc.ProductID AND p.State
-                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID";
+                        INNER JOIN Product AS p ON cc.ProductID = p.ProductID AND p.State
+                        INNER JOIN Customer AS c ON cc.CustomerID = c.ID";
             MySqlParameter[] parameters = new MySqlParameter[]{};
             _CacheProductList.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
             return _CacheProductList;
@@ -256,7 +257,7 @@ namespace StarmileFx.Api.Server.Services
 	                        op.CreatTime
                         FROM
 	                        OnLineOrderParent AS op
-                        INNER JOIN onlineorderdetail AS od ON op.OrderID = od.OrderID
+                        INNER JOIN Onlineorderdetail AS od ON op.OrderID = od.OrderID
                         INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
                         WHERE op.IsDelet = 0 AND op.CustomerID = @customerId ";
             if (OrderState != OrderStateEnum.All) {
@@ -295,7 +296,7 @@ namespace StarmileFx.Api.Server.Services
 
             //主表数据
             OnLineOrderParent order = new OnLineOrderParent();
-            order.DeliveryAddressID = shopCart.DeliveryAddressID;
+            order.DeliveryAddressID = shopCart.Address.ID;
             order.OrderID = shopCart.OrderId;
             order.OrderState = shopCart.OrderState;
             order.OrderType = 1;

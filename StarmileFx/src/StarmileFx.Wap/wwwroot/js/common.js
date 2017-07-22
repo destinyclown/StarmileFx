@@ -7,8 +7,9 @@ date : 2017-07-21
 
 $(function () {
     // 检测是否微信打开
-    if (!IsWeChat()) {
+    if (IsWeChat()) {
         //alert("请用微信打开网页！");
+        $('.headerBar').hide();
     }
 })
 

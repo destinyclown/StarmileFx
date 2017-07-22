@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using StarmileFx.Models;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
+using StarmileFx.Models.Youngo;
 
 namespace StarmileFx.Wap.Server.IService
 {
@@ -44,5 +45,17 @@ namespace StarmileFx.Wap.Server.IService
         /// </summary>
         /// <returns></returns>
         Task<ResponseResult<CacheProductList>> GetProductList();
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        Task<DeliveryAddress> GetDefaultAddress(int CustomerId);
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        Task<List<DeliveryAddress>> GetDeliveryAddressList(int CustomerId);
     }
 }

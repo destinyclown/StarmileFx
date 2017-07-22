@@ -74,5 +74,28 @@ namespace StarmileFx.Models.Wap
             /// </summary>
             public bool IsModify { get; set; }
         }
+
+        /// <summary>
+        /// 购物车提交类
+        /// </summary>
+        public class ShoppingCartFrom
+        {
+            /// <summary>
+            /// 用户编号
+            /// </summary>
+            public int CustomerID { get; set; }
+            /// <summary>
+            /// 是否勾选
+            /// </summary>
+            public string CartCheck { get; set; }
+            /// <summary>
+            /// 商品ID（SKU）
+            /// </summary>
+            public string ProductID { get; set; }
+            /// <summary>
+            /// 商品数量
+            /// </summary>
+            public string Number { get; set; }
+        }
     }
 }

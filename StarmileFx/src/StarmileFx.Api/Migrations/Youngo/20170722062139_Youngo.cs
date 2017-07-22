@@ -34,12 +34,29 @@ namespace StarmileFx.Api.Migrations.Youngo
                     Province = table.Column<string>(nullable: true),
                     ReceiveName = table.Column<string>(nullable: true),
                     TotalPrice = table.Column<float>(nullable: false),
-                    TraceID = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    TraceID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderParent", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductComment",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Comment = table.Column<string>(nullable: true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    OrderID = table.Column<string>(nullable: true),
+                    ProductID = table.Column<string>(nullable: true),
+                    Reply = table.Column<int>(nullable: true),
+                    UserName = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductComment", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,7 +69,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CustomerType = table.Column<int>(nullable: false),
                     Integral = table.Column<int>(nullable: false),
                     State = table.Column<bool>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false),
                     UserName = table.Column<string>(nullable: true),
                     WeCharKey = table.Column<string>(nullable: true)
                 },
@@ -72,8 +88,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CustomerID = table.Column<int>(nullable: false),
                     OrderID = table.Column<string>(nullable: true),
                     ProductID = table.Column<string>(nullable: true),
-                    Reply = table.Column<int>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    Reply = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,8 +104,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CreatTime = table.Column<DateTime>(nullable: false),
                     CustomerID = table.Column<int>(nullable: false),
                     Integral = table.Column<int>(nullable: false),
-                    Mode = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    Mode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,7 +126,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     Phone = table.Column<string>(nullable: true),
                     Province = table.Column<string>(nullable: true),
                     ReceiveName = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false),
                     Zip = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -129,8 +142,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     Content = table.Column<string>(nullable: true),
                     CreatTime = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    Phone = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,8 +158,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CreatTime = table.Column<DateTime>(nullable: false),
                     Number = table.Column<int>(nullable: false),
                     OrderID = table.Column<string>(nullable: true),
-                    ProductID = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    ProductID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,8 +178,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     OrderState = table.Column<int>(nullable: false),
                     PayTime = table.Column<DateTime>(nullable: false),
                     PaymentType = table.Column<int>(nullable: false),
-                    TotalPrice = table.Column<float>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    TotalPrice = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,8 +194,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CreatTime = table.Column<DateTime>(nullable: false),
                     Number = table.Column<int>(nullable: false),
                     OrderID = table.Column<string>(nullable: true),
-                    ProductID = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    ProductID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,7 +230,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     PostID = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<float>(nullable: false),
                     TraceID = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false),
                     Weight = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
@@ -236,8 +244,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     CreatTime = table.Column<DateTime>(nullable: false),
-                    OriginalOrderID = table.Column<int>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    OriginalOrderID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,8 +260,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CreatTime = table.Column<DateTime>(nullable: false),
                     IsStop = table.Column<bool>(nullable: false),
                     PostCode = table.Column<string>(nullable: true),
-                    PostName = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    PostName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -284,7 +290,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     State = table.Column<bool>(nullable: false),
                     Stock = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false),
                     Weight = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
@@ -302,8 +307,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CreatTime = table.Column<DateTime>(nullable: false),
                     Introduce = table.Column<string>(nullable: true),
                     State = table.Column<bool>(nullable: false),
-                    TypeName = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    TypeName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -317,8 +321,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     CreatTime = table.Column<DateTime>(nullable: false),
-                    OriginalSKU = table.Column<int>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    OriginalSKU = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -333,8 +336,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                         .Annotation("MySQL:AutoIncrement", true),
                     CreatTime = table.Column<DateTime>(nullable: false),
                     CustomerID = table.Column<int>(nullable: true),
-                    Keyword = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    Keyword = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -349,13 +351,42 @@ namespace StarmileFx.Api.Migrations.Youngo
                         .Annotation("MySQL:AutoIncrement", true),
                     CreatTime = table.Column<DateTime>(nullable: false),
                     CustomerID = table.Column<int>(nullable: true),
-                    ProductID = table.Column<string>(nullable: true),
-                    UpdateTime = table.Column<DateTime>(nullable: false)
+                    ProductID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ViewHistory", x => x.ID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Address = table.Column<string>(nullable: true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    ProductCommentID = table.Column<int>(nullable: true),
+                    ProductID = table.Column<string>(nullable: true),
+                    ResourcesCode = table.Column<string>(nullable: true),
+                    Sort = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Resources_ProductComment_ProductCommentID",
+                        column: x => x.ProductCommentID,
+                        principalTable: "ProductComment",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resources_ProductCommentID",
+                table: "Resources",
+                column: "ProductCommentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -403,6 +434,9 @@ namespace StarmileFx.Api.Migrations.Youngo
                 name: "ProductType");
 
             migrationBuilder.DropTable(
+                name: "Resources");
+
+            migrationBuilder.DropTable(
                 name: "SKUEstablish");
 
             migrationBuilder.DropTable(
@@ -410,6 +444,9 @@ namespace StarmileFx.Api.Migrations.Youngo
 
             migrationBuilder.DropTable(
                 name: "ViewHistory");
+
+            migrationBuilder.DropTable(
+                name: "ProductComment");
         }
     }
 }

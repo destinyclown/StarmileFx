@@ -24,15 +24,15 @@
     <div class="headerBar">
         <a class="headerBack"><i class="iAngleLeft"></i></a>
         <div class="headerTit">@ViewBag.Title</div>
-        <a class="headerMessage" href="/home/search"><i class="iSearch"></i></a>
+        <a class="headerMessage" asp-controller="home" asp-action="search"><i class="iSearch"></i></a>
     </div>
     @RenderBody()
     <div class="footerNav">
         <ul>
-            <li><a id="home" href="/home/index"><i class="iHome"></i><span>首页</span></a></li>
-            <li><a id="category" href="/home/category"><i class="iList"></i><span>分类</span></a></li>
-            <li><a id="shoppingcart" href="/home/shoppingcart"><i class="iShoppingCart"></i><span>购物车</span></a></li>
-            <li><a id="usercenter" href="/home/usercenter"><i class="iUser"></i><span>我</span></a></li>
+            <li><a id="home" asp-controller="home" asp-action="index"><i class="iHome"></i><span>首页</span></a></li>
+            <li><a id="category" asp-controller="product" asp-action="index"><i class="iList"></i><span>分类</span></a></li>
+            <li><a id="shoppingcart" asp-controller="order" asp-action="shoppingcart"><i class="iShoppingCart"></i><span>购物车</span></a></li>
+            <li><a id="usercenter" asp-controller="customer" asp-action="index"><i class="iUser"></i><span>我</span></a></li>
         </ul>
     </div>
     <environment names="Development">

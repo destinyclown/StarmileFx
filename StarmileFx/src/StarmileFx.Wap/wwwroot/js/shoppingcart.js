@@ -40,4 +40,7 @@
             $('.totalPrice').text(totalNum.toFixed(2));
         }
     });
+    $('#goahead').click(function () {
+        $('#shoppingcart').submit();
+    });
 });

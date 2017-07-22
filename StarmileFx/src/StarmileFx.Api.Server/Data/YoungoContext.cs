@@ -222,5 +222,6 @@ namespace StarmileFx.Api.Server.Data
         public DbSet<SreachHistory> SreachHistory { get; set; }
         public DbSet<OrderParent> OrderParent { get; set; }
         public DbSet<ProductComment> ProductComment { get; set; }
+        public DbSet<Resources> Resources { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace StarmileFx.Models.Redis
         /// </summary>
         public string OrderId { get; set; }
         /// <summary>
-        /// 收货地址ID
+        /// 收货地址
         /// </summary>
-        public int DeliveryAddressID { get; set; }
+        public DeliveryAddress Address { get; set; }
         /// <summary>
         /// 订单状态1、待付款2、待发货3、待收货
         /// </summary>
@@ -45,9 +45,17 @@ namespace StarmileFx.Models.Redis
         /// </summary>
         public List<ProductList> ProductList { get; set; }
         /// <summary>
+        /// 商品总价格
+        /// </summary>
+        public float ProductPrice { get; set; }
+        /// <summary>
         /// 购物车总价格
         /// </summary>
         public float TotalPrice { get; set; }
+        /// <summary>
+        /// 运费
+        /// </summary>
+        public float FreightPrice { get; set; }
     }
 
     /// <summary>

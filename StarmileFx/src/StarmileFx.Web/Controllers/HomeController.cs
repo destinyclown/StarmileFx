@@ -63,10 +63,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <summary>
         /// 登录请求
         /// </summary>
-        /// <param name="loginName"></param>
-        /// <param name="password"></param>
-        /// <param name="validCode"></param>
-        /// <param name="returnUrl"></param>
+        /// <param name="fromData"></param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

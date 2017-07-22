@@ -8,7 +8,7 @@ using StarmileFx.Api.Server.Data;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170718112916_Youngo")]
+    [Migration("20170722062139_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,11 +63,31 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("TraceID");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("OrderParent");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Wap.ProductComment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<string>("OrderID");
+
+                    b.Property<string>("ProductID");
+
+                    b.Property<int?>("Reply");
+
+                    b.Property<int>("UserName");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductComment");
                 });
 
             modelBuilder.Entity("StarmileFx.Models.Youngo.Customer", b =>
@@ -82,8 +102,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("Integral");
 
                     b.Property<bool>("State");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.Property<string>("UserName");
 
@@ -111,8 +129,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int?>("Reply");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("CustomerComment");
@@ -130,8 +146,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("Integral");
 
                     b.Property<string>("Mode");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -161,8 +175,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ReceiveName");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.Property<string>("Zip");
 
                     b.HasKey("ID");
@@ -183,8 +195,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Phone");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("Feedback");
@@ -202,8 +212,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("OrderID");
 
                     b.Property<string>("ProductID");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -231,8 +239,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<float>("TotalPrice");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("OffLineOrderParent");
@@ -250,8 +256,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("OrderID");
 
                     b.Property<string>("ProductID");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -309,8 +313,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("TraceID");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.Property<float>("Weight");
 
                     b.HasKey("ID");
@@ -326,8 +328,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<DateTime>("CreatTime");
 
                     b.Property<int>("OriginalOrderID");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -346,8 +346,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("PostCode");
 
                     b.Property<string>("PostName");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -393,8 +391,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("Type");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.Property<float>("Weight");
 
                     b.HasKey("ID");
@@ -417,11 +413,35 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("TypeName");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("ProductType");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Youngo.Resources", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<int?>("ProductCommentID");
+
+                    b.Property<string>("ProductID");
+
+                    b.Property<string>("ResourcesCode");
+
+                    b.Property<int>("Sort");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductCommentID");
+
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("StarmileFx.Models.Youngo.SKUEstablish", b =>
@@ -432,8 +452,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<DateTime>("CreatTime");
 
                     b.Property<int>("OriginalSKU");
-
-                    b.Property<DateTime>("UpdateTime");
 
                     b.HasKey("ID");
 
@@ -451,8 +469,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Keyword");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("SreachHistory");
@@ -469,11 +485,16 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("ProductID");
 
-                    b.Property<DateTime>("UpdateTime");
-
                     b.HasKey("ID");
 
                     b.ToTable("ViewHistory");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Youngo.Resources", b =>
+                {
+                    b.HasOne("StarmileFx.Models.Wap.ProductComment")
+                        .WithMany("ResourcesList")
+                        .HasForeignKey("ProductCommentID");
                 });
         }
     }

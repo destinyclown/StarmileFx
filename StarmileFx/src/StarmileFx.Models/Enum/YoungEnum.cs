@@ -80,4 +80,19 @@ namespace StarmileFx.Models.Enum
         /// </summary>
         添加评论5点积分 = 5,
     }
+
+    /// <summary>
+    /// 资源类型
+    /// </summary>
+    public enum ResourcesEnum : int
+    {
+        /// <summary>
+        /// 商品类型
+        /// </summary>
+        Product = 1,
+        /// <summary>
+        /// 商品评论
+        /// </summary>
+        Comment = 1,
+    }
 }

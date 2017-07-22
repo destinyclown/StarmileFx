@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 
-namespace StarmileFx.Models.Wap
+namespace StarmileFx.Models.Redis
 {
     /// <summary>
     /// 缓存商品列表
@@ -19,6 +20,10 @@ namespace StarmileFx.Models.Wap
         /// 商品列表
         /// </summary>
         public List<Product> ProductList { get ; set; }
+        /// <summary>
+        /// 资源列表
+        /// </summary>
+        public List<Resources> ResourcesList { get; set; }
         /// <summary>
         /// 评论列表
         /// </summary>

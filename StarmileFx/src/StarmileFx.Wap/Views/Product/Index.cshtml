@@ -1,0 +1,52 @@
+﻿@model CacheProductList
+@section Header{
+    <link href="~/css/category.css" rel="stylesheet" />
+}   
+<!-- end.headerBar -->
+<div class="pageContainer">
+    <div class="categoryNav">
+        <ul>
+            @foreach (ProductType type in Model.ProductTypeList)
+            {
+                if (type.ID == Model.ProductTypeList[0].ID)
+                {
+                    <li class="cur"><a href="javascript:;">@type.TypeName</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:;">@type.TypeName</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="category">
+@foreach (ProductType type in Model.ProductTypeList)
+{
+        <div class="categoryCon">
+            <div class="categoryItem">
+                <div class="categoryTit"><span>@type.TypeName</span></div>
+                <ul>
+                    @{ List<Product> list = Model.ProductList.Where(a => a.Type == type.ID).ToList(); }
+                    @foreach (Product product in list)
+                    {
+                        <li>
+                            <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
+                                <img src="@product.Label" alt="">
+                                <span>@product.CnName</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+                        }
+    </div>
+</div>
+<!-- end.pageContainer -->
+@section scripts{
+    <script>
+        $(function () {
+            $('#category').parent().addClass('cur');
+        });
+    </script>
+}

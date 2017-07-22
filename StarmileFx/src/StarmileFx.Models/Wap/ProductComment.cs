@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Models.Youngo;
 
 namespace StarmileFx.Models.Wap
 {
@@ -27,5 +28,9 @@ namespace StarmileFx.Models.Wap
         /// 回复ID
         /// </summary>
         public int? Reply { get; set; }
+        /// <summary>
+        /// 资源列表
+        /// </summary>
+        public List<Resources> ResourcesList { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using StarmileFx.Common.Encryption;
 using StarmileFx.Models;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
+using StarmileFx.Models.Youngo;
 using StarmileFx.Wap.Server.IService;
 using StarmileFx.Wap.Server.IServices;
 
@@ -21,6 +22,7 @@ namespace StarmileFx.Wap.Server.Service
         public YoungoManager(IRedisServer IRedisServer)
         {
             _IRedisServer = IRedisServer;
+            _IRedisServer.conn = "127.0.0.1";
             Api_Host = "http://localhost:8001/";//测试使用
         }
         /// <summary>
@@ -128,7 +130,7 @@ namespace StarmileFx.Wap.Server.Service
                 return _IRedisServer.GetStringKey<CacheProductList>(key);
             }
             var result = await GetProductList();
-            TimeSpan time = DateTime.Now - DateTime.Now.AddMinutes(15);
+            TimeSpan time = DateTime.Now.AddMinutes(15) - DateTime.Now;
             if (result != null && result.IsSuccess)
             {
                 if(_IRedisServer.SetStringKey(key, result.Content, time))
@@ -176,7 +178,68 @@ namespace StarmileFx.Wap.Server.Service
         }
         #endregion 网站商品缓存CacheProductList
 
-        #region 
-        #endregion
+        #region 用户中心
+        /// <summary>
+        /// 获取用户默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public Task<DeliveryAddress> GetDefaultAddress(int CustomerId)
+        {
+            return Task.Run(() =>
+            {
+                return GetDefaultAddressAsync(CustomerId);
+            });
+        }
+
+        /// <summary>
+        /// 获取用户默认地址（异步）
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public async Task<DeliveryAddress> GetDefaultAddressAsync(int CustomerId)
+        {
+            string Action = "Youngo";
+            string Function = "/GetDefaultAddress";
+            string Parameters = string.Format("CustomerId={0}", CustomerId);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<DeliveryAddress>(result);
+            });
+        }
+
+        /// <summary>
+        /// 获取用户地址列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public Task<List<DeliveryAddress>> GetDeliveryAddressList(int CustomerId)
+        {
+            return Task.Run(() =>
+            {
+                return GetDeliveryAddressListAsync(CustomerId);
+            });
+        }
+
+        /// <summary>
+        /// 获取用户地址列表（异步）
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <returns></returns>
+        public async Task<List<DeliveryAddress>> GetDeliveryAddressListAsync(int CustomerId)
+        {
+            string Action = "Youngo";
+            string Function = "/GetDeliveryAddressList";
+            string Parameters = string.Format("CustomerId={0}", CustomerId);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<List<DeliveryAddress>>(result);
+            });
+        }
+        #endregion 用户中心
     }
 }
