@@ -33,7 +33,7 @@ namespace StarmileFx.Wap.Server.Service
         {
             Random ran = new Random();
             int RandKey = ran.Next(0, 9999);
-            string OrderID = "A" + Encryption.StrInCoded(DateTime.Now.ToString("yyyyMMddHHmmssffff")) + RandKey.ToString("0000");
+            string OrderID = "900" + Encryption.StrInCoded(DateTime.Now.ToString("yyyyMMddHHmmssffff")) + RandKey.ToString("0000");
             return OrderID;
         }
 
@@ -241,5 +241,100 @@ namespace StarmileFx.Wap.Server.Service
             });
         }
         #endregion 用户中心
+
+        #region 订单
+        /// <summary>
+        /// 创建订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<bool>> CreateOrderParent(ShopCart shopCart)
+        {
+            return Task.Run(() =>
+            {
+                return CreateOrderParentAsync(shopCart);
+            });
+        }
+
+        /// <summary>
+        /// 创建订单（异步）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<bool>> CreateOrderParentAsync(ShopCart shopCart)
+        {
+            string Action = "Youngo";
+            string Function = "/CreateOrderParent";
+            string Parameters = string.Empty;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select, shopCart);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 确认订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<bool>> OrderPay(string orderId)
+        {
+            return Task.Run(() =>
+            {
+                return OrderPayAsync(orderId);
+            });
+        }
+
+        /// <summary>
+        /// 确认订单（异步）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<bool>> OrderPayAsync(string orderId)
+        {
+            string Action = "Youngo";
+            string Function = "/OrderPay";
+            string Parameters = string.Format("orderId={0}", orderId); ;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 取消订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<bool>> CancelOrderParent(string orderId)
+        {
+            return Task.Run(() =>
+            {
+                return CancelOrderParentAsync(orderId);
+            });
+        }
+
+        /// <summary>
+        /// 取消订单（异步）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<bool>> CancelOrderParentAsync(string orderId)
+        {
+            string Action = "Youngo";
+            string Function = "/CancelOrderParent";
+            string Parameters = string.Format("orderId={0}", orderId); ;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+        #endregion 订单
     }
 }

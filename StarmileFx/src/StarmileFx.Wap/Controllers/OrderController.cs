@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StarmileFx.Models;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
@@ -23,7 +24,13 @@ namespace StarmileFx.Wap.Controllers
             _YoungoServer = YoungoServer;
         }
         // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(string orderId)
+        {
+            ViewBag.Title = "查看订单";
+            return View();
+        }
+
+        public IActionResult OrderPay()
         {
             ViewBag.Title = "确认订单";
             return View();
@@ -35,11 +42,6 @@ namespace StarmileFx.Wap.Controllers
             return View();
         }
         public IActionResult OrderList()
-        {
-            ViewBag.Title = "确认订单";
-            return View();
-        }
-        public IActionResult OrderPay()
         {
             ViewBag.Title = "确认订单";
             return View();
@@ -61,6 +63,11 @@ namespace StarmileFx.Wap.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 提交购物车
+        /// </summary>
+        /// <param name="fromData"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> SubmitCart([FromForm]ShoppingCartFrom fromData)
         {
@@ -98,6 +105,54 @@ namespace StarmileFx.Wap.Controllers
             cart.FreightPrice = 0;
             cart.TotalPrice = cart.ProductPrice + cart.FreightPrice;
             return View("Index", cart);
+        }
+
+        /// <summary>
+        /// 创建订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> CreateOrder(ShopCart shopCart)
+        {
+            ViewBag.Title = "微信支付";
+            if (shopCart == null)
+            {
+                result.ReasonDescription = "购物车为空！";
+                return Json(result);
+            }
+            shopCart.OrderId = _YoungoServer.CreateOrderID();
+            ResponseResult<bool> responseResult = await _YoungoServer.CreateOrderParent(shopCart);
+            if (!responseResult.IsSuccess)
+            {
+                result.ReasonDescription = responseResult.ErrorMsg;
+                return View(result);
+            }
+            else
+            {
+                result.IsSuccessful = responseResult.Content;
+            }
+            return View(result);
+        }
+
+        /// <summary>
+        /// 确认订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> OrderPay(string orderId)
+        {
+            ResponseResult<bool> responseResult = await _YoungoServer.OrderPay(orderId);
+            if (!responseResult.IsSuccess)
+            {
+                result.ReasonDescription = responseResult.ErrorMsg;
+                return Json(result);
+            }
+            else
+            {
+                result.IsSuccessful = responseResult.Content;
+            }
+            return Json(result);
         }
     }
 }

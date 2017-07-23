@@ -12,6 +12,11 @@ namespace StarmileFx.Wap.Server.IService
     public interface IYoungoServer
     {
         /// <summary>
+        /// 创建订单编号
+        /// </summary>
+        /// <returns></returns>
+        string CreateOrderID();
+        /// <summary>
         /// 获取购物车
         /// </summary>
         /// <param name="CustomerID"></param>
@@ -57,5 +62,17 @@ namespace StarmileFx.Wap.Server.IService
         /// <param name="CustomerId"></param>
         /// <returns></returns>
         Task<List<DeliveryAddress>> GetDeliveryAddressList(int CustomerId);
+        /// <summary>
+        /// 确认订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        Task<ResponseResult<bool>> OrderPay(string orderId);
+        /// <summary>
+        /// 创建订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        Task<ResponseResult<bool>> CreateOrderParent(ShopCart shopCart);
     }
 }

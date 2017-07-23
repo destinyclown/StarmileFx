@@ -65,12 +65,30 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="shopCart">购物车</param>
         /// <returns></returns>
-        public string CreateOrderParent(ShopCart shopCart)
+        public string CreateOrderParent([FromForm]ShopCart shopCart)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
                 responseModel.Content = _YoungoServer.CreateOrderParent(shopCart);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 确认订单（支付）
+        /// </summary>
+        /// <param name="orderId">订单编号</param>
+        /// <returns></returns>
+        public string OrderPay(string orderId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.OrderPay(orderId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -179,6 +197,25 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult();
                 responseModel.Content = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取默认地址
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public string GetMessageList(int CustomerId, [FromForm]PageData page)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetMessageList(CustomerId, page);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

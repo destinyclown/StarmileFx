@@ -44,6 +44,14 @@ namespace StarmileFx.Models.Wap
         /// </summary>
         public int Stock { get; set; }
         /// <summary>
+        /// 品牌
+        /// </summary>
+        public string Brand { get; set; }
+        /// <summary>
+        /// 品牌介绍
+        /// </summary>
+        public string BrandIntroduce { get; set; }
+        /// <summary>
         /// 资源列表
         /// </summary>
         public List<Resources> ResourcesList { get; set; }

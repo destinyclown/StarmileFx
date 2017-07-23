@@ -1,9 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>支付失败</title>
+    <script src="js/jquery-1.8.2.min.js"></script>
 	<link rel="stylesheet" href="style/common.css">
 	<link rel="stylesheet" href="style/pay.css">
 </head>
@@ -21,7 +22,7 @@
 		</div>
 		<div class="payText">
 			<div class="payTextTit">订单信息</div>
-			<div class="payTextCon">该订单会为你保留12小时（从下单之日起计算），12小时后如果还未付款，系统将自动取消该订单。</div>
+			<div class="payTextCon">该订单会为你保留<div id="time">10:00</div>（从下单之日起计算），12小时后如果还未付款，系统将自动取消该订单。</div>
 			<div class="payTextBtn">
 				<a class="l" href="index.html">重新支付</a>
 				<a class="r" href="order.html">查看订单</a>
@@ -32,5 +33,42 @@
 		</div>
 	</div>
 	<!-- end.pageContainer -->
+    <script>
+        $(function () {
+            jump10();
+        });
+        function jump(count) {
+            window.setTimeout(function () {
+                count--;
+                if (count > 0) {
+                    $('#time').html(count);
+                    jump(count);
+                } else {
+                    location.href = "/order/PayError";
+                }
+            }, 1000);
+        }
+
+        function jump10() {
+            var m = 9;
+            var s = 59;
+            setInterval(function () {
+                if (m > 0 || s > 0) {
+                    if (s < 10) {
+                        $('#time').html(m + ':0' + s);
+                    } else {
+                        $('#time').html(m + ':' + s);
+                    }
+                    s--;
+                    if (s < 0) {
+                        s = 59;
+                        m--;
+                    }
+                } else {
+                    location.href = "/order/PayError";
+                }
+            }, 1000)
+        }
+    </script>
 </body>
 </html>

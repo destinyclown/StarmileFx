@@ -175,6 +175,30 @@ namespace StarmileFx.Api.Server.IServices
         /// <param name="CustomerId"></param>
         /// <returns></returns>
         DeliveryAddress GetDefaultAddress(int CustomerId);
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="OrederId"></param>
+        /// <param name="MessageType"></param>
+        /// <returns></returns>
+        bool SendMessage(int CustomerId, string OrederId, MessageTypeEnum MessageType);
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        List<Information> GetMessageList(int CustomerId, PageData page);
+
+        /// <summary>
+        /// 订单确认（支付）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        bool OrderPay(string OrederId);
         #endregion
 
         #region 网站后台

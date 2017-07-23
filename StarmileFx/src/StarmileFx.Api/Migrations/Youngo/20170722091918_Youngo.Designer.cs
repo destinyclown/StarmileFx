@@ -8,7 +8,7 @@ using StarmileFx.Api.Server.Data;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170722062139_Youngo")]
+    [Migration("20170722091918_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -356,6 +356,10 @@ namespace StarmileFx.Api.Migrations.Youngo
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("BrandIntroduce");
 
                     b.Property<string>("CnName");
 

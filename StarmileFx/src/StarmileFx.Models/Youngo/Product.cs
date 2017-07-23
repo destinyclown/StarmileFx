@@ -78,5 +78,13 @@ namespace StarmileFx.Models.Youngo
         /// 上线时间
         /// </summary>
         public DateTime? OnlineTime { get; set; }
+        /// <summary>
+        /// 品牌
+        /// </summary>
+        public string Brand { get; set; }
+        /// <summary>
+        /// 品牌介绍
+        /// </summary>
+        public string BrandIntroduce { get; set; }
     }
 }

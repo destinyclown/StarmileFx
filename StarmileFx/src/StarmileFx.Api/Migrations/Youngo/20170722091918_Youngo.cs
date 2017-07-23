@@ -273,6 +273,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
+                    Brand = table.Column<string>(nullable: true),
+                    BrandIntroduce = table.Column<string>(nullable: true),
                     CnName = table.Column<string>(nullable: true),
                     CostPrice = table.Column<float>(nullable: false),
                     CreatTime = table.Column<DateTime>(nullable: false),

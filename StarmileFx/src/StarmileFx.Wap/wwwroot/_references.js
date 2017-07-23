@@ -6,6 +6,7 @@
 /// <reference path="js/common.js" />
 /// <reference path="js/ectouch.js" />
 /// <reference path="js/jquery-1.8.2.min.js" />
+/// <reference path="js/order.js" />
 /// <reference path="js/search.js" />
 /// <reference path="js/shoppingcart.js" />
 /// <reference path="js/swiper.min.js" />

@@ -356,6 +356,10 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("BrandIntroduce");
+
                     b.Property<string>("CnName");
 
                     b.Property<float>("CostPrice");

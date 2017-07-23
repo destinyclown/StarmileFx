@@ -1,5 +1,96 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ShopCart
+@section Header{
+    <link href="~/css/order.css" rel="stylesheet" />
 }
+<div class="headerBar">
+    <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
+    <div class="headerTit">确认订单</div>
+    <a href="javascript:;" class="headerMessage"></a>
+</div>
+<!-- end.headerBar -->
+<div class="pageContainer orderPage">
+    @if (Model.Address != null)
+    {
+        <div class="receiver">
+            <a asp-controller="Customer" asp-action="Adress" asp-route-customerId="@Model.CustomerID">
+                <span class="receiverTit"><em>@Model.Address.ReceiveName</em><tel>@Model.Address.Phone</tel></span>
+                <span class="receiverText">
+                    @{ Model.Address.Address = Model.Address.Province + Model.Address.City + Model.Address.Area + Model.Address.Address;}
+                    <span class="receiverTextCon">@Model.Address.Address</span>
+                    <span class="more"><i class="iAngleRight"></i></span>
+                </span>
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="receiver">
+            <a asp-controller="Customer" asp-action="Adress" asp-route-productid="@Model.CustomerID">
+                <span class="receiverText">
+                    <span class="receiverTextCon">请选择一个收货地址</span>
+                    <span class="more"><i class="iAngleRight"></i></span>
+                </span>
+            </a>
+        </div>
+    }
+    <div class="orderProList">
+        <ul>
+            @foreach (ProductList Product in Model.ProductList)
+            {
+                <li>
+                    <span class="pic">
+                        <img src="@Product.Product.Label" alt="">
+                    </span>
+                    <span class="dec">
+                        <span class="tit">@Product.Product.CnName</span>
+                        <span class="price">
+                            <em class="p">￥@Product.Product.PurchasePrice</em>
+                            <em class="n">数量：@Product.Number</em>
+                        </span>
+                    </span>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <div class="orderData">
+        <ul>
+            <li>
+                <span class="tit"></span>
+                <span class="dec"></span>
+            </li>
+        </ul>
+    </div>
+    <div class="payWay">
+        <ul>
+            <li>
+                <span>微信支付</span>
+                <input type="radio" name="1" checked>
+            </li>
+        </ul>
+    </div>
+    <div class="payCount">
+        <ul>
+            <li>
+                <span class="l">商品总金额：</span>
+                <span class="r">￥@Model.ProductPrice</span>
+            </li>
+            <li>
+                <span class="l">运费：</span>
+                <span class="r">￥@Model.FreightPrice</span>
+            </li>
+            <li class="last">
+                <span class="l">总金额：</span>
+                <span class="r">￥@Model.TotalPrice</span>
+            </li>
+        </ul>
+    </div>
+    <div class="payGo">
+        <div class="payTotal">
+            <span>订单金额：</span>
+            <em>￥@Model.TotalPrice</em>
+        </div>
+        <a asp-controller="order" asp-action="createorder" asp-route-ShopCart="@StarmileFx.Common.JsonHelper.Object_To_Json(Model)">立即支付</a>
+    </div>
+</div>
+<!-- end.pageContainer -->

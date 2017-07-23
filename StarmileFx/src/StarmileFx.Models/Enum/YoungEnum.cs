@@ -14,8 +14,9 @@ namespace StarmileFx.Models.Enum
         Platinum = 2,
         Gold = 3
     }
+
     /// <summary>
-    /// 订单状态
+    /// 订单状态类型
     /// </summary>
     public enum OrderStateEnum : int
     {
@@ -60,11 +61,17 @@ namespace StarmileFx.Models.Enum
         DeliveryPayment = 3
     }
 
+    /// <summary>
+    /// 订单类型
+    /// </summary>
     public enum OrderTypeEnum : int
     {
 
     }
 
+    /// <summary>
+    /// 积分类型
+    /// </summary>
     public enum SignEnum : int
     {
         /// <summary>
@@ -94,5 +101,40 @@ namespace StarmileFx.Models.Enum
         /// 商品评论
         /// </summary>
         Comment = 1,
+    }
+
+    /// <summary>
+    /// 消息类型
+    /// </summary>
+    public enum MessageTypeEnum : int
+    {
+        /// <summary>
+        /// 订单确认通知
+        /// </summary>
+        订单确认通知 = 1,
+        /// <summary>
+        /// 订单取消通知
+        /// </summary>
+        订单取消通知 = 2,
+        /// <summary>
+        /// 订单发货通知
+        /// </summary>
+        订单发货通知 = 3,
+        /// <summary>
+        /// 订单申请退款通知
+        /// </summary>
+        订单申请退款通知 = 4,
+        /// <summary>
+        /// 订单申请退货通知
+        /// </summary>
+        订单申请退货通知 = 5,
+        /// <summary>
+        /// 订单退款完成通知
+        /// </summary>
+        订单退款完成通知 = 6,
+        /// <summary>
+        /// 订单退货完成通知
+        /// </summary>
+        订单退货完成通知 = 7,
     }
 }

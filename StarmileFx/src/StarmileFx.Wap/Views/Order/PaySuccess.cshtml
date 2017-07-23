@@ -1,18 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>支付成功</title>
-    <link rel="stylesheet" href="style/common.css">
-    <link rel="stylesheet" href="style/pay.css">
-</head>
-<body>
-    <div class="headerBar">
-        <a class="headerBack"></a>
-        <div class="headerTit">支付订单</div>
-        <a class="headerMessage">完成</a>
-    </div>
+﻿
     <!-- end.headerBar -->
     <div class="pageContainer">
         <div class="paySuccess">
@@ -24,13 +10,11 @@
             <div class="payTextCon">我们将尽快为您安排发货，请买家保持手机通讯畅通，以便快递哥哥能第一时间联系你。</div>
             <div class="payTextBtn">
                 <a class="l" href="index.html">继续购物</a>
-                <a class="r" href="order.html">查看订单</a>
+                <a class="r" asp-action="order" asp-controller="orderlist" asp-route-id="@ViewBag.id" asp-route-type="0">查看订单</a>
             </div>
         </div>
         <div class="payTips">
-            温馨提示：XX网不会以任何理由要求您提供银行卡信息或支付额外费用，请谨防钓鱼链接或诈骗电话。
+            温馨提示：Youngo商城不会以任何理由要求您提供银行卡信息或支付额外费用，请谨防钓鱼链接或诈骗电话。
         </div>
     </div>
     <!-- end.pageContainer -->
-</body>
-</html>

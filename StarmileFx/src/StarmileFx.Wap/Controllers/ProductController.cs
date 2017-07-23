@@ -31,16 +31,18 @@ namespace StarmileFx.Wap.Controllers
             CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
             ProductWap _product = new ProductWap();
             Product product = ProductList.ProductList.Where(a => a.ProductID == productid).ToList()[0];
-            List<Resources> resources = ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
-            List<ProductComment> Comment = ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
+            List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
+            List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
             _product.ProductID = productid;
             _product.Name = product.CnName;
             _product.PurchasePrice = product.PurchasePrice;
+            _product.Introduce = product.Introduce;
             _product.Type = product.Type;
             _product.Stock = product.Stock;
             _product.CostPrice = product.CostPrice;
             _product.ResourcesList = resources;
             _product.CommentList = Comment;
+            _product.Brand = product.Brand;
             ViewBag.Title = "产品详情";
             return View(_product);
         }

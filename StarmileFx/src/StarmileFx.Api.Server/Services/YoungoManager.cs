@@ -323,7 +323,9 @@ namespace StarmileFx.Api.Server.Services
                 //判断是否全部提交成功
                 if (detailCount == shopCart.ProductList.Count)
                 {
-                    return ChangeCustomerSign(shopCart.CustomerID, SignEnum.购买商品20点积分); ;
+                    return Commit();
+                    //ChangeCustomerSign(shopCart.CustomerID, SignEnum.购买商品20点积分);
+                    //SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.订单确认通知);
                 }
                 else
                 {
@@ -356,44 +358,12 @@ namespace StarmileFx.Api.Server.Services
             order.IsDelet = true;
             if (Update(order, Transaction))
             {
-                //提交事务
-                return Commit();
+                //发送通知
+                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.订单取消通知);
             }
             else
             {
                 throw new Exception("删除订单异常！");
-            }
-        }
-
-        /// <summary>
-        /// 会员积分变动记录
-        /// </summary>
-        /// <param name="CustomerId"></param>
-        /// <param name="signEnum"></param>
-        /// <returns></returns>
-        public bool ChangeCustomerSign(int CustomerId, SignEnum signEnum)
-        {
-            Customer customer = Get<Customer>(a => a.State & a.ID == CustomerId);
-            customer.Integral += (int)signEnum;
-            if (Update(customer, Transaction))
-            {
-                CustomerSign sign = new CustomerSign();
-                sign.CustomerID = CustomerId;
-                sign.Integral = (int)signEnum;
-                sign.Mode = signEnum.ToString();
-                if (Add(sign, Transaction))
-                {
-                    //提交事务
-                    return Commit();
-                }
-                else
-                {
-                    throw new Exception("添加积分记录异常！");
-                }
-            }
-            else
-            {
-                throw new Exception("会员签到异常！");
             }
         }
 
@@ -488,6 +458,124 @@ namespace StarmileFx.Api.Server.Services
         public DeliveryAddress GetDefaultAddress(int CustomerId)
         {
             return Get<DeliveryAddress>(a => a.CustomerID == CustomerId && a.IsDefault);
+        }
+
+        /// <summary>
+        /// 会员积分变动记录
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="signEnum"></param>
+        /// <returns></returns>
+        public bool ChangeCustomerSign(int CustomerId, SignEnum signEnum)
+        {
+            Customer customer = Get<Customer>(a => a.State & a.ID == CustomerId);
+            customer.Integral += (int)signEnum;
+            if (Update(customer, Transaction))
+            {
+                CustomerSign sign = new CustomerSign();
+                sign.CustomerID = CustomerId;
+                sign.Integral = (int)signEnum;
+                sign.Mode = signEnum.ToString();
+                if (Add(sign, Transaction))
+                {
+                    //提交事务
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("添加积分记录异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("会员签到异常！");
+            }
+        }
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="signEnum"></param>
+        /// <returns></returns>
+        public bool SendMessage(int CustomerId, string OrederId, MessageTypeEnum MessageType)
+        {
+            Information Message = new Information();
+            Message.CustomerID = CustomerId;
+            Message.OrderID = OrederId;
+            string message = string.Empty;
+            switch (MessageType)
+            {
+                case MessageTypeEnum.订单确认通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已经确认付款，请耐心等候发货！", OrederId);
+                    break;
+                case MessageTypeEnum.订单发货通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已经发货，请耐心等候商品送达！", OrederId);
+                    break;
+                case MessageTypeEnum.订单取消通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已经取消！", OrederId);
+                    break;
+                case MessageTypeEnum.订单申请退款通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已申请退款，请耐心等候售后处理！", OrederId);
+                    break;
+                case MessageTypeEnum.订单申请退货通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已申请退货，请耐心等候售后处理！", OrederId);
+                    break;
+                case MessageTypeEnum.订单退款完成通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已退款完成！", OrederId);
+                    break;
+                case MessageTypeEnum.订单退货完成通知:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已退货完成！", OrederId);
+                    break;
+            }
+            if (Add(Message, Transaction))
+            {
+                return Commit();
+            }
+            else
+            {
+                throw new Exception("发送消息异常！");
+            }
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public List<Information> GetMessageList(int CustomerId, PageData page)
+        {
+            int total = 0;
+            List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
+            return list;
+        }
+
+        /// <summary>
+        /// 订单确认（支付）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        public bool OrderPay(string OrederId)
+        {
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            if (order != null)
+            {
+                order.OrderState = OrderStateEnum.WaitShipment;
+                order.PayTime = DateTime.Now;
+                if (Update(order, Transaction))
+                {
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("更新订单异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("查无订单！");
+            }
         }
 
         #endregion
