@@ -35,7 +35,39 @@ namespace StarmileFx.Models.Enum
         /// <summary>
         /// 待收货
         /// </summary>
-        WaitDelivery = 3
+        WaitDelivery = 3,
+        /// <summary>
+        /// 已完成
+        /// </summary>
+        Completed = 4,
+        /// <summary>
+        /// 取消订单
+        /// </summary>
+        Canceled = 5,
+        /// <summary>
+        /// 申请退款
+        /// </summary>
+        ApplyRefund = 6,
+        /// <summary>
+        /// 申请退货
+        /// </summary>
+        ApplyReturns = 7,
+        /// <summary>
+        /// 申请换货
+        /// </summary>
+        ApplyExchange = 8,
+        /// <summary>
+        /// 退款完成
+        /// </summary>
+        Refunded = 9,
+        /// <summary>
+        /// 退货完成
+        /// </summary>
+        Returned = 10,
+        /// <summary>
+        /// 换货完成
+        /// </summary>
+        Exchanged = 11
     }
 
     /// <summary>
@@ -111,30 +143,38 @@ namespace StarmileFx.Models.Enum
         /// <summary>
         /// 订单确认通知
         /// </summary>
-        订单确认通知 = 1,
+        Confirm = 1,
         /// <summary>
         /// 订单取消通知
         /// </summary>
-        订单取消通知 = 2,
+        Cancel = 2,
         /// <summary>
         /// 订单发货通知
         /// </summary>
-        订单发货通知 = 3,
+        Shipment = 3,
         /// <summary>
         /// 订单申请退款通知
         /// </summary>
-        订单申请退款通知 = 4,
+        ApplyRefund = 4,
         /// <summary>
         /// 订单申请退货通知
         /// </summary>
-        订单申请退货通知 = 5,
+        ApplyReturns = 5,
+        /// <summary>
+        /// 订单申请换货通知
+        /// </summary>
+        ApplyExchange = 6,
         /// <summary>
         /// 订单退款完成通知
         /// </summary>
-        订单退款完成通知 = 6,
+        Refunded = 7,
         /// <summary>
         /// 订单退货完成通知
         /// </summary>
-        订单退货完成通知 = 7,
+        Returned = 8,
+        /// <summary>
+        /// 订单换货完成通知
+        /// </summary>
+        Exchanged = 9
     }
 }

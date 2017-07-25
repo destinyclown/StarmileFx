@@ -65,12 +65,13 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="shopCart">购物车</param>
         /// <returns></returns>
-        public string CreateOrderParent([FromForm]ShopCart shopCart)
+        [HttpPost]
+        public string OrderCreate([FromForm]ShopCart shopCart)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.CreateOrderParent(shopCart);
+                responseModel.Content = _YoungoServer.OrderCreate(shopCart);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -83,6 +84,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="orderId">订单编号</param>
         /// <returns></returns>
+        [HttpPost]
         public string OrderPay(string orderId)
         {
             Func<ResponseResult> funcAction = () =>
@@ -100,13 +102,34 @@ namespace StarmileFx.Api.Controllers
         /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="orderId">订单编号</param>
+        /// <param name="IsDelet">是否删除</param>
         /// <returns></returns>
-        public string CancelOrderParent(string orderId)
+        [HttpPost]
+        public string OrderCancel(string orderId, bool IsDelet = false)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.CancelOrderParent(orderId);
+                responseModel.Content = _YoungoServer.OrderCancel(orderId, IsDelet);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 完成订单（确认收货）
+        /// </summary>
+        /// <param name="orderId">订单编号</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string OrderComplete(string orderId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.OrderComplete(orderId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -173,6 +196,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CommentFrom"></param>
         /// <returns></returns>
+        [HttpPost]
         public string SubmitComment([FromForm]CommentFrom CommentFrom)
         {
             Func<ResponseResult> funcAction = () =>
@@ -191,6 +215,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="DeliveryAddressFrom"></param>
         /// <returns></returns>
+        [HttpPost]
         public string SubmitDeliveryAddress([FromForm]DeliveryAddressFrom DeliveryAddressFrom)
         {
             Func<ResponseResult> funcAction = () =>
@@ -210,6 +235,7 @@ namespace StarmileFx.Api.Controllers
         /// <param name="CustomerId"></param>
         /// <param name="page"></param>
         /// <returns></returns>
+        [HttpPost]
         public string GetMessageList(int CustomerId, [FromForm]PageData page)
         {
             Func<ResponseResult> funcAction = () =>

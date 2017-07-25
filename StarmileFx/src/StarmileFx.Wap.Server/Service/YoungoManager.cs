@@ -57,6 +57,18 @@ namespace StarmileFx.Wap.Server.Service
         }
 
         /// <summary>
+        /// 获取购物车
+        /// </summary>
+        /// <param name="CustomerID"></param>
+        /// <returns></returns>
+        public ShopCart GetShopCart(int CustomerID)
+        {
+            string key = "ShopCart_" + CustomerID.ToString();
+            ShopCart shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            return shopCart;
+        }
+
+        /// <summary>
         /// 清空购物车
         /// </summary>
         /// <param name="CustomerID"></param>
@@ -75,25 +87,13 @@ namespace StarmileFx.Wap.Server.Service
         }
 
         /// <summary>
-        /// 获取购物车
-        /// </summary>
-        /// <param name="CustomerID"></param>
-        /// <returns></returns>
-        public ShopCart GetShopCart(int CustomerID)
-        {
-            string key = "ShopCart_" + CustomerID.ToString();
-            ShopCart shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
-            return shopCart;
-        }
-
-        /// <summary>
         /// 修改购物车
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
         public bool ModifyShopCart(ShopCart shopCart)
         {
-            string key = "ShopCart_" + shopCart.CustomerID.ToString();
+            string key = "TemporaryCart_" + shopCart.CustomerID.ToString();
             if (_IRedisServer.KeyDelete(key))
             {
                 return _IRedisServer.SetStringKey(key, shopCart);
@@ -102,6 +102,37 @@ namespace StarmileFx.Wap.Server.Service
             {
                 throw new Exception("删除购物车失败！");
             }
+        }
+
+        /// <summary>
+        /// 创建购物车（临时10分钟）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public bool CreateTemporaryShopCart(ShopCart shopCart)
+        {
+            string key = "TemporaryCart_" + shopCart.CustomerID.ToString();
+            TimeSpan time = DateTime.Now.AddMinutes(10) - DateTime.Now;
+            if (!_IRedisServer.KeyExists(key))
+            {
+                return _IRedisServer.SetStringKey(key, shopCart, time);
+            }
+            else
+            {
+                throw new Exception("用户购物车已存在！");
+            }
+        }
+
+        /// <summary>
+        /// 获取购物车（临时10分钟）
+        /// </summary>
+        /// <param name="CustomerID"></param>
+        /// <returns></returns>
+        public ShopCart GetTemporaryShopCart(int CustomerID)
+        {
+            string key = "ShopCart_" + CustomerID.ToString();
+            ShopCart shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            return shopCart;
         }
         #endregion 购物车ShopCart
 
@@ -248,11 +279,11 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        public Task<ResponseResult<bool>> CreateOrderParent(ShopCart shopCart)
+        public Task<ResponseResult<bool>> OrderCreate(ShopCart shopCart)
         {
             return Task.Run(() =>
             {
-                return CreateOrderParentAsync(shopCart);
+                return OrderCreateAsync(shopCart);
             });
         }
 
@@ -261,13 +292,13 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<bool>> CreateOrderParentAsync(ShopCart shopCart)
+        public async Task<ResponseResult<bool>> OrderCreateAsync(ShopCart shopCart)
         {
             string Action = "Youngo";
-            string Function = "/CreateOrderParent";
+            string Function = "/OrderCreate";
             string Parameters = string.Empty;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select, shopCart);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, shopCart);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
@@ -298,7 +329,7 @@ namespace StarmileFx.Wap.Server.Service
             string Function = "/OrderPay";
             string Parameters = string.Format("orderId={0}", orderId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
@@ -310,11 +341,11 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        public Task<ResponseResult<bool>> CancelOrderParent(string orderId)
+        public Task<ResponseResult<bool>> OrderCancel(string orderId)
         {
             return Task.Run(() =>
             {
-                return CancelOrderParentAsync(orderId);
+                return OrderCancelAsync(orderId);
             });
         }
 
@@ -323,13 +354,75 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<bool>> CancelOrderParentAsync(string orderId)
+        public async Task<ResponseResult<bool>> OrderCancelAsync(string orderId)
         {
             string Action = "Youngo";
-            string Function = "/CancelOrderParent";
+            string Function = "/OrderCancel";
             string Parameters = string.Format("orderId={0}", orderId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 删除订单
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<bool>> OrderDelete(string orderId)
+        {
+            return Task.Run(() =>
+            {
+                return OrderDeleteAsync(orderId);
+            });
+        }
+
+        /// <summary>
+        /// 删除订单（异步）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<bool>> OrderDeleteAsync(string orderId)
+        {
+            string Action = "Youngo";
+            string Function = "/OrderCancel";
+            string Parameters = string.Format("orderId={0}&IsDelet=true", orderId); ;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 完成订单（确认收货）
+        /// </summary>
+        /// <param name="orderId">订单编号</param>
+        /// <returns></returns>
+        public Task<ResponseResult<bool>> OrderComplete(string orderId)
+        {
+            return Task.Run(() =>
+            {
+                return OrderCompleteAsync(orderId);
+            });
+        }
+
+        /// <summary>
+        /// 完成订单（异步）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<bool>> OrderCompleteAsync(string orderId)
+        {
+            string Action = "Youngo";
+            string Function = "/OrderComplete";
+            string Parameters = string.Format("orderId={0}", orderId); ;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);

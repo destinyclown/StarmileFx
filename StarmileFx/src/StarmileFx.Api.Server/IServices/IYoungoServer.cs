@@ -131,14 +131,29 @@ namespace StarmileFx.Api.Server.IServices
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        bool CreateOrderParent(ShopCart shopCart);
+        bool OrderCreate(ShopCart shopCart);
 
         /// <summary>
         /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="OrderId"></param>
+        /// <param name="IsDelet">是否删除</param>
         /// <returns></returns>
-        bool CancelOrderParent(string OrderId);
+        bool OrderCancel(string OrderId, bool IsDelet = false);
+
+        /// <summary>
+        /// 订单确认（支付）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        bool OrderPay(string OrederId);
+
+        /// <summary>
+        /// 完成订单（确认收货）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        bool OrderComplete(string OrederId);
 
         /// <summary>
         /// 会员积分变动记录
@@ -193,12 +208,6 @@ namespace StarmileFx.Api.Server.IServices
         /// <returns></returns>
         List<Information> GetMessageList(int CustomerId, PageData page);
 
-        /// <summary>
-        /// 订单确认（支付）
-        /// </summary>
-        /// <param name="OrederId"></param>
-        /// <returns></returns>
-        bool OrderPay(string OrederId);
         #endregion
 
         #region 网站后台

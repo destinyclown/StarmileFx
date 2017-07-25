@@ -63,7 +63,7 @@ namespace StarmileFx.Wap.Server.IService
         /// <returns></returns>
         Task<List<DeliveryAddress>> GetDeliveryAddressList(int CustomerId);
         /// <summary>
-        /// 确认订单
+        /// 确认订单（付款）
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
@@ -73,6 +73,24 @@ namespace StarmileFx.Wap.Server.IService
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        Task<ResponseResult<bool>> CreateOrderParent(ShopCart shopCart);
+        Task<ResponseResult<bool>> OrderCreate(ShopCart shopCart);
+        /// <summary>
+        /// 取消订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        Task<ResponseResult<bool>> OrderCancel(string orderId);
+        /// <summary>
+        /// 删除订单（非物理删除）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        Task<ResponseResult<bool>> OrderDelete(string orderId);
+        /// <summary>
+        /// 完成订单（确认收货）
+        /// </summary>
+        /// <param name="shopCart"></param>
+        /// <returns></returns>
+        Task<ResponseResult<bool>> OrderComplete(string orderId);
     }
 }

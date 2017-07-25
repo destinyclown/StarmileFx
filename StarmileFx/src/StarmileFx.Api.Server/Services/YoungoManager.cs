@@ -286,7 +286,7 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="shopCart"></param>
         /// <returns></returns>
-        public bool CreateOrderParent(ShopCart shopCart)
+        public bool OrderCreate(ShopCart shopCart)
         {
             if (shopCart == null)
             {
@@ -342,8 +342,9 @@ namespace StarmileFx.Api.Server.Services
         /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="OrderId"></param>
+        /// <param name="IsDelet">是否删除</param>
         /// <returns></returns>
-        public bool CancelOrderParent(string OrderId)
+        public bool OrderCancel(string OrderId, bool IsDelet = false)
         {
             if (string.IsNullOrWhiteSpace(OrderId))
             {
@@ -355,15 +356,70 @@ namespace StarmileFx.Api.Server.Services
             {
                 throw new Exception("订单信息为空，请检查！");
             }
-            order.IsDelet = true;
+            order.OrderState = OrderStateEnum.Canceled;
+            order.IsDelet = IsDelet;
             if (Update(order, Transaction))
             {
                 //发送通知
-                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.订单取消通知);
+                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Cancel);
             }
             else
             {
                 throw new Exception("删除订单异常！");
+            }
+        }
+
+        /// <summary>
+        /// 订单确认（支付）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        public bool OrderPay(string OrederId)
+        {
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            if (order != null && order.OrderState == OrderStateEnum.WaitPayment)
+            {
+                order.OrderState = OrderStateEnum.WaitShipment;
+                order.PayTime = DateTime.Now;
+                if (Update(order, Transaction))
+                {
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("更新订单异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("查无订单或订单状态异常！");
+            }
+        }
+
+        /// <summary>
+        /// 完成订单（确认收货）
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <returns></returns>
+        public bool OrderComplete(string OrederId)
+        {
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            if (order != null && order.OrderState == OrderStateEnum.WaitDelivery)
+            {
+                order.OrderState = OrderStateEnum.WaitShipment;
+                order.PayTime = DateTime.Now;
+                if (Update(order, Transaction))
+                {
+                    return Commit();
+                }
+                else
+                {
+                    throw new Exception("更新订单异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("查无订单或订单状态异常！");
             }
         }
 
@@ -506,26 +562,32 @@ namespace StarmileFx.Api.Server.Services
             string message = string.Empty;
             switch (MessageType)
             {
-                case MessageTypeEnum.订单确认通知:
+                case MessageTypeEnum.Confirm:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已经确认付款，请耐心等候发货！", OrederId);
                     break;
-                case MessageTypeEnum.订单发货通知:
+                case MessageTypeEnum.Shipment:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已经发货，请耐心等候商品送达！", OrederId);
                     break;
-                case MessageTypeEnum.订单取消通知:
+                case MessageTypeEnum.Cancel:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已经取消！", OrederId);
                     break;
-                case MessageTypeEnum.订单申请退款通知:
+                case MessageTypeEnum.ApplyRefund:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已申请退款，请耐心等候售后处理！", OrederId);
                     break;
-                case MessageTypeEnum.订单申请退货通知:
+                case MessageTypeEnum.ApplyReturns:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已申请退货，请耐心等候售后处理！", OrederId);
                     break;
-                case MessageTypeEnum.订单退款完成通知:
+                case MessageTypeEnum.ApplyExchange:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已申请换货，请耐心等候售后处理！", OrederId);
+                    break;
+                case MessageTypeEnum.Refunded:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已退款完成！", OrederId);
                     break;
-                case MessageTypeEnum.订单退货完成通知:
+                case MessageTypeEnum.Returned:
                     message = string.Format("尊敬的用户，您好：您的订单{0}已退货完成！", OrederId);
+                    break;
+                case MessageTypeEnum.Exchanged:
+                    message = string.Format("尊敬的用户，您好：您的订单{0}已换货完成！", OrederId);
                     break;
             }
             if (Add(Message, Transaction))
@@ -549,33 +611,6 @@ namespace StarmileFx.Api.Server.Services
             int total = 0;
             List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
             return list;
-        }
-
-        /// <summary>
-        /// 订单确认（支付）
-        /// </summary>
-        /// <param name="OrederId"></param>
-        /// <returns></returns>
-        public bool OrderPay(string OrederId)
-        {
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
-            if (order != null)
-            {
-                order.OrderState = OrderStateEnum.WaitShipment;
-                order.PayTime = DateTime.Now;
-                if (Update(order, Transaction))
-                {
-                    return Commit();
-                }
-                else
-                {
-                    throw new Exception("更新订单异常！");
-                }
-            }
-            else
-            {
-                throw new Exception("查无订单！");
-            }
         }
 
         #endregion
