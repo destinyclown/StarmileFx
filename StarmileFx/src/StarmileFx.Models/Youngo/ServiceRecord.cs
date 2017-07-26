@@ -16,6 +16,10 @@ namespace StarmileFx.Models.Youngo
         /// </summary>
         public string OrderID { get; set; }
         /// <summary>
+        /// 用户编号
+        /// </summary>
+        public int CustomerID { get; set; }
+        /// <summary>
         /// 售后类型
         /// </summary>
         public ServiceTypeEnum Type { get; set; }

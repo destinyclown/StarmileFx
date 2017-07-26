@@ -24,6 +24,10 @@ namespace StarmileFx.Models.Wap
         /// </summary>
         public float CostPrice { get; set; }
         /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remarks { get; set; }
+        /// <summary>
         /// 购买价格
         /// </summary>
         public float PurchasePrice { get; set; }
@@ -40,13 +44,21 @@ namespace StarmileFx.Models.Wap
         /// </summary>
         public bool IsTop { get; set; }
         /// <summary>
-        /// 库存
+        /// 销量
         /// </summary>
-        public int Stock { get; set; }
+        public int SalesVolume { get; set; }
         /// <summary>
         /// 品牌
         /// </summary>
         public string Brand { get; set; }
+        /// <summary>
+        /// 快递名称
+        /// </summary>
+        public string ExpressName { get; set; }
+        /// <summary>
+        /// 快递说明
+        /// </summary>
+        public string Explain { get; set; }
         /// <summary>
         /// 品牌介绍
         /// </summary>

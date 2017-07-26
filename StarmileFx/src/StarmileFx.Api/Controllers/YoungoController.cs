@@ -80,17 +80,18 @@ namespace StarmileFx.Api.Controllers
         }
 
         /// <summary>
-        /// 确认订单（支付）
+        /// 订单确认（支付）
         /// </summary>
-        /// <param name="orderId">订单编号</param>
+        /// <param name="OrderId">订单编号</param>
+        /// <param name="TransactionId">交易编号</param>
         /// <returns></returns>
         [HttpPost]
-        public string OrderPay(string orderId)
+        public string OrderPay(string OrderId, string TransactionId)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderPay(orderId);
+                responseModel.Content = _YoungoServer.OrderPay(OrderId, TransactionId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

@@ -48,9 +48,9 @@ namespace StarmileFx.Models.Youngo
         /// </summary>
         public float Weight { get; set; }
         /// <summary>
-        /// 邮寄方式ID
+        /// 快递标识
         /// </summary>
-        public int PostID { get; set; }
+        public string ExpressCode { get; set; }
         /// <summary>
         /// 总价格
         /// </summary>

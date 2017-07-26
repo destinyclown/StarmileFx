@@ -207,20 +207,11 @@ namespace StarmileFx.Api.Server.Services
                         INNER JOIN Customer AS c ON cc.CustomerID = c.ID";
             MySqlParameter[] parameters = new MySqlParameter[]{};
             _CacheProductList.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
+            _CacheProductList.ExpressList = List<Express>(a => a.IsDefault & !a.IsStop, out total).ToList();
             return _CacheProductList;
         }
 
-        /// <summary>
-        /// 获取用户信息
-        /// </summary>
-        /// <param name="WeCharKey"></param>
-        /// <returns></returns>
-        public Customer GetCustomer(string WeCharKey)
-        {
-            Customer customer = Get<Customer>(a => a.State & a.WeCharKey == WeCharKey);
-            return customer;
-        }
-
+        #region 订单相关
         /// <summary>
         /// 获取订单列表
         /// </summary>
@@ -372,18 +363,35 @@ namespace StarmileFx.Api.Server.Services
         /// <summary>
         /// 订单确认（支付）
         /// </summary>
-        /// <param name="OrederId"></param>
+        /// <param name="OrderId">订单编号</param>
+        /// <param name="TransactionId">交易编号</param>
         /// <returns></returns>
-        public bool OrderPay(string OrederId)
+        public bool OrderPay(string OrderId, string TransactionId)
         {
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            if (string.IsNullOrEmpty(OrderId) || string.IsNullOrEmpty(TransactionId))
+            {
+                throw new Exception("订单编号或交易编号不能为空！");
+            }
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrderId);
             if (order != null && order.OrderState == OrderStateEnum.WaitPayment)
             {
                 order.OrderState = OrderStateEnum.WaitShipment;
                 order.PayTime = DateTime.Now;
                 if (Update(order, Transaction))
                 {
-                    return Commit();
+                    TransactionRecord tr = new TransactionRecord();
+                    tr.OrderID = OrderId;
+                    tr.TotalPrice = order.TotalPrice;
+                    tr.TransactionID = TransactionId;
+                    tr.Type = PaymentTypeEnum.WeChatPayment;
+                    if (Add(tr, Transaction))
+                    {
+                        return Commit();
+                    }
+                    else
+                    {
+                        throw new Exception("添加交易日志异常！");
+                    }
                 }
                 else
                 {
@@ -421,6 +429,80 @@ namespace StarmileFx.Api.Server.Services
             {
                 throw new Exception("查无订单或订单状态异常！");
             }
+        }
+
+        /// <summary>
+        /// 订单申请售后
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <param name="Type"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        public bool OrderServiceApply(string OrederId, ServiceTypeEnum Type, string Content)
+        {
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            if (order != null && order.OrderState == OrderStateEnum.Completed)
+            {
+                ServiceRecord sr = new ServiceRecord();
+                sr.Content = Content;
+                sr.CustomerID = order.CustomerID;
+                sr.Type = Type;
+                sr.OrderID = OrederId;
+                if (Add(sr, Transaction))
+                {
+                    order.IsDelet = true;
+                    switch (Type)
+                    {
+                        case ServiceTypeEnum.Exchange:
+                            order.OrderState = OrderStateEnum.ApplyExchange;
+                            break;
+                        case ServiceTypeEnum.Refund:
+                            order.OrderState = OrderStateEnum.ApplyRefund;
+                            break;
+                        default:
+                            order.OrderState = OrderStateEnum.ApplyReturns;
+                            break;
+                    }
+                    if (Update(order, Transaction))
+                    {
+                        //发送通知
+                        switch (Type)
+                        {
+                            case ServiceTypeEnum.Exchange:
+                                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.ApplyExchange);
+                            case ServiceTypeEnum.Refund:
+                                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.ApplyRefund);
+                            default:
+                                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.ApplyReturns);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("删除订单异常！");
+                    }
+                }
+                else
+                {
+                    throw new Exception("添加售后记录订单异常！");
+                }
+            }
+            else
+            {
+                throw new Exception("查无订单或订单状态异常！");
+            }
+        }
+        #endregion 订单相关
+
+        #region 会员相关
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="WeCharKey"></param>
+        /// <returns></returns>
+        public Customer GetCustomer(string WeCharKey)
+        {
+            Customer customer = Get<Customer>(a => a.State & a.WeCharKey == WeCharKey);
+            return customer;
         }
 
         /// <summary>
@@ -612,6 +694,7 @@ namespace StarmileFx.Api.Server.Services
             List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
             return list;
         }
+        #endregion 会员相关
 
         #endregion
 
@@ -825,18 +908,18 @@ namespace StarmileFx.Api.Server.Services
         #endregion
 
         #region Post
-        public Post GetPost(int Id)
+        public Express GetPost(int Id)
         {
-            Post Post = new Post();
+            Express Post = new Express();
             return Post;
         }
 
-        public bool AddPost(Post Post)
+        public bool AddPost(Express Post)
         {
             return false;
         }
 
-        public bool ModifyPost(Post Post)
+        public bool ModifyPost(Express Post)
         {
             return false;
         }

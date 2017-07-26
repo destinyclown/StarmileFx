@@ -27,13 +27,21 @@
                     <del class="old">$@Model.CostPrice</del>
                 </div>
                 <div class="proSale">
-                    <span>@Model.Stock</span>人已购买
+                    <span>@Model.SalesVolume</span>人已购买
                 </div>
             </div>
             <div class="proDesc">@Model.Introduce</div>
             <div class="productDataItem">
                 <label>品牌</label>
                 <span>@Model.Brand</span>
+            </div>
+            <div class="productDataItem">
+                <label>物流</label>
+                <span>@Model.Explain</span>
+            </div>
+            <div class="productDataItem">
+                <label>服务</label>
+                <span>@Model.Remarks</span>
             </div>
             <!-- end.proBar -->
             <div class="proTabBox">

@@ -27,6 +27,10 @@ namespace StarmileFx.Models.Youngo
         /// </summary>
         public string EnName { get; set; }
         /// <summary>
+        /// 快递标识
+        /// </summary>
+        public string ExpressCode { get; set; }
+        /// <summary>
         /// 重量
         /// </summary>
         public float Weight { get; set; }
@@ -50,6 +54,10 @@ namespace StarmileFx.Models.Youngo
         /// 备注
         /// </summary>
         public string Remarks { get; set; }
+        /// <summary>
+        /// 销量
+        /// </summary>
+        public int SalesVolume { get; set; }
         /// <summary>
         /// 库存
         /// </summary>

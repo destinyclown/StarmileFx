@@ -144,9 +144,10 @@ namespace StarmileFx.Api.Server.IServices
         /// <summary>
         /// 订单确认（支付）
         /// </summary>
-        /// <param name="OrederId"></param>
+        /// <param name="OrderId">订单编号</param>
+        /// <param name="TransactionId">交易编号</param>
         /// <returns></returns>
-        bool OrderPay(string OrederId);
+        bool OrderPay(string OrderId, string TransactionId);
 
         /// <summary>
         /// 完成订单（确认收货）
@@ -207,6 +208,15 @@ namespace StarmileFx.Api.Server.IServices
         /// <param name="page"></param>
         /// <returns></returns>
         List<Information> GetMessageList(int CustomerId, PageData page);
+
+        /// <summary>
+        /// 订单申请售后
+        /// </summary>
+        /// <param name="OrederId"></param>
+        /// <param name="Type"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        bool OrderServiceApply(string OrederId, ServiceTypeEnum Type, string Content);
 
         #endregion
 
@@ -303,11 +313,11 @@ namespace StarmileFx.Api.Server.IServices
         #endregion
 
         #region Post
-        Post GetPost(int id);
+        Express GetPost(int id);
 
-        bool AddPost(Post Post);
+        bool AddPost(Express Post);
 
-        bool ModifyPost(Post Post);
+        bool ModifyPost(Express Post);
 
         bool DeletePost(int id);
         #endregion

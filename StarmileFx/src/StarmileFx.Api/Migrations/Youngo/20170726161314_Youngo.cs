@@ -134,6 +134,24 @@ namespace StarmileFx.Api.Migrations.Youngo
                 });
 
             migrationBuilder.CreateTable(
+                name: "Express",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    Explain = table.Column<string>(nullable: true),
+                    ExpressCode = table.Column<string>(nullable: true),
+                    ExpressName = table.Column<string>(nullable: true),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    IsStop = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Express", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedback",
                 columns: table => new
                 {
@@ -214,6 +232,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     DeliveryAddressID = table.Column<int>(nullable: false),
                     DeliveryTime = table.Column<DateTime>(nullable: true),
                     DeliveryUser = table.Column<string>(nullable: true),
+                    ExpressCode = table.Column<string>(nullable: true),
                     ExpressPrice = table.Column<float>(nullable: false),
                     FinishTime = table.Column<DateTime>(nullable: true),
                     IsDelay = table.Column<bool>(nullable: false),
@@ -227,7 +246,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     PackPrice = table.Column<float>(nullable: false),
                     PayTime = table.Column<DateTime>(nullable: true),
                     PaymentType = table.Column<int>(nullable: false),
-                    PostID = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<float>(nullable: false),
                     TraceID = table.Column<string>(nullable: true),
                     Weight = table.Column<float>(nullable: false)
@@ -252,22 +270,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                 });
 
             migrationBuilder.CreateTable(
-                name: "Post",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    CreatTime = table.Column<DateTime>(nullable: false),
-                    IsStop = table.Column<bool>(nullable: false),
-                    PostCode = table.Column<string>(nullable: true),
-                    PostName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Post", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -279,6 +281,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CostPrice = table.Column<float>(nullable: false),
                     CreatTime = table.Column<DateTime>(nullable: false),
                     EnName = table.Column<string>(nullable: true),
+                    ExpressCode = table.Column<string>(nullable: true),
                     Introduce = table.Column<string>(nullable: true),
                     IsClearStock = table.Column<bool>(nullable: false),
                     IsDelete = table.Column<bool>(nullable: false),
@@ -289,6 +292,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     ProductID = table.Column<string>(nullable: true),
                     PurchasePrice = table.Column<float>(nullable: false),
                     Remarks = table.Column<string>(nullable: true),
+                    SalesVolume = table.Column<int>(nullable: false),
                     State = table.Column<bool>(nullable: false),
                     Stock = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false),
@@ -324,6 +328,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                         .Annotation("MySQL:AutoIncrement", true),
                     Content = table.Column<string>(nullable: true),
                     CreatTime = table.Column<DateTime>(nullable: false),
+                    CustomerID = table.Column<int>(nullable: false),
                     IsHandle = table.Column<bool>(nullable: false),
                     OrderID = table.Column<string>(nullable: true),
                     Remarks = table.Column<string>(nullable: true),
@@ -444,6 +449,9 @@ namespace StarmileFx.Api.Migrations.Youngo
                 name: "DeliveryAddress");
 
             migrationBuilder.DropTable(
+                name: "Express");
+
+            migrationBuilder.DropTable(
                 name: "Feedback");
 
             migrationBuilder.DropTable(
@@ -460,9 +468,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
             migrationBuilder.DropTable(
                 name: "OrderEstablish");
-
-            migrationBuilder.DropTable(
-                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "Product");

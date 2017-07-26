@@ -30,7 +30,7 @@ namespace StarmileFx.Wap.Controllers
         {
             CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
             ProductWap _product = new ProductWap();
-            Product product = ProductList.ProductList.Where(a => a.ProductID == productid).ToList()[0];
+            Product product = ProductList.ProductList.Find(a => a.ProductID == productid);
             List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
             List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
             _product.ProductID = productid;
@@ -38,7 +38,9 @@ namespace StarmileFx.Wap.Controllers
             _product.PurchasePrice = product.PurchasePrice;
             _product.Introduce = product.Introduce;
             _product.Type = product.Type;
-            _product.Stock = product.Stock;
+            _product.SalesVolume = product.SalesVolume;
+            _product.Explain = ProductList.ExpressList.Find(a => a.ExpressCode == product.ExpressCode).Explain;
+            _product.Remarks = product.Remarks;
             _product.CostPrice = product.CostPrice;
             _product.ResourcesList = resources;
             _product.CommentList = Comment;

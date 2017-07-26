@@ -183,14 +183,14 @@ namespace StarmileFx.Models.Enum
         /// <summary>
         /// 退款
         /// </summary>
-        Refunded = 1,
+        Refund = 1,
         /// <summary>
         /// 退货
         /// </summary>
-        Returned = 2,
+        Returns = 2,
         /// <summary>
-        /// 换货完成
+        /// 换货
         /// </summary>
-        Exchanged = 3
+        Exchange = 3
     }
 }

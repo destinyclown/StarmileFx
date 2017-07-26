@@ -28,5 +28,9 @@ namespace StarmileFx.Models.Redis
         /// 评论列表
         /// </summary>
         public List<ProductComment> CommentList { get; set; }
+        /// <summary>
+        /// 快递列表
+        /// </summary>
+        public List<Express> ExpressList { get; set; }
     }
 }

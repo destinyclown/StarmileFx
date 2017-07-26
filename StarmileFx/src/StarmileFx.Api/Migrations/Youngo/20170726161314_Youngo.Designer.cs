@@ -8,7 +8,7 @@ using StarmileFx.Api.Server.Data;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170726100852_Youngo")]
+    [Migration("20170726161314_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,6 +182,28 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.ToTable("DeliveryAddress");
                 });
 
+            modelBuilder.Entity("StarmileFx.Models.Youngo.Express", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<string>("Explain");
+
+                    b.Property<string>("ExpressCode");
+
+                    b.Property<string>("ExpressName");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<bool>("IsStop");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Express");
+                });
+
             modelBuilder.Entity("StarmileFx.Models.Youngo.Feedback", b =>
                 {
                     b.Property<int>("ID")
@@ -281,6 +303,8 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("DeliveryUser");
 
+                    b.Property<string>("ExpressCode");
+
                     b.Property<float>("ExpressPrice");
 
                     b.Property<DateTime?>("FinishTime");
@@ -307,8 +331,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<int>("PaymentType");
 
-                    b.Property<int>("PostID");
-
                     b.Property<float>("TotalPrice");
 
                     b.Property<string>("TraceID");
@@ -334,24 +356,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.ToTable("OrderEstablish");
                 });
 
-            modelBuilder.Entity("StarmileFx.Models.Youngo.Post", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatTime");
-
-                    b.Property<bool>("IsStop");
-
-                    b.Property<string>("PostCode");
-
-                    b.Property<string>("PostName");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Post");
-                });
-
             modelBuilder.Entity("StarmileFx.Models.Youngo.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -368,6 +372,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<DateTime>("CreatTime");
 
                     b.Property<string>("EnName");
+
+                    b.Property<string>("ExpressCode");
 
                     b.Property<string>("Introduce");
 
@@ -388,6 +394,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<float>("PurchasePrice");
 
                     b.Property<string>("Remarks");
+
+                    b.Property<int>("SalesVolume");
 
                     b.Property<bool>("State");
 
@@ -456,6 +464,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreatTime");
+
+                    b.Property<int>("CustomerID");
 
                     b.Property<bool>("IsHandle");
 

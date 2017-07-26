@@ -213,7 +213,7 @@ namespace StarmileFx.Api.Server.Data
         public DbSet<OnLineOrderDetail> OnLineOrderDetail { get; set; }
         public DbSet<OnLineOrderParent> OnLineOrderParent { get; set; }
         public DbSet<OrderEstablish> OrderEstablish { get; set; }
-        public DbSet<Post> Post { get; set; }
+        public DbSet<Express> Express { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductType> ProductType { get; set; }
         public DbSet<SKUEstablish> SKUEstablish { get; set; }
