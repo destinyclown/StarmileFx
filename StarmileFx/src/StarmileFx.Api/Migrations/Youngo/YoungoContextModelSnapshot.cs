@@ -447,6 +447,28 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.ToTable("Resources");
                 });
 
+            modelBuilder.Entity("StarmileFx.Models.Youngo.ServiceRecord", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<bool>("IsHandle");
+
+                    b.Property<string>("OrderID");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ServiceRecord");
+                });
+
             modelBuilder.Entity("StarmileFx.Models.Youngo.SKUEstablish", b =>
                 {
                     b.Property<int>("ID")
@@ -475,6 +497,26 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.HasKey("ID");
 
                     b.ToTable("SreachHistory");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Youngo.TransactionRecord", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<string>("OrderID");
+
+                    b.Property<float>("TotalPrice");
+
+                    b.Property<string>("TransactionID");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TransactionRecord");
                 });
 
             modelBuilder.Entity("StarmileFx.Models.Youngo.ViewHistory", b =>

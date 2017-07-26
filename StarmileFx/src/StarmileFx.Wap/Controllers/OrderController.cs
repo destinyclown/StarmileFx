@@ -121,7 +121,7 @@ namespace StarmileFx.Wap.Controllers
                 return Json(result);
             }
             shopCart.OrderId = _YoungoServer.CreateOrderID();
-            ResponseResult<bool> responseResult = await _YoungoServer.CreateOrderParent(shopCart);
+            ResponseResult<bool> responseResult = await _YoungoServer.OrderCreate(shopCart);
             if (!responseResult.IsSuccess)
             {
                 result.ReasonDescription = responseResult.ErrorMsg;

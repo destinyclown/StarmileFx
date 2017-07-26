@@ -317,6 +317,24 @@ namespace StarmileFx.Api.Migrations.Youngo
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServiceRecord",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Content = table.Column<string>(nullable: true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    IsHandle = table.Column<bool>(nullable: false),
+                    OrderID = table.Column<string>(nullable: true),
+                    Remarks = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceRecord", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SKUEstablish",
                 columns: table => new
                 {
@@ -343,6 +361,23 @@ namespace StarmileFx.Api.Migrations.Youngo
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SreachHistory", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TransactionRecord",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    OrderID = table.Column<string>(nullable: true),
+                    TotalPrice = table.Column<float>(nullable: false),
+                    TransactionID = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionRecord", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -439,10 +474,16 @@ namespace StarmileFx.Api.Migrations.Youngo
                 name: "Resources");
 
             migrationBuilder.DropTable(
+                name: "ServiceRecord");
+
+            migrationBuilder.DropTable(
                 name: "SKUEstablish");
 
             migrationBuilder.DropTable(
                 name: "SreachHistory");
+
+            migrationBuilder.DropTable(
+                name: "TransactionRecord");
 
             migrationBuilder.DropTable(
                 name: "ViewHistory");

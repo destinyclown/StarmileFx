@@ -257,9 +257,9 @@ namespace StarmileFx.Api.Server.Services
 	                        op.CreatTime
                         FROM
 	                        OnLineOrderParent AS op
-                        INNER JOIN Onlineorderdetail AS od ON op.OrderID = od.OrderID
+                        INNER JOIN OnLineOrderDetail AS od ON op.OrderID = od.OrderID
                         INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
-                        WHERE op.IsDelet = 0 AND op.CustomerID = @customerId ";
+                        WHERE op.IsDelete = 0 AND op.CustomerID = @customerId ";
             if (OrderState != OrderStateEnum.All) {
                 sql += "AND op.OrderState = @orderState ";
             }

@@ -177,4 +177,20 @@ namespace StarmileFx.Models.Enum
         /// </summary>
         Exchanged = 9
     }
+
+    public enum ServiceTypeEnum : int
+    {
+        /// <summary>
+        /// 退款
+        /// </summary>
+        Refunded = 1,
+        /// <summary>
+        /// 退货
+        /// </summary>
+        Returned = 2,
+        /// <summary>
+        /// 换货完成
+        /// </summary>
+        Exchanged = 3
+    }
 }
