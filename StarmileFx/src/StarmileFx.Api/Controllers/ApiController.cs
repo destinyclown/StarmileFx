@@ -23,6 +23,11 @@ namespace StarmileFx.Api.Controllers
         public string CreateSystem()
         {
             SysRoles model = new SysRoles();
+            Email email = new Email();
+            email.Message = string.Format("用户于{0}启动StarmileFx.Api系统，请持续跟踪系统邮件！", DateTime.Now);
+            email.Subject = "启动StarmileFx.Api系统";
+            email.type = StarmileFx.Models.Enum.BaseEnum.EmailTypeEnum.Error;
+            EmailService.Add(email);
             BaseService.Insert(model, HttpContext);
             return "启动StarmileFx.Api系统！";
         }

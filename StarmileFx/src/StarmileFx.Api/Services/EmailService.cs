@@ -14,6 +14,8 @@ namespace StarmileFx.Api.Services
         // Lock对象，线程安全所用
         private static readonly object syncRoot = new object();
 
+        private static readonly object syncRoot2 = new object();
+
         private static EmailService _EmailService = new EmailService();
 
         /// <summary>
@@ -136,13 +138,12 @@ namespace StarmileFx.Api.Services
                 if (_EmailService._MessageList.Count > 0)
                 {
                     List<Email> wList = _EmailService._MessageList;
-                    lock (syncRoot)
+                    lock (syncRoot2)
                     {
-                        _EmailService._MessageList = new List<Email>();
-                        _EmailService.Send(wList);
-                        Thread.Sleep(10000);
+                        _EmailService._MessageList = new List<Email>();   
                     }
-                    
+                    _EmailService.Send(wList);
+                    Thread.Sleep(10000);
                 }
                 if (!IsStarted) return;
                 

@@ -212,9 +212,9 @@ namespace StarmileFx.Api.Services
             {
                 lock (syncRoot2)
                 {
-                    ClearTimeOut();
-                    Thread.Sleep(10000);
+                    ClearTimeOut();     
                 }
+                Thread.Sleep(10000);
             }
         }
 
