@@ -55,7 +55,7 @@ namespace StarmileFx.Web
             services.AddSession();
             services.AddMvc();
 
-            //读取节点为WebConfig的配置
+            //读取配置
             services.Configure<WebConfigModel>(Configuration.GetSection("WebConfig"));
             services.Configure<RedisModel>(Configuration.GetSection("Redis"));
             //services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));

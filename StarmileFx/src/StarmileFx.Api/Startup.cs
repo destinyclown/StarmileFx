@@ -47,6 +47,8 @@ namespace StarmileFx.Api
             services.AddDbContext<YoungoContext>(options => options.UseMySQL(Configuration.GetConnectionString("YoungoConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
             services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));
             services.AddMvc();
+            //读取配置
+            services.Configure<EmailModel>(Configuration.GetSection("EmailConfig"));
 
             // 添加应用程序服务。
             services.AddCoreServices();
