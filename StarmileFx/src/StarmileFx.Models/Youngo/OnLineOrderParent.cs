@@ -66,7 +66,7 @@ namespace StarmileFx.Models.Youngo
         /// <summary>
         /// 订单类型
         /// </summary>
-        public int OrderType { get; set; }
+        public OrderTypeEnum OrderType { get; set; }
         /// <summary>
         /// 用户备注
         /// </summary>
@@ -86,7 +86,7 @@ namespace StarmileFx.Models.Youngo
         /// <summary>
         /// 是否删除
         /// </summary>
-        public bool IsDelet { get; set; }
+        public bool IsDelete { get; set; }
         /// <summary>
         /// 是否易碎
         /// </summary>

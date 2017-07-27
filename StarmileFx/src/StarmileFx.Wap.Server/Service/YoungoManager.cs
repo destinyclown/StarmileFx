@@ -32,8 +32,8 @@ namespace StarmileFx.Wap.Server.Service
         public string CreateOrderID()
         {
             Random ran = new Random();
-            int RandKey = ran.Next(0, 9999);
-            string OrderID = "900" + Encryption.StrInCoded(DateTime.Now.ToString("yyyyMMddHHmmssffff")) + RandKey.ToString("0000");
+            int RandKey = ran.Next(0, 999999);
+            string OrderID = "Y0000" + DateTime.Now.ToString("yyMMdd") + RandKey.ToString("000000");
             return OrderID;
         }
 
@@ -389,7 +389,7 @@ namespace StarmileFx.Wap.Server.Service
         {
             string Action = "Youngo";
             string Function = "/OrderCancel";
-            string Parameters = string.Format("orderId={0}&IsDelet=true", orderId); ;
+            string Parameters = string.Format("orderId={0}&IsDelete=true", orderId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
             return await Task.Run(() =>

@@ -103,15 +103,15 @@ namespace StarmileFx.Api.Controllers
         /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="orderId">订单编号</param>
-        /// <param name="IsDelet">是否删除</param>
+        /// <param name="IsDelete">是否删除</param>
         /// <returns></returns>
         [HttpPost]
-        public string OrderCancel(string orderId, bool IsDelet = false)
+        public string OrderCancel(string orderId, bool IsDelete = false)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderCancel(orderId, IsDelet);
+                responseModel.Content = _YoungoServer.OrderCancel(orderId, IsDelete);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

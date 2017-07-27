@@ -8,7 +8,7 @@ using StarmileFx.Api.Server.Data;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170726161314_Youngo")]
+    [Migration("20170727115422_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -311,7 +311,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<bool>("IsDelay");
 
-                    b.Property<bool>("IsDelet");
+                    b.Property<bool>("IsDelete");
 
                     b.Property<bool>("IsDelivery");
 

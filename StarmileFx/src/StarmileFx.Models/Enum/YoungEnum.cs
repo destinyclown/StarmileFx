@@ -98,7 +98,11 @@ namespace StarmileFx.Models.Enum
     /// </summary>
     public enum OrderTypeEnum : int
     {
-
+        全部 = 0,
+        单条 = 1,
+        多条 = 2,
+        单条单数 = 3,
+        单条多件 = 4,
     }
 
     /// <summary>
@@ -178,6 +182,9 @@ namespace StarmileFx.Models.Enum
         Exchanged = 9
     }
 
+    /// <summary>
+    /// 售后类型
+    /// </summary>
     public enum ServiceTypeEnum : int
     {
         /// <summary>

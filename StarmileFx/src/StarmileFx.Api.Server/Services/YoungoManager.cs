@@ -289,14 +289,28 @@ namespace StarmileFx.Api.Server.Services
             OnLineOrderParent order = new OnLineOrderParent();
             order.DeliveryAddressID = shopCart.Address.ID;
             order.OrderID = shopCart.OrderId;
-            order.OrderState = shopCart.OrderState;
-            order.OrderType = 1;
+            order.OrderState = shopCart.OrderState;      
             order.PayTime = shopCart.PayTime;
             order.PaymentType = shopCart.PaymentType;
             order.CustomerRemarks = shopCart.CustomerRemarks;
             order.CustomerID = shopCart.CustomerID;
             order.TotalPrice = shopCart.TotalPrice;
-            order.IsDelet = false;
+            if (shopCart.ProductList.Count == 1)
+            {
+                if (shopCart.ProductList.Find(a => 1 == 1).Number == 1)
+                {
+                    order.OrderType = OrderTypeEnum.单条单数;
+                }
+                else
+                {
+                    order.OrderType = OrderTypeEnum.单条多件;
+                }
+            }
+            else
+            {
+                order.OrderType = OrderTypeEnum.多条;
+            }
+            order.IsDelete = false;
             if (Add(order, Transaction))
             {
                 //明细数据
@@ -333,22 +347,22 @@ namespace StarmileFx.Api.Server.Services
         /// 取消订单（非物理删除）
         /// </summary>
         /// <param name="OrderId"></param>
-        /// <param name="IsDelet">是否删除</param>
+        /// <param name="IsDelete">是否删除</param>
         /// <returns></returns>
-        public bool OrderCancel(string OrderId, bool IsDelet = false)
+        public bool OrderCancel(string OrderId, bool IsDelete = false)
         {
             if (string.IsNullOrWhiteSpace(OrderId))
             {
                 throw new Exception("订单号为空！");
             }
             OrderId = OrderId.ToUpper();
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID.Equals(OrderId) & a.IsDelet == false);
+            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID.Equals(OrderId) & a.IsDelete == false);
             if (order == null)
             {
                 throw new Exception("订单信息为空，请检查！");
             }
             order.OrderState = OrderStateEnum.Canceled;
-            order.IsDelet = IsDelet;
+            order.IsDelete = IsDelete;
             if (Update(order, Transaction))
             {
                 //发送通知
@@ -450,7 +464,7 @@ namespace StarmileFx.Api.Server.Services
                 sr.OrderID = OrederId;
                 if (Add(sr, Transaction))
                 {
-                    order.IsDelet = true;
+                    order.IsDelete = true;
                     switch (Type)
                     {
                         case ServiceTypeEnum.Exchange:
@@ -491,6 +505,8 @@ namespace StarmileFx.Api.Server.Services
                 throw new Exception("查无订单或订单状态异常！");
             }
         }
+
+
         #endregion 订单相关
 
         #region 会员相关

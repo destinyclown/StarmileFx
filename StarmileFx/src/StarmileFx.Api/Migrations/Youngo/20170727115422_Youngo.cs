@@ -236,7 +236,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     ExpressPrice = table.Column<float>(nullable: false),
                     FinishTime = table.Column<DateTime>(nullable: true),
                     IsDelay = table.Column<bool>(nullable: false),
-                    IsDelet = table.Column<bool>(nullable: false),
+                    IsDelete = table.Column<bool>(nullable: false),
                     IsDelivery = table.Column<bool>(nullable: false),
                     IsFragile = table.Column<int>(nullable: false),
                     IsRemoteArea = table.Column<bool>(nullable: false),

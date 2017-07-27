@@ -16,8 +16,8 @@ namespace StarmileFx.Api
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls("http://*:8001")
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

@@ -310,7 +310,7 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<bool>("IsDelay");
 
-                    b.Property<bool>("IsDelet");
+                    b.Property<bool>("IsDelete");
 
                     b.Property<bool>("IsDelivery");
 

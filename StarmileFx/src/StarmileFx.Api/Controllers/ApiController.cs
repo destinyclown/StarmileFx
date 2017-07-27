@@ -23,6 +23,8 @@ namespace StarmileFx.Api.Controllers
         public string CreateSystem()
         {
             var model = new SysRoles();
+            string message = string.Format("用户于{0}启动StarmileFx.Api系统，请持续跟踪系统邮件！", DateTime.Now);
+            Common.MailHelper.Send("757950169@qq.com", "启动StarmileFx.Api系统", message);
             BaseService.Insert(model, HttpContext);
             return "启动StarmileFx.Api系统！";
         }
