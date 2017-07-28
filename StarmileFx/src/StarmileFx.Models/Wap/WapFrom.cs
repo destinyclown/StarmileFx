@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Models.Enum;
 
 namespace StarmileFx.Models.Wap
 {
     public class WapFrom
     {
+        /// <summary>
+        /// 评论提交类
+        /// </summary>
         public class CommentFrom
         {
             /// <summary>
@@ -31,6 +35,9 @@ namespace StarmileFx.Models.Wap
             public int? Reply { get; set; }
         }
 
+        /// <summary>
+        /// 地址提交类
+        /// </summary>
         public class DeliveryAddressFrom
         {
             /// <summary>
@@ -96,6 +103,29 @@ namespace StarmileFx.Models.Wap
             /// 商品数量
             /// </summary>
             public string Number { get; set; }
+        }
+
+        /// <summary>
+        /// 意见反馈提交类
+        /// </summary>
+        public class FeedbackFrom
+        {
+            /// <summary>
+            /// 验证码
+            /// </summary>
+            public string validCode { get; set; }
+            /// <summary>
+            /// 意见类型
+            /// </summary>
+            public FeedbackTypeEnum Type { get; set; }
+            /// <summary>
+            /// 反馈内容
+            /// </summary>
+            public string Content { get; set; }
+            /// <summary>
+            /// 电话
+            /// </summary>
+            public string Phone { get; set; }
         }
     }
 }

@@ -212,9 +212,9 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<DateTime>("CreatTime");
 
-                    b.Property<string>("Email");
-
                     b.Property<string>("Phone");
+
+                    b.Property<int>("Type");
 
                     b.HasKey("ID");
 

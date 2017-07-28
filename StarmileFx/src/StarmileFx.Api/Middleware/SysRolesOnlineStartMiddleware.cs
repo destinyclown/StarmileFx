@@ -20,8 +20,8 @@ namespace StarmileFx.Api.Middleware
         public SysRolesOnlineStartMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IOptions<EmailModel> EmailModel)
         {
             _next = next;
-            _logger = loggerFactory.CreateLogger<SysRolesOnlineStartMiddleware>();
             _EmailModel = EmailModel;
+            _logger = loggerFactory.CreateLogger<SysRolesOnlineStartMiddleware>();
         }
 
         public async Task Invoke(HttpContext context)

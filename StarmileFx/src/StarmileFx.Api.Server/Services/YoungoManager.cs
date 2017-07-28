@@ -710,6 +710,27 @@ namespace StarmileFx.Api.Server.Services
             List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
             return list;
         }
+
+        /// <summary>
+        /// 提交反馈意见
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public bool SubmitFeedback(FeedbackFrom from)
+        {
+            Feedback model = new Feedback();
+            model.Content = from.Content;
+            model.Type = from.Type;
+            model.Phone = from.Phone;
+            if (Add(model, Transaction))
+            {
+                return Commit();
+            }
+            else
+            {
+                throw new Exception("发送消息异常！");
+            }
+        }
         #endregion 会员相关
 
         #endregion

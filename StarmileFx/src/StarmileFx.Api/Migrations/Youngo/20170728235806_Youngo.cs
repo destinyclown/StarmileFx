@@ -159,8 +159,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                         .Annotation("MySQL:AutoIncrement", true),
                     Content = table.Column<string>(nullable: true),
                     CreatTime = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true)
+                    Phone = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

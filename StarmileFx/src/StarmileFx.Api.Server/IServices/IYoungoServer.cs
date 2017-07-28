@@ -193,6 +193,13 @@ namespace StarmileFx.Api.Server.IServices
         DeliveryAddress GetDefaultAddress(int CustomerId);
 
         /// <summary>
+        /// 提交反馈意见
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        bool SubmitFeedback(FeedbackFrom from);
+
+        /// <summary>
         /// 发送消息
         /// </summary>
         /// <param name="CustomerId"></param>

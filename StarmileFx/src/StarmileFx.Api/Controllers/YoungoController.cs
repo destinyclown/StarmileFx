@@ -249,5 +249,23 @@ namespace StarmileFx.Api.Controllers
             };
             return ActionResponseGetString(funcAction);
         }
+
+        /// <summary>
+        /// 提交反馈意见
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public string SubmitFeedback([FromForm]FeedbackFrom from)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.SubmitFeedback(from);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
     }
 }

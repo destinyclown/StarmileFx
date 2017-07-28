@@ -200,4 +200,31 @@ namespace StarmileFx.Models.Enum
         /// </summary>
         Exchange = 3
     }
+
+    /// <summary>
+    /// 反馈类型
+    /// </summary>
+    public enum FeedbackTypeEnum : int
+    {
+        /// <summary>
+        /// BUG提交
+        /// </summary>
+        BUG提交 = 0,
+        /// <summary>
+        /// 功能意见
+        /// </summary>
+        功能意见 = 1,
+        /// <summary>
+        /// 页面意见
+        /// </summary>
+        页面意见 = 2,
+        /// <summary>
+        /// 操作意见
+        /// </summary>
+        操作意见 = 3,
+        /// <summary>
+        /// 其他
+        /// </summary>
+        其他 = 4
+    }
 }
