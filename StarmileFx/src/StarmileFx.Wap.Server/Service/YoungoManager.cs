@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using StarmileFx.Common;
 using StarmileFx.Common.Encryption;
 using StarmileFx.Models;
+using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
@@ -64,7 +65,15 @@ namespace StarmileFx.Wap.Server.Service
         public ShopCart GetShopCart(int CustomerID)
         {
             string key = "ShopCart_" + CustomerID.ToString();
-            ShopCart shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            ShopCart shopCart = new ShopCart();
+            if (_IRedisServer.KeyExists(key))
+            {
+                shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            }
+            else
+            {
+                return null;
+            }
             return shopCart;
         }
 
@@ -93,7 +102,7 @@ namespace StarmileFx.Wap.Server.Service
         /// <returns></returns>
         public bool ModifyShopCart(ShopCart shopCart)
         {
-            string key = "TemporaryCart_" + shopCart.CustomerID.ToString();
+            string key = "ShopCart_" + shopCart.CustomerID.ToString();
             if (_IRedisServer.KeyDelete(key))
             {
                 return _IRedisServer.SetStringKey(key, shopCart);
@@ -119,7 +128,14 @@ namespace StarmileFx.Wap.Server.Service
             }
             else
             {
-                throw new Exception("用户购物车已存在！");
+                if (_IRedisServer.KeyDelete(key))
+                {
+                    return _IRedisServer.SetStringKey(key, shopCart, time);
+                }
+                else
+                {
+                    throw new Exception("删除临时购物车失败！");
+                }
             }
         }
 
@@ -130,8 +146,16 @@ namespace StarmileFx.Wap.Server.Service
         /// <returns></returns>
         public ShopCart GetTemporaryShopCart(int CustomerID)
         {
-            string key = "ShopCart_" + CustomerID.ToString();
-            ShopCart shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            string key = "TemporaryCart_" + CustomerID.ToString();
+            ShopCart shopCart = new ShopCart();
+            if (_IRedisServer.KeyExists(key))
+            {
+                shopCart = _IRedisServer.GetStringKey<ShopCart>(key);
+            }
+            else
+            {
+                return null;
+            }
             return shopCart;
         }
         #endregion 购物车ShopCart
@@ -246,7 +270,7 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
-        public Task<List<DeliveryAddress>> GetDeliveryAddressList(int CustomerId)
+        public Task<ResponseResult<List<DeliveryAddress>>> GetDeliveryAddressList(int CustomerId)
         {
             return Task.Run(() =>
             {
@@ -259,7 +283,7 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
-        public async Task<List<DeliveryAddress>> GetDeliveryAddressListAsync(int CustomerId)
+        public async Task<ResponseResult<List<DeliveryAddress>>> GetDeliveryAddressListAsync(int CustomerId)
         {
             string Action = "Youngo";
             string Function = "/GetDeliveryAddressList";
@@ -268,7 +292,73 @@ namespace StarmileFx.Wap.Server.Service
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<List<DeliveryAddress>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<List<DeliveryAddress>>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<List<Information>>> GetMessageList(int CustomerId, int PageSize, int PageIndex)
+        {
+            return Task.Run(() =>
+            {
+                return GetMessageListAsync(CustomerId, PageSize, PageIndex);
+            });
+        }
+
+        /// <summary>
+        /// 获取消息列表（异步）
+        /// </summary>
+        /// <param name="CustomerId"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<List<Information>>> GetMessageListAsync(int CustomerId, int PageSize, int PageIndex)
+        {
+            string Action = "Youngo";
+            string Function = "/GetMessageList";
+            string Parameters = string.Format("CustomerId={0}&PageSize={1}&PageIndex={2}", CustomerId, PageSize, PageIndex);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<List<Information>>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="WeCharKey"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<Customer>> GetCustomer(string WeCharKey)
+        {
+            return Task.Run(() =>
+            {
+                return GetCustomerAsync(WeCharKey);
+            });
+        }
+
+        /// <summary>
+        /// 获取用户信息（异步）
+        /// </summary>
+        /// <param name="WeCharKey"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<Customer>> GetCustomerAsync(string WeCharKey)
+        {
+            string Action = "Youngo";
+            string Function = "/GetCustomer";
+            string Parameters = string.Format("WeCharKey={0}", WeCharKey);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject< ResponseResult<Customer>>(result);
             });
         }
         #endregion 用户中心
@@ -308,26 +398,28 @@ namespace StarmileFx.Wap.Server.Service
         /// <summary>
         /// 确认订单
         /// </summary>
-        /// <param name="shopCart"></param>
+        /// <param name="orderId"></param>
+        /// <param name="TransactionId"></param>
         /// <returns></returns>
-        public Task<ResponseResult<bool>> OrderPay(string orderId)
+        public Task<ResponseResult<bool>> OrderPay(string orderId, string TransactionId)
         {
             return Task.Run(() =>
             {
-                return OrderPayAsync(orderId);
+                return OrderPayAsync(orderId, TransactionId);
             });
         }
 
         /// <summary>
         /// 确认订单（异步）
         /// </summary>
-        /// <param name="shopCart"></param>
+        /// <param name="orderId"></param>
+        /// <param name="TransactionId"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<bool>> OrderPayAsync(string orderId)
+        public async Task<ResponseResult<bool>> OrderPayAsync(string orderId, string TransactionId)
         {
             string Action = "Youngo";
             string Function = "/OrderPay";
-            string Parameters = string.Format("orderId={0}", orderId); ;
+            string Parameters = string.Format("orderId={0}&TransactionId={1}", orderId, TransactionId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
@@ -426,6 +518,43 @@ namespace StarmileFx.Wap.Server.Service
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 获取订单列表
+        /// </summary>
+        /// <param name="OrderState"></param>
+        /// <param name="CustomerId"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<List<OrderParent>>> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
+        {
+            return Task.Run(() =>
+            {
+                return GetOrderParentcsListAsync(OrderState, CustomerId, PageSize, PageIndex);
+            });
+        }
+
+        /// <summary>
+        /// 获取订单列表
+        /// </summary>
+        /// <param name="OrderState"></param>
+        /// <param name="CustomerId"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<List<OrderParent>>> GetOrderParentcsListAsync(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
+        {
+            string Action = "Youngo";
+            string Function = "/GetOrderParentcsList";
+            string Parameters = string.Format("OrderState={0}&CustomerId={1}&PageSize={2}&PageIndex={3}", OrderState, CustomerId, PageSize, PageIndex); ;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<List<OrderParent>>>(result);
             });
         }
         #endregion 订单

@@ -1,24 +1,24 @@
-﻿@section Header{
+﻿@model Customer
+@section Header{
     <link href="~/css/user.css" rel="stylesheet" />
 }
 <div class="userInfo">
-    <!--
-    <a href="message.html" class="userMess">
+    <a asp-controller="customer" asp-action="message" asp-route-customerId="@Model.ID" class="userMess">
         <i class="iEnvelope"><em>2</em></i>
-    </a>-->
+    </a>
     <input type="button" value="每日签到" class="userComeIn">
     <div class="userPic">
         <div class="userLogo">
             <img src="images/tx.jpg" alt="">
         </div>
     </div>
-    <div class="userName">用户名</div>
-    <div class="userLevel">会员积分：2000<br>会员等级：黄金等级</div>
+    <div class="userName">@Model.UserName</div>
+    <div class="userLevel">会员积分：@Model.Integral<br>会员等级：@VipService.GetVip(Model.Integral)</div>
 </div>
 <div class="userMenu">
     <ul>
         <li>
-            <a href="javascript:;">
+            <a asp-controller="order" asp-action="orderlist" asp-route-customerId="@Model.ID" asp-route-type="@OrderStateEnum.All">
                 <i class="iMapMarker"></i>
                 <span>全部订单</span>
                 <i class="iAngleRight"></i>
@@ -30,52 +30,52 @@
 <!-- end.userInfo -->
 <div class="userOrder">
     <ul>
-        <li><a href="orderList.html"><i class="iCreditCard"><em>22</em></i><span>待付款</span></a></li>
-        <li><a href="javascript:;"><i class="iTruck"><em>22</em></i><span>待收货</span></a></li>
-        <li><a href="javascript:;"><i class="iFileTextO"><em>22</em></i><span>待评价</span></a></li>
-        <li><a href="serviceList.html"><i class="iFax"><em>22</em></i><span>申请售后</span></a></li>
+        <li><a asp-controller="order" asp-action="orderlist" asp-route-customerId="@Model.ID" asp-route-type="@OrderStateEnum.WaitPayment"><i class="iCreditCard"><em>22</em></i><span>待付款</span></a></li>
+        <li><a asp-controller="order" asp-action="orderlist" asp-route-customerId="@Model.ID" asp-route-type="@OrderStateEnum.WaitDelivery"><i class="iTruck"><em>22</em></i><span>待收货</span></a></li>
+        <li><a asp-controller="order" asp-action="orderlist" asp-route-customerId="@Model.ID" asp-route-type="@OrderStateEnum.WaitEvaluation"><i class="iFileTextO"><em>22</em></i><span>待评价</span></a></li>
+        <li><a asp-controller="customer" asp-action="servicelist" asp-route-customerId="@Model.ID"><i class="iFax"><em>22</em></i><span>申请售后</span></a></li>
     </ul>
 </div>
 <!-- end.userOrder -->
 <div class="userMenu">
     <ul>
-        <li>
-            <a href="message.html">
+        @*<li>
+            <a asp-controller="customer" asp-action="message" asp-route-customerId="@Model.ID">
                 <i class="iEnvelope"><em>1</em></i>
                 <span>消息提醒</span>
                 <i class="iAngleRight"></i>
             </a>
-        </li>
+        </li>*@
         <li>
-            <a href="takeGoods.html">
+            <a asp-controller="customer" asp-action="adresslist" asp-route-customerId="@Model.ID">
                 <i class="iMapMarker"></i>
                 <span>收货地址</span>
                 <i class="iAngleRight"></i>
             </a>
         </li>
         <li>
-            <a href="vip.html">
+            <a asp-controller="customer" asp-action="vip" asp-route-customerId="@Model.ID">
                 <i class="iStreetView"></i>
                 <span>会员特权</span>
                 <i class="iAngleRight"></i>
             </a>
         </li>
         <li>
-            <a href="javascript:;">
+            <a asp-controller="home" asp-action="suggest">
                 <i class="iEdit"></i>
                 <span>意见反馈</span>
                 <i class="iAngleRight"></i>
             </a>
         </li>
         <li>
-            <a href="javascript:;">
+            <a asp-controller="home" asp-action="shoppinginstructions">
                 <i class="iVolumeDown"></i>
                 <span>购物说明</span>
                 <i class="iAngleRight"></i>
             </a>
         </li>
         <li>
-            <a href="javascript:;">
+            <a asp-controller="home" asp-action="commonproblem">
                 <i class="iQuestionCircle"></i>
                 <span>常见问题</span>
                 <i class="iAngleRight"></i>

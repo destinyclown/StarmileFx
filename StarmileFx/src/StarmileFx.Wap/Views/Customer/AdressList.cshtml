@@ -4,8 +4,14 @@
 }
 <!-- end.headerBar -->
 <div class="pageContainer msgPage">
-    @foreach (DeliveryAddress address in Model)
+    @if (Model == null || Model.Count < 1)
     {
+
+    }
+    else
+    {
+        foreach (DeliveryAddress address in Model)
+        {
         <div class="adressBox">
             <div class="adressCon">
                 <div class="adressTit"><h3>@address.ReceiveName</h3><span>@address.Phone</span></div>
@@ -13,7 +19,8 @@
                 <div class="adressText">@address.Address</div>
                 <div class="adressOperate">
                     <div class="chose">
-                        @if (address.IsDefault) {
+                        @if (address.IsDefault)
+                        {
                             <input type="checkbox" class="isDefault" checked>
                         }
                         else
@@ -33,6 +40,7 @@
                 </div>
             </div>
         </div>
+        }
     }
     <a asp-controller="customer" asp-action="takegoods" class="endBtn">新增收件地址</a>
 </div>

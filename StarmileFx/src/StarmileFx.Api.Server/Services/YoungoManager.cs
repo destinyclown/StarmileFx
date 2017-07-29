@@ -219,7 +219,7 @@ namespace StarmileFx.Api.Server.Services
         /// <param name="CustomerId"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, PageData page)
+        public List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
             //sql语句
             string sql = @"SELECT
@@ -239,6 +239,8 @@ namespace StarmileFx.Api.Server.Services
 	                        da.Area,
 	                        da.Phone,
 	                        od.Number,
+                            p.PurchasePrice,
+                            p.CnName as ProductName,
 	                        op.TotalPrice,
 	                        op.CustomerRemarks,
 	                        op.DeliveryTime,
@@ -249,6 +251,7 @@ namespace StarmileFx.Api.Server.Services
                         FROM
 	                        OnLineOrderParent AS op
                         INNER JOIN OnLineOrderDetail AS od ON op.OrderID = od.OrderID
+                        INNER JOIN Product AS p ON p.ID = od.ProductID
                         INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
                         WHERE op.IsDelete = 0 AND op.CustomerID = @customerId ";
             if (OrderState != OrderStateEnum.All) {
@@ -260,8 +263,8 @@ namespace StarmileFx.Api.Server.Services
             {
                 new MySqlParameter("@orderState", OrderState),
                 new MySqlParameter("@customerId", CustomerId),
-                new MySqlParameter("@pageIndex", (page.PageIndex - 1) * page.PageSize),
-                new MySqlParameter("@page", page.PageSize)  
+                new MySqlParameter("@pageIndex", (PageIndex - 1) * PageSize),
+                new MySqlParameter("@page", PageSize)  
             };
             parameters[0].MySqlDbType = MySqlDbType.Int32;
             parameters[1].MySqlDbType = MySqlDbType.Int32;
@@ -328,9 +331,7 @@ namespace StarmileFx.Api.Server.Services
                 //判断是否全部提交成功
                 if (detailCount == shopCart.ProductList.Count)
                 {
-                    return Commit();
-                    //ChangeCustomerSign(shopCart.CustomerID, SignEnum.购买商品20点积分);
-                    //SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.订单确认通知);
+                    return Commit();                    
                 }
                 else
                 {
@@ -361,6 +362,7 @@ namespace StarmileFx.Api.Server.Services
             {
                 throw new Exception("订单信息为空，请检查！");
             }
+            var type = order.OrderState;
             order.OrderState = OrderStateEnum.Canceled;
             order.IsDelete = IsDelete;
             if (Update(order, Transaction))
@@ -400,7 +402,8 @@ namespace StarmileFx.Api.Server.Services
                     tr.Type = PaymentTypeEnum.WeChatPayment;
                     if (Add(tr, Transaction))
                     {
-                        return Commit();
+                        ChangeCustomerSign(order.CustomerID, SignEnum.购买商品50点积分);
+                        return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Confirm);
                     }
                     else
                     {
@@ -535,7 +538,7 @@ namespace StarmileFx.Api.Server.Services
             comment.Reply = CommentFrom.Reply;
             if (Add(comment, Transaction))
             {
-                return ChangeCustomerSign(CommentFrom.CustomerID, SignEnum.添加评论5点积分);
+                return ChangeCustomerSign(CommentFrom.CustomerID, SignEnum.添加评论10点积分);
             }
             else
             {
@@ -702,11 +705,13 @@ namespace StarmileFx.Api.Server.Services
         /// 获取消息列表
         /// </summary>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public List<Information> GetMessageList(int CustomerId, PageData page)
+        public List<Information> GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
             int total = 0;
+            PageData page = new PageData { PageIndex = PageIndex, PageSize = PageSize };
             List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
             return list;
         }

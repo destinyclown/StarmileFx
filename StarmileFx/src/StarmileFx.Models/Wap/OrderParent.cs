@@ -20,9 +20,21 @@ namespace StarmileFx.Models.Wap
         /// </summary>
         public string ProductID { get; set; }
         /// <summary>
+        /// 商品名称
+        /// </summary>
+        public string ProductName { get; set; }
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public int Number { get; set; }
+        /// <summary>
         /// 订单编号
         /// </summary>
         public string OrderID { get; set; }
+        /// <summary>
+        /// 购买价格
+        /// </summary>
+        public float PurchasePrice { get; set; }
         /// <summary>
         /// 跟踪号
         /// </summary>
@@ -67,10 +79,6 @@ namespace StarmileFx.Models.Wap
         /// 电话
         /// </summary>
         public string Phone { get; set; }
-        /// <summary>
-        /// 数量
-        /// </summary>
-        public int Number { get; set; }
         /// <summary>
         /// 总价格
         /// </summary>

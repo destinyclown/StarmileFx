@@ -90,7 +90,7 @@
             <span>订单金额：</span>
             <em>￥@Model.TotalPrice</em>
         </div>
-        <a asp-controller="order" asp-action="createorder" asp-route-ShopCart="@StarmileFx.Common.JsonHelper.Object_To_Json(Model)">立即支付</a>
+        <a asp-controller="order" asp-action="createorder" asp-route-customerId="@Model.CustomerID">立即支付</a>
     </div>
 </div>
 <!-- end.pageContainer -->

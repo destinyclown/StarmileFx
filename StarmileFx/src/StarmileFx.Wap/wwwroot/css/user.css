@@ -4,7 +4,7 @@
 .userMess{font-size:12px;color:#aaa;display:block;position:absolute;right:10px;top:10px;}
 .userMess i{font-size:20px;color:#fff;}
 .userMess em{position:absolute;width:16px;height:16px;background:#ff465a;border-radius:50%;color:#fff;text-align:center;right:-8px;top:0px;font-size:12px;line-height:16px;font-style:normal;}
-.userComeIn{display:inline-block;position:absolute;right:10px;top:10px;background:#ff465a;color:#fff;width:80px;height:22px;line-height:22px;border-radius:3px;text-align:center;}
+.userComeIn{display:inline-block;position:absolute;right:10px;top:100px;background:#ff465a;color:#fff;width:80px;height:22px;line-height:22px;border-radius:3px;text-align:center;}
 .userComeIn.disabled{background:#999;color:#ddd;}
 .userPic{}
 .userPic .userLogo{width:55px;height:55px;border-radius:50%;overflow:hidden;margin:8px auto;}

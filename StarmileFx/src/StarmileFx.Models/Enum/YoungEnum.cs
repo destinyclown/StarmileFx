@@ -37,37 +37,41 @@ namespace StarmileFx.Models.Enum
         /// </summary>
         WaitDelivery = 3,
         /// <summary>
+        /// 待评价
+        /// </summary>
+        WaitEvaluation = 4,
+        /// <summary>
         /// 已完成
         /// </summary>
-        Completed = 4,
+        Completed = 5,
         /// <summary>
         /// 取消订单
         /// </summary>
-        Canceled = 5,
+        Canceled = 6,
         /// <summary>
         /// 申请退款
         /// </summary>
-        ApplyRefund = 6,
+        ApplyRefund = 7,
         /// <summary>
         /// 申请退货
         /// </summary>
-        ApplyReturns = 7,
+        ApplyReturns = 8,
         /// <summary>
         /// 申请换货
         /// </summary>
-        ApplyExchange = 8,
+        ApplyExchange = 9,
         /// <summary>
         /// 退款完成
         /// </summary>
-        Refunded = 9,
+        Refunded = 10,
         /// <summary>
         /// 退货完成
         /// </summary>
-        Returned = 10,
+        Returned = 11,
         /// <summary>
         /// 换货完成
         /// </summary>
-        Exchanged = 11
+        Exchanged = 12
     }
 
     /// <summary>
@@ -111,17 +115,21 @@ namespace StarmileFx.Models.Enum
     public enum SignEnum : int
     {
         /// <summary>
-        /// 会员签到10点积分
+        /// 会员签到5点积分
         /// </summary>
-        会员签到10点积分 = 10,
+        会员签到5点积分 = 5,
         /// <summary>
-        /// 购买商品20点积分
+        /// 购买商品50点积分
         /// </summary>
-        购买商品20点积分 = 20,
+        购买商品50点积分 = 50,
         /// <summary>
         /// 添加评论5点积分
         /// </summary>
-        添加评论5点积分 = 5,
+        添加评论10点积分 = 10,
+        /// <summary>
+        /// 取消订单-50积分
+        /// </summary>
+        取消订单减50点积分 = -50,
     }
 
     /// <summary>
@@ -226,5 +234,32 @@ namespace StarmileFx.Models.Enum
         /// 其他
         /// </summary>
         其他 = 4
+    }
+
+    /// <summary>
+    /// VIP类型
+    /// </summary>
+    public enum VipTypeEnum : int
+    {
+        /// <summary>
+        /// 3000积分V1
+        /// </summary>
+        V1 = 3000,
+        /// <summary>
+        /// 5000积分V2
+        /// </summary>
+        V2 = 5000,
+        /// <summary>
+        /// 8000积分V3
+        /// </summary>
+        V3 = 8000,
+        /// <summary>
+        /// 12000积分V4
+        /// </summary>
+        V4 = 12000,
+        /// <summary>
+        /// 20000积分V5
+        /// </summary>
+        V5 = 20000,
     }
 }

@@ -45,14 +45,15 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="OrderState"></param>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public string GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, PageData page)
+        public string GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, page);
+                responseModel.Content = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -231,18 +232,17 @@ namespace StarmileFx.Api.Controllers
         }
 
         /// <summary>
-        /// 获取默认地址
+        /// 获取消息列表
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [HttpPost]
-        public string GetMessageList(int CustomerId, [FromForm]PageData page)
+        public string GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetMessageList(CustomerId, page);
+                responseModel.Content = _YoungoServer.GetMessageList(CustomerId, PageSize, PageIndex);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

@@ -1,53 +1,45 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>订单列表</title>
-    <link rel="stylesheet" href="style/common.css">
-    <link rel="stylesheet" href="style/order.css">
-</head>
-<body>
-    <div class="headerBar">
-        <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
-        <div class="headerTit">系统消息</div>
-        <a href="javascript:;" class="headerMessage"></a>
-    </div>
-    <!-- end.headerBar -->
-    <div class="pageContainer orderListPage">
-        <ul class="orderDataList">
-            <li>
-                <a class="ordPic" href="product.html">
-                    <img src="images/product.jpg" alt="">
-                </a>
-                <div class="ordDetail">
-                    <div class="ordName"><a href="product.html">韩国The Face Shop菲诗小铺控油补水气垫修颜乳气垫BB 15g</a></div>
-                    <div class="ordPrice">￥1999.99<em>数量：4</em></div>
-                    <a class="btnPayMoney" href="javascript:;">立即付款</a>
+﻿@model List<OrderParent>
+@section Header{
+    <link href="~/css/order.css" rel="stylesheet" />
+}
+<!-- end.headerBar -->
+<div class="pageContainer orderListPage">
+   @if (Model == null || Model.Count < 1)
+   {
+
+   }
+   else
+   {
+       foreach (var orderlist in Model.OrderBy(a => a.CreatTime).GroupBy(a => a.OrderID).Where(a => a.Count() > 1).ToList())
+       {
+           foreach (var order in orderlist)
+           {
+            <div class="orderDataListBox">
+                <div class="orderDataListTit">
+                    <span class="time">订单时间：@order.CreatTime.ToString("yyyy-MM-dd HH:MM:ss")</span>
+                    <span class="state">@order.OrderState</span>
                 </div>
-            </li>
-            <li>
-                <a class="ordPic" href="product.html">
-                    <img src="images/product.jpg" alt="">
-                </a>
-                <div class="ordDetail">
-                    <div class="ordName"><a href="product.html">韩国The Face Shop菲诗小铺控油补水气垫修颜乳气垫BB 15g</a></div>
-                    <div class="ordPrice">￥1999.99<em>数量：4</em></div>
-                    <a class="btnShowOrder" href="javascript:;">晒单评价</a>
-                </div>
-            </li>
-            <li>
-                <a class="ordPic" href="product.html">
-                    <img src="images/product.jpg" alt="">
-                </a>
-                <div class="ordDetail">
-                    <div class="ordName"><a href="product.html">韩国The Face Shop菲诗小铺控油补水气垫修颜乳气垫BB 15g</a></div>
-                    <div class="ordPrice">￥1999.99<em>数量：4</em></div>
-                    <a class="btnMakeSure" href="javascript:;">确认收货</a>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <!-- end.pageContainer -->
-</body>
-</html>
+                <ul class="orderDataList">
+                    @foreach (var product in Model.Where(a => a.OrderID == order.OrderID).ToList())
+                    {
+                    <li>
+                        <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
+                            <img src="images/product.jpg" alt="">
+                        </a>
+                        <div class="ordDetail">
+                            <div class="ordName"><a href="product.html">@product.ProductName</a></div>
+                            <div class="ordPrice">￥@product.PurchasePrice<em>数量：@product.Number</em></div>
+                            <a class="btnPayMoney" href="order.html">立即付款</a>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+           }
+       }
+   }
+</div>
+    
+
+
+    }

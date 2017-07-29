@@ -31,8 +31,8 @@
         <ul>
             <li><a id="home" asp-controller="home" asp-action="index"><i class="iHome"></i><span>首页</span></a></li>
             <li><a id="category" asp-controller="product" asp-action="index"><i class="iList"></i><span>分类</span></a></li>
-            <li><a id="shoppingcart" asp-controller="order" asp-action="shoppingcart"><i class="iShoppingCart"></i><span>购物车</span></a></li>
-            <li><a id="usercenter" asp-controller="customer" asp-action="index"><i class="iUser"></i><span>我</span></a></li>
+            <li><a id="shoppingcart" asp-controller="order" asp-action="shoppingcart" asp-route-customerId="1"><i class="iShoppingCart"></i><span>购物车</span></a></li>
+            <li><a id="usercenter" asp-controller="customer" asp-action="index" asp-route-WeCharKey="starmile"><i class="iUser"></i><span>我</span></a></li>
         </ul>
     </div>
     <environment names="Development">

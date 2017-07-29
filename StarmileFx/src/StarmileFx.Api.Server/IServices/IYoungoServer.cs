@@ -122,9 +122,10 @@ namespace StarmileFx.Api.Server.IServices
         /// </summary>
         /// <param name="OrderState"></param>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
-        List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, PageData page);
+        List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex);
 
         /// <summary>
         /// 创建订单
@@ -212,9 +213,10 @@ namespace StarmileFx.Api.Server.IServices
         /// 获取消息列表
         /// </summary>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
-        List<Information> GetMessageList(int CustomerId, PageData page);
+        List<Information> GetMessageList(int CustomerId, int PageSize, int PageIndex);
 
         /// <summary>
         /// 订单申请售后

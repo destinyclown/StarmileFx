@@ -97,6 +97,7 @@ namespace StarmileFx.Api.Services
         /// <param name="elist"></param>
         private void Send(List<Email> elist)
         {
+
             foreach (Email email in elist)
             {
                 switch (email.type)
@@ -145,10 +146,8 @@ namespace StarmileFx.Api.Services
                     _EmailService.Send(wList);
                     Thread.Sleep(10000);
                 }
-                if (!IsStarted) return;
-                
-            }
-            
+                if (!IsStarted) return;              
+            }    
         }
 
         /// <summary>

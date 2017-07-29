@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StarmileFx.Models;
 using StarmileFx.Models.Youngo;
 using StarmileFx.Wap.Server.IService;
 
@@ -18,21 +19,64 @@ namespace StarmileFx.Wap.Controllers
         {
             _YoungoServer = YoungoServer;
         }
-        public IActionResult Index()
+
+        /// <summary>
+        /// 会员中心
+        /// </summary>
+        /// <param name="WeCharKey"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Index(string WeCharKey)
         {
             ViewBag.Title = "用户中心";
-            return View();
+            Customer model = new Customer();
+            if (WeCharKey != null)
+            {
+
+                ResponseResult<Customer> responseResult = await _YoungoServer.GetCustomer(WeCharKey);
+                if (responseResult.IsSuccess)
+                {
+                    model = responseResult.Content;
+                }
+                else
+                {
+                    return View(null);
+                }
+            }
+            else
+            {
+                return View(null);
+            }
+            return View(model);
         }
-        public async Task<IActionResult> Adress(int customerId)
+        public async Task<IActionResult> AdressList(int customerId)
         {
-            List<DeliveryAddress> list = await _YoungoServer.GetDeliveryAddressList(customerId);
             ViewBag.Title = "收件地址";
+            List<DeliveryAddress> list = new List<DeliveryAddress>();
+            ResponseResult<List<DeliveryAddress>> responseResult = await _YoungoServer.GetDeliveryAddressList(customerId);
+            if (responseResult.IsSuccess)
+            {
+                list = responseResult.Content;
+            }
+            else
+            {
+                return View(null);
+            }
             return View(list);
         }
-        public IActionResult Message()
+        public async Task<IActionResult> Message(int customerId, int PageSize, int PageIndex)
         {
-            ViewBag.Title = "用户中心";
-            return View();
+            ViewBag.Title = "系统消息";
+            List<Information> list = new List<Information>();
+            ResponseResult<List<Information>> responseResult = await _YoungoServer.GetMessageList(customerId, PageSize, PageIndex);
+            if (responseResult.IsSuccess)
+            {
+                list = responseResult.Content;
+            }
+            else
+            {
+                return View(null);
+            }
+            return View(list);
         }
         public IActionResult Service()
         {
