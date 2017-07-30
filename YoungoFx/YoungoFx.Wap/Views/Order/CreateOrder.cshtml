@@ -1,0 +1,77 @@
+﻿@model Result
+<input id="result" type="hidden" value="@Model.IsSuccessful" />
+@if (Model.IsSuccessful)
+{
+    <div>@Model.ReasonDescription,<div id="time">10:00</div>内支付有效！</div>
+}
+else
+{
+    <div>@Model.ReasonDescription,<div id="time"></div>秒后跳转！</div>
+}
+@section scripts{
+    <script>
+        function jsApiCall() {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            @Html.Raw(WeChatPay.JsApiParam(ViewBag.Cart)),
+            function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+
+                 }
+                // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            }
+        );}
+        $(function(){
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            } else {
+                var result = Boolean($('#result').val());
+                if(result){
+                    jsApiCall();
+                    jump10();
+                }else{
+                    jump(5);
+                    window.setTimeout(function(){ 
+                }
+            }
+        });
+
+        function jump(count) { 
+            window.setTimeout(function(){ 
+                count--; 
+                if(count > 0) { 
+                    $('#time').html(count); 
+                    jump(count); 
+                } else { 
+                    location.href="/order/PayError"; 
+                } 
+            }, 1000); 
+        } 
+
+        function jump10() {
+            var m = 9;
+            var s = 59;
+            setInterval(function () {
+                if (m > 0 || s > 0) {
+                    if (s < 10) {
+                        $('#time').html(m + ':0' + s);
+                    } else {
+                        $('#time').html(m + ':' + s);
+                    }
+                    s--;
+                    if (s < 0) {
+                        s = 59;
+                        m--;
+                    }
+                } else {
+                    location.href = "/order/PayError";
+                }
+            }, 1000)
+        }
+    </script>
+}

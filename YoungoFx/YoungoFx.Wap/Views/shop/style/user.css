@@ -1,0 +1,108 @@
+/* userInfo */
+.userInfo{width:100%;overflow:hidden;background:#f5f5f5;position:relative;}
+.userInfo{height:140px;background-image:url(../images/user_bg.jpg);background-repeat:no-repeat;background-position:center;background-size:100% 100%;text-align:center;}
+.userMess{font-size:12px;color:#aaa;display:block;position:absolute;right:10px;top:10px;}
+.userMess i{font-size:20px;color:#fff;}
+.userMess em{position:absolute;width:16px;height:16px;background:#ff465a;border-radius:50%;color:#fff;text-align:center;right:-8px;top:0px;font-size:12px;line-height:16px;font-style:normal;}
+.userComeIn{display:inline-block;position:absolute;right:10px;top:10px;background:#ff465a;color:#fff;width:80px;height:22px;line-height:22px;border-radius:3px;text-align:center;}
+.userComeIn.disabled{background:#999;color:#ddd;}
+.userPic{}
+.userPic .userLogo{width:55px;height:55px;border-radius:50%;overflow:hidden;margin:8px auto;}
+.userPic .userLogo img{display:block;width:98%;height:auto;margin:1% auto;}
+.userName{font-size:16px;color:#FFFFFF;line-height:28px;}
+.userLevel,.userScore{font-size:12px;color:#F3F3F3;line-height:1.5;}
+/* userOrder */
+.userOrder{}
+.userOrder{width:100%;height:80px;}
+.userOrder ul{width:100%;height:80px;overflow:hidden;}
+.userOrder ul li{width:25%;float:left;box-sizing:border-box;height:50px;text-align:center;}
+.userOrder ul li a{font-size:12px;color:#aaa;display:block;padding-top:10px;}
+.userOrder ul li.cur a{color:#f60;}
+.userOrder ul li a i{line-height:40px;font-size:30px;position:relative;}
+.userOrder ul li a span{display:block;line-height:30px;}
+.userOrder ul li a i em{position:absolute;width:16px;height:16px;background:#ff465a;border-radius:50%;color:#fff;text-align:center;right:-8px;top:0px;font-size:12px;line-height:16px;font-style:normal;}
+/* userMenu */
+.userMenu{width:100%;height:auto;overflow:hidden;}
+.userMenu ul{width:100%;margin:0 auto;overflow:hidden;border-bottom:1px solid #ddd;}
+.userMenu ul li{width:100%;height:50px;overflow:hidden;border-top:1px solid #ddd;box-sizing:border-box;}
+.userMenu ul li a{color:#666;font-size:16px;display:block;}
+.userMenu ul li a span{}
+.userMenu ul li a span em{width:16px;height:16px;background:#ff465a;border-radius:50%;display:block;}
+.userMenu ul li a i{width:25px;height:50px;line-height:50px;text-align:center;font-size:20px;margin-left:8px;}
+.userMenu ul li a i em{position:absolute;width:16px;height:16px;background:#ff465a;border-radius:50%;color:#fff;text-align:center;right:-3px;top:10px;font-size:12px;line-height:16px;font-style:normal;transform:scale(0.7);-webkit-transform:scale(0.7)}
+.userMenu ul li a i.iEnvelope{font-size:16px;position:relative;}
+.userMenu ul li a i.iAngleRight{float:right;padding-right:15px;}
+/* userMessage */
+.pageContainer.msgPage{margin-bottom:0;}
+.msgBox{width:100%;height:auto;overflow:hidden;background:#f5f5f5;display:block;box-sizing:border-box;padding:0 10px;}
+.msgBox .msgCon{border-bottom:3px solid #E4E4E4;background-color:#fff;float:left;display:block;box-sizing:border-box;margin:5px 0;width:100%;}
+.msgBox .msgCon .msgTit{border-bottom:1px solid #eee;line-height:40px;float:left;width:100%;}
+.msgBox .msgCon .msgTit h3{font-size:16px;font-weight:normal;color:#333;float:left;margin-top:0px 0px 0px 10px;}
+.msgBox .msgCon .msgTit span{float:right;font-size:14px;color:#666;margin-right:10px;}
+.msgBox .msgCon .msgText{width:96%;padding:10px;font-size:14px;color:#666;line-height:24px;}
+/* takeGoods */
+.tgContent{}
+.tgContent .tgItem{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;line-height:30px;margin-left:10px;padding:7px 0 7px 2px;border-bottom:1px solid #eee;color:#666;font-size:12px;}
+.tgContent .tgItem span{}
+.tgContent .tgItem span.l{width:70px;color:#757575;display:block;height:30px;text-align:right;}
+.tgContent .tgItem span.l input{}
+.tgContent .tgItem span.r{display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;padding-right:10px;}
+.tgContent .tgItem span.r input{display:block;width:100%;height:30px;box-sizing:border-box;text-indent:10px;color:#333}
+.tgContent .tgItem span.r select{display:block;width:100%;height:30px;box-sizing:border-box;text-indent:10px;color:#333;background:#fff;}
+.tgContent .tgItem.setDefault span.l input{display:block;width:15px;height:15px;background:url(../images/checkboxOff.png);background-repeat:no-repeat;background-size:15px 15px;border-radius:15px;float:right;margin-top:7px;margin-right:8px;}
+.tgContent .tgItem.setDefault span.l input:checked{background-image:url(../images/checkboxOn.png);}
+.tgBtn{display:block;height:38px;width:100%;box-sizing:border-box;background:#ff465a;color:#fff;text-align:center;font-size:16px;letter-spacing:2px;line-height:38px;margin-top:8px;}
+/* adress */
+.pageContainer.adressPage{margin-bottom:0;}
+.adressBox{width:100%;height:auto;overflow:hidden;background:#f5f5f5;display:block;box-sizing:border-box;padding:0 10px;}
+.adressBox .adressCon{border-bottom-width:3px;border-bottom-style:solid;border-bottom-color:#e4e4e4;background-color:#fff;display:block;box-sizing:border-box;margin:10px 0;width:100%;}
+.adressBox .adressCon .adressTit{border-bottom:1px solid #eee;line-height:40px;float:left;width:100%;}
+.adressBox .adressCon .adressTit h3{font-size:16px;font-weight:normal;color:#333;float:left;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:10px;}
+.adressBox .adressCon .adressTit span{float:right;font-size:14px;color:#666;margin-right:10px;}
+.adressBox .adressCon .adressText{width:100%;padding:10px;font-size:14px;color:#666;line-height:24px;box-sizing:border-box;}
+.adressBox .adressCon .adressOperate{width:100%;padding:5px;font-size:14px;color:#666;line-height:24px;border-top:1px solid #e4e4e4;box-sizing:border-box;height:auto;overflow:hidden;}
+.adressBox .adressCon .adressOperate .chose{width:30%;float:left;}
+.adressBox .adressCon .adressOperate .chose input{display:inline-block;width:15px;height:15px;background:url(../images/checkboxOff.png);background-repeat:no-repeat;background-size:15px 15px;border-radius:15px;margin-top:5px;float:left;margin-right:8px;}
+.adressBox .adressCon .adressOperate .chose input:checked{background-image:url(../images/checkboxOn.png);}
+.adressBox .adressCon .adressOperate .chose label{}
+.adressBox .adressCon .adressOperate .edit{width:60px;float:right;text-align:right;font-size:14px}
+.adressBox .adressCon .adressOperate .edit i{}
+.adressBox .adressCon .adressOperate .edit label{}
+.adressBox .adressCon .adressOperate .delete{width:60px;float:right;text-align:right;font-size:14px;}
+.adressBox .adressCon .adressOperate .delete i{}
+.adressBox .adressCon .adressOperate .delete label{}
+.endBtn{display:block;height:38px;width:100%;box-sizing:border-box;background:#ff465a;color:#fff;text-align:center;font-size:16px;letter-spacing:2px;line-height:38px;margin-top:8px;}
+/* suggestBox */
+.suggestBox{width:100%;display:block;padding:10px;box-sizing:border-box;font-size:14px;color:#999}
+.suggestBox .suggestTit{line-height:2;color:#666}
+.suggestBox .suggestCon{width:100%;height:auto;overflow:hidden;margin-bottom:5px;}
+.suggestBox .suggestCon select{display:block;width:100%;height:30px;box-sizing:border-box;text-align:center;color:#333;text-indent:5px;background:#fff;border:1px solid #efefef;}
+.suggestBox .suggestCon textarea{padding:5px;box-sizing:border-box;width:100%;font-size:12px;line-height:16px;height:58px;border:1px solid #efefef;}
+.suggestBox .suggestCon input{display:block;width:100%;height:30px;box-sizing:border-box;text-indent:5px;color:#333;background:#fff;border:1px solid #efefef;}
+/* vip */
+.vipData{height:140px;background-image:url(../images/vipBg.jpg);background-repeat:no-repeat;background-position:center;background-size:100% 100%;box-sizing:border-box;padding:10px 15px;}
+.vipData .vipName{font-size:16px;color:#fff;line-height:18px;}
+.vipData .vipName em{display:inline-block;background:#ff3429;height:18px;line-height:18px;display:block;border-radius:5px;font-size:12px;text-align:center;font-style:normal;width:55px;margin-top:2px;}
+.vipData .vipExp{font-size:12px;line-height:18px;color:#fff;margin-top:25px;}
+.vipData .vipExp span{color:#f5d928;margin-right:10px;}
+.vipExpProgress{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;color:#fff;margin-top:8px;height:28px;line-height:28px;}
+.vipExpProgress span{}
+.vipExpProgress .lLevel{width:20px;margin-right:5px;}
+.vipExpProgress .mLevel{display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;height:15px;width:100%;background:#775f75;border-radius:14px;overflow:hidden;margin-top:6px;}
+.vipExpProgress .mLevel em{display:block;background:#fdd447;color:#fff;font-size:12px;height:15px;}
+.vipExpProgress .rLevel{width:20px;margin-left:5px;}
+.vipBox{width:100%;height:auto;overflow:hidden;margin-top:10px;}
+.vipBox .vipBoxTit{width:80%;height:auto;overflow:hidden;background:url(../images/point.jpg) center center repeat-x;margin:5px auto 10px;text-align:center;}
+.vipBox .vipBoxTit span{background:#fff;font-size:16px;letter-spacing:2px;display:inline-block;padding:0 15px;margin:0 auto;text-align:center;color:#333}
+.vipBox .vipBoxCon{width:100%;height:auto;overflow:hidden;box-sizing:border-box;padding:0 10px;}
+.vipInfoLevel{}
+.vipInfoLevel{text-align:justify;width:100%;height:auto;overflow:hidden;box-sizing:border-box;}
+.vipInfoLevel:after {width:100%;height:0;margin:0;display:inline-block;overflow:hidden;content:'';}
+.vipInfoLevel li{border-radius:15px;background:#f1eff2;width:35px;height:35px;overflow:hidden;padding:5px;display:inline-block;}
+.vipInfoLevel li span{display:block;border-radius:10px;background:#dad8d9;width:100%;height:100%;text-align:center;line-height:35px;font-size:18px;font-weight:bold;color:#f1eff2;}
+.vipInfoLevel li.cur{background:#fedd72;}
+.vipInfoLevel li.cur span{background:#f6b432;}
+.vipInfoTag{width:100%;height:auto;overflow:hidden;box-sizing:border-box;}
+.vipInfoTag li{display:inline-block;float:left;margin-right:8px;margin-bottom:8px;font-size:12px;color:#fff;background:#f6b432;padding:3px 5px;border-radius:5px;}
+.condition{line-height:2.5;font-size:14px;color:#666;width:100%;height:auto;overflow:hidden;box-sizing:border-box;padding:0 10px;}
+.vipBox .vipBoxCon p{font-size:12px;color:#555}

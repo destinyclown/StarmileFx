@@ -1,0 +1,153 @@
+﻿@model ProductWap
+@section Header{
+    <link href="~/css/product.css" rel="stylesheet" />
+}
+    <!-- end.headerBar -->
+    <div class="pageContainer">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="/images/banner0.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="javascript:;"><img src="/images/banner1.jpg" alt=""></a>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div> 
+        <!-- end.swiper -->
+        <div class="productCon">
+            <div class="proName">@Model.Name</div>
+            <div class="proBar">
+                <div class="proPrice">
+                    <span class="now">
+                        ￥<b>@Model.PurchasePrice</b>
+                    </span>
+                    <del class="old">$@Model.CostPrice</del>
+                </div>
+                <div class="proSale">
+                    <span>@Model.SalesVolume</span>人已购买
+                </div>
+            </div>
+            <div class="proDesc">@Model.Introduce</div>
+            <div class="productDataItem">
+                <label>品牌</label>
+                <span>@Html.Raw(Model.Brand)</span>
+            </div>
+            <div class="productDataItem">
+                <label>物流</label>
+                <span style="color:red;">@Html.Raw(Model.Explain)</span>
+            </div>
+            <div class="productDataItem">
+                <label>服务</label>
+                <span style="color:red;">@Html.Raw(Model.Remarks)</span>
+            </div>
+            <!-- end.proBar -->
+            <div class="proTabBox">
+                <div class="proTab">
+                    <ul>
+                        <li class="cur">图文详情</li>
+                        <li>商品评论</li>
+                    </ul>
+                </div>
+                <div class="proTabCon">
+                    <div class="proTabConItem">
+                        <img src="/images/product.jpg" alt="" style="width:100%;">
+                    </div>
+                    <!-- end.proTabConItem -->
+                    <div class="proTabConItem">
+                        <div class="proCommentCon">
+                            @if (Model.CommentList != null && Model.CommentList.Count > 0)
+                            {
+                                foreach (ProductComment comment in Model.CommentList)
+                                {
+                                <div class="commentConItem">
+                                    <div class="commentUserBox">
+                                        <div class="commentUser">用户：@comment.UserName</div>
+                                        <div class="commentDate">@comment.CreatTime.ToString("yyyy-MM-dd")</div>
+                                    </div>
+                                    <div class="commentScore">
+                                        <span class="commentScoreText">评分：</span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                        <span class="star light"><i class="iStar"></i></span>
+                                    </div>
+                                    <div class="commentCon">
+                                        <p>@comment.Comment</p>
+                                    </div>
+                                    <div class="commentPic">
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                        <div class="commentPicItem">
+                                            <img src="images/product.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="null">暂无评论</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end.pageContainer -->
+    <div class="footerNavPro">
+        <ul>
+            <li class="price">￥<span>@Model.PurchasePrice</span></li>
+            <li class="bbtn"><a asp-controller="home" asp-action="customerservice"><i class="iMessage"><em></em></i></a></li>
+            <li class="bbtn"><a asp-controller="home" asp-action="index"><i class="iHome"><em></em></i></a></li>
+            <li class="bbtn"><a asp-controller="order" asp-action="shoppingcart" asp-route-customerId="@ViewBag.CustomerId"><i class="iShoppingCart"><em></em></i></a></li>
+            <li class="buy"><a href="javascript:;" id="buy">加入购物车</a></li>
+        </ul>
+    </div>
+@section scripts{
+    <script>
+        $(function () {
+            $(".footerNav").hide();
+            $(".proTabConItem").eq(0).show();
+            $(".proTab ul li").click(function () {
+                var num = $(".proTab ul li").index(this);
+                $(".proTabConItem").hide();
+                $(".proTabConItem").eq(num).show();
+                $(this).addClass('cur').siblings().removeClass('cur');
+            });
+            $("#buy").click(function () {
+                var CustomerId = $('#CustomerId').val();
+                $.ajax({
+                    type: "post",
+                    data: { customerId : CustomerId, productId : @Model.ProductID },
+                    dataType: "json",
+                    url: $form.attr('action'),
+                    success: function (result) {
+                        $('.login_tips').find('.tips_msg').remove();
+                        if (!result.isSuccessful) {
+                            $("#loginbtn").val("登录");
+                            $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                        }
+                        else {
+                            $("#loginbtn").val("登录成功...");
+                            window.location.href = "/home/index";
+                        }
+                    }
+                })
+            });
+        });
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationType: 'fraction',
+	        paginationClickable: true
+	    });
+    </script>
+}

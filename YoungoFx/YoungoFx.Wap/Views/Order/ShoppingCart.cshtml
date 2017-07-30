@@ -1,0 +1,57 @@
+﻿@model ShopCart
+@section Header{
+    <link href="~/css/shoppingcart.css" rel="stylesheet" />
+}
+<!-- end.headerBar -->
+<form id="shoppingcart" asp-action="order" asp-controller="submitcart" method="post">
+    <div class="pageContainer cart">
+        @if (Model == null)
+        {
+            <div class="shoppingcartEmpty">
+                <span></span>
+                <p>您的购物车暂时没有商品</p>
+                <a asp-controller="home" asp-action="index">再去逛逛</a>
+            </div>
+        }
+        else
+        {
+            <div class="shoppingcartList">
+                <ul>
+                    @foreach (var productlist in Model.ProductList)
+                    {
+                        <li>
+                            <input name="CartCheck" class="cartCheck" type="checkbox" value="false">
+                            <input name="ProductID" class="ProductID" value="@productlist.Product.ProductID" type="hidden" />
+                            <a class="cartPic" asp-controller="product" asp-action="product" asp-route-productid="@productlist.Product.ProductID">
+                                <img src="@productlist.Product.Label" alt="">
+                            </a>
+                            <div class="cartDetail">
+                                <div class="proName"><a asp-controller="product" asp-action="product" asp-route-productid="@productlist.Product.ProductID">@productlist.Product.CnName</a></div>
+                                <div class="proPrice">￥<span class="price">@productlist.Product.PurchasePrice</span></div>
+                                <div class="proAmount">
+                                    <a class="minus" href="javascript:;"><i class="iMinus"></i></a>
+                                    <input name="Number" class="number" type="text" value="@productlist.Number">
+                                    <a class="add" href="javascript:;"><i class="iPlus"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div class="deleteBar">
+                    <a href="javascript:;"><i class="iTrash"></i>删除勾选产品</a>
+                </div>
+            </div>
+            <div class="total">
+                <label for=""><input class="cartCheckAll" type="checkbox">全选</label>
+                <div class="totalNum">合计：￥<b class="totalPrice">0</b></div>
+                <a href="javascript:;" class="goahead" id="goahead">去结算</a>
+            </div>
+
+        }
+    </div>
+</form>
+<!-- end.pageContainer -->
+@section scripts{
+    <script src="~/js/shoppingcart.js"></script>
+}
+

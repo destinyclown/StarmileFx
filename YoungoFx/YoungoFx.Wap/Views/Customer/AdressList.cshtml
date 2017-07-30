@@ -1,0 +1,50 @@
+﻿@model List<DeliveryAddress>
+@section Header{
+    <link href="~/css/user.css" rel="stylesheet" />
+}
+<!-- end.headerBar -->
+<div class="pageContainer msgPage">
+    @if (Model == null || Model.Count < 1)
+    {
+
+    }
+    else
+    {
+        foreach (DeliveryAddress address in Model)
+        {
+        <div class="adressBox">
+            <div class="adressCon">
+                <div class="adressTit"><h3>@address.ReceiveName</h3><span>@address.Phone</span></div>
+                @{ address.Address = address.Province + address.City + address.Area + address.Address;}
+                <div class="adressText">@address.Address</div>
+                <div class="adressOperate">
+                    <div class="chose">
+                        @if (address.IsDefault)
+                        {
+                            <input type="checkbox" class="isDefault" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="isDefault">
+                        }
+                        <label for="">默认地址</label>
+                    </div>
+                    <div class="edit">
+                        <i class="iEdit"></i>
+                        <a asp-controller="customer" asp-action="takegoods" asp-route-addressId="@address.ID"><label for="">编辑</label></a>
+                    </div>
+                    <div class="delete">
+                        <i class="iTrash"></i>
+                        <a class="delAdress" href="javascript:;"><label for="">删除</label></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    }
+    <a asp-controller="customer" asp-action="takegoods" class="endBtn">新增收件地址</a>
+</div>
+<!-- end.pageContainer -->
+@section scripts{
+    <script src="~/js/usercenter.js"></script>
+}

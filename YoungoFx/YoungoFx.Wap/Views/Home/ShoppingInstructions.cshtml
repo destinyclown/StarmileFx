@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "h5图片压缩与上传";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<style>
+    .filePicker {
+        background: none repeat scroll 0 0 #00B7EE;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        height: 44px;
+        line-height: 44px;
+        width: 90%;
+        min-width: 120px;
+        margin: 0 auto 0px;
+        overflow: hidden;
+        transition: background 0.2s;
+        -moz-transition: background 0.2s;
+        -webkit-transition: background 0.2s;
+        -o-transition: background 0.2s;
+    }
+
+    #preview {
+        margin-top: 30px;
+    }
+
+        #preview img {
+            max-width: 30%;
+        }
+
+    .previewImg {
+        border: 5px solid red;
+    }
+
+    .previewImg_1 {
+        min-width: 120px;
+    }
+
+    .inputFileImage {
+        border: 5px solid red;
+    }
+</style>
+<body>
+    <div class="page" id="upload">
+        <h2>
+            测试H5图片压缩与上传
+        </h2>
+        <div id="dd" class="filePicker">
+            点击选择文件
+        </div>
+        <img id="resultImage" style="display: none;" />
+        <div id="preview">
+        </div>
+    </div>
+    <button onclick="GetServerFilePath('preview')">获取上传到服务端图片路径</button>
+    <script src="/Scripts/zepto.min.js" type="text/javascript"></script>
+    <script src="/Scripts/h5upload.js" type="text/javascript"></script>
+    <script>
+        var para = { filebutton: "#dd", previewZoom: "#preview", previewDivId: "preview" };
+        $.fileUpload(para);
+
+        function GetServerFilePath(previewDivId) {
+            var serverFilePathArray = []; //存储服务端返回图片路径
+            var imgArray = document.getElementById(previewDivId).getElementsByTagName("img");
+            for (var i = 0; i < imgArray.length; i++) {
+                serverFilePathArray.push(imgArray[i].getAttribute("serverFilePath"));
+            }
+            alert(serverFilePathArray.join(","));
+            return serverFilePathArray;
+        }
+
+    </script>
+</body>
+</html>

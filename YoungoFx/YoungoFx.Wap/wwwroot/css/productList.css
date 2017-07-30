@@ -1,0 +1,13 @@
+.productList{}
+.productList ul{padding-top:10px;}
+.productList ul li{width:50%;height:auto;overflow:hidden;padding:10px 0;float:left;box-sizing:border-box;border-right:1px solid #ddd;border-bottom:1px solid #ddd;}
+.productList ul li a{display:block;width:90%;margin:0 auto;overflow:hidden;}
+.productList ul li a img{display:block;width:100%;height:auto;}
+.productList ul li a .tit{font-size:14px;height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    color: #4d525d;padding:3px 0;display:block;}
+.productList ul li a .price{display:block;line-height:24px;}
+.productList ul li a .price em{font-style:normal;}
+.productList ul li a .price .now{color:#f00;font-size:16px;float:left;}
+.productList ul li a .price .num{color:#999;font-size:12px;float:right}

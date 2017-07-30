@@ -1,0 +1,22 @@
+﻿@model List<Information>
+@section Header{
+    <link href="~/css/user.css" rel="stylesheet" />
+}
+@if (Model == null || Model.Count < 1)
+{
+    <div class="null">暂无信息</div>
+}
+else
+{
+    foreach (Information information in Model)
+    {
+        <div class="pageContainer msgPage">
+            <div class="msgBox">
+                <div class="msgCon">
+                    <div class="msgTit"><h3>@information.MessageType.ToString()</h3><span>@information.CreatTime.ToString("yyyy-MM-dd HH:MM:ss")</span></div>
+                    <div class="msgText">@information.Message</div>
+                </div>
+            </div>
+        </div>
+     }
+}

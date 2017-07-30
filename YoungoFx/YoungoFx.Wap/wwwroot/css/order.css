@@ -1,0 +1,87 @@
+.pageContainer.orderPage{background:#f5f5f5}
+
+.Detailstate{width:100%;height:auto;overflow:hidden;margin:8px 0;background:#fff;color:#999;font-size:12px;padding:0 10px;box-sizing:border-box;height:25px;line-height:25px;}
+.Detailstate i{margin-right:5px;}
+
+.receiver{width:100%;height:auto;overflow:hidden;border-bottom:5px solid transparent;border-image: url(../images/borderBg.jpg) 30 0 round;margin-bottom:10px;background:#fff;}
+.receiver a{display:block;}
+.receiver a .receiverTit{line-height:30px;display:block;width:100%;height:auto;overflow:hidden;border-bottom:1px solid #eee;}
+.receiver a .receiverTit em{font-size:16px;font-weight:normal;color:#333;float:left;margin:0px 0px 0px 10px;font-style:normal;}
+.receiver a .receiverTit tel{float:left;font-size:14px;color:#666;margin-left:10px;}
+.receiver a .receiverText{width:100%;padding:5px 20px 5px 10px;font-size:14px;color:#666;line-height:24px;display:block;font-size:12px;display:block;box-sizing:border-box;position:relative;}
+.receiver a .more{position:absolute;right:5px;margin-top:-10px;top:50%;}
+.receiver a .more i{font-size:18px;display:block;width:10px;height:20px;text-align:center;}
+
+.orderProList{}
+.orderProList ul{}
+.orderProList ul li{min-height:80px;padding:12px 6px;position:relative;display:-webkit-box;background:#fff;}
+.orderProList ul li .pic{display:inline-block;text-align:center;overflow:hidden;width:100px;height:100px;margin-right:10px;margin-left:8px;}
+.orderProList ul li .pic img{width:100px;height:100px;}
+.orderProList ul li .dec{margin:4px 15px 4px 0;-webkit-box-flex:1;display:block;}
+.orderProList ul li .dec .tit{line-height:22px;margin-bottom:3px;position:relative;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-all;color:#4b566a;font-size:14px;height:66px;}
+.orderProList ul li .dec .price{line-height:24px;color:#999;display:block;}
+.orderProList ul li .dec .price .p{font-style:normal;font-size:16px;color:#ff3c25;margin-right:3px;display:block;height:20px;overflow:hidden;float:left;}
+.orderProList ul li .dec .price .n{font-style:normal;font-size:14px;color:#666;margin-right:3px;display:block;height:20px;overflow:hidden;float:right;}
+
+.orderData{}
+.orderData ul{width:100%;height:auto;overflow:hidden;background:#fff;padding:8px 0;}
+.orderData ul li{color:#999;font-size:12px;display:block;width:100%;height:auto;overflow:hidden;padding:0 10px;box-sizing:border-box;height:25px;line-height:25px;background:#fff;position:relative;display:-webkit-box;}
+.orderData ul li .tit{display:inline-block;overflow:hidden;width:100px;height:100px;}
+.orderData ul li .dec{margin:4px 15px 4px 0;-webkit-box-flex:1;display:block;}
+
+.payWay{width:100%;height:auto;overflow:hidden;margin:8px 0;}
+.payWay ul{width:100%;height:auto;overflow:hidden;display:block;box-sizing:border-box;}
+.payWay ul li{height:30px;line-height:30px;background:#fff;margin-bottom:1px;padding:0 10px;box-sizing:border-box;width:100%;}
+.payWay ul li span{font-size:14px;}
+.payWay ul li input{display:block;width:15px;height:15px;background:url(../images/checkboxOff.png);background-repeat:no-repeat;background-size:15px 15px;border-radius:15px;float:left;margin-top:7px;margin-right:10px;}
+.payWay ul li input:checked{background-image:url(../images/checkboxOn.png);}
+
+.payCount{}
+.payCount ul{width:100%;height:auto;overflow:hidden;background:#fff;padding:8px 0;}
+.payCount ul li{color:#999;display:block;width:100%;height:auto;overflow:hidden;padding:0 10px;box-sizing:border-box;height:25px;line-height:25px;background:#fff;}
+.payCount ul li .l{float:left;font-size:12px;}
+.payCount ul li .r{float:right;font-size:14px;}
+.payCount ul li:last-child{height:30px;line-height:30px;}
+.payCount ul li:last-child .l{font-size:14px;color:#000;}
+.payCount ul li:last-child .r{color:#f60;font-size:16px;}
+
+.payGo{width:100%;height:50px;overflow:hidden;box-sizing:border-box;position:fixed;bottom:0;left:0;right:0;border-top:1px solid #ddd;background:#fff;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}
+.payGo a{color:#fff;background:#f60;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;text-align:center;line-height:50px;}
+.payTotal{line-height:50px;padding-left:10px;width:70%;display:inline-block;}
+.payTotal span{font-size:14px;}
+.payTotal em{font-size:16px;color:#f60;font-style:normal;}
+
+.orderBtnBar{width:100%;height:40px;line-height:40px;overflow:hidden;background:#fff;border-top:1px solid #ddd;position:fixed;bottom:0;}
+.orderBtnBar a{font-size:14px;}
+.orderBtnBar .orderDel{color:#000;padding-left:10px;}
+.orderBtnBar .service{float:right;color:#000;border:1px solid #999;display:inline-block;width:70px;height:26px;line-height:26px;text-align:center;border-radius:5px;margin-top:7px;margin-right:10px;}
+.orderBtnBar .buyagain{float:right;color:#ff3c25;border:1px solid #ff3c25;display:inline-block;width:70px;height:26px;line-height:26px;text-align:center;border-radius:5px;margin-top:7px;margin-right:10px;}
+
+.orderDataListBox{width:100%;height:auto;overflow:hidden;margin-bottom:20px;background:#fff;box-shadow: 2px 2px 5px #888;}
+.orderDataListTit{width:100%;height:30px;line-height:30px;border-bottom:1px solid #ddd;border-top:1px solid #ddd;}
+.orderDataListTit span{display:inline-block;width:50%;box-sizing:border-box;}
+.orderDataListTit span.time{font-size:12px;color:#333;text-align:left;float:left;padding-left:10px;}
+.orderDataListTit span.state{font-size:12px;color:#999;text-align:right;padding-right:10px;}
+.orderDataList{}
+.orderDataList li{min-height:80px;padding:12px 6px;border-bottom:1px solid #dbdbdb;position:relative;display:-webkit-box;}
+
+.orderDataListBar{height:30px;line-height:30px;overflow:hidden;background:#fff;font-size:12px;}
+.orderDataListBar .l{color:#000;padding-left:10px;}
+.orderDataListBar .r{float:right;color:#ff3c25;border:1px solid #ff3c25;display:inline-block;width:50px;height:20px;line-height:20px;text-align:center;border-radius:5px;margin-top:4px;margin-right:10px;}
+
+.ordPic{display:inline-block;text-align:center;overflow:hidden;width:100px;height:100px;margin-right:10px;margin-left:8px;}
+.ordPic img{width:100px;height:100px;}
+.ordDetail{margin:4px 15px 4px 0;-webkit-box-flex:1;display:block;position:relative;}
+.ordDetail .ordName{display:inline-block;line-height:22px;margin-bottom:3px;position:relative;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-all;height:44px;}
+.ordDetail .ordName a{color:#4b566a;font-size:14px;}
+.ordDetail .ordPrice{line-height:24px;font-size:16px;color:#ff3c25;display:block;height:auto;overflow:hidden;float:left;}
+.ordDetail .ordPrice em{font-size:12px;color:#666;font-style:normal;display:block;}
+.ordDetail .btnPayMoney{border:1px solid #4CAF50;color:#4CAF50;font-size:12px;display:inline-block;width:auto;padding:0 8px;height:25px;line-height:22px;box-sizing:border-box;text-align:center;border-radius:3px;position:absolute;right:0;bottom:0;}
+.ordDetail .btnShowOrder{border:1px solid #ff465a;color:#ff465a;font-size:12px;display:inline-block;width:auto;padding:0 8px;height:25px;line-height:22px;box-sizing:border-box;text-align:center;border-radius:3px;position:absolute;right:0;bottom:0;}
+.ordDetail .btnMakeSure{border:1px solid #f60;color:#f60;font-size:12px;display:inline-block;width:auto;padding:0 8px;height:25px;line-height:22px;box-sizing:border-box;text-align:center;border-radius:3px;position:absolute;right:0;bottom:0;}
+
+.serverListTab{width:100%;height:auto;overflow:hidden;margin-bottom:15px;}
+.serverListTab ul{height:38px;}
+.serverListTab ul li{width:50%;text-align:center;font-size:16px;line-height:38px;box-sizing:border-box;float:left;border-bottom:1px solid #ddd;}
+.serverListTab ul li.cur{color:#ff465a;border-bottom:1px solid #ff465a;}
+.serverListConItem{display:none;}

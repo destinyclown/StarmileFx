@@ -1,0 +1,9 @@
+.category{}
+.category .categoryItem{width:100%;height:auto;overflow:hidden;margin-top:20px;}
+.categoryItem .categoryTit{font-size:14px;text-align:center;background:url(../images/point.jpg) center center repeat-x;width:60%;margin:0 auto 5px;}
+.categoryItem .categoryTit span{background:#fff;padding:0 8px;}
+.categoryItem ul{width:100%;height:auto;overflow:hidden;}
+.categoryItem ul li{width:25%;float:left;display:block;}
+.categoryItem ul li a{display:block;width:80%;height:auto;overflow:hidden;margin:0 auto;}
+.categoryItem ul li a img{display:block;width:100%;height:auto;margin:5px auto}
+.categoryItem ul li a span{display:block;color:#000;font-size:12px;text-align:center;}

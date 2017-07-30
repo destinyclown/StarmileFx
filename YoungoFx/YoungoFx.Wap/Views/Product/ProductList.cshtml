@@ -1,0 +1,34 @@
+﻿@section Header{
+    <link href="~/css/category.css" rel="stylesheet" />
+}   
+<!-- end.headerBar -->
+<div class="pageContainer">
+    <div class="categoryNav">
+        <ul>
+            <li class="cur"><a href="javascript:;">导航条1</a></li>
+        </ul>
+    </div>
+    <div class="category">
+        <div class="categoryCon">
+            <div class="categoryItem">
+                <div class="categoryTit"><span>护肤</span></div>
+                <ul>
+                    <li>
+                        <a href="productList.html">
+                            <img src="images/product.jpg" alt="">
+                            <span>洗面</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end.pageContainer -->
+@section scripts{
+    <script>
+        $(function () {
+            $('#category').parent().addClass('cur');
+        });
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Youngo商城-@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="apple-touch-fullscreen" content="YES">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <environment names="Development">
+        <link href="~/css/swiper.css" rel="stylesheet" />
+        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/css/common.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/css/swiper.css" rel="stylesheet" />
+        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/css/common.css" rel="stylesheet" />
+    </environment>
+    @RenderSection("Header", required: false)
+</head>
+<body>
+    <input type="hidden" value="@ViewBag.CustomerId" id="CustomerId" />
+    <div class="headerBar">
+        <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
+        <div class="headerTit">@ViewBag.Title</div>
+        <a class="headerMessage" asp-controller="home" asp-action="search"><i class="iSearch"></i></a>
+    </div>
+    @RenderBody()
+    <div class="footerNav">
+        <ul>
+            <li><a id="home" asp-controller="home" asp-action="index"><i class="iHome"></i><span>首页</span></a></li>
+            <li><a id="category" asp-controller="product" asp-action="index"><i class="iList"></i><span>分类</span></a></li>
+            <li><a id="shoppingcart" asp-controller="order" asp-action="shoppingcart" asp-route-customerId="1"><i class="iShoppingCart"></i><span>购物车</span></a></li>
+            <li><a id="usercenter" asp-controller="customer" asp-action="index" asp-route-WeCharKey="starmile"><i class="iUser"></i><span>我</span></a></li>
+        </ul>
+    </div>
+    <environment names="Development">
+        <script src="~/js/jquery-1.8.2.min.js"></script>
+        <script src="~/js/swiper.min.js"></script>
+        <script src="~/js/common.js"></script>
+        <script src="~/js/adress.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/jquery-1.8.2.min.js"></script>
+        <script src="~/js/swiper.min.js"></script>
+        <script src="~/js/common.js"></script>
+        <script src="~/js/adress.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

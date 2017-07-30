@@ -1,28 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5745891A-947A-4AE4-BD27-310E8794501E}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api", "StarmileFx.Api\StarmileFx.Api.csproj", "{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Api", "src\StarmileFx.Api\StarmileFx.Api.xproj", "{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Common", "StarmileFx.Common\StarmileFx.Common.csproj", "{BC224894-A5B7-4E85-9AAC-E7DC3006266F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Server", "src\StarmileFx.Server\StarmileFx.Server.xproj", "{A8F598F1-1824-4554-B46D-B79CA319CCAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Models", "StarmileFx.Models\StarmileFx.Models.csproj", "{31798FB6-A391-4C7D-B1EF-B6DFABD6A941}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Web", "src\StarmileFx.Web\StarmileFx.Web.xproj", "{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api.Server", "StarmileFx.Api.Server\StarmileFx.Api.Server.csproj", "{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Common", "src\StarmileFx.Common\StarmileFx.Common.xproj", "{D1473E64-5EEC-4E9B-846E-8D4429B8193C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Resources", "StarmileFx.Resources\StarmileFx.Resources.csproj", "{B48B6EDC-2772-45BF-A928-5886BC5577FF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Api.Server", "src\StarmileFx.Api.Server\StarmileFx.Api.Server.xproj", "{1512C01F-298B-4701-8BF0-8B136F65887F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Web.Server", "StarmileFx.Web.Server\StarmileFx.Web.Server.csproj", "{432EC47C-C7FD-4CA2-9E88-75C5E5A640C6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Models", "src\StarmileFx.Models\StarmileFx.Models.xproj", "{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap.Server", "src\StarmileFx.Wap.Server\StarmileFx.Wap.Server.xproj", "{0D9D46BA-4730-41B1-873D-F4B27FCC7521}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap", "src\StarmileFx.Wap\StarmileFx.Wap.xproj", "{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Web", "StarmileFx.Web\StarmileFx.Web.csproj", "{0B444751-6646-42C6-BC01-870673CB371F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,38 +23,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8F598F1-1824-4554-B46D-B79CA319CCAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8F598F1-1824-4554-B46D-B79CA319CCAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8F598F1-1824-4554-B46D-B79CA319CCAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8F598F1-1824-4554-B46D-B79CA319CCAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1473E64-5EEC-4E9B-846E-8D4429B8193C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1473E64-5EEC-4E9B-846E-8D4429B8193C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1473E64-5EEC-4E9B-846E-8D4429B8193C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1473E64-5EEC-4E9B-846E-8D4429B8193C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1512C01F-298B-4701-8BF0-8B136F65887F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1512C01F-298B-4701-8BF0-8B136F65887F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1512C01F-298B-4701-8BF0-8B136F65887F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1512C01F-298B-4701-8BF0-8B136F65887F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D9D46BA-4730-41B1-873D-F4B27FCC7521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D9D46BA-4730-41B1-873D-F4B27FCC7521}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D9D46BA-4730-41B1-873D-F4B27FCC7521}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D9D46BA-4730-41B1-873D-F4B27FCC7521}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC224894-A5B7-4E85-9AAC-E7DC3006266F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC224894-A5B7-4E85-9AAC-E7DC3006266F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC224894-A5B7-4E85-9AAC-E7DC3006266F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC224894-A5B7-4E85-9AAC-E7DC3006266F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31798FB6-A391-4C7D-B1EF-B6DFABD6A941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31798FB6-A391-4C7D-B1EF-B6DFABD6A941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31798FB6-A391-4C7D-B1EF-B6DFABD6A941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31798FB6-A391-4C7D-B1EF-B6DFABD6A941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48B6EDC-2772-45BF-A928-5886BC5577FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48B6EDC-2772-45BF-A928-5886BC5577FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48B6EDC-2772-45BF-A928-5886BC5577FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48B6EDC-2772-45BF-A928-5886BC5577FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{432EC47C-C7FD-4CA2-9E88-75C5E5A640C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{432EC47C-C7FD-4CA2-9E88-75C5E5A640C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{432EC47C-C7FD-4CA2-9E88-75C5E5A640C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{432EC47C-C7FD-4CA2-9E88-75C5E5A640C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B444751-6646-42C6-BC01-870673CB371F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B444751-6646-42C6-BC01-870673CB371F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B444751-6646-42C6-BC01-870673CB371F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B444751-6646-42C6-BC01-870673CB371F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

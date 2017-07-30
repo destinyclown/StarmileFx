@@ -1,0 +1,24 @@
+﻿@model List<DeliveryAddress>
+@section Header{
+    <link href="~/css/user.css" rel="stylesheet" />
+}
+<!-- end.headerBar -->
+<div class="pageContainer msgPage">
+    @foreach (DeliveryAddress address in Model)
+    {
+        <a>
+            <div class="adressBox">
+                <div class="adressCon">
+                    <div class="adressTit"><h3>@address.ReceiveName</h3><span>@address.Phone</span></div>
+                    @{address.Address = address.Province + address.City + address.Area + address.Address;}
+                    <div class="adressText">@address.Address</div>
+                </div>
+            </div>
+        </a>
+    }
+    <a asp-controller="Customer" asp-action="takeGoods" class="endBtn">新增收件地址</a>
+</div>
+<!-- end.pageContainer -->
+@section scripts{
+    <script src="~/js/usercenter.js"></script>
+}

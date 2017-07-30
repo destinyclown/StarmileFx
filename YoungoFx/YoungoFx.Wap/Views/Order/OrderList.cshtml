@@ -1,0 +1,41 @@
+﻿@model List<OrderParent>
+@section Header{
+    <link href="~/css/order.css" rel="stylesheet" />
+}
+<!-- end.headerBar -->
+<div class="pageContainer orderListPage">
+   @if (Model == null || Model.Count < 1)
+   {
+        <div class="null">暂无订单</div>
+   }
+   else
+   {
+       foreach (var orderlist in Model.OrderBy(a => a.CreatTime).GroupBy(a => a.OrderID).Where(a => a.Count() > 1).ToList())
+       {
+           foreach (var order in orderlist)
+           {
+            <div class="orderDataListBox">
+                <div class="orderDataListTit">
+                    <span class="time">订单时间：@order.CreatTime.ToString("yyyy-MM-dd HH:MM:ss")</span>
+                    <span class="state">@order.OrderState</span>
+                </div>
+                <ul class="orderDataList">
+                    @foreach (var product in Model.Where(a => a.OrderID == order.OrderID).ToList())
+                    {
+                    <li>
+                        <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
+                            <img src="images/product.jpg" alt="">
+                        </a>
+                        <div class="ordDetail">
+                            <div class="ordName"><a href="product.html">@product.ProductName</a></div>
+                            <div class="ordPrice">￥@product.PurchasePrice<em>数量：@product.Number</em></div>
+                            <a class="btnPayMoney" href="order.html">立即付款</a>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+           }
+       }
+   }
+</div>
