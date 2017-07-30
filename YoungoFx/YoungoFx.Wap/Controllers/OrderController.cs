@@ -44,7 +44,7 @@ namespace StarmileFx.Wap.Controllers
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public async Task<IActionResult> OrderList(OrderStateEnum OrderState, int CustomerId, int PageSize = 1, int PageIndex = 20)
+        public async Task<IActionResult> OrderList(OrderStateEnum OrderState, int CustomerId, int PageSize = 20, int PageIndex = 1)
         {
             ViewBag.Title = "订单列表";
             ViewBag.CustomerId = CustomerId;
@@ -153,13 +153,13 @@ namespace StarmileFx.Wap.Controllers
             {
                 if (isCheck[i] == "true")
                 {
-                    Product product = ProductList.ProductList.Where(a => a.ProductID == productID[i]).ToList()[0];
+                    ProductModel mode = ProductList.ProductList.Where(a => a.ProductID == productID[i]).ToList()[0];
                     int number = int.Parse(_number[i]);
                     ProductList _product = new ProductList();
                     _product.Number = number;
-                    _product.Product = product;
+                    _product.Product = new Product();// product;
                     _product.ProductID = productID[i];
-                    _product.TotalPrice = number * product.PurchasePrice;
+                    _product.TotalPrice = number * 0;//product.PurchasePrice;
                     cart.ProductList.Add(_product);
                     TotalPrice += TotalPrice;
                 }

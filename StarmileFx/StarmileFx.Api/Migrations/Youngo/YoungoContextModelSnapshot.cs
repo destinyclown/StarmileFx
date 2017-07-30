@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using StarmileFx.Api.Server.Data;
+using StarmileFx.Models.Enum;
 
 namespace StarmileFx.Api.Migrations.Youngo
 {
@@ -13,7 +14,7 @@ namespace StarmileFx.Api.Migrations.Youngo
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("StarmileFx.Models.Wap.OrderParent", b =>
                 {
@@ -52,9 +53,15 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<string>("Phone");
 
+                    b.Property<string>("Picture");
+
                     b.Property<string>("ProductID");
 
+                    b.Property<string>("ProductName");
+
                     b.Property<string>("Province");
+
+                    b.Property<float>("PurchasePrice");
 
                     b.Property<string>("ReceiveName");
 
@@ -87,6 +94,62 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.HasKey("ID");
 
                     b.ToTable("ProductComment");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Wap.ProductModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("BrandIntroduce");
+
+                    b.Property<string>("CnName");
+
+                    b.Property<float>("CostPrice");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<string>("EnName");
+
+                    b.Property<string>("ExpressCode");
+
+                    b.Property<string>("Introduce");
+
+                    b.Property<bool>("IsClearStock");
+
+                    b.Property<bool>("IsDelete");
+
+                    b.Property<bool>("IsOutOfStock");
+
+                    b.Property<bool>("IsTop");
+
+                    b.Property<string>("Label");
+
+                    b.Property<DateTime?>("OnlineTime");
+
+                    b.Property<string>("Picture");
+
+                    b.Property<string>("ProductID");
+
+                    b.Property<float>("PurchasePrice");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<int>("SalesVolume");
+
+                    b.Property<bool>("State");
+
+                    b.Property<int>("Stock");
+
+                    b.Property<int>("Type");
+
+                    b.Property<float>("Weight");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductModel");
                 });
 
             modelBuilder.Entity("StarmileFx.Models.Youngo.Customer", b =>

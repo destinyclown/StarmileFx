@@ -30,9 +30,9 @@ namespace StarmileFx.Wap.Controllers
         {
             CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
             ProductWap _product = new ProductWap();
-            Product product = ProductList.ProductList.Find(a => a.ProductID == productid);
-            List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
-            List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
+            ProductModel product = ProductList.ProductList.Find(a => a.ProductID == productid);
+            //List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
+            //List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
             _product.ProductID = productid;
             _product.Name = product.CnName;
             _product.PurchasePrice = product.PurchasePrice;
@@ -42,8 +42,8 @@ namespace StarmileFx.Wap.Controllers
             _product.Explain = ProductList.ExpressList.Find(a => a.ExpressCode == product.ExpressCode).Explain;
             _product.Remarks = product.Remarks;
             _product.CostPrice = product.CostPrice;
-            _product.ResourcesList = resources;
-            _product.CommentList = Comment;
+            _product.ResourcesList = new List<Resources>() ;
+            _product.CommentList = new List<ProductComment>() ;
             _product.Brand = product.Brand;
             ViewBag.Title = "产品详情";
             return View(_product);

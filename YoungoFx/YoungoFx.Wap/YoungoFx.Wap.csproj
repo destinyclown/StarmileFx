@@ -24,6 +24,7 @@
     <Content Include="wwwroot\css\productList.css" />
     <Content Include="wwwroot\css\productList2.css" />
     <Content Include="wwwroot\css\search.css" />
+    <Content Include="wwwroot\css\service.css" />
     <Content Include="wwwroot\css\shoppingcart.css" />
     <Content Include="wwwroot\css\swiper.css" />
     <Content Include="wwwroot\css\user.css" />
@@ -48,6 +49,8 @@
     <Content Include="wwwroot\js\h5upload.js" />
     <Content Include="wwwroot\js\jquery-1.8.2.min.js" />
     <Content Include="wwwroot\js\order.js" />
+    <Content Include="wwwroot\js\picture-handle.js" />
+    <Content Include="wwwroot\js\picture-handle.mini.js" />
     <Content Include="wwwroot\js\search.js" />
     <Content Include="wwwroot\js\shoppingcart.js" />
     <Content Include="wwwroot\js\swiper.min.js" />

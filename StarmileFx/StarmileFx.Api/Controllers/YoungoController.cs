@@ -60,6 +60,24 @@ namespace StarmileFx.Api.Controllers
         }
 
         /// <summary>
+        /// 查询订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public string GetOrderParent(string orderId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetOrderParent(orderId);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
         /// 创建订单
         /// </summary>
         /// <param name="shopCart">购物车</param>

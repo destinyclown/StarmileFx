@@ -128,6 +128,13 @@ namespace StarmileFx.Api.Server.IServices
         List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex);
 
         /// <summary>
+        /// 查询订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        List<OrderParent> GetOrderParent(string orderId);
+
+        /// <summary>
         /// 创建订单
         /// </summary>
         /// <param name="shopCart"></param>

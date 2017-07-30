@@ -570,5 +570,69 @@ namespace YoungoFx.Web.Server.Service
             });
         }
         #endregion 订单
+
+        #region 商品
+        /// <summary>
+        /// 获取商品评论
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<ProductComment>> GetProductComment(string ProductID)
+        {
+            return Task.Run(() =>
+            {
+                return GetProductCommentAsync(ProductID);
+            });
+        }
+
+        /// <summary>
+        /// 获取商品评论（异步）
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<ProductComment>> GetProductCommentAsync(string ProductID)
+        {
+            string Action = "Youngo";
+            string Function = "/GetResources";
+            string Parameters = string.Format("productId={0}", ProductID);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<ProductComment>>(result);
+            });
+        }
+
+        /// <summary>
+        /// 获取商品图片
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public Task<ResponseResult<Resources>> GetResources(string ProductID)
+        {
+            return Task.Run(() =>
+            {
+                return GetResourcesAsync(ProductID);
+            });
+        }
+
+        /// <summary>
+        /// 获取商品图片（异步）
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        public async Task<ResponseResult<Resources>> GetResourcesAsync(string ProductID)
+        {
+            string Action = "Youngo";
+            string Function = "/GetResources";
+            string Parameters = string.Format("productId={0}", ProductID);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<Resources>>(result);
+            });
+        }
+        #endregion 商品
     }
 }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StarmileFx.Models.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StarmileFx.Models.Wap
 {
     /// <summary>
     /// 平台订单（临时）
     /// </summary>
+    [NotMapped]
     public class OrderParent : ModelBase
     {
         /// <summary>
@@ -23,6 +25,10 @@ namespace StarmileFx.Models.Wap
         /// 商品名称
         /// </summary>
         public string ProductName { get; set; }
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string Picture { get; set; }
         /// <summary>
         /// 数量
         /// </summary>

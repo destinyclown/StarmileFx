@@ -135,5 +135,17 @@ namespace YoungoFx.Web.Server.IService
         /// <param name="PageIndex"></param>
         /// <returns></returns>
         Task<ResponseResult<List<Information>>> GetMessageList(int CustomerId, int PageSize, int PageIndex);
+        /// <summary>
+        /// 获取商品评论（异步）
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        Task<ResponseResult<ProductComment>> GetProductComment(string ProductID);
+        /// <summary>
+        /// 获取商品图片
+        /// </summary>
+        /// <param name="ProductID"></param>
+        /// <returns></returns>
+        Task<ResponseResult<Resources>> GetResources(string ProductID);
     }
 }

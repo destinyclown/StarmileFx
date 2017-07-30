@@ -19,15 +19,15 @@ namespace StarmileFx.Models.Redis
         /// <summary>
         /// 商品列表
         /// </summary>
-        public List<Product> ProductList { get ; set; }
+        public List<ProductModel> ProductList { get ; set; }
         /// <summary>
         /// 资源列表
         /// </summary>
-        public List<Resources> ResourcesList { get; set; }
+        //public List<Resources> ResourcesList { get; set; }
         /// <summary>
         /// 评论列表
         /// </summary>
-        public List<ProductComment> CommentList { get; set; }
+        //public List<ProductComment> CommentList { get; set; }
         /// <summary>
         /// 快递列表
         /// </summary>

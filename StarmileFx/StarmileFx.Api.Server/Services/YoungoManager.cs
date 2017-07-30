@@ -190,23 +190,37 @@ namespace StarmileFx.Api.Server.Services
             CacheProductList _CacheProductList = new CacheProductList();
             int total = 0;
             _CacheProductList.ProductTypeList = List<ProductType>(a => a.State, out total).ToList();
-            _CacheProductList.ProductList = List<Product>(a => a.State, out total).ToList();
-            _CacheProductList.ResourcesList = List<Resources>(a => a.Type == ResourcesEnum.Product || a.Type == ResourcesEnum.Comment, out total).ToList();
             string sql = @"SELECT
-	                        cc.ID,
-	                        cc.`Comment`,
-	                        c.UserName,
-	                        cc.OrderID,
-	                        cc.Reply,
-	                        cc.ProductID,
-	                        cc.UpdateTime,
-	                        cc.CreatTime
+	                        p.ID,
+	                        p.ProductID,
+	                        p.Label,
+	                        p.CnName,
+	                        p.EnName,
+	                        p.ExpressCode,
+	                        p.Weight,
+	                        p.CostPrice,
+	                        p.PurchasePrice,
+	                        p.Introduce,
+	                        p.Type,
+	                        p.Remarks,
+	                        p.SalesVolume,
+	                        p.Stock,
+	                        p.IsTop,
+	                        p.IsOutOfStock,
+	                        p.IsClearStock,
+	                        p.State,
+	                        p.IsDelete,
+	                        p.OnlineTime,
+	                        p.Brand,
+	                        p.BrandIntroduce,
+	                        p.CreatTime,
+                            r.Address as Picture
                         FROM
-	                        CustomerComment AS cc
-                        INNER JOIN Product AS p ON cc.ProductID = p.ProductID AND p.State
-                        INNER JOIN Customer AS c ON cc.CustomerID = c.ID";
+	                        Product AS p
+                        LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 
+                        WHERE p.State";
             MySqlParameter[] parameters = new MySqlParameter[]{};
-            _CacheProductList.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
+            _CacheProductList.ProductList = _YoungoContext.ExecuteSql<ProductModel>(sql, parameters).ToList();
             _CacheProductList.ExpressList = List<Express>(a => a.IsDefault & !a.IsStop, out total).ToList();
             return _CacheProductList;
         }
@@ -224,10 +238,10 @@ namespace StarmileFx.Api.Server.Services
         {
             //sql语句
             string sql = @"SELECT
-	                        op.ID,
+	                        od.ID,
 	                        op.CustomerID,
 	                        od.ProductID,
-	                        op.OrderID,
+	                        od.OrderID,
 	                        op.TraceID,
 	                        op.PackPrice,
 	                        op.ExpressPrice,
@@ -240,20 +254,23 @@ namespace StarmileFx.Api.Server.Services
 	                        da.Area,
 	                        da.Phone,
 	                        od.Number,
-                            p.PurchasePrice,
-                            p.CnName as ProductName,
+	                        p.PurchasePrice,
+	                        p.CnName AS ProductName,
 	                        op.TotalPrice,
 	                        op.CustomerRemarks,
 	                        op.DeliveryTime,
 	                        op.PayTime,
 	                        op.FinishTime,
 	                        op.UpdateTime,
-	                        op.CreatTime
+	                        op.CreatTime,
+	                        r.Address AS Picture
                         FROM
-	                        OnLineOrderParent AS op
-                        INNER JOIN OnLineOrderDetail AS od ON op.OrderID = od.OrderID
-                        INNER JOIN Product AS p ON p.ID = od.ProductID
+	                        OnLineOrderDetail AS od
+                        INNER JOIN 	OnLineOrderParent AS op ON op.OrderID = od.OrderID
+                        INNER JOIN Product AS p ON p.ProductID = od.ProductID
                         INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
+                        LEFT JOIN Resources AS r ON p.ProductID = r.ProductID
+                        AND r.Type = 1 and Sort =0
                         WHERE op.IsDelete = 0 AND op.CustomerID = @customerId ";
             if (OrderState != OrderStateEnum.All) {
                 sql += "AND op.OrderState = @orderState ";
@@ -271,6 +288,60 @@ namespace StarmileFx.Api.Server.Services
             parameters[1].MySqlDbType = MySqlDbType.Int32;
             parameters[2].MySqlDbType = MySqlDbType.Int32;
             parameters[3].MySqlDbType = MySqlDbType.Int32;
+
+            List<OrderParent> orderParentList = _YoungoContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
+            return orderParentList;
+        }
+
+        /// <summary>
+        /// 查询订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public List<OrderParent> GetOrderParent(string orderId)
+        {
+            //sql语句
+            string sql = @"SELECT
+	                        od.ID,
+	                        op.CustomerID,
+	                        od.ProductID,
+	                        od.OrderID,
+	                        op.TraceID,
+	                        op.PackPrice,
+	                        op.ExpressPrice,
+	                        op.OrderState,
+	                        op.PaymentType,
+	                        da.ReceiveName,
+	                        da.Address,
+	                        da.Province,
+	                        da.City,
+	                        da.Area,
+	                        da.Phone,
+	                        od.Number,
+	                        p.PurchasePrice,
+	                        p.CnName AS ProductName,
+	                        op.TotalPrice,
+	                        op.CustomerRemarks,
+	                        op.DeliveryTime,
+	                        op.PayTime,
+	                        op.FinishTime,
+	                        op.UpdateTime,
+	                        op.CreatTime,
+	                        r.Address AS Picture
+                        FROM
+	                        OnLineOrderDetail AS od
+                        INNER JOIN 	OnLineOrderParent AS op ON op.OrderID = od.OrderID
+                        INNER JOIN Product AS p ON p.ProductID = od.ProductID
+                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
+                        LEFT JOIN Resources AS r ON p.ProductID = r.ProductID
+                        AND r.Type = 1 and Sort = 0
+                        WHERE op.IsDelete = 0 AND op.OrderID = @orderId ";
+
+            MySqlParameter[] parameters = new MySqlParameter[]
+            {
+                new MySqlParameter("@orderId", orderId)
+            };
+            parameters[0].MySqlDbType = MySqlDbType.String;
 
             List<OrderParent> orderParentList = _YoungoContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
             return orderParentList;

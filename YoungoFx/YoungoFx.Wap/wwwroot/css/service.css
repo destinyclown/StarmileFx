@@ -1,0 +1,38 @@
+.servicePanel{width:100%;height:auto;overflow:hidden;background:#fff;box-sizing:border-box;padding:0 10px;margin:15px 0;}
+.servicePanelTit{font-size:16px;color:#333;line-height:1.8;border-bottom:1px solid #ddd;}
+.servicePanelCon{width:100%;height:auto;overflow:hidden;}
+.sp{display:-webkit-box;}
+.spt{display:inline-block;border-bottom:none;}
+.spc{-webkit-box-flex:1;display:block;}
+
+.serviceTab .servicePanelTit{height:25px;line-height:25px;margin-right:8px;}
+.serviceTab .servicePanelCon label{width:45%;float:left;vertical-align:middle;font-size:14px;line-height:25px;}
+.serviceTab .servicePanelCon label input{display:inline-block;width:15px;height:15px;background:url(../images/checkboxOff.png);background-repeat:no-repeat;background-size:15px 15px;border-radius:15px;float:left;margin-right:5px;margin-top:5px;}
+.serviceTab .servicePanelCon label input:checked{background-image:url(../images/checkboxOn.png);}
+
+.serviceProList{}
+.serviceProList ul{}
+.serviceProList ul li{min-height:80px;padding:12px 6px;position:relative;display:-webkit-box;background:#fff;border-bottom:1px solid #eee;}
+.serviceProList ul li .pic{display:inline-block;text-align:center;overflow:hidden;width:100px;height:100px;margin-right:10px;margin-left:8px;}
+.serviceProList ul li .pic img{width:100px;height:100px;}
+.serviceProList ul li .dec{margin:4px 15px 4px 0;-webkit-box-flex:1;display:block;}
+.serviceProList ul li .dec .tit{line-height:22px;margin-bottom:3px;position:relative;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-all;color:#4b566a;font-size:14px;height:66px;}
+.serviceProList ul li .dec .price{line-height:24px;color:#999;display:block;}
+.serviceProList ul li .dec .price .p{font-style:normal;font-size:16px;color:#ff3c25;margin-right:3px;display:block;height:20px;overflow:hidden;float:left;}
+.serviceProList ul li .dec .price .n{font-style:normal;font-size:14px;color:#666;margin-right:3px;display:block;height:20px;overflow:hidden;float:right;}
+
+.serviceDescription .servicePanelCon textarea{border:1px solid #ddd;font-size:12px;line-height:16px;height:58px;padding:5px;box-sizing:border-box;width:100%;}
+
+.servicePicture .servicePanelCon{margin:0px 10px 10px;height:auto;overflow:hidden;padding-top:15px;box-sizing:border-box;}
+.servicePicture .servicePanelCon .previewItem{width:80px;height:80px;float:left;margin:0 10px 10px 0;position:relative;cursor:pointer;}
+.servicePicture .servicePanelCon .previewItem img{display:block;width:100%;height:100%;}
+.uploadImgBtn{border:1px dashed #dbdbdb;background:#ddd;color:#fff;font-size:50px;line-height:80px;text-align:center}
+.servicePicture .servicePanelCon .uploadImg{}
+.servicePicture .servicePanelCon .del{position:absolute;top:0;right:0;color:#dbdbdb;width:15px;height:15px;}
+.servicePicture .servicePanelCon .del .iTimesCircle{line-height:15px;text-align:center;}
+.evaBtn{height:40px;width:100%;overflow:hidden;line-height:40px;text-align:center;color:#fff;font-size:16px;background:#ff465a;}
+
+.serviceReason .servicePanelTit{height:28px;line-height:28px;margin-right:8px;}
+.serviceReason .servicePanelCon select{display:block;width:100%;height:28px;line-height:28px;font-size:14px;box-sizing:border-box;text-align:center;color:#333;text-indent:5px;background:#fff;}
+.serviceBtn{display:block;height:38px;width:100%;box-sizing:border-box;background:#ff465a;color:#fff;text-align:center;font-size:16px;letter-spacing:2px;line-height:38px;margin-top:8px;}
+

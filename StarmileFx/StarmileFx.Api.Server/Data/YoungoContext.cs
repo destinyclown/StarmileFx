@@ -225,5 +225,6 @@ namespace StarmileFx.Api.Server.Data
         public DbSet<Resources> Resources { get; set; }
         public DbSet<TransactionRecord> TransactionRecord { get; set; }
         public DbSet<ServiceRecord> ServiceRecord { get; set; }
+        public DbSet<ProductModel> ProductModel { get; set; }
     }
 }

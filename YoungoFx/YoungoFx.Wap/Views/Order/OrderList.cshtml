@@ -10,7 +10,7 @@
    }
    else
    {
-       foreach (var orderlist in Model.OrderBy(a => a.CreatTime).GroupBy(a => a.OrderID).Where(a => a.Count() > 1).ToList())
+       foreach (var orderlist in Model.OrderBy(a => a.CreatTime).GroupBy(a => a.OrderID).ToList())
        {
            foreach (var order in orderlist)
            {
@@ -24,7 +24,7 @@
                     {
                     <li>
                         <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
-                            <img src="images/product.jpg" alt="">
+                            <img src="@order.Picture" alt="">
                         </a>
                         <div class="ordDetail">
                             <div class="ordName"><a href="product.html">@product.ProductName</a></div>

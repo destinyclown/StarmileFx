@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StarmileFx.Models.Youngo;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StarmileFx.Models.Wap
 {
     /// <summary>
     /// 网站商品
     /// </summary>
+    [NotMapped]
     public class ProductWap
     {
         /// <summary>

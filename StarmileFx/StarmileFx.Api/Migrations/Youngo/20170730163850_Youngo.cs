@@ -30,8 +30,11 @@ namespace StarmileFx.Api.Migrations.Youngo
                     PayTime = table.Column<DateTime>(nullable: true),
                     PaymentType = table.Column<int>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
+                    Picture = table.Column<string>(nullable: true),
                     ProductID = table.Column<string>(nullable: true),
+                    ProductName = table.Column<string>(nullable: true),
                     Province = table.Column<string>(nullable: true),
+                    PurchasePrice = table.Column<float>(nullable: false),
                     ReceiveName = table.Column<string>(nullable: true),
                     TotalPrice = table.Column<float>(nullable: false),
                     TraceID = table.Column<string>(nullable: true)
@@ -57,6 +60,41 @@ namespace StarmileFx.Api.Migrations.Youngo
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductComment", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductModel",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Brand = table.Column<string>(nullable: true),
+                    BrandIntroduce = table.Column<string>(nullable: true),
+                    CnName = table.Column<string>(nullable: true),
+                    CostPrice = table.Column<float>(nullable: false),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    EnName = table.Column<string>(nullable: true),
+                    ExpressCode = table.Column<string>(nullable: true),
+                    Introduce = table.Column<string>(nullable: true),
+                    IsClearStock = table.Column<bool>(nullable: false),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    IsOutOfStock = table.Column<bool>(nullable: false),
+                    IsTop = table.Column<bool>(nullable: false),
+                    Label = table.Column<string>(nullable: true),
+                    OnlineTime = table.Column<DateTime>(nullable: true),
+                    Picture = table.Column<string>(nullable: true),
+                    ProductID = table.Column<string>(nullable: true),
+                    PurchasePrice = table.Column<float>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    SalesVolume = table.Column<int>(nullable: false),
+                    State = table.Column<bool>(nullable: false),
+                    Stock = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Weight = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductModel", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -435,6 +473,9 @@ namespace StarmileFx.Api.Migrations.Youngo
         {
             migrationBuilder.DropTable(
                 name: "OrderParent");
+
+            migrationBuilder.DropTable(
+                name: "ProductModel");
 
             migrationBuilder.DropTable(
                 name: "Customer");

@@ -14,6 +14,7 @@ namespace StarmileFx.Resources
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://*:8004")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

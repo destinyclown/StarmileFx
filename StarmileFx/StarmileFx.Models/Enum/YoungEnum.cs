@@ -144,7 +144,7 @@ namespace StarmileFx.Models.Enum
         /// <summary>
         /// 商品评论
         /// </summary>
-        Comment = 1,
+        Comment = 2,
     }
 
     /// <summary>
