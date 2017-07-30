@@ -111,7 +111,7 @@ namespace StarmileFx.Common.Redis
                 string json = JsonConvert.SerializeObject(obj);
                 return db.StringSet(key, json, expiry);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -334,7 +334,7 @@ namespace StarmileFx.Common.Redis
             {
                 return db.KeyExists(key);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 throw;

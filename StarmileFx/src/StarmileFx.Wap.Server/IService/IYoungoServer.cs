@@ -18,6 +18,12 @@ namespace StarmileFx.Wap.Server.IService
         /// <returns></returns>
         string CreateOrderID();
         /// <summary>
+        /// 判断是否存在购物车
+        /// </summary>
+        /// <param name="custmoerId"></param>
+        /// <returns></returns>
+        bool IsExistenceCart(int custmoerId);
+        /// <summary>
         /// 获取购物车
         /// </summary>
         /// <param name="CustomerID"></param>

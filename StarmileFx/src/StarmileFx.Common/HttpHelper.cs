@@ -38,7 +38,10 @@ namespace StarmileFx.Common
                     case MethodType.GET:
                         return await HttpGetAsync(Url, encoding);
                     case MethodType.POST:
-                        return await HttpPostAsync(Url, formData.ToDictionary(), encoding);
+                        if (formData != null)
+                            return await HttpPostAsync(Url, formData.ToDictionary(), encoding);
+                        else
+                            return await HttpPostAsync(Url, null, encoding);
                 }
 
 

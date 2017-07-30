@@ -39,6 +39,18 @@ namespace StarmileFx.Wap.Server.Service
         }
 
         #region 购物车ShopCart
+
+        /// <summary>
+        /// 判断是否存在购物车
+        /// </summary>
+        /// <param name="custmoerId"></param>
+        /// <returns></returns>
+        public bool IsExistenceCart(int custmoerId)
+        {
+            string key = "ShopCart_" + custmoerId.ToString();
+            return _IRedisServer.KeyExists(key);
+        }
+
         /// <summary>
         /// 创建购物车
         /// </summary>
@@ -239,7 +251,7 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
-        public Task<DeliveryAddress> GetDefaultAddress(int CustomerId)
+        public Task<ResponseResult<DeliveryAddress>> GetDefaultAddress(int CustomerId)
         {
             return Task.Run(() =>
             {
@@ -252,7 +264,7 @@ namespace StarmileFx.Wap.Server.Service
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
-        public async Task<DeliveryAddress> GetDefaultAddressAsync(int CustomerId)
+        public async Task<ResponseResult<DeliveryAddress>> GetDefaultAddressAsync(int CustomerId)
         {
             string Action = "Youngo";
             string Function = "/GetDefaultAddress";
@@ -261,7 +273,7 @@ namespace StarmileFx.Wap.Server.Service
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<DeliveryAddress>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<DeliveryAddress>>(result);
             });
         }
 
@@ -421,7 +433,7 @@ namespace StarmileFx.Wap.Server.Service
             string Function = "/OrderPay";
             string Parameters = string.Format("orderId={0}&TransactionId={1}", orderId, TransactionId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Update);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
@@ -514,7 +526,7 @@ namespace StarmileFx.Wap.Server.Service
             string Function = "/OrderComplete";
             string Parameters = string.Format("orderId={0}", orderId); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Update);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
@@ -551,7 +563,7 @@ namespace StarmileFx.Wap.Server.Service
             string Function = "/GetOrderParentcsList";
             string Parameters = string.Format("OrderState={0}&CustomerId={1}&PageSize={2}&PageIndex={3}", OrderState, CustomerId, PageSize, PageIndex); ;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<List<OrderParent>>>(result);

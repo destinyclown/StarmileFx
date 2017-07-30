@@ -1,28 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5745891A-947A-4AE4-BD27-310E8794501E}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Api", "src\StarmileFx.Api\StarmileFx.Api.xproj", "{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api", "src\StarmileFx.Api\StarmileFx.Api.csproj", "{1C1CB37F-9CC3-4D7C-B91E-6F3BC586DBC0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Server", "src\StarmileFx.Server\StarmileFx.Server.xproj", "{A8F598F1-1824-4554-B46D-B79CA319CCAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Server", "src\StarmileFx.Server\StarmileFx.Server.csproj", "{A8F598F1-1824-4554-B46D-B79CA319CCAA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Web", "src\StarmileFx.Web\StarmileFx.Web.xproj", "{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Web", "src\StarmileFx.Web\StarmileFx.Web.csproj", "{AA16960C-3C65-4A6C-A7E1-0821DE45DF6F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Common", "src\StarmileFx.Common\StarmileFx.Common.xproj", "{D1473E64-5EEC-4E9B-846E-8D4429B8193C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Common", "src\StarmileFx.Common\StarmileFx.Common.csproj", "{D1473E64-5EEC-4E9B-846E-8D4429B8193C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Api.Server", "src\StarmileFx.Api.Server\StarmileFx.Api.Server.xproj", "{1512C01F-298B-4701-8BF0-8B136F65887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api.Server", "src\StarmileFx.Api.Server\StarmileFx.Api.Server.csproj", "{1512C01F-298B-4701-8BF0-8B136F65887F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Models", "src\StarmileFx.Models\StarmileFx.Models.xproj", "{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Models", "src\StarmileFx.Models\StarmileFx.Models.csproj", "{D9E528E6-AF52-4149-A17D-A2684A4BFFB5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap.Server", "src\StarmileFx.Wap.Server\StarmileFx.Wap.Server.xproj", "{0D9D46BA-4730-41B1-873D-F4B27FCC7521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Wap.Server", "src\StarmileFx.Wap.Server\StarmileFx.Wap.Server.csproj", "{0D9D46BA-4730-41B1-873D-F4B27FCC7521}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "StarmileFx.Wap", "src\StarmileFx.Wap\StarmileFx.Wap.xproj", "{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Wap", "src\StarmileFx.Wap\StarmileFx.Wap.csproj", "{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Resources", "src\StarmileFx.Resources\StarmileFx.Resources.csproj", "{762D7F3A-8A1A-420D-9A38-FED6B9E0CA8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +61,10 @@ Global
 		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD2379F-B7CE-420A-BCFC-A4F5FF03F045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{762D7F3A-8A1A-420D-9A38-FED6B9E0CA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{762D7F3A-8A1A-420D-9A38-FED6B9E0CA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{762D7F3A-8A1A-420D-9A38-FED6B9E0CA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{762D7F3A-8A1A-420D-9A38-FED6B9E0CA8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

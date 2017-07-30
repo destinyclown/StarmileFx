@@ -33,15 +33,15 @@
             <div class="proDesc">@Model.Introduce</div>
             <div class="productDataItem">
                 <label>品牌</label>
-                <span>@Model.Brand</span>
+                <span>@Html.Raw(Model.Brand)</span>
             </div>
             <div class="productDataItem">
                 <label>物流</label>
-                <span>@Model.Explain</span>
+                <span style="color:red;">@Html.Raw(Model.Explain)</span>
             </div>
             <div class="productDataItem">
                 <label>服务</label>
-                <span>@Model.Remarks</span>
+                <span style="color:red;">@Html.Raw(Model.Remarks)</span>
             </div>
             <!-- end.proBar -->
             <div class="proTabBox">
@@ -94,7 +94,7 @@
                             }
                             else
                             {
-                                <div>暂无评论</div>
+                                <div class="null">暂无评论</div>
                             }
                         </div>
                     </div>
@@ -105,22 +105,44 @@
     <!-- end.pageContainer -->
     <div class="footerNavPro">
         <ul>
-            <li class="price">￥<span>381.00</span></li>
-            <li class="bbtn"><a href="shoppingcart.html"><i class="iShoppingCart"><em>1</em></i></a></li>
-            <li class="buy"><a href="javascript:;">加入购物车</a></li>
+            <li class="price">￥<span>@Model.PurchasePrice</span></li>
+            <li class="bbtn"><a asp-controller="home" asp-action="customerservice"><i class="iMessage"><em></em></i></a></li>
+            <li class="bbtn"><a asp-controller="home" asp-action="index"><i class="iHome"><em></em></i></a></li>
+            <li class="bbtn"><a asp-controller="order" asp-action="shoppingcart" asp-route-customerId="@ViewBag.CustomerId"><i class="iShoppingCart"><em></em></i></a></li>
+            <li class="buy"><a href="javascript:;" id="buy">加入购物车</a></li>
         </ul>
     </div>
-    <!-- end.footerNav -->
 @section scripts{
     <script>
         $(function () {
+            $(".footerNav").hide();
             $(".proTabConItem").eq(0).show();
             $(".proTab ul li").click(function () {
                 var num = $(".proTab ul li").index(this);
                 $(".proTabConItem").hide();
                 $(".proTabConItem").eq(num).show();
                 $(this).addClass('cur').siblings().removeClass('cur');
-            })
+            });
+            $("#buy").click(function () {
+                var CustomerId = $('#CustomerId').val();
+                $.ajax({
+                    type: "post",
+                    data: { customerId : CustomerId, productId : @Model.ProductID },
+                    dataType: "json",
+                    url: $form.attr('action'),
+                    success: function (result) {
+                        $('.login_tips').find('.tips_msg').remove();
+                        if (!result.isSuccessful) {
+                            $("#loginbtn").val("登录");
+                            $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                        }
+                        else {
+                            $("#loginbtn").val("登录成功...");
+                            window.location.href = "/home/index";
+                        }
+                    }
+                })
+            });
         });
 	    var swiper = new Swiper('.swiper-container', {
 	        pagination: '.swiper-pagination',

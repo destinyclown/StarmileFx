@@ -36,6 +36,7 @@ namespace StarmileFx.Wap.Controllers
                 if (responseResult.IsSuccess)
                 {
                     model = responseResult.Content;
+                    ViewBag.CustomerId = model.ID;
                 }
                 else
                 {
@@ -51,6 +52,7 @@ namespace StarmileFx.Wap.Controllers
         public async Task<IActionResult> AdressList(int customerId)
         {
             ViewBag.Title = "收件地址";
+            ViewBag.CustomerId = customerId;
             List<DeliveryAddress> list = new List<DeliveryAddress>();
             ResponseResult<List<DeliveryAddress>> responseResult = await _YoungoServer.GetDeliveryAddressList(customerId);
             if (responseResult.IsSuccess)
@@ -66,6 +68,7 @@ namespace StarmileFx.Wap.Controllers
         public async Task<IActionResult> Message(int customerId, int PageSize, int PageIndex)
         {
             ViewBag.Title = "系统消息";
+            ViewBag.CustomerId = customerId;
             List<Information> list = new List<Information>();
             ResponseResult<List<Information>> responseResult = await _YoungoServer.GetMessageList(customerId, PageSize, PageIndex);
             if (responseResult.IsSuccess)
@@ -78,12 +81,12 @@ namespace StarmileFx.Wap.Controllers
             }
             return View(list);
         }
-        public IActionResult Service()
+        public IActionResult Service(int customerId)
         {
             ViewBag.Title = "用户中心";
             return View();
         }
-        public IActionResult ServiceList()
+        public IActionResult ServiceList(int customerId)
         {
             ViewBag.Title = "用户中心";
             return View();
@@ -106,8 +109,9 @@ namespace StarmileFx.Wap.Controllers
             }
             return View(adress);
         }
-        public IActionResult Vip()
+        public IActionResult Vip(int customerId)
         {
+            ViewBag.CustomerId = customerId;
             ViewBag.Title = "用户中心";
             return View();
         }

@@ -44,9 +44,10 @@ namespace StarmileFx.Wap.Controllers
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public async Task<IActionResult> OrderList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
+        public async Task<IActionResult> OrderList(OrderStateEnum OrderState, int CustomerId, int PageSize = 1, int PageIndex = 20)
         {
             ViewBag.Title = "订单列表";
+            ViewBag.CustomerId = CustomerId;
             ResponseResult<List<OrderParent>> responseResult = await _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex);
             List<OrderParent> list = new List<OrderParent>();
             if (responseResult.IsSuccess)
@@ -68,6 +69,30 @@ namespace StarmileFx.Wap.Controllers
         }
 
         /// <summary>
+        /// 添加商品到购物车
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> AddProductCart(int customerId, string productId)
+        {
+            CacheProductList list = await _YoungoServer.GetCacheProductList();
+            if (_YoungoServer.IsExistenceCart(customerId))
+            {
+                ShopCart cart = _YoungoServer.GetShopCart(customerId);
+                if (cart.ProductList.All(a => a.ProductID == productId))
+                {
+                    cart.ProductList.Find(a => a.ProductID == productId).Number++;
+                }
+                else
+                {
+                    
+                }
+            }
+            return View(result);
+        }
+
+        /// <summary>
         /// 购物车
         /// </summary>
         /// <param name="customerId"></param>
@@ -80,6 +105,7 @@ namespace StarmileFx.Wap.Controllers
             if (customerId != null)
             {
                 CustomerId = int.Parse(customerId.ToString());
+                ViewBag.CustomerId = CustomerId;
                 cart = _YoungoServer.GetShopCart(CustomerId);
             }
             else
@@ -154,6 +180,7 @@ namespace StarmileFx.Wap.Controllers
         public async Task<IActionResult> CreateOrder(int customerId)
         {
             ViewBag.Title = "微信支付";
+            ViewBag.CustomerId = customerId;
             ShopCart _ShopCart = _YoungoServer.GetTemporaryShopCart(customerId);
             if (_ShopCart == null)
             {

@@ -21,8 +21,9 @@
     @RenderSection("Header", required: false)
 </head>
 <body>
+    <input type="hidden" value="@ViewBag.CustomerId" id="CustomerId" />
     <div class="headerBar">
-        <a class="headerBack"><i class="iAngleLeft"></i></a>
+        <a class="headerBack" onclick="history.go(-1)"><i class="iAngleLeft"></i></a>
         <div class="headerTit">@ViewBag.Title</div>
         <a class="headerMessage" asp-controller="home" asp-action="search"><i class="iSearch"></i></a>
     </div>

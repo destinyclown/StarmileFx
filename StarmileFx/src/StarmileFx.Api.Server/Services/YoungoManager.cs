@@ -217,7 +217,8 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="OrderState"></param>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
         public List<OrderParent> GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
