@@ -181,6 +181,8 @@ namespace StarmileFx.Api.Server.Services
         #endregion
 
         #region 手机商城
+
+        #region 商品相关
         /// <summary>
         /// 获取商品列表
         /// </summary>
@@ -224,6 +226,26 @@ namespace StarmileFx.Api.Server.Services
             _CacheProductList.ExpressList = List<Express>(a => a.IsDefault & !a.IsStop, out total).ToList();
             return _CacheProductList;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public ProductResources GetProductResources(string productId)
+        {
+            if (string.IsNullOrEmpty(productId))
+            {
+                throw new Exception("商品SKU不能为空！");
+            }
+            ProductResources rp = new ProductResources();
+            rp.ProductID = productId;
+            string sql = @"";
+            MySqlParameter[] parameters = new MySqlParameter[] { };
+            rp.CommentList= _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
+            return rp;
+        }
+        #endregion 商品相关
 
         #region 订单相关
         /// <summary>
