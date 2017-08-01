@@ -573,64 +573,64 @@ namespace YoungoFx.Web.Server.Service
 
         #region 商品
         /// <summary>
-        /// 获取商品评论
+        /// 获取商品资源
         /// </summary>
         /// <param name="ProductID"></param>
         /// <returns></returns>
-        public Task<ResponseResult<ProductComment>> GetProductComment(string ProductID)
+        public Task<ResponseResult<ProductResources>> GetProductResources(string ProductID)
         {
             return Task.Run(() =>
             {
-                return GetProductCommentAsync(ProductID);
+                return GetProductResourcesAsync(ProductID);
             });
         }
 
         /// <summary>
-        /// 获取商品评论（异步）
+        /// 获取商品资源（异步）
         /// </summary>
         /// <param name="ProductID"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<ProductComment>> GetProductCommentAsync(string ProductID)
+        public async Task<ResponseResult<ProductResources>> GetProductResourcesAsync(string ProductID)
         {
             string Action = "Youngo";
-            string Function = "/GetResources";
+            string Function = "/GetProductResources";
             string Parameters = string.Format("productId={0}", ProductID);
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<ProductComment>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<ProductResources>>(result);
             });
         }
 
         /// <summary>
-        /// 获取商品图片
+        /// 提交图片资源
         /// </summary>
         /// <param name="ProductID"></param>
         /// <returns></returns>
-        public Task<ResponseResult<Resources>> GetResources(string ProductID)
+        public Task<ResponseResult<bool>> SubmitResources(Resources from)
         {
             return Task.Run(() =>
             {
-                return GetResourcesAsync(ProductID);
+                return SubmitResourcesAsync(from);
             });
         }
 
         /// <summary>
-        /// 获取商品图片（异步）
+        /// 提交图片资源（异步）
         /// </summary>
         /// <param name="ProductID"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<Resources>> GetResourcesAsync(string ProductID)
+        public async Task<ResponseResult<bool>> SubmitResourcesAsync(Resources from)
         {
             string Action = "Youngo";
-            string Function = "/GetResources";
-            string Parameters = string.Format("productId={0}", ProductID);
+            string Function = "/SubmitResources";
+            string Parameters = string.Empty;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, from);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<Resources>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
             });
         }
         #endregion 商品

@@ -9,7 +9,7 @@ using StarmileFx.Models.Enum;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170730163850_Youngo")]
+    [Migration("20170801075911_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("ProductID");
 
                     b.Property<int?>("Reply");
+
+                    b.Property<int>("Star");
 
                     b.Property<int>("UserName");
 
@@ -191,6 +193,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<string>("ProductID");
 
                     b.Property<int?>("Reply");
+
+                    b.Property<int>("Star");
 
                     b.HasKey("ID");
 
@@ -502,8 +506,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
                     b.Property<DateTime>("CreatTime");
 
-                    b.Property<int?>("ProductCommentID");
-
                     b.Property<string>("ProductID");
 
                     b.Property<string>("ResourcesCode");
@@ -513,8 +515,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.Property<int>("Type");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ProductCommentID");
 
                     b.ToTable("Resources");
                 });
@@ -607,13 +607,6 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.HasKey("ID");
 
                     b.ToTable("ViewHistory");
-                });
-
-            modelBuilder.Entity("StarmileFx.Models.Youngo.Resources", b =>
-                {
-                    b.HasOne("StarmileFx.Models.Wap.ProductComment")
-                        .WithMany("ResourcesList")
-                        .HasForeignKey("ProductCommentID");
                 });
         }
     }

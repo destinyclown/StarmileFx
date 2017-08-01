@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarmileFx.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -27,24 +28,33 @@ namespace StarmileFx.Resources.Service
             /// </summary>
             /// <param name="msg"></param>
             /// <param name="data"></param>
-            /// <param name="dataCount"></param>
             /// <param name="httpCode"></param>
             /// <returns></returns>
-            public static object SuccessMsg(string msg, dynamic data = null, int dataCount = 0, HttpStatusCode httpCode = HttpStatusCode.OK)
+            public static object SuccessMsg(string msg, dynamic data, HttpStatusCode httpCode = HttpStatusCode.OK)
             {
-                return new { isSuccess = true, msg = msg, httpCode = httpCode, data = data, dataCount = dataCount };
+                Result result = new Result();
+                result.IsSuccessful = true;
+                foreach(var a in data)
+                {
+                    result.ParamList.Add("", a);
+                }
+                result.ReasonDescription = msg;
+                result.Reason = httpCode;
+                return result;
             }
             /// <summary>
             /// 失败信息
             /// </summary>
             /// <param name="msg"></param>
-            /// <param name="errorCode"></param>
-            /// <param name="errorLevel"></param>
             /// <param name="httpCode"></param>
             /// <returns></returns>
-            public static object ErrorMsg(string msg, int errorCode = 0, int errorLevel = 0, HttpStatusCode httpCode = HttpStatusCode.InternalServerError)
+            public static object ErrorMsg(string msg, HttpStatusCode httpCode = HttpStatusCode.InternalServerError)
             {
-                return new { isSuccess = false, msg = msg, httpCode = httpCode, errorCode = errorCode, errorLevel = errorLevel };
+                Result result = new Result();
+                result.IsSuccessful = false;
+                result.ReasonDescription = msg;
+                result.Reason = httpCode;
+                return result;
             }
         }
     }

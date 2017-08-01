@@ -19,6 +19,10 @@ namespace StarmileFx.Models.Youngo
         /// </summary>
         public string OrderID { get; set; }
         /// <summary>
+        /// 评分
+        /// </summary>
+        public int Star { get; set; }
+        /// <summary>
         /// 商品ID（SKU）
         /// </summary>
         public string ProductID { get; set; }

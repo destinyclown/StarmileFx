@@ -55,6 +55,7 @@ namespace StarmileFx.Api.Migrations.Youngo
                     OrderID = table.Column<string>(nullable: true),
                     ProductID = table.Column<string>(nullable: true),
                     Reply = table.Column<int>(nullable: true),
+                    Star = table.Column<int>(nullable: false),
                     UserName = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -126,7 +127,8 @@ namespace StarmileFx.Api.Migrations.Youngo
                     CustomerID = table.Column<int>(nullable: false),
                     OrderID = table.Column<string>(nullable: true),
                     ProductID = table.Column<string>(nullable: true),
-                    Reply = table.Column<int>(nullable: true)
+                    Reply = table.Column<int>(nullable: true),
+                    Star = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,6 +361,24 @@ namespace StarmileFx.Api.Migrations.Youngo
                 });
 
             migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Address = table.Column<string>(nullable: true),
+                    CreatTime = table.Column<DateTime>(nullable: false),
+                    ProductID = table.Column<string>(nullable: true),
+                    ResourcesCode = table.Column<string>(nullable: true),
+                    Sort = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServiceRecord",
                 columns: table => new
                 {
@@ -437,42 +457,15 @@ namespace StarmileFx.Api.Migrations.Youngo
                 {
                     table.PrimaryKey("PK_ViewHistory", x => x.ID);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Resources",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Address = table.Column<string>(nullable: true),
-                    CreatTime = table.Column<DateTime>(nullable: false),
-                    ProductCommentID = table.Column<int>(nullable: true),
-                    ProductID = table.Column<string>(nullable: true),
-                    ResourcesCode = table.Column<string>(nullable: true),
-                    Sort = table.Column<int>(nullable: false),
-                    Type = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Resources", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Resources_ProductComment_ProductCommentID",
-                        column: x => x.ProductCommentID,
-                        principalTable: "ProductComment",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Resources_ProductCommentID",
-                table: "Resources",
-                column: "ProductCommentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "OrderParent");
+
+            migrationBuilder.DropTable(
+                name: "ProductComment");
 
             migrationBuilder.DropTable(
                 name: "ProductModel");
@@ -533,9 +526,6 @@ namespace StarmileFx.Api.Migrations.Youngo
 
             migrationBuilder.DropTable(
                 name: "ViewHistory");
-
-            migrationBuilder.DropTable(
-                name: "ProductComment");
         }
     }
 }

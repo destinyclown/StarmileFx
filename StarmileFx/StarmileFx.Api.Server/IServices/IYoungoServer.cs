@@ -234,6 +234,19 @@ namespace StarmileFx.Api.Server.IServices
         /// <returns></returns>
         bool OrderServiceApply(string OrederId, ServiceTypeEnum Type, string Content);
 
+        /// <summary>
+        /// 获取商品资源
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        ProductResources GetProductResources(string productId);
+
+        /// <summary>
+        /// 添加图片资源
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        bool SubmitResources(Resources list);
         #endregion
 
         #region 网站后台

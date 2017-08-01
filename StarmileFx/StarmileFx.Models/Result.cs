@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace StarmileFx.Models
@@ -16,7 +17,7 @@ namespace StarmileFx.Models
         public Result()
         {
             IsSuccessful = false;
-            Reason = -1;
+            Reason = HttpStatusCode.OK;
             ReasonDescription = "";
             ParamList = new Dictionary<string, object>();
         }
@@ -29,7 +30,7 @@ namespace StarmileFx.Models
         /// <summary>
         /// 原因，数值
         /// </summary>
-        public int Reason { get; set; }
+        public HttpStatusCode Reason { get; set; }
 
         /// <summary>
         /// 原因描述

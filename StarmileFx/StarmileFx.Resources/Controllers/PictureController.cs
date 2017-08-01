@@ -72,7 +72,7 @@ namespace StarmileFx.Resources.Controllers
 
             string message = $"{files.Count} file(s) /{size} bytes uploaded successfully!";
 
-            return Json(FileHelper.SuccessMsg(message, filePathResultList, filePathResultList.Count));
+            return Json(FileHelper.SuccessMsg(message, filePathResultList));
         }
     }
 }

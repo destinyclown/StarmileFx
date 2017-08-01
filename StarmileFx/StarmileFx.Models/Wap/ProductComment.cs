@@ -23,6 +23,10 @@ namespace StarmileFx.Models.Wap
         /// </summary>
         public string ProductID { get; set; }
         /// <summary>
+        /// 评分
+        /// </summary>
+        public int Star { get; set; }
+        /// <summary>
         /// 评论
         /// </summary>
         public string Comment { get; set; }
@@ -33,6 +37,6 @@ namespace StarmileFx.Models.Wap
         /// <summary>
         /// 资源列表
         /// </summary>
-        public List<Resources> ResourcesList { get; set; }
+        //public List<Resources> ResourcesList { get; set; }
     }
 }

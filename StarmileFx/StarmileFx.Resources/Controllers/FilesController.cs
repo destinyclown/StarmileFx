@@ -33,7 +33,7 @@ namespace StarmileFx.Resources.Controllers
             //size > 100MB refuse upload !
             if (size > 10485760)
             {
-                return Json(FileHelper.ErrorMsg("上传的图片不能大于10MB！"));
+                return Json(FileHelper.ErrorMsg("上传的文件不能大于10MB！"));
             }
 
             List<string> filePathResultList = new List<string>();
@@ -63,7 +63,7 @@ namespace StarmileFx.Resources.Controllers
 
             string message = $"{files.Count} file(s) /{size} bytes uploaded successfully!";
 
-            return Json(FileHelper.SuccessMsg(message, filePathResultList, filePathResultList.Count));
+            return Json(FileHelper.SuccessMsg(message, filePathResultList));
         }
 
     }

@@ -228,7 +228,7 @@ namespace StarmileFx.Api.Server.Services
         }
 
         /// <summary>
-        /// 
+        /// 获取商品资源
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
@@ -239,11 +239,38 @@ namespace StarmileFx.Api.Server.Services
                 throw new Exception("商品SKU不能为空！");
             }
             ProductResources rp = new ProductResources();
+            int total = 0;
             rp.ProductID = productId;
-            string sql = @"";
+            string sql = @"SELECT
+	                        cc.ID,
+	                        c.UserName,
+	                        cc.OrderID,
+	                        cc.ProductID,
+	                        cc.`Comment`,
+	                        cc.Reply,
+                            cc.Star,
+	                        cc.CreatTime
+                        FROM
+	                        CustomerComment AS cc
+                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID";
             MySqlParameter[] parameters = new MySqlParameter[] { };
-            rp.CommentList= _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
+            rp.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
+            rp.ResourcesList = _YoungoContext.List<Resources>(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product), out total).ToList();
             return rp;
+        }
+
+        /// <summary>
+        /// 添加图片资源
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public bool SubmitResources(Resources from)
+        {
+            if (!Add(from, Transaction))
+            {
+                throw new Exception("添加图片失败！");
+            }
+            return Commit();
         }
         #endregion 商品相关
 

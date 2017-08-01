@@ -8,6 +8,7 @@ using StarmileFx.Models;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using static StarmileFx.Models.Wap.WapFrom;
+using StarmileFx.Models.Youngo;
 
 namespace StarmileFx.Api.Controllers
 {
@@ -210,6 +211,24 @@ namespace StarmileFx.Api.Controllers
         }
 
         /// <summary>
+        /// 获取商品资源
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public string GetProductResources(string productId)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetProductResources(productId);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
         /// 提交评论
         /// </summary>
         /// <param name="CommentFrom"></param>
@@ -221,6 +240,25 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult();
                 responseModel.Content = _YoungoServer.SubmitComment(CommentFrom);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 提交图片资源
+        /// </summary>
+        /// <param name="CommentFrom"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public string SubmitResources([FromForm]Resources ResourcesFrom)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.SubmitResources(ResourcesFrom);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

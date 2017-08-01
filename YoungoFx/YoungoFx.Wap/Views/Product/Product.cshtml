@@ -6,12 +6,12 @@
     <div class="pageContainer">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a href="javascript:;"><img src="/images/banner0.jpg" alt=""></a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="javascript:;"><img src="/images/banner1.jpg" alt=""></a>
-                </div>
+                @foreach (var ps in Model.ResourcesList.Where(a => a.Type == ResourcesEnum.Product).ToList())
+                {
+                    <div class="swiper-slide">
+                        <a href="javascript:;"><img src="@ps.Address" alt=""></a>
+                    </div>
+                }
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="proTabCon">
                     <div class="proTabConItem">
-                        <img src="/images/product.jpg" alt="" style="width:100%;">
+                        <img src="@Model" alt="" style="width:100%;">
                     </div>
                     <!-- end.proTabConItem -->
                     <div class="proTabConItem">
@@ -69,25 +69,25 @@
                                     </div>
                                     <div class="commentScore">
                                         <span class="commentScoreText">评分：</span>
-                                        <span class="star light"><i class="iStar"></i></span>
-                                        <span class="star light"><i class="iStar"></i></span>
-                                        <span class="star light"><i class="iStar"></i></span>
-                                        <span class="star light"><i class="iStar"></i></span>
-                                        <span class="star light"><i class="iStar"></i></span>
+                                        @for (int i = 1; i < comment.Star; i++)
+                                        {
+                                            <span class="star light"><i class="iStar"></i></span>
+                                        }
+                                        @for (int i = 1; i < 5 - comment.Star; i++)
+                                        {
+                                            <span><i class="iStar"></i></span>
+                                        }
                                     </div>
                                     <div class="commentCon">
                                         <p>@comment.Comment</p>
                                     </div>
                                     <div class="commentPic">
-                                        <div class="commentPicItem">
-                                            <img src="images/product.jpg" alt="">
-                                        </div>
-                                        <div class="commentPicItem">
-                                            <img src="images/product.jpg" alt="">
-                                        </div>
-                                        <div class="commentPicItem">
-                                            <img src="images/product.jpg" alt="">
-                                        </div>
+                                        @foreach (var ps in Model.ResourcesList.Where(a => a.ResourcesCode == comment.ID.ToString()).ToList())
+                                        {
+                                            <div class="commentPicItem">
+                                                <img src="@ps.Address" alt="">
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                                 }
@@ -106,7 +106,7 @@
     <div class="footerNavPro">
         <ul>
             <li class="price">￥<span>@Model.PurchasePrice</span></li>
-            <li class="bbtn"><a asp-controller="home" asp-action="customerservice"><i class="iMessage"><em></em></i></a></li>
+            @*<li class="bbtn"><a asp-controller="home" asp-action="customerservice"><i class="iMessage"><em></em></i></a></li>*@
             <li class="bbtn"><a asp-controller="home" asp-action="index"><i class="iHome"><em></em></i></a></li>
             <li class="bbtn"><a asp-controller="order" asp-action="shoppingcart" asp-route-customerId="@ViewBag.CustomerId"><i class="iShoppingCart"><em></em></i></a></li>
             <li class="buy"><a href="javascript:;" id="buy">加入购物车</a></li>

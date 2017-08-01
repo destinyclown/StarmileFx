@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
+using System.Net;
 
 namespace StarmileFx.Web.Filter
 {
@@ -48,7 +49,7 @@ namespace StarmileFx.Web.Filter
                 {
                     ContentResult jsonData = new ContentResult();
                     Result result = new Result();
-                    result.Reason = 1;
+                    result.Reason = HttpStatusCode.OK;
                     filterContext.Result = jsonData;
                 }
                 else if (callType == CallType.Partial)

@@ -7,6 +7,7 @@ using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
+using StarmileFx.Models;
 
 namespace StarmileFx.Wap.Controllers
 {
@@ -33,6 +34,12 @@ namespace StarmileFx.Wap.Controllers
             ProductModel product = ProductList.ProductList.Find(a => a.ProductID == productid);
             //List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
             //List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
+            ResponseResult<ProductResources> responseResult = await _YoungoServer.GetProductResources(productid);
+            ProductResources resources = new ProductResources();
+            if (responseResult.IsSuccess)
+            {
+                resources = responseResult.Content;
+            }
             _product.ProductID = productid;
             _product.Name = product.CnName;
             _product.PurchasePrice = product.PurchasePrice;
@@ -42,8 +49,8 @@ namespace StarmileFx.Wap.Controllers
             _product.Explain = ProductList.ExpressList.Find(a => a.ExpressCode == product.ExpressCode).Explain;
             _product.Remarks = product.Remarks;
             _product.CostPrice = product.CostPrice;
-            _product.ResourcesList = new List<Resources>() ;
-            _product.CommentList = new List<ProductComment>() ;
+            _product.ResourcesList = resources.ResourcesList;
+            _product.CommentList = resources.CommentList;
             _product.Brand = product.Brand;
             ViewBag.Title = "产品详情";
             return View(_product);
