@@ -20,11 +20,12 @@ namespace StarmileFx.Api.Controllers
             _BaseServer = IBaseServer;
         }
 
-        public string CreateSystem()
+        public IActionResult CreateSystem()
         {
             SysRoles model = new SysRoles();
             BaseService.Insert(model, HttpContext);
-            return "启动StarmileFx.Api系统！";
+            //return "启动StarmileFx.Api系统！";
+            return View();
         }
 
         /// <summary>
