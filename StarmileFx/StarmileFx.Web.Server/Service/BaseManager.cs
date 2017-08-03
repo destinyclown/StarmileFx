@@ -21,7 +21,7 @@ namespace StarmileFx.Web.Server.Services
         public BaseManager()
         {
             //Api_Host = "http://localhost:8001/";//测试使用
-            Api_Host = "http://119.23.252.219:8001/";//线上测试
+            Api_Host = "http://api.starmile.com/";//线上测试
             //Api_Host = "https://api.starmile.com.cn/";//线上接口
         }
 
