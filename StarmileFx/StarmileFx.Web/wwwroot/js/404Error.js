@@ -1,8 +1,8 @@
-﻿$(function () {
-    $(".re").click(function(){
+﻿$(function() {
+    $(".re").click(function() {
         location.reload();
     });
-    $(".home").click(function () {
+    $(".home").click(function() {
         top.close();
     });
 });

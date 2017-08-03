@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Youngo;
+using StarmileFx.Models.Wap;
 
 namespace StarmileFx.Models.Redis
 {
@@ -66,7 +67,7 @@ namespace StarmileFx.Models.Redis
         /// <summary>
         /// 商品实体类
         /// </summary>
-        public Product Product { get; set; }
+        public ProductModel Product { get; set; }
         /// <summary>
         /// 商品ID（SKU）
         /// </summary>

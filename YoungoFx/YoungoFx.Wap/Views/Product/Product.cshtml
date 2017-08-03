@@ -129,16 +129,13 @@
                     type: "post",
                     data: { customerId : CustomerId, productId : @Model.ProductID },
                     dataType: "json",
-                    url: $form.attr('action'),
+                    url: "/Order/AddProductCart",
                     success: function (result) {
-                        $('.login_tips').find('.tips_msg').remove();
                         if (!result.isSuccessful) {
-                            $("#loginbtn").val("登录");
-                            $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                           
                         }
                         else {
-                            $("#loginbtn").val("登录成功...");
-                            window.location.href = "/home/index";
+                            
                         }
                     }
                 })

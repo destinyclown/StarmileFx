@@ -74,6 +74,7 @@ namespace StarmileFx.Wap.Controllers
         /// <param name="customerId"></param>
         /// <param name="productId"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<IActionResult> AddProductCart(int customerId, string productId)
         {
             CacheProductList list = await _YoungoServer.GetCacheProductList();
@@ -82,14 +83,49 @@ namespace StarmileFx.Wap.Controllers
                 ShopCart cart = _YoungoServer.GetShopCart(customerId);
                 if (cart.ProductList.All(a => a.ProductID == productId))
                 {
-                    cart.ProductList.Find(a => a.ProductID == productId).Number++;
+                    ProductList productList = cart.ProductList.Find(a => a.ProductID == productId);
+                    cart.ProductList.Remove(productList);
+                    productList.Number++;
+                    productList.TotalPrice = productList.Number * productList.Product.PurchasePrice;
+                    cart.ProductList.Add(productList);
+                    if (_YoungoServer.ClearShopCart(customerId))
+                    {
+                        result.IsSuccessful = _YoungoServer.CreateShopCart(cart);
+                        return View(result);
+                    }
+                    else
+                    {
+                        result.ReasonDescription = "清空购物车货失败！";
+                        return View(result);
+                    }
                 }
                 else
                 {
-                    
+                    ProductList productList = new ProductList();
+                    ProductModel product = list.ProductList.Find(a => a.ProductID == productId);
+                    productList.Product = product;
+                    productList.Number = 1;
+                    productList.ProductID = productId;
+                    productList.TotalPrice = product.PurchasePrice;
+                    cart.ProductList.Add(productList);
+                    result.IsSuccessful = _YoungoServer.ModifyShopCart(cart);
+                    return View(result);
                 }
             }
-            return View(result);
+            else
+            {
+                ShopCart cart = new ShopCart();
+                cart.CustomerID = customerId;
+                ProductList productList = new ProductList();
+                ProductModel product = list.ProductList.Find(a => a.ProductID == productId);
+                productList.Product = product;
+                productList.Number = 1;
+                productList.ProductID = productId;
+                productList.TotalPrice = product.PurchasePrice;
+                cart.ProductList.Add(productList);
+                result.IsSuccessful = _YoungoServer.CreateShopCart(cart);
+                return View(result);
+            }
         }
 
         /// <summary>
@@ -153,13 +189,13 @@ namespace StarmileFx.Wap.Controllers
             {
                 if (isCheck[i] == "true")
                 {
-                    ProductModel mode = ProductList.ProductList.Where(a => a.ProductID == productID[i]).ToList()[0];
+                    ProductModel product = ProductList.ProductList.Where(a => a.ProductID == productID[i]).ToList()[0];
                     int number = int.Parse(_number[i]);
                     ProductList _product = new ProductList();
                     _product.Number = number;
-                    _product.Product = new Product();// product;
+                    _product.Product = product;
                     _product.ProductID = productID[i];
-                    _product.TotalPrice = number * 0;//product.PurchasePrice;
+                    _product.TotalPrice = number * product.PurchasePrice;
                     cart.ProductList.Add(_product);
                     TotalPrice += TotalPrice;
                 }

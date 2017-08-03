@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 namespace StarmileFx.Resources
 {
@@ -15,7 +16,8 @@ namespace StarmileFx.Resources
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseUrls("http://*:8004")
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
