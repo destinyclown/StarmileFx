@@ -109,6 +109,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
+            token = HttpContext.Session.GetString(SysConst.Token);
             HttpContext.Session.Clear();
             ResponseResult<Result> responseResult = await _BaseServer.Logout(token);
             if (!responseResult.IsSuccess)

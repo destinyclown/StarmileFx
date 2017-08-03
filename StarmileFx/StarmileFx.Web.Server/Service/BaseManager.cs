@@ -20,8 +20,8 @@ namespace StarmileFx.Web.Server.Services
         HttpHelper httpHelper = new HttpHelper();
         public BaseManager()
         {
-            //Api_Host = "http://localhost:8001/";//测试使用
-            Api_Host = "http://api.starmile.com/";//线上测试
+            Api_Host = "http://localhost:8001/";//测试使用
+            //Api_Host = "http://api.starmile.com/";//线上测试
             //Api_Host = "https://api.starmile.com.cn/";//线上接口
         }
 

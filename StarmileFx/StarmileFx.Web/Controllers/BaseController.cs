@@ -23,9 +23,13 @@ namespace StarmileFx.Web.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             result = new Result();
-            token = HttpContext.Session.GetString(SysConst.Token); 
+            
             base.OnActionExecuting(context);
-            string session = context.HttpContext.Session.GetString(SysConst.Token);
+            string session = "";
+            if (context.HttpContext.Session != null)
+            {
+                session = context.HttpContext.Session.GetString(SysConst.Token);
+            }
             string action = context.RouteData.Values["action"].ToString().ToUpper();
             string controller = context.RouteData.Values["controller"].ToString().ToUpper();
             if (controller != "HOME" && action != "LOGIN")

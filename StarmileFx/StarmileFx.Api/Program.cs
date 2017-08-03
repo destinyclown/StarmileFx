@@ -10,11 +10,15 @@ namespace StarmileFx.Api
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
+                //.UseKestrel(option => {
+                //    option.UseHttps("server.pfx", "linezero");
+                //})
+                //.UseUrls("https://*:443")
                 .UseKestrel()
                 .UseUrls("http://*:8001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();

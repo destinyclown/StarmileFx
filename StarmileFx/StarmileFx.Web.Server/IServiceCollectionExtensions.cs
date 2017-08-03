@@ -20,7 +20,8 @@ namespace StarmileFx.Web.Server
                     }));
 
             //依赖服务
-            services.AddTransient<IBaseServer, BaseManager>();
+            services.AddTransient<IRedisServer, RedisManager>()
+                .AddTransient<IBaseServer, BaseManager>();
         }
     }
 }

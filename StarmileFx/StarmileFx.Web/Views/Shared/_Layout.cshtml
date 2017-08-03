@@ -6,19 +6,17 @@
     <title>@WebConfigModel.Value.WebName</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/bootstrap-table/src/bootstrap-table.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <link href="~/css/amazeui.min.css" rel="stylesheet" />
         <link href="~/css/admin.css" rel="stylesheet" />
-        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/css/app.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/bootstrap-table/src/bootstrap-table.css" rel="stylesheet" />
         <link href="~/css/amazeui.min.css" rel="stylesheet" />
         <link href="~/css/admin.css" rel="stylesheet" />
-        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/css/app.css" rel="stylesheet" />
     </environment>
 </head>
@@ -32,9 +30,10 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/js/src/tooltip.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/bootstrap-table/src/bootstrap-table.js"></script>
-        <script src="~/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+        <script src="~/lib/bootstrap-table/dist/bootstrap-table.js"></script>
+        <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
         <script src="~/js/amazeui.min.js"></script>
         <script src="~/js/indextab.js"></script>
         <script src="~/js/Chart.js"></script>
@@ -44,9 +43,10 @@
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/js/src/tooltip.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="~/bootstrap-table/src/bootstrap-table.js"></script>
-        <script src="~/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+        <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
+        <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
         <script src="~/js/amazeui.min.js"></script>
         <script src="~/js/indextab.js"></script>
         <script src="~/js/Chart.min.js"></script>
