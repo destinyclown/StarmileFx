@@ -8,6 +8,7 @@ using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using static StarmileFx.Models.Wap.WapFrom;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Server.IServices
 {
@@ -372,6 +373,8 @@ namespace StarmileFx.Api.Server.IServices
         #endregion
 
         #region Product
+        List<Product> GetProductList(ProductSearch search, out int total);
+
         Product GetProduct(string SKUProductCode);
 
         bool AddProduct(Product product);

@@ -9,6 +9,7 @@ using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using static StarmileFx.Models.Wap.WapFrom;
 using StarmileFx.Models.Youngo;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Controllers
 {
@@ -22,6 +23,7 @@ namespace StarmileFx.Api.Controllers
             _YoungoServer = IYoungoServer;
         }
 
+        #region 手机商城
         /// <summary>
         /// 获取商品列表
         /// </summary>
@@ -321,5 +323,28 @@ namespace StarmileFx.Api.Controllers
             };
             return ActionResponseGetString(funcAction);
         }
+        #endregion 手机商城
+
+        #region 网站后台
+        /// <summary>
+        /// 查询商品
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public string GetProductList([FromForm]ProductSearch from)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                int total = 0;
+                responseModel.Content = _YoungoServer.GetProductList(from, out total);
+                responseModel.total = total;
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+        #endregion 网站后台
     }
 }

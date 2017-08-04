@@ -33,6 +33,10 @@ namespace StarmileFx.Models
         /// </summary>
         public string ErrorMsg { get; set; }
         /// <summary>
+        /// 总数
+        /// </summary>
+        public int? total { get; set; }
+        /// <summary>
         /// Token令牌（临时存在7天）
         /// </summary>
         public string Token { get; set; }
@@ -59,6 +63,10 @@ namespace StarmileFx.Models
         /// 内容
         /// </summary>
         public T Content { get; set; }
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int? total { get; set; }
         /// <summary>
         /// 错误信息
         /// </summary>

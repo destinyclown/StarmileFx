@@ -11,6 +11,7 @@ using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using MySql.Data.MySqlClient;
 using static StarmileFx.Models.Wap.WapFrom;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -863,6 +864,41 @@ namespace StarmileFx.Api.Server.Services
 
         #region 网站后台
 
+        #region 商品管理
+        /// <summary>
+        /// 查询商品
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        public List<Product> GetProductList(ProductSearch search, out int total)
+        {
+            List<Product> list = PageData(search, search.CreateExpression(), a => a.CreatTime, out total).ToList();
+            return list;
+        }
+
+        public Product GetProduct(string SKUProductCode)
+        {
+            Product Product = new Product();
+            return Product;
+        }
+
+        public bool AddProduct(Product Product)
+        {
+            return false;
+        }
+
+        public bool ModifyProduct(Product Product)
+        {
+            return false;
+        }
+
+        public bool DeleteProduct(string SKUProductCode)
+        {
+            return false;
+        }
+        #endregion 商品管理
+
         #region Customer
         public Customer GetCustomer(int Id)
         {
@@ -1088,29 +1124,6 @@ namespace StarmileFx.Api.Server.Services
         }
 
         public bool DeletePost(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region Product
-        public Product GetProduct(string SKUProductCode)
-        {
-            Product Product = new Product();
-            return Product;
-        }
-
-        public bool AddProduct(Product Product)
-        {
-            return false;
-        }
-
-        public bool ModifyProduct(Product Product)
-        {
-            return false;
-        }
-
-        public bool DeleteProduct(string SKUProductCode)
         {
             return false;
         }

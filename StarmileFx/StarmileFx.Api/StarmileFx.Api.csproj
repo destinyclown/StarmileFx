@@ -8,7 +8,6 @@
     <Content Include="wwwroot\Image\bgm.jpg" />
     <Content Include="wwwroot\Image\IMG_1005.JPG" />
     <Content Include="wwwroot\Image\portfolio-img2.jpg" />
-    <Content Include="wwwroot\SysMenus.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
