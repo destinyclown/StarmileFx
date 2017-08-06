@@ -32,8 +32,6 @@ namespace StarmileFx.Wap.Controllers
             CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
             ProductWap _product = new ProductWap();
             ProductModel product = ProductList.ProductList.Find(a => a.ProductID == productid);
-            //List<Resources> resources = ProductList.ResourcesList == null ? new List<Resources>() : ProductList.ResourcesList.Where(a => a.ResourcesCode == productid).ToList();
-            //List<ProductComment> Comment = ProductList.CommentList == null ? new List<ProductComment>() : ProductList.CommentList.Where(a => a.ProductID == productid).ToList();
             ResponseResult<ProductResources> responseResult = await _YoungoServer.GetProductResources(productid);
             ProductResources resources = new ProductResources();
             if (responseResult.IsSuccess)
@@ -56,13 +54,16 @@ namespace StarmileFx.Wap.Controllers
             return View(_product);
         }
 
-        public IActionResult ProductList()
+
+        public async Task<IActionResult> ProductList(string keyword)
         {
             ViewBag.Title = "产品列表";
-            return View();
+            CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
+            List<ProductModel> list = ProductList.ProductList.Where(a => a.CnName.Contains(keyword) || a.Brand.Contains(keyword) || a.BrandIntroduce.Contains(keyword)).ToList();
+            return View(list);
         }
 
-        public IActionResult ProductList2()
+        public IActionResult ProductList2(string keyword)
         {
             ViewBag.Title = "产品列表";
             return View();

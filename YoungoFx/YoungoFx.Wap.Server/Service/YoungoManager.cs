@@ -197,7 +197,7 @@ namespace YoungoFx.Web.Server.Service
                 return _IRedisServer.GetStringKey<CacheProductList>(key);
             }
             var result = await GetProductList();
-            TimeSpan time = DateTime.Now.AddMinutes(15) - DateTime.Now;
+            TimeSpan time = DateTime.Now.AddMinutes(30) - DateTime.Now;
             if (result != null && result.IsSuccess)
             {
                 if(_IRedisServer.SetStringKey(key, result.Content, time))

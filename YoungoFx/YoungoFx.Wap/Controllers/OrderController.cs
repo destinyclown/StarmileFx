@@ -11,8 +11,6 @@ using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using static StarmileFx.Models.Wap.WapFrom;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StarmileFx.Wap.Controllers
 {
     public class OrderController : BaseController

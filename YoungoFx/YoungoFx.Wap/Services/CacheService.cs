@@ -43,7 +43,7 @@ namespace StarmileFx.Wap.Services
             while (IsStarted)
             {
                 _IYoungoServer.GetCacheProductList();
-                Thread.Sleep(900000);
+                Thread.Sleep(1800000);
                 if (!IsStarted) return;
             }
         }
