@@ -1,28 +1,33 @@
-﻿@section Header{
-    <link href="~/css/category.css" rel="stylesheet" />
-}   
+﻿@model List<ProductModel>
+@section Header{
+    <link href="~/css/productList.css" rel="stylesheet" />
+}
 <!-- end.headerBar -->
 <div class="pageContainer">
-    <div class="categoryNav">
-        <ul>
-            <li class="cur"><a href="javascript:;">导航条1</a></li>
-        </ul>
-    </div>
-    <div class="category">
-        <div class="categoryCon">
-            <div class="categoryItem">
-                <div class="categoryTit"><span>护肤</span></div>
-                <ul>
+    @if (Model == null || Model.Count < 1)
+    {
+        <div class="null">暂无商品</div>
+    }
+    else
+    {
+        <div class="productList">
+            <ul>
+                @foreach (ProductModel product in Model)
+                {
                     <li>
-                        <a href="productList.html">
-                            <img src="images/product.jpg" alt="">
-                            <span>洗面</span>
+                        <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
+                            <img src="@product.Picture" alt="">
+                            <span class="tit">@product.CnName</span>
+                            <span class="price">
+                                <em class="now">￥@product.PurchasePrice</em>
+                                <em class="num">已售：@product.SalesVolume</em>
+                            </span>
                         </a>
                     </li>
-                </ul>
-            </div>
+                }
+            </ul>
         </div>
-    </div>
+    }
 </div>
 <!-- end.pageContainer -->
 @section scripts{

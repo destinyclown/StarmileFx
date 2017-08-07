@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StarmileFx.Models.Json;
+using StarmileFx.Wap.Middleware;
 using YoungoFx.Web.Server;
 
 namespace YoungoFx.Wap
@@ -22,17 +23,11 @@ namespace YoungoFx.Wap
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // 添加框架服务。
             services.AddApplicationInsightsTelemetry(Configuration);
-
             services.AddSingleton<IConfiguration>(this.Configuration);
-
-            //注册输入格式
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             services.AddSession();
             services.AddMvc();
 
@@ -46,7 +41,6 @@ namespace YoungoFx.Wap
             services.AddCoreServices();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -62,11 +56,11 @@ namespace YoungoFx.Wap
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //自定义中间件
+            app.UseCustomMddleware();
             app.UseStaticFiles();
-
             //不可查看静态文件目录
             app.UseFileServer();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
