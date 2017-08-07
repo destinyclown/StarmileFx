@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StarmileFx.Common;
-using StarmileFx.Common.Encryption;
 using StarmileFx.Models;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
@@ -12,16 +10,22 @@ using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using YoungoFx.Web.Server.IServices;
+using StarmileFx.Models.MongoDB;
+using StarmileFx.Common.MongoDB;
+using Microsoft.Extensions.Options;
+using System.Threading;
 
 namespace YoungoFx.Web.Server.Service
 {
     public class YoungoManager : IYoungoServer
     {
         private readonly IRedisServer _IRedisServer;
+        private readonly ICacheProductListService _ICacheProductListService;
         private string Api_Host;
         HttpHelper httpHelper = new HttpHelper();
-        public YoungoManager(IRedisServer IRedisServer)
+        public YoungoManager(IRedisServer IRedisServer, ICacheProductListService ICacheProductListService)
         {
+            _ICacheProductListService = ICacheProductListService;
             _IRedisServer = IRedisServer;
             _IRedisServer.conn = "127.0.0.1";
             Api_Host = "http://localhost:8001/";//测试使用
@@ -192,22 +196,17 @@ namespace YoungoFx.Web.Server.Service
         public async Task<CacheProductList> GetCacheProductListAsync()
         {
             string key = "CacheProduct";
-            if (_IRedisServer.KeyExists(key))
+            if (_ICacheProductListService.GetById(key) == null)
             {
-                return _IRedisServer.GetStringKey<CacheProductList>(key);
+                return _ICacheProductListService.GetById(key);
             }
             var result = await GetProductList();
-            TimeSpan time = DateTime.Now.AddMinutes(15) - DateTime.Now;
+            //TimeSpan time = DateTime.Now.AddMinutes(15) - DateTime.Now;
+            var time = new CancellationTokenSource(900000);
             if (result != null && result.IsSuccess)
             {
-                if(_IRedisServer.SetStringKey(key, result.Content, time))
-                {
-                    return result.Content;
-                }
-                else
-                {
-                    throw new Exception("添加redis缓存失败！");
-                }
+                await _ICacheProductListService.InsertAsync(result.Content, time.Token);
+                return result.Content;
             }
             else
             {

@@ -10,8 +10,7 @@ using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using static StarmileFx.Models.Wap.WapFrom;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using StarmileFx.Models.MongoDB;
 
 namespace StarmileFx.Wap.Controllers
 {

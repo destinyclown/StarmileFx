@@ -5,13 +5,17 @@ using System.Threading.Tasks;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 
-namespace StarmileFx.Models.Redis
+namespace StarmileFx.Models.MongoDB
 {
     /// <summary>
     /// 缓存商品列表
     /// </summary>
-    public class CacheProductList
+    public class CacheProductList : Entity
     {
+        public CacheProductList()
+        {
+            Id = "CacheProduct";
+        }
         /// <summary>
         /// 商品类型列表
         /// </summary>

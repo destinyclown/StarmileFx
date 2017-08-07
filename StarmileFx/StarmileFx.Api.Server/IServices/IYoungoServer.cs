@@ -9,6 +9,7 @@ using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using static StarmileFx.Models.Wap.WapFrom;
 using StarmileFx.Models.Web;
+using StarmileFx.Models.MongoDB;
 
 namespace StarmileFx.Api.Server.IServices
 {

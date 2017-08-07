@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
-using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using StarmileFx.Models;
+using StarmileFx.Models.MongoDB;
 
 namespace StarmileFx.Wap.Controllers
 {

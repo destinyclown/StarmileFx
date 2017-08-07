@@ -39,6 +39,7 @@ namespace YoungoFx.Wap
             //读取节点为WebConfig的配置
             services.Configure<WebConfigModel>(Configuration.GetSection("WebConfig"));
             services.Configure<RedisModel>(Configuration.GetSection("Redis"));
+            services.UserMongoLog(Configuration.GetSection("Mongo.Log"));
             //services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));
 
             // 添加应用程序服务。

@@ -1,10 +1,11 @@
 ﻿using YoungoFx.Web.Server.IServices;
-using StarmileFx.Common.Redis;
 using YoungoFx.Web.Server.Services;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using YoungoFx.Web.Server.IService;
 using YoungoFx.Web.Server.Service;
+using StarmileFx.Models.MongoDB;
+using Microsoft.Extensions.Configuration;
+using StarmileFx.Common.MongoDB;
 
 namespace YoungoFx.Web.Server
 {
@@ -25,6 +26,13 @@ namespace YoungoFx.Web.Server
             services.AddTransient<IRedisServer, RedisManager>()
                 .AddTransient<IBaseServer, BaseManager>()
                 .AddTransient<IYoungoServer, YoungoManager>();
+        }
+        public static IServiceCollection UserMongoLog(this IServiceCollection services,
+            IConfigurationSection configurationSection)
+        {
+            services.Configure<MongoDBSetting>(configurationSection);
+            services.AddSingleton<LogsContext>();
+            return services;
         }
     }
 }
