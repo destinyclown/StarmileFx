@@ -1,0 +1,14 @@
+use YoungoDB
+db.createUser(
+  {
+    user: "starmile",
+    pwd: "crz123456",
+    roles:
+    [
+      {
+        role: "dbOwner",
+        db: "YoungoDB"
+      }
+    ]
+  }
+)

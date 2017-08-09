@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace StarmileFx.Models.Web
@@ -57,9 +58,10 @@ namespace StarmileFx.Models.Web
             //
             if (!string.IsNullOrEmpty(CnName))
             {
-                ConstantExpression constantProjectOfProvince = Expression.Constant(CnName);
-                MemberExpression memberProjectOfCity = Expression.PropertyOrField(parameter, "CnName");
-                query = Expression.And(query, Expression.Equal(memberProjectOfCity, constantProjectOfProvince));
+                //ConstantExpression constantProjectOfProvince = Expression.Constant(CnName);
+                //MemberExpression memberProjectOfCity = Expression.PropertyOrField(parameter, "CnName");
+                MethodCallExpression methodProject = Expression.Call(Expression.Property(parameter, typeof(Product).GetProperty("CnName")),typeof(string).GetMethod("Contains"), new Expression[] { Expression.Constant(CnName) });
+                query = Expression.And(query, Expression.Lambda(methodProject, parameter));
             }
             //
             if (Type != null)

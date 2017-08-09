@@ -20,15 +20,17 @@ namespace YoungoFx.Web.Server.Service
     public class YoungoManager : IYoungoServer
     {
         private readonly IRedisServer _IRedisServer;
-        private readonly ICacheProductListService _ICacheProductListService;
+        private readonly CacheProductListService _CacheProductListService;
         private string Api_Host;
         HttpHelper httpHelper = new HttpHelper();
-        public YoungoManager(IRedisServer IRedisServer, ICacheProductListService ICacheProductListService)
+        public YoungoManager(IRedisServer IRedisServer, IOptions<MongoDBSetting> options)
         {
-            _ICacheProductListService = ICacheProductListService;
+            LogsContext lc = new LogsContext(options);
+            _CacheProductListService = new CacheProductListService(lc);
             _IRedisServer = IRedisServer;
             _IRedisServer.conn = "127.0.0.1";
             Api_Host = "http://localhost:8001/";//测试使用
+            //Api_Host = "http://www.5wmp.com/";//线上测试使用
         }
         /// <summary>
         /// 创建订单编号
@@ -195,17 +197,16 @@ namespace YoungoFx.Web.Server.Service
         /// <returns></returns>
         public async Task<CacheProductList> GetCacheProductListAsync()
         {
-            string key = "CacheProduct";
-            if (_ICacheProductListService.GetById(key) == null)
+            var key = "CacheProductList";
+            if (_CacheProductListService.Exists(a => a.Id.Equals(key)))
             {
-                return _ICacheProductListService.GetById(key);
+                return _CacheProductListService.GetById(key);
             }
             var result = await GetProductList();
-            //TimeSpan time = DateTime.Now.AddMinutes(15) - DateTime.Now;
             var time = new CancellationTokenSource(900000);
             if (result != null && result.IsSuccess)
             {
-                await _ICacheProductListService.InsertAsync(result.Content, time.Token);
+                await _CacheProductListService.InsertAsync(result.Content, time.Token);
                 return result.Content;
             }
             else

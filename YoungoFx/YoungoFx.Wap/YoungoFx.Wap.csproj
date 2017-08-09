@@ -28,6 +28,12 @@
     <Content Include="wwwroot\css\shoppingcart.css" />
     <Content Include="wwwroot\css\swiper.css" />
     <Content Include="wwwroot\css\user.css" />
+    <Content Include="wwwroot\fonts\fontawesome-webfont.eot" />
+    <Content Include="wwwroot\fonts\fontawesome-webfont.svg" />
+    <Content Include="wwwroot\fonts\fontawesome-webfont.ttf" />
+    <Content Include="wwwroot\fonts\fontawesome-webfont.woff" />
+    <Content Include="wwwroot\fonts\fontawesome-webfont.woff2" />
+    <Content Include="wwwroot\fonts\FontAwesome.otf" />
     <Content Include="wwwroot\images\banner0.jpg" />
     <Content Include="wwwroot\images\banner1.jpg" />
     <Content Include="wwwroot\images\borderBg.jpg" />

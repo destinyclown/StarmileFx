@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -33,6 +34,7 @@ namespace StarmileFx.Web
             services.Configure<WebConfigModel>(Configuration.GetSection("WebConfig"));
             services.Configure<RedisModel>(Configuration.GetSection("Redis"));
             services.AddMvc();
+            services.AddAuthorization();
             // 添加应用程序服务。
             services.AddCoreServices();
         }
@@ -40,6 +42,14 @@ namespace StarmileFx.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookie",
+                LoginPath = new PathString("/home/Login"),
+                AccessDeniedPath = new PathString("/home/Error"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug((c, l) => l >= LogLevel.Error);
 
@@ -47,6 +57,7 @@ namespace StarmileFx.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UseExceptionHandler("/Home/Error");
             }
             else
             {

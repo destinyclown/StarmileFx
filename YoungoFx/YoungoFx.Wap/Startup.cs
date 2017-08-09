@@ -57,7 +57,7 @@ namespace YoungoFx.Wap
             }
 
             //自定义中间件
-            app.UseCustomMddleware();
+            //app.UseCustomMddleware();
             app.UseStaticFiles();
             //不可查看静态文件目录
             app.UseFileServer();

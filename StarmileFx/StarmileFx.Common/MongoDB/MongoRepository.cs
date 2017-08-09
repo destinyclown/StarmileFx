@@ -48,6 +48,11 @@ namespace StarmileFx.Common.MongoDB
 
         public T GetById(string id)
         {
+            //var key = ObjectId.Parse(id);
+            if (Get(a => a.Id.Equals(id)) == null)
+            {
+                return default(T);
+            }
             return Get(a => a.Id.Equals(id)).FirstOrDefault();
         }
 
@@ -148,6 +153,10 @@ namespace StarmileFx.Common.MongoDB
 
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
+            if (Get(predicate) == null)
+            {
+                return false;
+            }
             return Get(predicate).Any();
         }
 

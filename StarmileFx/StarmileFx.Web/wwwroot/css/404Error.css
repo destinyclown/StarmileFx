@@ -20,15 +20,15 @@ a:hover{text-decoration:underline}
 .c2{height:35px;text-align:center}
 .c2 a{display:inline-block;margin:0 4px;font-size:14px;height:23px;color:#626262;padding-top:1px;text-decoration:none;text-align:left}
 .c2 a:hover{color:#626262;text-decoration:none;}
-.c2 a.home{width:66px;background:url("../../../images/404/02.png");padding-left:30px}
-.c2 a.home:hover{background:url("../../../images/404/02.png") 0 -24px}
-.c2 a.home:active{background:url("../../../images/404/02.png") 0 -48px}
-.c2 a.re{width:66px;background:url("../../../images/404/03.png");padding-left:30px}
-.c2 a.re:hover{background:url("../../../images/404/03.png") 0 -24px}
-.c2 a.re:active{background:url("../../../images/404/03.png") 0 -48px}
-.c2 a.sr{width:153px;background:url("../../../images/404/04.png");padding-left:28px}
-.c2 a.sr:hover{background:url("../../../images/404/04.png") 0 -24px}
-.c2 a.sr:active{background:url("../../../images/404/04.png") 0 -48px}
+.c2 a.home{width:66px;background:url("/images/404/02.png");padding-left:30px}
+.c2 a.home:hover{background:url("/images/404/02.png") 0 -24px}
+.c2 a.home:active{background:url("/images/404/02.png") 0 -48px}
+.c2 a.re{width:66px;background:url("/images/404/03.png");padding-left:30px}
+.c2 a.re:hover{background:url("/images/404/03.png") 0 -24px}
+.c2 a.re:active{background:url("/images/404/03.png") 0 -48px}
+.c2 a.sr{width:153px;background:url("/images/404/04.png");padding-left:28px}
+.c2 a.sr:hover{background:url("/images/404/04.png") 0 -24px}
+.c2 a.sr:active{background:url("/images/404/04.png") 0 -48px}
 .c3{height:180px;text-align:center;color:#999;font-size:12px}
 #bf{position:absolute;top:269px;left:0;width:100%}
 .bf1{margin:0 auto;width:99px;padding-left:32px}

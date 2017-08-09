@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MongoDB.Bson;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 
@@ -14,7 +13,7 @@ namespace StarmileFx.Models.MongoDB
     {
         public CacheProductList()
         {
-            Id = "CacheProduct";
+            Id = "CacheProductList";
         }
         /// <summary>
         /// 商品类型列表

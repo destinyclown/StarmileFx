@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using StarmileFx.Web.Controllers.Controllers;
 using StarmileFx.Models;
+using System.Security.Claims;
 
 namespace StarmileFx.Web.Controllers
 {
@@ -25,20 +26,22 @@ namespace StarmileFx.Web.Controllers
             result = new Result();
             
             base.OnActionExecuting(context);
-            string session = "";
-            if (context.HttpContext.Session != null)
+            var authentication = HttpContext.Authentication.GetAuthenticateInfoAsync("Cookie").Result.Principal;
+            if (authentication == null || string.IsNullOrEmpty(authentication.FindFirst(ClaimTypes.Name).Value))
             {
-                session = context.HttpContext.Session.GetString(SysConst.Token);
-            }
-            string action = context.RouteData.Values["action"].ToString().ToUpper();
-            string controller = context.RouteData.Values["controller"].ToString().ToUpper();
-            if (controller != "HOME" && action != "LOGIN")
-            {
-                if (string.IsNullOrEmpty(session))
+                string action = context.RouteData.Values["action"].ToString().ToLower();
+                string controller = context.RouteData.Values["controller"].ToString().ToLower();
+                if (controller != "home" || (action != "login" && action != "captcha"))
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "home", action = "login" }));
                 }
             }
+            //string session = "";
+            //if (context.HttpContext.Session != null)
+            //{
+            //    session = context.HttpContext.Session.GetString(SysConst.Token);
+            //}
+
         }
         /// <summary>
         /// 页面从定向

@@ -13,6 +13,9 @@ using StarmileFx.Web.Server.IServices;
 using static StarmileFx.Models.Web.HomeFromModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http.Authentication;
+using System;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -38,10 +41,11 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        [Authorization(_CallType = CallType.Normal)]
-        public IActionResult Index()
+        //[Authorization(_CallType = CallType.Normal)]
+        public async Task<IActionResult> Index()
         {
-            ViewData[SysConst.Token] = HttpContext.Session.GetString(SysConst.Token);
+            var authentication = await HttpContext.Authentication.GetAuthenticateInfoAsync("Cookie");
+            ViewData[SysConst.Token] = authentication.Principal.FindFirst(ClaimTypes.Name).Value;//HttpContext.Session.GetString(SysConst.Token);
             return View();
         }
         public IActionResult Default()
@@ -84,8 +88,20 @@ namespace StarmileFx.Web.Controllers.Controllers
             }
             else
             {
+
                 result = responseResult.Content;
-                HttpContext.Session.SetString(SysConst.Token, responseResult.Token);
+                //HttpContext.Session.SetString(SysConst.Token, responseResult.Token);
+                var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name,responseResult.Token)
+                };
+                var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "SuperSecureLogin"));
+                await HttpContext.Authentication.SignInAsync("Cookie", userPrincipal, new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    IsPersistent = false,
+                    AllowRefresh = false
+                });
             }
             return Json(result);
         }
@@ -109,7 +125,8 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
-            token = HttpContext.Session.GetString(SysConst.Token);
+            var authentication = await HttpContext.Authentication.GetAuthenticateInfoAsync("Cookie");
+            token = authentication.Principal.FindFirst(ClaimTypes.Name).Value;
             HttpContext.Session.Clear();
             ResponseResult<Result> responseResult = await _BaseServer.Logout(token);
             if (!responseResult.IsSuccess)
@@ -120,6 +137,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             else
             {
                 result = responseResult.Content;
+                await HttpContext.Authentication.SignOutAsync("Cookie");
             }
             return Json(result);
         }

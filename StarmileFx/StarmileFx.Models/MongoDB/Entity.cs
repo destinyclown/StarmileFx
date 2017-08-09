@@ -9,7 +9,7 @@ namespace StarmileFx.Models.MongoDB
         /// <summary>
         /// 主键
         /// </summary>
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.String)]
         public virtual string Id { get; set; }
 
     }
