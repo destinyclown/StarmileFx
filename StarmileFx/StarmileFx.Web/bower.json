@@ -10,9 +10,11 @@
     "bootstrap-table": "1.11.1",
     "tether": "v1.4.0",
     "bootstrapvalidator": "bootstrapValidator#v0.5.3",
-    "bootstrap-validator": "v0.11.9"
+    "bootstrap-validator": "v0.11.9",
+    "bootstrap-datetimepicker": "v0.0.11"
   },
   "resolutions": {
-    "bootstrap": "v4.0.0-alpha.6"
+    "bootstrap": "v4.0.0-alpha.6",
+    "jquery": ">=1.8"
   }
 }

@@ -19,6 +19,7 @@
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
         <link href="~/css/app.css" rel="stylesheet" />
     </environment>
+    @RenderSection("style", required: false)
 </head>
 <body>
     <!--[if lte IE 7]>
@@ -30,7 +31,7 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/js/src/tooltip.js"></script>
+        <script src="~/lib/tether/dist/js/tether.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/bootstrap-table/dist/bootstrap-table.js"></script>
         <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
@@ -43,7 +44,7 @@
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/js/src/tooltip.js"></script>
+        <script src="~/lib/tether/dist/js/tether.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
         <script src="~/lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>

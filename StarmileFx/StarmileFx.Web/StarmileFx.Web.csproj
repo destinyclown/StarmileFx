@@ -85,6 +85,7 @@
     <Content Include="wwwroot\js\mobileBUGFix.mini.js" />
     <Content Include="wwwroot\js\modal.js" />
     <Content Include="wwwroot\js\picture-handle.mini.js" />
+    <Content Include="wwwroot\js\Youngo\product.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
