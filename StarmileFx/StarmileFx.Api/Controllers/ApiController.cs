@@ -20,7 +20,7 @@ namespace StarmileFx.Api.Controllers
             _BaseServer = IBaseServer;
         }
 
-        public IActionResult CreateSystem()
+        public IActionResult Index()
         {
             SysRoles model = new SysRoles();
             BaseService.Insert(model, HttpContext);
