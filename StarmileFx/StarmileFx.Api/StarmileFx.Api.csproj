@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\Index.html" />
     <Content Include="wwwroot\Image\bgm.jpg" />
     <Content Include="wwwroot\Image\IMG_1005.JPG" />
     <Content Include="wwwroot\Image\portfolio-img2.jpg" />
@@ -42,4 +43,6 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

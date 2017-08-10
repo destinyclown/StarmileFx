@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.EntityFrameworkCore.Extensions;
 using StarmileFx.Api.Middleware;
 using StarmileFx.Api.Server;
 using StarmileFx.Api.Server.Data;
 using StarmileFx.Models.Json;
+using System.IO;
 using System.Text;
 
 namespace StarmileFx.Api
@@ -31,6 +34,8 @@ namespace StarmileFx.Api
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddDbContext<BaseContext>(options => options.UseMySQL(Configuration.GetConnectionString("BaseConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
             services.AddDbContext<YoungoContext>(options => options.UseMySQL(Configuration.GetConnectionString("YoungoConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
             //读取配置
@@ -54,7 +59,7 @@ namespace StarmileFx.Api
 
             //注册输入格式
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+            app.UseCors(builder => builder.WithOrigins("https://*").AllowAnyHeader());
             //自定义中间件
             app.UseCustomMddleware();
             app.UseStaticFiles();
@@ -62,7 +67,7 @@ namespace StarmileFx.Api
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=api}/{action=createsystem}/{id?}");
+                    template: "{controller=api}/{action=Index}/{id?}");
             });
         }
     }

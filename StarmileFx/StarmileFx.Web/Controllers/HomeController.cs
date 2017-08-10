@@ -98,7 +98,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "SuperSecureLogin"));
                 await HttpContext.Authentication.SignInAsync("Cookie", userPrincipal, new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    ExpiresUtc = DateTime.UtcNow.AddHours(6),
                     IsPersistent = false,
                     AllowRefresh = false
                 });
