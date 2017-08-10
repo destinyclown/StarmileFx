@@ -1,5 +1,6 @@
-﻿$(function () {
-    //initTable();
+﻿var $table = $('#table');
+$(function () {
+    initTable();
     $('#datetimepicker1').datetimepicker({
         collapse: false,
         format: 'yyyy-MM-dd',
@@ -11,28 +12,36 @@
         format: 'yyyy-MM-dd',
         language: 'zh-CN',
         autoclose: true
-    });  
+    });
+    $('#btn_query').click(function () {
+        $table.bootstrapTable('refresh', queryParams);  
+    });
 });
 
-function initTable() {
-    var $table = $('#table');
+function initTable() { 
     $table.bootstrapTable({
-        url: '../SysMenus.json',
+        url: '/Youngo/GetProductList',
         dataType: "json",
         method: 'post',
         contentType: "application/x-www-form-urlencoded",
         toolbar: '#toolbar',                //工具按钮用哪个容器
-        striped: true,                      //是否显示行间隔色
-        singleSelect: false,
-        pagination: true, //分页
-        pageNumber: 1,                       //初始化加载第一页，默认第一页
-        pageSize: 20,                       //每页的记录行数（*）
-        pageList: [20, 50, 100, 200, 500],        //可供选择的每页的行数（*）
-        search: false, //显示搜索框
-        sidePagination: "server", //服务端处理分页
-        showExport: true,                     //是否显示导出
-        exportDataType: "basic", //basic', 'all', 'selected'.
-        queryParams: queryParams,
+        striped: true,     //使表格带有条纹  
+        pagination: true, //在表格底部显示分页工具栏  
+        pageSize: 20,
+        pageNumber: 1,
+        pageList: [20, 50, 100, 200, 500],
+        idField: "id",  //标识哪个字段为id主键  
+        showToggle: false,   //名片格式  
+        cardView: false,//设置为True时显示名片（card）布局  
+        showColumns: false, //显示隐藏列    
+        //showRefresh: true,  //显示刷新按钮  
+        singleSelect: false,//复选框只能选择一条记录  
+        search: false,//是否显示右上角的搜索框  
+        clickToSelect: true,//点击行即可选中单选/复选框  
+        sidePagination: "server",//表格分页的位置  
+        queryParams: queryParams, //参数  
+        queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求  
+        silent: false,  //刷新事件必须设置   
         columns: [{
             field: 'id',
             checkbox: true
@@ -78,24 +87,32 @@ function initTable() {
                 return e + d;
             }
         }],
-        onLoadSuccess: function () {
+        formatLoadingMessage: function () {
+            //return "请稍等，正在加载中...";
         },
-        onLoadError: function () {
-            //mif.showErrorMessageBox("数据加载失败！");
-        }
+        formatNoMatches: function () {  //没有匹配的结果  
+            return '无符合条件的记录';
+        },
+        onLoadError: function (data) {
+            $('#reportTable').bootstrapTable('removeAll');
+        },
+        //onClickRow: function (row) {
+        //    window.location.href = "/qStock/qProInfo/" + row.ProductId;
+        //}
     });
 }
  
 //传递的参数
 function queryParams(params) {
-    return {
-        pageSize: params.pageSize,
+    var search = {
+        pageSize: params.limit,
         pageIndex: params.pageNumber,
-        UserName: $("#txtName").val(),
-        Birthday: $("#txtBirthday").val(),
-        Gender: $("#Gender").val(),
-        Address: $("#txtAddress").val(),
-        name: params.sortName,
-        order: params.sortOrder
+        productId: $(".productId").val(),
+        name: $(".name").val(),
+        state: $(".state").val(),
+        type: $(".type").val(),
+        starDate: $(".starDate").val(),
+        endDate: $(".endDate").val()
     };
+    return search;
 }

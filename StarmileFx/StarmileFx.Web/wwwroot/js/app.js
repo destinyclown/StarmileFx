@@ -36,7 +36,7 @@
         $loadingtext.css("left", (top.$('body').width() - $loadingtext.width()) / 2 - 50);
         $loadingtext.css("top", (top.$('body').height() - $loadingtext.height()) / 2);
     }
-    $(window).load(function () {
+    $(window).on('load', function () {
         window.setTimeout(function () {
             $('#ajax-loader').fadeOut();
         }, 300);

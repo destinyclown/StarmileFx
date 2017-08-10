@@ -73,7 +73,7 @@ namespace StarmileFx.Common
 
                 if (mi != null && mi.IsPublic)
                 {
-                    map.Add(p.Name, mi.Invoke(o, new object[] { }).ToString());
+                    map.Add(p.Name, mi.Invoke(o, new object[] { }) == null ? "" : mi.Invoke(o, new object[] { }).ToString());
                 }
             }
 
