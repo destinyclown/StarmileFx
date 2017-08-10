@@ -59,7 +59,7 @@ namespace StarmileFx.Api
 
             //注册输入格式
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+            app.UseCors(builder => builder.WithOrigins("https://*").AllowAnyHeader());
             //自定义中间件
             app.UseCustomMddleware();
             app.UseStaticFiles();

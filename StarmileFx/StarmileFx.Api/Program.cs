@@ -13,11 +13,11 @@ namespace StarmileFx.Api
                 //.UseKestrel(option => {
                 //    option.UseHttps("server.pfx", "linezero");
                 //})
-                //.UseUrls("https://*:443")
                 .UseKestrel()
                 .UseUrls("http://*:8001")
-                //.UseContentRoot(Directory.GetCurrentDirectory())
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                //.UseUrls("https://*:443")//正式使用
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
                 //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
