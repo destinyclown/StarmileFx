@@ -16,18 +16,22 @@ $(function () {
     $('#btn_query').click(function () {
         $table.bootstrapTable('refresh', queryParams);  
     });
+
+    $('#modfiy').click(function () {
+    });
 });
 
 function initTable() { 
     $table.bootstrapTable({
         url: '/Youngo/GetProductList',
         dataType: "json",
-        method: 'post',
-        contentType: "application/x-www-form-urlencoded",
+        method: 'get',
+        contentType: "application/json",
         toolbar: '#toolbar',                //工具按钮用哪个容器
-        striped: true,     //使表格带有条纹  
+        //striped: true,     //使表格带有条纹  
         pagination: true, //在表格底部显示分页工具栏  
         pageSize: 20,
+        //iconsPrefix: 'fa',
         pageNumber: 1,
         pageList: [20, 50, 100, 200, 500],
         idField: "id",  //标识哪个字段为id主键  
@@ -41,37 +45,37 @@ function initTable() {
         sidePagination: "server",//表格分页的位置  
         queryParams: queryParams, //参数  
         queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求  
-        silent: false,  //刷新事件必须设置   
+        silent: true,  //刷新事件必须设置   
         columns: [{
             field: 'id',
             checkbox: true
         }, {
-            field: 'ProductID',
-            title: 'SKU',
+            field: 'productId',
+            title: '商品ID（SKU）',
             align: 'center',
             valign: 'top'
         }, {
-            field: 'Name',
+            field: 'name',
             title: '名称',
             align: 'center',
             valign: 'top'
         }, {
-            field: 'Type',
+            field: 'type',
             title: '产品类型',
             align: 'center',
             valign: 'top'
         }, {
-            field: 'PurchasePrice',
+            field: 'purchasePrice',
             title: '价格',
             align: 'center',
             valign: 'top'
         }, {
-            field: 'SalesVolume',
+            field: 'salesVolumem',
             title: '销量',
             align: 'center',
             valign: 'top'
         }, {
-            field: 'State',
+            field: 'state',
             title: '状态',
             align: 'center',
             valign: 'top'
@@ -94,7 +98,7 @@ function initTable() {
             return '无符合条件的记录';
         },
         onLoadError: function (data) {
-            $('#reportTable').bootstrapTable('removeAll');
+            $('#table').bootstrapTable('removeAll');
         },
         //onClickRow: function (row) {
         //    window.location.href = "/qStock/qProInfo/" + row.ProductId;
@@ -107,6 +111,7 @@ function queryParams(params) {
     var search = {
         pageSize: params.limit,
         pageIndex: params.pageNumber,
+        //pageIndex: params.pageNumber,
         productId: $(".productId").val(),
         name: $(".name").val(),
         state: $(".state").val(),

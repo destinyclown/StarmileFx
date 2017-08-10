@@ -47,13 +47,13 @@ namespace StarmileFx.Web.Controllers
                 var data = from m in responseResult.Content
                            select new
                            {
-                               id = m.ProductID,
-                               ProductID = m.ProductID,
-                               Name = m.CnName,
-                               Type = m.Type,
-                               PurchasePrice = m.PurchasePrice,
-                               SalesVolumem = m.SalesVolume,
-                               State = m.State ? "有效" : "无效"
+                               id = m.ID,
+                               productId = m.ProductID,
+                               name = m.CnName,
+                               type = m.Type,
+                               purchasePrice = m.PurchasePrice,
+                               salesVolumem = m.SalesVolume,
+                               state = m.State ? "有效" : "无效"
                            };
                 total = int.Parse(responseResult.total.ToString());
                 return Json(new { rows = data, total = total });

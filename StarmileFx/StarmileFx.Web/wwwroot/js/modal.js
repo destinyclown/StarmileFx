@@ -33,7 +33,7 @@
                     backdrop: opts.backdrop,
                     keyboard: opts.keyboard
                 });
-                $(".modal-body").load(remote);
+                $(".modal-body").on('load', remote);
 
                 //窗口大小位置
                 //var h = modal.height() - modal.find(".modal-header").outerHeight() - modal.find(".modal-footer").outerHeight() - 5;

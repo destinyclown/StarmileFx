@@ -25,7 +25,7 @@
             var target = $('.StarmileFx_iframe[data-id="' + currentId + '"]');
             var url = target.attr('src');
             $.loading(true);
-            target.attr('src', url).load(function () {
+            target.attr('src', url).on('load', function () {
                 $.loading(false);
             });
         },
@@ -53,7 +53,7 @@
             var closeTabId = $(this).parents('.menuTab').data('id');
             var currentWidth = $(this).parents('.menuTab').width();
             if ($(this).parents('.menuTab').hasClass('active')) {
-                if ($(this).parents('.menuTab').next('.menuTab').size()) {
+                if ($(this).parents('.menuTab').next('.menuTab').length) {
                     var activeId = $(this).parents('.menuTab').next('.menuTab:eq(0)').data('id');
                     $(this).parents('.menuTab').next('.menuTab:eq(0)').addClass('active');
                     $('.mainContent .StarmileFx_iframe').each(function () {
@@ -76,7 +76,7 @@
                         }
                     });
                 }
-                if ($(this).parents('.menuTab').prev('.menuTab').size()) {
+                if ($(this).parents('.menuTab').prev('.menuTab').length) {
                     var activeId = $(this).parents('.menuTab').prev('.menuTab:last').data('id');
                     $(this).parents('.menuTab').prev('.menuTab:last').addClass('active');
                     $('.mainContent .StarmileFx_iframe').each(function () {
@@ -141,12 +141,13 @@
                 $('.mainContent').find('iframe.StarmileFx_iframe').hide();
                 $('.mainContent').append(str1);
                 $.loading(true);
-                $('.mainContent iframe:visible').load(function () {
+                $('.mainContent iframe:visible').on('load', function () {
                     $.loading(false);
                 });
                 $('.menuTabs .page-tabs-content').append(str);
                 $.StarmileFxtab.scrollToTab($('.menuTab.active'));
             }
+            event.preventDefault(); 
             return false;
         },
         scrollTabRight: function () {
