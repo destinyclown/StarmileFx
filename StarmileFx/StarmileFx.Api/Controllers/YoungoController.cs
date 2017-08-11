@@ -340,6 +340,7 @@ namespace StarmileFx.Api.Controllers
         #endregion 手机商城
 
         #region 网站后台
+        #region 商品管理
         /// <summary>
         /// 查询商品
         /// </summary>
@@ -359,6 +360,226 @@ namespace StarmileFx.Api.Controllers
             };
             return ActionResponseGetString(funcAction);
         }
+
+        /// <summary>
+        /// 添加商品
+        /// </summary>
+        /// <param name="product">购物车</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string AddProduct([FromForm]Product product)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.AddProduct(product);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 修改商品
+        /// </summary>
+        /// <param name="product">购物车</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string ModifyProduct([FromForm]Product product)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.ModifyProduct(product);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取商品
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [ValidateParmeterTypeOf("Id", typeof(int))]
+        public string GetProduct(int Id)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetProduct(Id);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterTypeOf("Id", typeof(int))]
+        public string DeleteProduct(int Id)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.DeleteProduct(Id);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 批量删除商品
+        /// </summary>
+        /// <param name="Ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterTypeOf("Ids", typeof(int[]))]
+        public string BatchDeleteProduct(int[] ProductIds)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.BatchDeleteProduct(ProductIds);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+        #endregion
+
+        #region 商品类型管理
+        /// <summary>
+        /// 查询商品类型
+        /// </summary>
+        /// <returns></returns>
+        public string GetProductTypeList()
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                int total = 0;
+                responseModel.Content = _YoungoServer.GetProductTypeList(out total);
+                responseModel.total = total;
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 添加商品类型
+        /// </summary>
+        /// <param name="productType">购物车</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string AddProductType([FromForm]ProductType productType)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.AddProductType(productType);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 修改商品类型
+        /// </summary>
+        /// <param name="productType">购物车</param>
+        /// <returns></returns>
+        [HttpPost]
+        public string ModifyProductType([FromForm]ProductType productType)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.ModifyProductType(productType);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取商品类型
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [ValidateParmeterTypeOf("Id", typeof(int))]
+        public string GetProductType(int Id)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.GetProductType(Id);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterTypeOf("Id", typeof(int))]
+        public string DeleteProductType(int Id)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.DeleteProductType(Id);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 批量删除商品
+        /// </summary>
+        /// <param name="Ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterTypeOf("Ids", typeof(int[]))]
+        public string BatchDeleteProductType(int[] Ids)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.BatchDeleteProductType(Ids);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+        #endregion
+
+        #region 
+        #endregion
+
         #endregion 网站后台
     }
 }

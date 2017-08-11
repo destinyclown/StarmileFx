@@ -1009,8 +1009,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public Product GetProduct(int id)
         {
-            Product Product = Get<Product>(a => a.ID == id);
-            return Product;
+            return Get<Product>(a => a.ID == id); ;
         }
 
         /// <summary>
@@ -1044,11 +1043,11 @@ namespace StarmileFx.Api.Server.Services
         /// <summary>
         /// 删除商品
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public bool DeleteProduct(int id)
+        public bool DeleteProduct(int Id)
         {
-            if (Delete<Product>(a => a.ID == id))
+            if (Delete<Product>(a => a.ID == Id))
             {
                 return Commit();
             }
@@ -1058,14 +1057,14 @@ namespace StarmileFx.Api.Server.Services
         /// <summary>
         /// 批量删除商品
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="Ids"></param>
         /// <returns></returns>
-        public bool BatchDeleteProduct(int[] ids)
+        public bool BatchDeleteProduct(int[] Ids)
         {
             int count = 0;
-            foreach (int id in ids)
+            foreach (int Id in Ids)
             {
-                if (Delete<Product>(a => a.ID == id))
+                if (Delete<Product>(a => a.ID == Id))
                 {
                     count++;
                 }
@@ -1074,13 +1073,194 @@ namespace StarmileFx.Api.Server.Services
                     return false;
                 }
             }
-            if (count == ids.Count())
+            if (count == Ids.Count())
             {
                 return Commit();
             }
             return false;
         }
         #endregion 商品管理
+
+        #region 商品类型管理
+        /// <summary>
+        /// 获取商品类型列表
+        /// </summary>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        public List<ProductType> GetProductTypeList(out int total)
+        {
+            return List<ProductType>(a => a.State, out total).ToList();
+        }
+
+        /// <summary>
+        /// 获取商品类型
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ProductType GetProductType(int Id)
+        {
+            ProductType ProductType = new ProductType();
+            return ProductType;
+        }
+
+        /// <summary>
+        /// 添加商品类型
+        /// </summary>
+        /// <param name="ProductType"></param>
+        /// <returns></returns>
+        public bool AddProductType(ProductType ProductType)
+        {
+            if (Add(ProductType, Transaction))
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 修改商品类型
+        /// </summary>
+        /// <param name="ProductType"></param>
+        /// <returns></returns>
+        public bool ModifyProductType(ProductType ProductType)
+        {
+            if (Update(ProductType, Transaction))
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 删除商品类型
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool DeleteProductType(int Id)
+        {
+            if (Delete<ProductType>(a => a.ID == Id))
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 批量删除商品类型
+        /// </summary>
+        /// <param name="Ids"></param>
+        /// <returns></returns>
+        public bool BatchDeleteProductType(int[] Ids)
+        {
+            int count = 0;
+            foreach (int Id in Ids)
+            {
+                if (Delete<ProductType>(a => a.ID == Id))
+                {
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (count == Ids.Count())
+            {
+                return Commit();
+            }
+            return false;
+        }
+        #endregion
+
+        #region 商品类型管理
+        /// <summary>
+        /// 获取商品类型列表
+        /// </summary>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        public List<Resources> GetResourcesList(out int total)
+        {
+            return List<Resources>(a => a.State, out total).ToList();
+        }
+
+        /// <summary>
+        /// 获取商品类型
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public Resources GetResources(int Id)
+        {
+            Resources Resources = new Resources();
+            return Resources;
+        }
+
+        /// <summary>
+        /// 添加商品类型
+        /// </summary>
+        /// <param name="Resources"></param>
+        /// <returns></returns>
+        public bool AddResources(List<Resources> list)
+        {
+            int count = 0;
+            foreach (Resources resources in list)
+            {
+                if (Add(resources, Transaction))
+                {
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (count == list.Count())
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 删除商品类型
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool DeleteResources(string ProductId, ResourcesEnum Type)
+        {
+            if (Delete<Resources>(a => a.ProductID == ProductId && a.Type == Type))
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 批量删除商品类型
+        /// </summary>
+        /// <param name="Ids"></param>
+        /// <returns></returns>
+        public bool BatchDeleteResources(int[] Ids)
+        {
+            int count = 0;
+            foreach (int Id in Ids)
+            {
+                if (Delete<Resources>(a => a.ID == Id))
+                {
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (count == Ids.Count())
+            {
+                return Commit();
+            }
+            return false;
+        }
+        #endregion
+
 
         #region Customer
         public Customer GetCustomer(int Id)
@@ -1307,29 +1487,6 @@ namespace StarmileFx.Api.Server.Services
         }
 
         public bool DeletePost(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region ProductType
-        public ProductType GetProductType(int Id)
-        {
-            ProductType ProductType = new ProductType();
-            return ProductType;
-        }
-
-        public bool AddProductType(ProductType ProductType)
-        {
-            return false;
-        }
-
-        public bool ModifyProductType(ProductType ProductType)
-        {
-            return false;
-        }
-
-        public bool DeleteProductType(int Id)
         {
             return false;
         }
