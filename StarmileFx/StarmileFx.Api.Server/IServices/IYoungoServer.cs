@@ -298,6 +298,50 @@ namespace StarmileFx.Api.Server.IServices
         bool BatchDeleteProduct(int[] ids);
         #endregion
 
+        #region 商品类型管理
+        /// <summary>
+        /// 获取商品类型列表
+        /// </summary>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        List<ProductType> GetProductTypeList(out int total);
+
+        /// <summary>
+        /// 获取商品类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ProductType GetProductType(int id);
+
+        /// <summary>
+        /// 添加商品类型
+        /// </summary>
+        /// <param name="productType"></param>
+        /// <returns></returns>
+        bool AddProductType(ProductType productType);
+
+        /// <summary>
+        /// 修改商品类型
+        /// </summary>
+        /// <param name="productType"></param>
+        /// <returns></returns>
+        bool ModifyProductType(ProductType productType);
+
+        /// <summary>
+        /// 删除商品类型
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool DeleteProductType(int id);
+
+        /// <summary>
+        /// 批量删除商品类型
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        bool BatchDeleteProductType(int[] ids);
+        #endregion
+
         #region Customer
         Customer GetCustomer(int id);
 
@@ -406,16 +450,6 @@ namespace StarmileFx.Api.Server.IServices
         bool ModifySKUEstablish(SKUEstablish SKUEstablish);
 
         bool DeleteSKUEstablish(int id);
-        #endregion
-
-        #region ProductType
-        ProductType GetProductType(int id);
-
-        bool AddProductType(ProductType productType);
-
-        bool ModifyProductType(ProductType productType);
-
-        bool DeleteProductType(int id);
         #endregion
 
         #endregion
