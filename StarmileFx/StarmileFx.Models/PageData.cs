@@ -1,4 +1,7 @@
-﻿namespace StarmileFx.Models
+﻿using System;
+using System.Reflection;
+
+namespace StarmileFx.Models
 {
     /// <summary>
     /// 分页
@@ -17,5 +20,38 @@
         /// 是否升序
         /// </summary>
         public bool IsAsc { get; set; }
+
+        public virtual bool Evaluate()
+        {
+            try
+            {
+                Type t = this.GetType();//类具体实例对象
+                foreach (PropertyInfo prop in t.GetProperties())     //取得所有属性
+                {
+                    object value = prop.GetValue(this, null);
+                    if (value == null)
+                    {
+                        if (prop.PropertyType == typeof(string))
+                        {
+                            prop.SetValue(this, "", null); //设置属性
+                        }
+                        if (prop.PropertyType == typeof(int?))
+                        {
+                            prop.SetValue(this, 0, null); //设置属性
+                        }
+                        if (prop.PropertyType == typeof(DateTime?))
+                        {
+                            prop.SetValue(this, DateTime.Now, null); //设置属性
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

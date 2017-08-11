@@ -92,6 +92,24 @@ namespace StarmileFx.Api.Server.Services
             return false;
         }
 
+        /// <summary>
+        /// 删除实体
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="whereLambda"></param>
+        /// <param name="IsCommit">是否提交</param>
+        /// <returns></returns>
+        public bool Delete<TEntity>(Expression<Func<TEntity, bool>> whereLambda, bool IsCommit = true) where TEntity : ModelBase
+        {
+            TEntity entity = Get(whereLambda);
+            _YoungoContext.Remove<TEntity>(entity);
+            if (IsCommit)
+            {
+                return Commit();
+            }
+            return false;
+        }
+
         #endregion 实体处理
 
         #region 批处理
@@ -254,8 +272,13 @@ namespace StarmileFx.Api.Server.Services
 	                        cc.CreatTime
                         FROM
 	                        CustomerComment AS cc
-                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID";
-            MySqlParameter[] parameters = new MySqlParameter[] { };
+                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID
+                        WHERE cc.ProductID=@productId";
+            MySqlParameter[] parameters = new MySqlParameter[] {
+                new MySqlParameter("@productId", productId)
+            };
+            parameters[0].MySqlDbType = MySqlDbType.String;
+
             rp.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
             rp.ResourcesList = _YoungoContext.List<Resources>(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product), out total).ToList();
             return rp;
@@ -872,30 +895,189 @@ namespace StarmileFx.Api.Server.Services
         /// <param name="search"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public List<Product> GetProductList(ProductSearch search, out int total)
+        public List<ProductWeb> GetProductList(ProductSearch search, out int total)
         {
-            List<Product> list = PageData(search, search.CreateExpression(), a => a.CreatTime, out total).ToList();
+            string sql = @"SELECT
+	                        p.ID,
+	                        p.ProductID,
+	                        p.Label,
+	                        p.CnName,
+	                        p.EnName,
+	                        p.ExpressCode,
+	                        p.Weight,
+	                        p.CostPrice,
+	                        p.PurchasePrice,
+	                        p.Introduce,
+	                        pt.TypeName,
+	                        p.Remarks,
+	                        p.SalesVolume,
+	                        p.Stock,
+	                        p.IsTop,
+	                        p.IsOutOfStock,
+	                        p.IsClearStock,
+	                        p.State,
+	                        p.IsDelete,
+	                        p.OnlineTime,
+	                        p.Brand,
+	                        p.BrandIntroduce,
+	                        p.CreatTime,
+                            r.Address as Picture
+                        FROM
+	                        Product AS p
+                        LEFT JOIN ProductType AS pt ON p.Type = pt.ID
+                        LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 AND r.Sort = 0
+                        WHERE p.State = @state AND p.IsDelete = 0 ";
+            string sqlcount = @"SELECT COUNT(0) AS Count
+                        FROM
+	                        Product AS p
+                        LEFT JOIN ProductType AS pt ON p.Type = pt.ID 
+                        LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 AND r.Sort = 0 
+                        WHERE p.State = @state AND p.IsDelete = 0 ";
+            if (!string.IsNullOrEmpty(search.CnName))
+            {
+                sql += "AND locate(@name,p.CnName)>0 ";
+                sqlcount += "AND locate(@name,p.CnName)>0 ";
+            }
+            if (!string.IsNullOrEmpty(search.ProductID))
+            {
+                sql += "AND p.ProductID = @productId ";
+                sqlcount += "AND p.ProductID = @productId ";
+            }
+            if (search.Type != null)
+            {
+                sql += "AND p.Type = @type ";
+                sqlcount += "AND p.Type = @type ";
+            }
+            if (search.dateType == 0)
+            {
+                if (!string.IsNullOrEmpty(search.startDate))
+                {
+                    sql += "AND p.CreatTime > @startDate ";
+                    sqlcount += "AND p.CreatTime > @startDate ";
+                }
+                if (!string.IsNullOrEmpty(search.endDate))
+                {
+                    sql += "AND p.CreatTime > @endDate ";
+                    sqlcount += "AND p.CreatTime > @endDate ";
+                }
+            }
+            else if (search.dateType == 1)
+            {
+                if (!string.IsNullOrEmpty(search.startDate))
+                {
+                    sql += "AND p.UpdateTime > @startDate ";
+                    sqlcount += "AND p.UpdateTime > @startDate ";
+                }
+                if (!string.IsNullOrEmpty(search.endDate))
+                {
+                    sql += "AND p.UpdateTime > @endDate ";
+                    sqlcount += "AND p.UpdateTime > @endDate ";
+                }
+            }
+            sql += "LIMIT @pageIndex,@page";
+            search.Evaluate();
+            MySqlParameter[] parameters = new MySqlParameter[]
+            {
+                new MySqlParameter("@name", search.CnName),
+                new MySqlParameter("@productId", search.ProductID),
+                new MySqlParameter("@type", search.Type),
+                new MySqlParameter("@startDate", search.startDate.ToString()),
+                new MySqlParameter("@endDate", search.endDate),
+                new MySqlParameter("@pageIndex", (search.PageIndex - 1) * search.PageSize),
+                new MySqlParameter("@page", search.PageSize),
+                new MySqlParameter("@state", search.State)
+            };
+            parameters[0].MySqlDbType = MySqlDbType.String;
+            parameters[1].MySqlDbType = MySqlDbType.String;
+            parameters[2].MySqlDbType = MySqlDbType.Int32;
+            parameters[3].MySqlDbType = MySqlDbType.String;
+            parameters[4].MySqlDbType = MySqlDbType.String;
+            parameters[5].MySqlDbType = MySqlDbType.Int32;
+            parameters[6].MySqlDbType = MySqlDbType.Int32;
+            parameters[6].MySqlDbType = MySqlDbType.Bit;
+
+            //总数
+            total = _YoungoContext.SqlQuery<Total>(_YoungoContext, sqlcount, parameters).FirstOrDefault().Count;
+            List<ProductWeb> list = _YoungoContext.ExecuteSql<ProductWeb>(sql, parameters).ToList();
             return list;
         }
 
-        public Product GetProduct(string SKUProductCode)
+        /// <summary>
+        /// 获取商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Product GetProduct(int id)
         {
-            Product Product = new Product();
+            Product Product = Get<Product>(a => a.ID == id);
             return Product;
         }
 
+        /// <summary>
+        /// 添加商品
+        /// </summary>
+        /// <param name="Product"></param>
+        /// <returns></returns>
         public bool AddProduct(Product Product)
         {
+            if(Add(Product, Transaction))
+            {
+                return Commit();
+            }
             return false;
         }
 
+        /// <summary>
+        /// 修改商品
+        /// </summary>
+        /// <param name="Product"></param>
+        /// <returns></returns>
         public bool ModifyProduct(Product Product)
         {
+            if (Update(Product, Transaction))
+            {
+                return Commit();
+            }
             return false;
         }
 
-        public bool DeleteProduct(string SKUProductCode)
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteProduct(int id)
         {
+            if (Delete<Product>(a => a.ID == id))
+            {
+                return Commit();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 批量删除商品
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public bool BatchDeleteProduct(int[] ids)
+        {
+            int count = 0;
+            foreach (int id in ids)
+            {
+                if (Delete<Product>(a => a.ID == id))
+                {
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if (count == ids.Count())
+            {
+                return Commit();
+            }
             return false;
         }
         #endregion 商品管理

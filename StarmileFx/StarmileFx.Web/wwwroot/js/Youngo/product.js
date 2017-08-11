@@ -50,6 +50,14 @@ function initTable() {
             field: 'id',
             checkbox: true
         }, {
+                field: 'picture',
+                title: '图片',
+            align: 'center',
+            valign: 'top',
+            formatter: function (value, row, index) {
+                return '<img class="picture" src="' + value + '"';
+            }
+        }, {
             field: 'productId',
             title: '商品ID（SKU）',
             align: 'center',
@@ -75,8 +83,23 @@ function initTable() {
             align: 'center',
             valign: 'top'
         }, {
+                field: 'isTop',
+            title: '是否置顶',
+            align: 'center',
+            valign: 'top'
+        }, {
+                field: 'isClearStock',
+            title: '是否清货',
+            align: 'center',
+            valign: 'top'
+        }, {
             field: 'state',
             title: '状态',
+            align: 'center',
+            valign: 'top'
+        }, {
+                field: 'creatTime',
+            title: '创建时间',
             align: 'center',
             valign: 'top'
         },
@@ -99,7 +122,7 @@ function initTable() {
         },
         onLoadError: function (data) {
             $('#table').bootstrapTable('removeAll');
-        },
+        }
         //onClickRow: function (row) {
         //    window.location.href = "/qStock/qProInfo/" + row.ProductId;
         //}
@@ -113,6 +136,7 @@ function queryParams(params) {
         pageIndex: params.pageNumber,
         //pageIndex: params.pageNumber,
         productId: $(".productId").val(),
+        dateType: $(".dateType").val(),
         name: $(".name").val(),
         state: $(".state").val(),
         type: $(".type").val(),

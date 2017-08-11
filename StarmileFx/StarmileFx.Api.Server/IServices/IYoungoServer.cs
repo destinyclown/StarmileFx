@@ -253,6 +253,51 @@ namespace StarmileFx.Api.Server.IServices
 
         #region 网站后台
 
+        #region 商品管理
+        /// <summary>
+        /// 查询商品
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        List<ProductWeb> GetProductList(ProductSearch search, out int total);
+
+        /// <summary>
+        /// 获取商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Product GetProduct(int id);
+
+        /// <summary>
+        /// 添加商品
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        bool AddProduct(Product product);
+
+        /// <summary>
+        /// 修改商品
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        bool ModifyProduct(Product product);
+
+        /// <summary>
+        /// 删除商品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool DeleteProduct(int id);
+
+        /// <summary>
+        /// 批量删除商品
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        bool BatchDeleteProduct(int[] ids);
+        #endregion
+
         #region Customer
         Customer GetCustomer(int id);
 
@@ -371,18 +416,6 @@ namespace StarmileFx.Api.Server.IServices
         bool ModifyProductType(ProductType productType);
 
         bool DeleteProductType(int id);
-        #endregion
-
-        #region Product
-        List<Product> GetProductList(ProductSearch search, out int total);
-
-        Product GetProduct(string SKUProductCode);
-
-        bool AddProduct(Product product);
-
-        bool ModifyProduct(Product product);
-
-        bool DeleteProduct(string SKUProductCode);
         #endregion
 
         #endregion

@@ -76,7 +76,6 @@
     <Content Include="wwwroot\js\language\zh_TW.js" />
     <Content Include="wwwroot\js\picture-handle.js" />
     <Content Include="wwwroot\js\metisMenu.min.js" />
-    <Content Include="wwwroot\js\mobileBUGFix.mini.js" />
     <Content Include="wwwroot\js\modal.js" />
     <Content Include="wwwroot\js\picture-handle.mini.js" />
     <Content Include="wwwroot\js\Youngo\product.js" />

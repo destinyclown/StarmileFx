@@ -9,7 +9,7 @@ using StarmileFx.Models.Enum;
 namespace StarmileFx.Api.Migrations.Youngo
 {
     [DbContext(typeof(YoungoContext))]
-    [Migration("20170801075911_Youngo")]
+    [Migration("20170811044019_Youngo")]
     partial class Youngo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,6 +153,62 @@ namespace StarmileFx.Api.Migrations.Youngo
                     b.HasKey("ID");
 
                     b.ToTable("ProductModel");
+                });
+
+            modelBuilder.Entity("StarmileFx.Models.Web.ProductWeb", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Brand");
+
+                    b.Property<string>("BrandIntroduce");
+
+                    b.Property<string>("CnName");
+
+                    b.Property<float>("CostPrice");
+
+                    b.Property<DateTime>("CreatTime");
+
+                    b.Property<string>("EnName");
+
+                    b.Property<string>("ExpressCode");
+
+                    b.Property<string>("Introduce");
+
+                    b.Property<bool>("IsClearStock");
+
+                    b.Property<bool>("IsDelete");
+
+                    b.Property<bool>("IsOutOfStock");
+
+                    b.Property<bool>("IsTop");
+
+                    b.Property<string>("Label");
+
+                    b.Property<DateTime?>("OnlineTime");
+
+                    b.Property<string>("Picture");
+
+                    b.Property<string>("ProductID");
+
+                    b.Property<float>("PurchasePrice");
+
+                    b.Property<string>("Remarks");
+
+                    b.Property<int>("SalesVolume");
+
+                    b.Property<bool>("State");
+
+                    b.Property<int>("Stock");
+
+                    b.Property<string>("TypeName");
+
+                    b.Property<float>("Weight");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductWeb");
                 });
 
             modelBuilder.Entity("StarmileFx.Models.Youngo.Customer", b =>

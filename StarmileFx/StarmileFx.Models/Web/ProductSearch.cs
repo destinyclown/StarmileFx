@@ -29,13 +29,17 @@ namespace StarmileFx.Models.Web
         /// </summary>
         public int? Type { get; set; }
         /// <summary>
+        /// 搜索时间类型
+        /// </summary>
+        public int dateType { get; set; }
+        /// <summary>
         /// 开始时间
         /// </summary>
-        public DateTime? startDate { get; set; }
+        public string startDate { get; set; }
         /// <summary>
         /// 结束时间
         /// </summary>
-        public DateTime? endDate { get; set; }
+        public string endDate { get; set; }
 
         /// <summary>
         /// 创建查询
@@ -70,20 +74,20 @@ namespace StarmileFx.Models.Web
                 MemberExpression memberProjectOfCity = Expression.PropertyOrField(parameter, "Type");
                 query = Expression.And(query, Expression.Equal(memberProjectOfCity, constantProjectOfProvince));
             }
-            //开始时间  
-            if (this.startDate.HasValue)
-            {
-                ConstantExpression constantApplyStartDate = Expression.Constant(this.startDate.Value);
-                MemberExpression memberApplyStartDate = Expression.PropertyOrField(parameter, "CreatTime");
-                query = Expression.And(query, Expression.GreaterThanOrEqual(memberApplyStartDate, constantApplyStartDate));
-            }
-            //结束时间  
-            if (this.endDate.HasValue)
-            {
-                ConstantExpression constantApplyEndDate = Expression.Constant(this.endDate.Value);
-                MemberExpression memberApplyEndDate = Expression.PropertyOrField(parameter, "CreatTime");
-                query = Expression.And(query, Expression.LessThanOrEqual(memberApplyEndDate, constantApplyEndDate));
-            }
+            ////开始时间  
+            //if (this.startDate.HasValue)
+            //{
+            //    ConstantExpression constantApplyStartDate = Expression.Constant(this.startDate.Value);
+            //    MemberExpression memberApplyStartDate = Expression.PropertyOrField(parameter, "CreatTime");
+            //    query = Expression.And(query, Expression.GreaterThanOrEqual(memberApplyStartDate, constantApplyStartDate));
+            //}
+            ////结束时间  
+            //if (this.endDate.HasValue)
+            //{
+            //    ConstantExpression constantApplyEndDate = Expression.Constant(this.endDate.Value);
+            //    MemberExpression memberApplyEndDate = Expression.PropertyOrField(parameter, "CreatTime");
+            //    query = Expression.And(query, Expression.LessThanOrEqual(memberApplyEndDate, constantApplyEndDate));
+            //}
             //有效性  
             ConstantExpression constantValidStatus = Expression.Constant(State);
             MemberExpression memberValidStatus = Expression.PropertyOrField(parameter, "State");

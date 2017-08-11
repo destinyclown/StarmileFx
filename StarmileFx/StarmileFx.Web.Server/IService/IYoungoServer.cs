@@ -8,6 +8,6 @@ namespace StarmileFx.Web.Server.IService
 {
     public interface IYoungoServer
     {
-        Task<ResponseResult<List<Product>>> GetProductList(ProductSearch search);
+        Task<ResponseResult<List<ProductWeb>>> GetProductList(ProductSearch search);
     }
 }

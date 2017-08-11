@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using StarmileFx.Models.Youngo;
 using System.Data.SqlClient;
 using StarmileFx.Models.Wap;
+using System.Reflection;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Server.Data
 {
@@ -174,6 +176,17 @@ namespace StarmileFx.Api.Server.Data
 
         #region SQL
         /// <summary>
+        /// 执行SQL(返回行数)
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters">参数</param>
+        /// <returns></returns>
+        public int ExecuteSqlCommand(string sql, params object[] parameters)
+        {
+            return Database.ExecuteSqlCommand(sql, parameters);
+        }
+
+        /// <summary>
         /// 执行SQL
         /// </summary>
         /// <typeparam name="TEntity">泛型</typeparam>
@@ -202,6 +215,63 @@ namespace StarmileFx.Api.Server.Data
             sql = sql.Substring(0, sql.Length - 1);
             return ExecuteSql<TEntity>(sql, parameters);
         }
+
+        /// <summary>
+        /// 执行SQL
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="db"></param>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public IList<TEntity> SqlQuery<TEntity>(DbContext db, string sql, params object[] parameters) where TEntity : new()//注意：不要对GetDbConnection获取到的conn进行using或者调用Dispose，否则DbContext后续不能再进行使用了，会抛异常 
+        {
+            var conn = db.Database.GetDbConnection();
+            try
+            {
+                conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = sql;
+                    command.Parameters.AddRange(parameters);
+                    var propts = typeof(TEntity).GetProperties();
+                    var rtnList = new List<TEntity>();
+                    TEntity model;
+                    object val;
+                    using (var reader = command.ExecuteReader()) {
+                        while (reader.Read())
+                        {
+                            model = new TEntity();
+                            foreach (var l in propts) {
+                                val = reader[l.Name];
+                                if (val == DBNull.Value)
+                                {
+                                    l.SetValue(model, null);
+                                }
+                                else
+                                {
+                                    if (l.PropertyType == typeof(int))
+                                    {
+                                        l.SetValue(model, int.Parse(val.ToString()));
+                                    }
+                                    else
+                                    {
+                                        l.SetValue(model, val);
+                                    }
+                                }
+                            } rtnList.Add(model);
+                        }
+                    } return rtnList;
+                }
+            }catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         #endregion SQL
 
         public DbSet<Customer> Customer { get; set; }
@@ -226,5 +296,6 @@ namespace StarmileFx.Api.Server.Data
         public DbSet<TransactionRecord> TransactionRecord { get; set; }
         public DbSet<ServiceRecord> ServiceRecord { get; set; }
         public DbSet<ProductModel> ProductModel { get; set; }
+        public DbSet<ProductWeb> ProductWeb { get; set; }  
     }
 }

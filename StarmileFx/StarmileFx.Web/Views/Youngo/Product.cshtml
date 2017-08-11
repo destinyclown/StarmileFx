@@ -25,13 +25,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-2">
                 <input type="text" class="form-control productId" placeholder="商品ID(SKU)">
             </div>
-            <div class="col">
+            <div class="col-md-2">
                 <input type="text" class="form-control name" placeholder="商品名称">
             </div>
-            <div class="col">
+            <div class="col-md-1">
                 <select class="form-control type" id="unitItem"></select>
             </div>
             <div class="col-md-1">
@@ -40,7 +40,13 @@
                     <option value="false">无效</option>
                 </select>
             </div>
-            <div class="col">
+            <div class="col-md-1">
+                <select class="form-control dateType">
+                    <option value="0" selected>创建时间</option>
+                    <option value="1">更新时间</option>
+                </select>
+            </div>
+            <div class="col-md-1">
                 <div class='input-group date' id='datetimepicker1'>
                     <input type='text' class="form-control starDate" />
                     <span class="input-group-addon add-on">
@@ -48,7 +54,7 @@
                     </span>
                 </div>
             </div>_
-            <div class="col">
+            <div class="col-md-1">
                 <div class='input-group date' id='datetimepicker2'>
                     <input type='text' class="form-control endDate" />
                     <span class="input-group-addon add-on">

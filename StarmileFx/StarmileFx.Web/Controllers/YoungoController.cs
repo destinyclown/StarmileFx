@@ -41,7 +41,7 @@ namespace StarmileFx.Web.Controllers
             List<Product> list = new List<Product>();
             int total = 0;
             search.PageIndex = search.PageIndex == 0 ? 1 : search.PageIndex;
-            ResponseResult<List<Product>> responseResult = await _YoungoServer.GetProductList(search);
+            ResponseResult<List<ProductWeb>> responseResult = await _YoungoServer.GetProductList(search);
             if (responseResult.IsSuccess)
             {
                 var data = from m in responseResult.Content
@@ -50,10 +50,14 @@ namespace StarmileFx.Web.Controllers
                                id = m.ID,
                                productId = m.ProductID,
                                name = m.CnName,
-                               type = m.Type,
-                               purchasePrice = m.PurchasePrice,
+                               type = m.TypeName,
+                               picture = m.Picture,
+                               purchasePrice = m.PurchasePrice.ToString("F2") + "元",
                                salesVolumem = m.SalesVolume,
-                               state = m.State ? "有效" : "无效"
+                               isTop = m.IsTop ? "<i class='fa fa-ok fa-fw'></i>" : "<i class='fa fa-ban fa-fw'></i>",
+                               state = m.State ? "有效" : "无效",
+                               isClearStock = m.IsClearStock ? "<i class='fa fa-ok fa-fw'></i>" : "<i class='fa fa-ban fa-fw'></i>",
+                               creatTime = m.CreatTime.ToString("yyyy-MM-dd hh:mm"),
                            };
                 total = int.Parse(responseResult.total.ToString());
                 return Json(new { rows = data, total = total });
