@@ -7,6 +7,7 @@ using StarmileFx.Api.Services;
 using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using static StarmileFx.Models.Web.HomeFromModel;
+using StarmileFx.Api.FilterAttributes;
 
 namespace StarmileFx.Api.Controllers
 {
@@ -34,6 +35,7 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Token"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateParmeterNull("Token")]
         public string GetSysRolesOnline(string Token)
         {
             Func<ResponseResult> funcAction = () =>
@@ -51,6 +53,8 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Token"></param>
         /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterNull("Token")]
         public string RefreshToken(string Token)
         {
             Func<ResponseResult> funcAction = () =>
@@ -98,6 +102,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
+        [ValidateParmeterNull("Token")]
         public string LoadMenuByRoleAsync(string Token)
         {
             var model = BaseService.GetRoleByToken(Token);
@@ -117,6 +122,7 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Token"></param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateParmeterNull("Token")]
         public string LogoutAsync(string Token)
         {
             Func<ResponseResult> funcAction = () =>

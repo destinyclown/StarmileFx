@@ -10,6 +10,7 @@ using StarmileFx.Models.Redis;
 using static StarmileFx.Models.Wap.WapFrom;
 using StarmileFx.Models.Youngo;
 using StarmileFx.Models.Web;
+using StarmileFx.Api.FilterAttributes;
 
 namespace StarmileFx.Api.Controllers
 {
@@ -49,6 +50,8 @@ namespace StarmileFx.Api.Controllers
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
+        [ValidateParmeterTypeOf("OrderState", typeof(OrderStateEnum))]
+        [ValidateParmeterTypeOf("CustomerId", typeof(int))]
         public string GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
@@ -67,12 +70,13 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public string GetOrderParent(string orderId)
+        [ValidateParmeterNull("OrderId")]
+        public string GetOrderParent(string OrderId)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetOrderParent(orderId);
+                responseModel.Content = _YoungoServer.GetOrderParent(OrderId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -106,6 +110,7 @@ namespace StarmileFx.Api.Controllers
         /// <param name="TransactionId">交易编号</param>
         /// <returns></returns>
         [HttpPost]
+        [ValidateParmeterNull("OrderId,TransactionId")]
         public string OrderPay(string OrderId, string TransactionId)
         {
             Func<ResponseResult> funcAction = () =>
@@ -122,16 +127,17 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 取消订单（非物理删除）
         /// </summary>
-        /// <param name="orderId">订单编号</param>
+        /// <param name="OrderId">订单编号</param>
         /// <param name="IsDelete">是否删除</param>
         /// <returns></returns>
         [HttpPost]
-        public string OrderCancel(string orderId, bool IsDelete = false)
+        [ValidateParmeterNull("OrderId")]
+        public string OrderCancel(string OrderId, bool IsDelete = false)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderCancel(orderId, IsDelete);
+                responseModel.Content = _YoungoServer.OrderCancel(OrderId, IsDelete);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -142,15 +148,16 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 完成订单（确认收货）
         /// </summary>
-        /// <param name="orderId">订单编号</param>
+        /// <param name="OrderId">订单编号</param>
         /// <returns></returns>
         [HttpPost]
-        public string OrderComplete(string orderId)
+        [ValidateParmeterNull("OrderId")]
+        public string OrderComplete(string OrderId)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderComplete(orderId);
+                responseModel.Content = _YoungoServer.OrderComplete(OrderId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -163,6 +170,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="WeCharKey"></param>
         /// <returns></returns>
+        [ValidateParmeterNull("WeCharKey")]
         public string GetCustomer(string WeCharKey)
         {
             Func<ResponseResult> funcAction = () =>
@@ -181,6 +189,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
+        [ValidateParmeterTypeOf("CustomerId", typeof(int))]
         public string GetDefaultAddress(int CustomerId)
         {
             Func<ResponseResult> funcAction = () =>
@@ -199,6 +208,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
+        [ValidateParmeterTypeOf("CustomerId", typeof(int))]
         public string GetDeliveryAddressList(int CustomerId)
         {
             Func<ResponseResult> funcAction = () =>
@@ -215,14 +225,15 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 获取商品资源
         /// </summary>
-        /// <param name="productId"></param>
+        /// <param name="ProductId"></param>
         /// <returns></returns>
-        public string GetProductResources(string productId)
+        [ValidateParmeterNull("ProductId")]
+        public string GetProductResources(string ProductId)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetProductResources(productId);
+                responseModel.Content = _YoungoServer.GetProductResources(ProductId);
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;
@@ -293,6 +304,9 @@ namespace StarmileFx.Api.Controllers
         /// <param name="CustomerId"></param>
         /// <param name="page"></param>
         /// <returns></returns>
+        [ValidateParmeterTypeOf("CustomerId", typeof(int))]
+        [ValidateParmeterTypeOf("PageSize", typeof(int))]
+        [ValidateParmeterTypeOf("PageIndex", typeof(int))]
         public string GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
