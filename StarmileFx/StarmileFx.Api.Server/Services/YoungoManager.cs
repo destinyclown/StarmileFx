@@ -1199,23 +1199,21 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="Resources"></param>
         /// <returns></returns>
-        public bool AddResources(List<Resources> Resources)
+        public bool AddResources(List<Resources> list)
         {
-            if (Add(Resources, Transaction))
+            int count = 0;
+            foreach (Resources resources in list)
             {
-                return Commit();
+                if (Add(resources, Transaction))
+                {
+                    count++;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            return false;
-        }
-
-        /// <summary>
-        /// 修改商品类型
-        /// </summary>
-        /// <param name="Resources"></param>
-        /// <returns></returns>
-        public bool ModifyResources(Resources Resources)
-        {
-            if (Update(Resources, Transaction))
+            if (count == list.Count())
             {
                 return Commit();
             }
@@ -1227,9 +1225,9 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public bool DeleteResources(int Id)
+        public bool DeleteResources(string ProductId, ResourcesEnum Type)
         {
-            if (Delete<Resources>(a => a.ID == Id))
+            if (Delete<Resources>(a => a.ProductID == ProductId && a.Type == Type))
             {
                 return Commit();
             }
