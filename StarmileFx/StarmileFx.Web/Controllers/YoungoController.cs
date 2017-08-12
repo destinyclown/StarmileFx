@@ -10,7 +10,7 @@ using StarmileFx.Models;
 
 namespace StarmileFx.Web.Controllers
 {
-    public class YoungoController : Controller
+    public class YoungoController : BaseController
     {
         private readonly IYoungoServer _YoungoServer;
 
@@ -40,7 +40,7 @@ namespace StarmileFx.Web.Controllers
         {
             List<Product> list = new List<Product>();
             int total = 0;
-            search.PageIndex = search.PageIndex == 0 ? 1 : search.PageIndex;
+            search.PageIndex = search.PageIndex / search.PageSize + 1;
             ResponseResult<List<ProductWeb>> responseResult = await _YoungoServer.GetProductList(search);
             if (responseResult.IsSuccess)
             {
@@ -63,6 +63,37 @@ namespace StarmileFx.Web.Controllers
                 return Json(new { rows = data, total = total });
             }
             return Json(new { rows = list, total = total });
+        }
+
+        public async Task<IActionResult> DeleteProduct(int Id)
+        {
+            ResponseResult<bool> responseResult = await _YoungoServer.DeleteProduct(Id);
+            if (responseResult.IsSuccess && responseResult.Content)
+            {
+                result.IsSuccessful = responseResult.Content;
+                return Json(result);
+            }
+            else
+            {
+                result.IsSuccessful = responseResult.Content;
+                result.ReasonDescription = responseResult.ErrorMsg;
+                return Json(result);
+            }
+        }
+        public async Task<IActionResult> BatchDeleteProduct(int[] Ids)
+        {
+            ResponseResult<bool> responseResult = await _YoungoServer.BatchDeleteProduct(Ids);
+            if (responseResult.IsSuccess && responseResult.Content)
+            {
+                result.IsSuccessful = responseResult.Content;
+                return Json(result);
+            }
+            else
+            {
+                result.IsSuccessful = responseResult.Content;
+                result.ReasonDescription = responseResult.ErrorMsg;
+                return Json(result);
+            }
         }
 
         public IActionResult Suggest()

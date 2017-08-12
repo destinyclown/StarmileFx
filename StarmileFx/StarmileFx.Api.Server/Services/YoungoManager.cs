@@ -1047,7 +1047,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool DeleteProduct(int Id)
         {
-            if (Delete<Product>(a => a.ID == Id))
+            Product product = GetProduct(Id);
+            product.IsDelete = true;
+            if (Update(product, Transaction))
             {
                 return Commit();
             }
@@ -1064,7 +1066,9 @@ namespace StarmileFx.Api.Server.Services
             int count = 0;
             foreach (int Id in Ids)
             {
-                if (Delete<Product>(a => a.ID == Id))
+                Product product = GetProduct(Id);
+                product.IsDelete = true;
+                if (Update(product, Transaction))
                 {
                     count++;
                 }
@@ -1172,38 +1176,39 @@ namespace StarmileFx.Api.Server.Services
         }
         #endregion
 
-        #region 商品类型管理
+        #region 网站资源管理
         /// <summary>
-        /// 获取商品类型列表
+        /// 获取网站资源列表
         /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public List<Resources> GetResourcesList(out int total)
+        public List<Resources> GetResourcesList(string ProductId, ResourcesEnum Type, out int total)
         {
-            return List<Resources>(a => a.State, out total).ToList();
+            return List<Resources>(a => a.ProductID == ProductId && a.Type == Type, out total).ToList();
         }
 
         /// <summary>
-        /// 获取商品类型
+        /// 删除网站资源
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <param name="Addresses"></param>
+        /// <param name="Sorts"></param>
         /// <returns></returns>
-        public Resources GetResources(int Id)
-        {
-            Resources Resources = new Resources();
-            return Resources;
-        }
-
-        /// <summary>
-        /// 添加商品类型
-        /// </summary>
-        /// <param name="Resources"></param>
-        /// <returns></returns>
-        public bool AddResources(List<Resources> list)
+        public bool AddResources(string ProductId, ResourcesEnum Type, string[] Addresses, int[] Sorts)
         {
             int count = 0;
-            foreach (Resources resources in list)
+            int i = 0;
+            foreach (string Address in Addresses)
             {
+                Resources resources = new Resources();
+                resources.ProductID = ProductId;
+                resources.Type = Type;
+                resources.Address = Address;
+                resources.Sort = Sorts[i];
+                i++;
                 if (Add(resources, Transaction))
                 {
                     count++;
@@ -1213,7 +1218,7 @@ namespace StarmileFx.Api.Server.Services
                     return false;
                 }
             }
-            if (count == list.Count())
+            if (count == Addresses.Count())
             {
                 return Commit();
             }
@@ -1221,13 +1226,13 @@ namespace StarmileFx.Api.Server.Services
         }
 
         /// <summary>
-        /// 删除商品类型
+        /// 删除网站资源
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public bool DeleteResources(string ProductId, ResourcesEnum Type)
+        public bool DeleteResources(int Id)
         {
-            if (Delete<Resources>(a => a.ProductID == ProductId && a.Type == Type))
+            if (Delete<Resources>(a => a.ID == Id))
             {
                 return Commit();
             }
@@ -1235,25 +1240,24 @@ namespace StarmileFx.Api.Server.Services
         }
 
         /// <summary>
-        /// 批量删除商品类型
+        /// 批量删除网站资源
         /// </summary>
-        /// <param name="Ids"></param>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
         /// <returns></returns>
-        public bool BatchDeleteResources(int[] Ids)
+        public bool BatchDeleteResources(string ProductId, ResourcesEnum Type)
         {
-            int count = 0;
-            foreach (int Id in Ids)
+            string sql = @"DELETE FROM Resources 
+                            WHERE ProductID = @productId AND Type = @type";
+            MySqlParameter[] parameters = new MySqlParameter[]
             {
-                if (Delete<Resources>(a => a.ID == Id))
-                {
-                    count++;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            if (count == Ids.Count())
+                new MySqlParameter("@productId", ProductId),
+                new MySqlParameter("@type", (int)Type)
+            };
+            parameters[0].MySqlDbType = MySqlDbType.String;
+            parameters[1].MySqlDbType = MySqlDbType.Int32;
+  
+            if (_YoungoContext.ExecuteSqlCommand(sql, parameters) > 0)
             {
                 return Commit();
             }

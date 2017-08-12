@@ -26,7 +26,8 @@ namespace StarmileFx.Api.FilterAttributes
         {
             base.OnActionExecuting(filterContext);
 
-            var value = filterContext.RouteData.Values[Name];
+            object value = new object();
+            filterContext.ActionArguments.TryGetValue(Name, out value);
 
             if (value == null || value.GetType() != Type)
             {

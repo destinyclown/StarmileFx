@@ -14,6 +14,7 @@ $(function () {
         autoclose: true
     });
     $('#btn_query').click(function () {
+        $.loading(true);
         $table.bootstrapTable('refresh', queryParams);  
     });
 
@@ -28,12 +29,15 @@ function initTable() {
         method: 'get',
         contentType: "application/json",
         toolbar: '#toolbar',                //工具按钮用哪个容器
-        //striped: true,     //使表格带有条纹  
-        pagination: true, //在表格底部显示分页工具栏  
-        pageSize: 20,
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        striped: true,     //使表格带有条纹  
         //iconsPrefix: 'fa',
+        pagination: true, //在表格底部显示分页工具栏  
+        pageSize: 10,
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
         pageNumber: 1,
-        pageList: [20, 50, 100, 200, 500],
+        pageList: [10, 25, 50, 100],
         idField: "id",  //标识哪个字段为id主键  
         showToggle: false,   //名片格式  
         cardView: false,//设置为True时显示名片（card）布局  
@@ -45,13 +49,30 @@ function initTable() {
         sidePagination: "server",//表格分页的位置  
         queryParams: queryParams, //参数  
         queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求  
-        silent: true,  //刷新事件必须设置   
+        silent: true,  //刷新事件必须设置 
+        classes: 'table table-hover',
+        rowStyle: function (row, index) {
+            //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+            var strclass = "";
+            if (row.state == "有效") {
+                strclass = 'success';//还有一个active
+            }
+            else if (row.state == "无效") {
+                strclass = 'danger';
+            }
+            else {
+                return {};
+            }
+            return { css: { "line-height": "50px" } }
+        },
         columns: [{
             field: 'id',
-            checkbox: true
+            checkbox: true,
+            align: 'center',
+            valign: 'top',
         }, {
-                field: 'picture',
-                title: '图片',
+            field: 'picture',
+            title: '图片',
             align: 'center',
             valign: 'top',
             formatter: function (value, row, index) {
@@ -83,12 +104,12 @@ function initTable() {
             align: 'center',
             valign: 'top'
         }, {
-                field: 'isTop',
+            field: 'isTop',
             title: '是否置顶',
             align: 'center',
             valign: 'top'
         }, {
-                field: 'isClearStock',
+            field: 'isClearStock',
             title: '是否清货',
             align: 'center',
             valign: 'top'
@@ -98,7 +119,7 @@ function initTable() {
             align: 'center',
             valign: 'top'
         }, {
-                field: 'creatTime',
+            field: 'creatTime',
             title: '创建时间',
             align: 'center',
             valign: 'top'
@@ -116,12 +137,18 @@ function initTable() {
         }],
         formatLoadingMessage: function () {
             //return "请稍等，正在加载中...";
+            //$table.bootstrapTable('showLoading', true);
         },
-        formatNoMatches: function () {  //没有匹配的结果  
+        formatNoMatches: function () {
+            $.loading(false);
             return '无符合条件的记录';
         },
         onLoadError: function (data) {
+            $.loading(false);
             $('#table').bootstrapTable('removeAll');
+        },
+        onLoadSuccess: function (data) {
+            $.loading(false);
         }
         //onClickRow: function (row) {
         //    window.location.href = "/qStock/qProInfo/" + row.ProductId;
@@ -133,7 +160,7 @@ function initTable() {
 function queryParams(params) {
     var search = {
         pageSize: params.limit,
-        pageIndex: params.pageNumber,
+        pageIndex: params.offset,
         //pageIndex: params.pageNumber,
         productId: $(".productId").val(),
         dateType: $(".dateType").val(),
@@ -144,4 +171,11 @@ function queryParams(params) {
         endDate: $(".endDate").val()
     };
     return search;
+}
+
+function edit(id) {
+
+}
+function del(id) {
+
 }

@@ -577,7 +577,96 @@ namespace StarmileFx.Api.Controllers
         }
         #endregion
 
-        #region 
+        #region 网站资源管理
+        /// <summary>
+        /// 获取网站资源列表
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [ValidateParmeterNull("ProductId")]
+        [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
+        public string GetResourcesList(string ProductId, ResourcesEnum Type)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                int total = 0;
+                responseModel.Content = _YoungoServer.GetResourcesList(ProductId, Type, out total);
+                responseModel.total = total;
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取网站资源列表
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <param name="Addresses"></param>
+        /// <param name="Sorts"></param>
+        /// <returns></returns>
+        [ValidateParmeterNull("ProductId")]
+        [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
+        [ValidateParmeterTypeOf("Addresses", typeof(string[]))]
+        [ValidateParmeterTypeOf("Sorts", typeof(int[]))]
+        public string AddResources(string ProductId, ResourcesEnum Type, string[] Addresses, int[] Sorts)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                int total = 0;
+                responseModel.Content = _YoungoServer.AddResources(ProductId, Type, Addresses, Sorts);
+                responseModel.total = total;
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 删除网站资源
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateParmeterNull("ProductId")]
+        [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
+        public string BatchDeleteResources(string ProductId, ResourcesEnum Type)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.BatchDeleteResources(ProductId, Type);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 删除网站资源
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [ValidateParmeterTypeOf("Id", typeof(int))]
+        public string DeleteResources(int Id)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                responseModel.Content = _YoungoServer.DeleteResources(Id);
+                responseModel.IsSuccess = true;
+                responseModel.ErrorMsg = "";
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
         #endregion
 
         #endregion 网站后台

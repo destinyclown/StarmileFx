@@ -342,6 +342,42 @@ namespace StarmileFx.Api.Server.IServices
         bool BatchDeleteProductType(int[] ids);
         #endregion
 
+        #region 网站资源管理
+        /// <summary>
+        /// 获取网站资源列表
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <param name="total"></param>
+        /// <returns></returns>
+        List<Resources> GetResourcesList(string ProductId, ResourcesEnum Type, out int total);
+
+        /// <summary>
+        /// 添加网站资源
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <param name="Addresses"></param>
+        /// <param name="Sorts"></param>
+        /// <returns></returns>
+        bool AddResources(string ProductId, ResourcesEnum Type, string[] Addresses, int[] Sorts);
+
+        /// <summary>
+        /// 删除网站资源
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        bool DeleteResources(int Id);
+
+        /// <summary>
+        /// 批量删除网站资源
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        bool BatchDeleteResources(string ProductId, ResourcesEnum Type);
+        #endregion
+
         #region Customer
         Customer GetCustomer(int id);
 

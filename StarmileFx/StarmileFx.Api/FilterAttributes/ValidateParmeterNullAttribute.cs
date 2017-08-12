@@ -26,7 +26,8 @@ namespace StarmileFx.Api.FilterAttributes
 
             foreach (string item in Parmters.Split(','))
             {
-                var value = filterContext.RouteData.Values[item.Trim()];
+                object value = new object();
+                filterContext.ActionArguments.TryGetValue(item.Trim(), out value);
                 if (value == null || string.IsNullOrEmpty(value.ToString()))
                 {
                     ResponseResult result = new ResponseResult();
