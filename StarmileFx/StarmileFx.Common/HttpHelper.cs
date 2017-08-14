@@ -42,6 +42,11 @@ namespace StarmileFx.Common
                             return await HttpPostAsync(Url, formData.ToDictionary(), encoding);
                         else
                             return await HttpPostAsync(Url, null, encoding);
+                    case MethodType.PUT:
+                        if (formData != null)
+                            return await HttpPutAsync(Url, formData.ToDictionary(), encoding);
+                        else
+                            return await HttpPutAsync(Url, null, encoding);
                 }
 
 
@@ -93,7 +98,8 @@ namespace StarmileFx.Common
         public enum MethodType
         {
             GET = 0,
-            POST = 1
+            POST = 1,
+            PUT = 2
         }
         #endregion
 
@@ -191,6 +197,77 @@ namespace StarmileFx.Common
             hc.Headers.Add("KeepAlive", "true");
 
             var t = client.PostAsync(url, hc);
+            t.Wait();
+            var t2 = t.Result.Content.ReadAsByteArrayAsync();
+            return encoding.GetString(t2.Result);
+        }
+        #endregion
+
+        #region PUT
+        /// <summary>
+        /// POST 异步
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postStream"></param>
+        /// <param name="encoding"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public async Task<string> HttpPutAsync(string url, Dictionary<string, string> formData = null, Encoding encoding = null, int timeOut = 10000)
+        {
+
+            HttpClientHandler handler = new HttpClientHandler();
+
+            HttpClient client = new HttpClient(handler);
+            //MemoryStream ms = new MemoryStream();
+            //formData.FillFormDataStream(ms);//填充formData
+            HttpContent hc = new FormUrlEncodedContent(formData);
+
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/webp"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
+            hc.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36");
+            hc.Headers.Add("Timeout", timeOut.ToString());
+            hc.Headers.Add("KeepAlive", "true");
+
+            var r = await client.PutAsync(url, hc);
+            r.EnsureSuccessStatusCode();
+            byte[] tmp = await r.Content.ReadAsByteArrayAsync();
+
+            return encoding.GetString(tmp);
+        }
+
+        /// <summary>
+        /// Put 同步
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postStream"></param>
+        /// <param name="encoding"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public string HttpPut(string url, Dictionary<string, string> formData = null, Encoding encoding = null, int timeOut = 10000)
+        {
+
+            HttpClientHandler handler = new HttpClientHandler();
+
+            HttpClient client = new HttpClient(handler);
+            //MemoryStream ms = new MemoryStream();
+            //formData.FillFormDataStream(ms);//填充formData
+            HttpContent hc = new FormUrlEncodedContent(formData);
+
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/webp"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
+            hc.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36");
+            hc.Headers.Add("Timeout", timeOut.ToString());
+            hc.Headers.Add("KeepAlive", "true");
+
+            var t = client.PutAsync(url, hc);
             t.Wait();
             var t2 = t.Result.Content.ReadAsByteArrayAsync();
             return encoding.GetString(t2.Result);

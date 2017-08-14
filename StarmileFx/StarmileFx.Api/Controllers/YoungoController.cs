@@ -29,6 +29,8 @@ namespace StarmileFx.Api.Controllers
         /// 获取商品列表
         /// </summary>
         /// <returns></returns>
+        //[Route("")]
+        [ResponseCache(VaryByHeader = "Accept-Encoding", Location = ResponseCacheLocation.Client, Duration = 10)]
         public string GetCacheProductList()
         {
             Func<ResponseResult> funcAction = () =>

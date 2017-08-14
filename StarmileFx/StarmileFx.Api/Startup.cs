@@ -45,6 +45,8 @@ namespace StarmileFx.Api
 
             // 添加应用程序服务。
             services.AddCoreServices();
+            services.AddResponseCompression();
+            services.AddResponseCaching();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +64,8 @@ namespace StarmileFx.Api
             app.UseCors(builder => builder.WithOrigins("https://*").AllowAnyHeader());
             //自定义中间件
             app.UseCustomMddleware();
+            app.UseResponseCompression();
+            app.UseResponseCaching();
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {

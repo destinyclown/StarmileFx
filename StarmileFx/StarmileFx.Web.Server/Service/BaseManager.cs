@@ -21,8 +21,8 @@ namespace StarmileFx.Web.Server.Services
         public BaseManager()
         {
             //Api_Host = "http://localhost:8001/";//测试使用
-            Api_Host = "http://api.starmile.com.cn/";//线上测试
-            //Api_Host = "https://api.starmile.com.cn/";//线上接口
+            //Api_Host = "http://api.starmile.com.cn/";//线上测试
+            Api_Host = "https://api.starmile.com.cn/";//线上接口
         }
 
         public Task<ResponseResult<bool>> RefreshToken(string Token)
