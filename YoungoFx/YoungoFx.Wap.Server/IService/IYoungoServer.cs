@@ -5,7 +5,6 @@ using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
-using StarmileFx.Models.MongoDB;
 
 namespace YoungoFx.Web.Server.IService
 {

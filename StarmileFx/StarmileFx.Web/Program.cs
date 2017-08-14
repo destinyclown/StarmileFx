@@ -15,7 +15,7 @@ namespace StarmileFx.Web
                 .UseKestrel()
                 .UseUrls("http://*:8002")
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();

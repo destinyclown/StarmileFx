@@ -34,7 +34,6 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Token"></param>
         /// <returns></returns>
-        [HttpPost]
         [ValidateParmeterNull("Token")]
         public string GetSysRolesOnline(string Token)
         {
@@ -53,7 +52,6 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Token"></param>
         /// <returns></returns>
-        [HttpPost]
         [ValidateParmeterNull("Token")]
         public string RefreshToken(string Token)
         {
@@ -74,9 +72,9 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Password"></param>
         /// <param name="IP"></param>
         /// <returns></returns>
-        public string LoginAsync([FromForm]LoginFrom fromData)
+        public string Login([FromForm]LoginFrom fromData)
         {
-            var model = _BaseServer.LoginAsync(fromData);
+            var model = _BaseServer.Login(fromData);
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
@@ -103,13 +101,13 @@ namespace StarmileFx.Api.Controllers
         /// <param name="roleId"></param>
         /// <returns></returns>
         [ValidateParmeterNull("Token")]
-        public string LoadMenuByRoleAsync(string Token)
+        public string LoadMenuByRole(string Token)
         {
             var model = BaseService.GetRoleByToken(Token);
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                responseModel.Content = _BaseServer.LoadMenuByRoleAsync(model);
+                responseModel.Content = _BaseServer.LoadMenuByRole(model);
                 responseModel.IsSuccess = true;
                 return responseModel;
             };
@@ -121,15 +119,14 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Token"></param>
         /// <returns></returns>
-        [HttpPost]
         [ValidateParmeterNull("Token")]
-        public string LogoutAsync(string Token)
+        public string Logout(string Token)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
                 Result result = new Result();
-                if (Token != null && BaseService.ClearRole(Token))
+                if (BaseService.ClearRole(Token))
                 {
                     result.IsSuccessful = true;
                     result.ReasonDescription = "登录成功！";
@@ -139,18 +136,6 @@ namespace StarmileFx.Api.Controllers
                     result.ReasonDescription = "Token错误，请检查！";
                 }
                 responseModel.Content = result;
-                return responseModel;
-            };
-            return ActionResponseGetString(funcAction);
-        }
-
-        public string GetSysRoleLogsList([FromForm]PageData page)
-        {
-            Func<ResponseResult> funcAction = () =>
-            {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _BaseServer.GetSysRoleLogsList(page);
-                responseModel.IsSuccess = true;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);

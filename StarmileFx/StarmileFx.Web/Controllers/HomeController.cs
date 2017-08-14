@@ -4,8 +4,6 @@ using StarmileFx.Common.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StarmileFx.Models.Base;
-using StarmileFx.Web.Filter;
-using static StarmileFx.Web.Filter.Authorization;
 using Microsoft.Extensions.Configuration;
 using StarmileFx.Models;
 using StarmileFx.Common;
@@ -16,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.Authentication;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -41,11 +40,11 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// 首页
         /// </summary>
         /// <returns></returns>
-        //[Authorization(_CallType = CallType.Normal)]
-        public async Task<IActionResult> Index()
+        //[Authorize(Policy = "Authorize")]
+        public IActionResult Index()
         {
-            var authentication = await HttpContext.Authentication.GetAuthenticateInfoAsync("Cookie");
-            ViewData[SysConst.Token] = authentication.Principal.FindFirst(ClaimTypes.Name).Value;//HttpContext.Session.GetString(SysConst.Token);
+            token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
+            ViewData[SysConst.Token] = token;
             return View();
         }
         public IActionResult Default()
@@ -59,6 +58,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// 登录页面
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -71,6 +71,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromForm]LoginFrom fromData)
         {
             if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
@@ -88,20 +89,20 @@ namespace StarmileFx.Web.Controllers.Controllers
             }
             else
             {
-
                 result = responseResult.Content;
-                //HttpContext.Session.SetString(SysConst.Token, responseResult.Token);
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name,responseResult.Token)
+                    new Claim(ClaimTypes.Authentication, responseResult.Token),
+                    new Claim(ClaimTypes.Name, fromData.loginName)
                 };
-                var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "SuperSecureLogin"));
-                await HttpContext.Authentication.SignInAsync("Cookie", userPrincipal, new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.UtcNow.AddHours(6),
-                    IsPersistent = false,
-                    AllowRefresh = false
-                });
+                var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
+                await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", userPrincipal,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddHours(6),
+                        IsPersistent = false,
+                        AllowRefresh = false
+                    });
             }
             return Json(result);
         }
@@ -110,6 +111,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// 验证码
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult Captcha()
         {
             string code = "";
@@ -125,8 +127,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
-            var authentication = await HttpContext.Authentication.GetAuthenticateInfoAsync("Cookie");
-            token = authentication.Principal.FindFirst(ClaimTypes.Name).Value;
+            token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
             HttpContext.Session.Clear();
             ResponseResult<Result> responseResult = await _BaseServer.Logout(token);
             if (!responseResult.IsSuccess)
@@ -137,46 +138,24 @@ namespace StarmileFx.Web.Controllers.Controllers
             else
             {
                 result = responseResult.Content;
-                await HttpContext.Authentication.SignOutAsync("Cookie");
+                await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
             }
             return Json(result);
         }
         #endregion
 
+        #region 错误页面
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View();
         }
 
-        public IActionResult About()
+        [AllowAnonymous]
+        public IActionResult Forbidden()
         {
             return View();
         }
-
-        public async Task<IActionResult> GetSysRoleLogsList([FromForm]PageData page)
-        {
-            page.IsAsc = false;
-            page.PageIndex = 1;
-            page.PageSize = 20;
-            ResponseResult<List<SysRoleLogs>> responseResult = await _BaseServer.GetSysRoleLogsList(page);
-            if (!responseResult.IsSuccess)
-            {
-                result.ReasonDescription = responseResult.ErrorMsg;
-                return Json(result);
-            }
-            return Json(new
-            {
-                total = 0,
-                row = from m in responseResult.Content
-                      select new
-                      {
-                          id = m.ID,
-                          用户id = m.RoleID,
-                          IP地址 = m.LoginIP,
-                          登录时间 = m.CreatTime
-
-                      }
-            });
-        }
+        #endregion
     }
 }

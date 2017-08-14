@@ -57,7 +57,7 @@ namespace StarmileFx.Web.Server.Services
         public async Task<ResponseResult<Result>> LoginAsync(LoginFrom fromData)
         {
             string Action = "Api";
-            string Function = "/LoginAsync";
+            string Function = "/Login";
             string Parameters = string.Empty;
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
@@ -78,7 +78,7 @@ namespace StarmileFx.Web.Server.Services
         public async Task<ResponseResult<Result>> LogoutAsync(string Token)
         {
             string Action = "Api";
-            string Function = "/LogoutAsync";
+            string Function = "/Logout";
             string Parameters = string.Format(@"Token={0}", Token);
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
@@ -99,34 +99,13 @@ namespace StarmileFx.Web.Server.Services
         public async Task<ResponseResult<SysMenusModel>> LoadMenuByRoleAsync(string Token)
         {
             string Action = "Api";
-            string Function = "/LoadMenuByRoleAsync";
+            string Function = "/LoadMenuByRole";
             string Parameters = string.Format(@"Token={0}", Token);
             string result = await httpHelper.QueryData(Api_Host + Action + Function
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<SysMenusModel>>(result);
-            });
-        }
-
-        public Task<ResponseResult<List<SysRoleLogs>>> GetSysRoleLogsList(PageData page)
-        {
-            return Task.Run(() =>
-            {
-                return GetSysRoleLogsListAsync(page);
-            });
-        }
-
-        public async Task<ResponseResult<List<SysRoleLogs>>> GetSysRoleLogsListAsync(PageData page)
-        {
-            string Action = "Api";
-            string Function = "/GetSysRoleLogsListAsync";
-            string Parameters = string.Empty;
-            string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, page);
-            return await Task.Run(() =>
-            {
-                return JsonConvert.DeserializeObject<ResponseResult<List<SysRoleLogs>>>(result);
             });
         }
     }

@@ -6,6 +6,7 @@
 
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,9 @@
     <Content Include="wwwroot\css\app.css" />
     <Content Include="wwwroot\css\custom.css" />
     <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\favicon.ico">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\images\1.jpg" />
     <Content Include="wwwroot\images\404\01.jpg" />
     <Content Include="wwwroot\images\404\01.png" />

@@ -110,7 +110,7 @@ namespace StarmileFx.Api.Server.IServices
         /// <param name="IP"></param>
         /// <param name="sysRole"></param>
         /// <returns></returns>
-        SysRoles LoginAsync(LoginFrom fromData);
+        SysRoles Login(LoginFrom fromData);
 
         /// <summary>
         /// 登录方法
@@ -125,9 +125,7 @@ namespace StarmileFx.Api.Server.IServices
 
         //Task<List<SysViews>> LoadViewList(string roleid, Guid menuid);
 
-        SysMenusModel LoadMenuByRoleAsync(SysRoles role);
-
-        List<SysRoleLogs> GetSysRoleLogsList(PageData page);
+        SysMenusModel LoadMenuByRole(SysRoles role);
         #endregion
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StarmileFx.Models.Wap;
 using YoungoFx.Web.Server.IService;
 using StarmileFx.Models;
-using StarmileFx.Models.MongoDB;
+using StarmileFx.Models.Redis;
 using System.Linq;
 using System.Collections.Generic;
 

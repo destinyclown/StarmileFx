@@ -23,7 +23,5 @@ namespace StarmileFx.Web.Server.IServices
         Task<ResponseResult<Result>> Login(LoginFrom fromData);
 
         Task<ResponseResult<SysMenusModel>> LoadMenuByRole(string Token);
-
-        Task<ResponseResult<List<SysRoleLogs>>> GetSysRoleLogsList(PageData page);
     }
 }

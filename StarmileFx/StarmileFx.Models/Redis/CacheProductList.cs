@@ -4,17 +4,14 @@ using MongoDB.Bson;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 
-namespace StarmileFx.Models.MongoDB
+namespace StarmileFx.Models.Redis
 {
     /// <summary>
     /// 缓存商品列表
     /// </summary>
-    public class CacheProductList : Entity
+    public class CacheProductList
     {
-        public CacheProductList()
-        {
-            Id = "";
-        }
+
         /// <summary>
         /// 商品类型列表
         /// </summary>

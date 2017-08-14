@@ -188,7 +188,7 @@ namespace StarmileFx.Api.Server.Services
         /// <param name="Password"></param>
         /// <param name="rel"></param>
         /// <returns></returns>
-        public SysRoles LoginAsync(LoginFrom fromData)
+        public SysRoles Login(LoginFrom fromData)
         {
             SysRoles sysRole = new SysRoles();
             sysRole = Get<SysRoles>(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
@@ -209,7 +209,7 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        public SysMenusModel LoadMenuByRoleAsync(SysRoles role)
+        public SysMenusModel LoadMenuByRole(SysRoles role)
         {
             var _SysMenusModelList = _SysMenusModel.Value;
             if (role != null)
@@ -239,14 +239,6 @@ namespace StarmileFx.Api.Server.Services
                 }
             }
             return null;
-        }
-
-        public List<SysRoleLogs> GetSysRoleLogsList(PageData page)
-        {
-            List<SysRoleLogs> sysRoleLogsList = new List<SysRoleLogs>();
-            int total = 0;
-            sysRoleLogsList = PageData<SysRoleLogs>(page, null, null, out total).ToList();
-            return sysRoleLogsList;
         }
         #endregion home
     }
