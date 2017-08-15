@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 using StarmileFx.Common.Encryption;
 using StarmileFx.Common.Enum;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StarmileFx.Models.Base;
 using Microsoft.Extensions.Configuration;
 using StarmileFx.Models;
 using StarmileFx.Common;
@@ -12,9 +10,10 @@ using static StarmileFx.Models.Web.HomeFromModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -96,7 +95,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                     new Claim(ClaimTypes.Name, fromData.loginName)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
-                await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", userPrincipal,
+                await HttpContext.SignInAsync(userPrincipal,
                     new AuthenticationProperties
                     {
                         ExpiresUtc = DateTime.UtcNow.AddHours(6),
@@ -114,8 +113,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         [AllowAnonymous]
         public IActionResult Captcha()
         {
-            string code = "";
-            System.IO.MemoryStream ms = VierificationCode.Create(out code);
+            System.IO.MemoryStream ms = VierificationCode.Create(out string code);
             HttpContext.Session.SetString(SysConst.Captcha, code);
             Response.Body.Dispose();
             return File(ms.ToArray(), @"image/png");
@@ -138,7 +136,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             else
             {
                 result = responseResult.Content;
-                await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
+                await HttpContext.SignOutAsync();
             }
             return Json(result);
         }

@@ -36,8 +36,8 @@ namespace StarmileFx.Api
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddDbContext<BaseContext>(options => options.UseMySQL(Configuration.GetConnectionString("BaseConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
-            services.AddDbContext<YoungoContext>(options => options.UseMySQL(Configuration.GetConnectionString("YoungoConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
+            services.AddDbContext<BaseContext>(options => options.UseMySQL(Configuration.GetConnectionString("BaseConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api.Server")));
+            services.AddDbContext<YoungoContext>(options => options.UseMySQL(Configuration.GetConnectionString("YoungoConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api.Server")));
             //读取配置
             services.Configure<EmailModel>(Configuration.GetSection("EmailConfig"));
             services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));
