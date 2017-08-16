@@ -16,8 +16,8 @@ namespace StarmileFx.Api
                 .UseKestrel()
                 .UseUrls("http://*:8001")
                 //.UseUrls("https://*:443")//正式使用
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
                 //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
