@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,6 @@ using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using static StarmileFx.Models.Wap.WapFrom;
-using StarmileFx.Models.MongoDB;
 
 namespace StarmileFx.Wap.Controllers
 {
@@ -113,8 +111,10 @@ namespace StarmileFx.Wap.Controllers
             }
             else
             {
-                ShopCart cart = new ShopCart();
-                cart.CustomerID = customerId;
+                ShopCart cart = new ShopCart
+                {
+                    CustomerID = customerId
+                };
                 ProductList productList = new ProductList();
                 ProductModel product = list.ProductList.Find(a => a.ProductID == productId);
                 productList.Product = product;
@@ -190,11 +190,13 @@ namespace StarmileFx.Wap.Controllers
                 {
                     ProductModel product = ProductList.ProductList.Where(a => a.ProductID == productID[i]).ToList()[0];
                     int number = int.Parse(_number[i]);
-                    ProductList _product = new ProductList();
-                    _product.Number = number;
-                    _product.Product = product;
-                    _product.ProductID = productID[i];
-                    _product.TotalPrice = number * product.PurchasePrice;
+                    ProductList _product = new ProductList
+                    {
+                        Number = number,
+                        Product = product,
+                        ProductID = productID[i],
+                        TotalPrice = number * product.PurchasePrice
+                    };
                     cart.ProductList.Add(_product);
                     TotalPrice += TotalPrice;
                 }

@@ -219,8 +219,7 @@ namespace StarmileFx.Api.Server.Services
                 else
                 {
                     var permissionsId = Get<SysRolePermissions>(a => a.Permissions == role.Permissions && a.State).ID;
-                    int total = 0;
-                    var list = (from a in List<SysAuthorities>(a => a.PermissionsID == permissionsId && a.State, out total)
+                    var list = (from a in List<SysAuthorities>(a => a.PermissionsID == permissionsId && a.State, out int total)
                                 select new string(a.Code.ToCharArray())).ToList();
                     var mainMenuList = (_SysMenusModelList.MainMenuList
                         .Where(a => list.Contains(a.Code) && a.State)).ToList();

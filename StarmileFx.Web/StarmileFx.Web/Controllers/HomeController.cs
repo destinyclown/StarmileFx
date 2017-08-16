@@ -79,7 +79,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                 result.ReasonDescription = "验证码错误！";
                 return Json(result);
             }
-            fromData.password = Encryption.toMd5(fromData.password);
+            fromData.password = Encryption.ToMd5(fromData.password);
             fromData.ip = HttpContext.Connection.RemoteIpAddress.ToString();
             ResponseResult<Result> responseResult = await _BaseServer.Login(fromData);
             if (!responseResult.IsSuccess)
@@ -114,8 +114,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         [AllowAnonymous]
         public IActionResult Captcha()
         {
-            string code = "";
-            System.IO.MemoryStream ms = VierificationCode.Create(out code);
+            System.IO.MemoryStream ms = VierificationCode.Create(out string code);
             HttpContext.Session.SetString(SysConst.Captcha, code);
             Response.Body.Dispose();
             return File(ms.ToArray(), @"image/png");

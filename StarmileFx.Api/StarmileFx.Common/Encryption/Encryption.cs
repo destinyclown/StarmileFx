@@ -16,7 +16,7 @@ namespace StarmileFx.Common.Encryption
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string toMd5(string str)
+        public static string ToMd5(string str)
         {
             string cl = StrInCoded(str);
             string pwd = "";
@@ -45,7 +45,7 @@ namespace StarmileFx.Common.Encryption
         /// <param name="encryptString">待加密的字符串</param> 
         /// <returns>加密成功返回加密后的字符串，失败返回源串</returns> 
 
-        public static string toEncryptDES(string encryptString)
+        public static string ToEncryptDES(string encryptString)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace StarmileFx.Common.Encryption
         /// <param name="decryptString">待解密的字符串</param> 
         /// <returns>解密成功返回解密后的字符串，失败返源串</returns> 
 
-        public static string toDecryptDES(string decryptString)
+        public static string ToDecryptDES(string decryptString)
         {
             try
             {

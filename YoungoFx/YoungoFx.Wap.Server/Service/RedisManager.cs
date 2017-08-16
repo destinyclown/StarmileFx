@@ -71,7 +71,7 @@ namespace YoungoFx.Web.Server.Services
 
         public long keyDelete(RedisKey[] keys)
         {
-            return RedisHelper.keyDelete(keys);
+            return RedisHelper.KeyDelete(keys);
         }
 
         public bool KeyDelete(string key)

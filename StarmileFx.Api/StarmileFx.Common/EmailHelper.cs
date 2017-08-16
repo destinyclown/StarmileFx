@@ -31,7 +31,7 @@ namespace StarmileFx.Common
                 using (var client = new SmtpClient())
                 {
                     client.Connect("smtp.163.com", 465, true);
-                    string pwd = Encryption.Encryption.toDecryptDES(model.Password);
+                    string pwd = Encryption.Encryption.ToDecryptDES(model.Password);
                     client.Authenticate(model.StarmileEamil, pwd);
 
                     client.Send(emailMessage);
@@ -64,7 +64,7 @@ namespace StarmileFx.Common
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.163.com", 25, SecureSocketOptions.None).ConfigureAwait(false);
-                    await client.AuthenticateAsync(model.StarmileEamil, Encryption.Encryption.toDecryptDES(model.Password));
+                    await client.AuthenticateAsync(model.StarmileEamil, Encryption.Encryption.ToDecryptDES(model.Password));
                     await client.SendAsync(emailMessage).ConfigureAwait(false);
                     await client.DisconnectAsync(true).ConfigureAwait(false);
 

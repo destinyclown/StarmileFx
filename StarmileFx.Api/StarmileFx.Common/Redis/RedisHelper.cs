@@ -318,7 +318,7 @@ namespace StarmileFx.Common.Redis
         /// </summary>
         /// <param name="keys">rediskey</param>
         /// <returns>成功删除的个数</returns>
-        public long keyDelete(RedisKey[] keys)
+        public long KeyDelete(RedisKey[] keys)
         {
             return db.KeyDelete(keys);
         }

@@ -208,9 +208,10 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public CacheProductList GetCacheProductList()
         {
-            CacheProductList _CacheProductList = new CacheProductList();
-            int total = 0;
-            _CacheProductList.ProductTypeList = List<ProductType>(a => a.State, out total).ToList();
+            CacheProductList _CacheProductList = new CacheProductList
+            {
+                ProductTypeList = List<ProductType>(a => a.State, out int total).ToList()
+            };
             string sql = @"SELECT
 	                        p.ID,
 	                        p.ProductID,
@@ -257,8 +258,7 @@ namespace StarmileFx.Api.Server.Services
             {
                 throw new Exception("商品SKU不能为空！");
             }
-            ProductResources rp = new ProductResources();
-            int total = 0;
+            ProductResources rp = NewMethod();
             rp.ProductID = productId;
             string sql = @"SELECT
 	                        cc.ID,
@@ -279,8 +279,13 @@ namespace StarmileFx.Api.Server.Services
             parameters[0].MySqlDbType = MySqlDbType.String;
 
             rp.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
-            rp.ResourcesList = _YoungoContext.List<Resources>(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product), out total).ToList();
+            rp.ResourcesList = _YoungoContext.List<Resources>(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product), out int total).ToList();
             return rp;
+        }
+
+        private static ProductResources NewMethod()
+        {
+            return new ProductResources();
         }
 
         /// <summary>
@@ -434,15 +439,17 @@ namespace StarmileFx.Api.Server.Services
             int detailCount = 0;
 
             //主表数据
-            OnLineOrderParent order = new OnLineOrderParent();
-            order.DeliveryAddressID = shopCart.Address.ID;
-            order.OrderID = shopCart.OrderId;
-            order.OrderState = shopCart.OrderState;      
-            order.PayTime = shopCart.PayTime;
-            order.PaymentType = shopCart.PaymentType;
-            order.CustomerRemarks = shopCart.CustomerRemarks;
-            order.CustomerID = shopCart.CustomerID;
-            order.TotalPrice = shopCart.TotalPrice;
+            OnLineOrderParent order = new OnLineOrderParent
+            {
+                DeliveryAddressID = shopCart.Address.ID,
+                OrderID = shopCart.OrderId,
+                OrderState = shopCart.OrderState,
+                PayTime = shopCart.PayTime,
+                PaymentType = shopCart.PaymentType,
+                CustomerRemarks = shopCart.CustomerRemarks,
+                CustomerID = shopCart.CustomerID,
+                TotalPrice = shopCart.TotalPrice
+            };
             if (shopCart.ProductList.Count == 1)
             {
                 if (shopCart.ProductList.Find(a => 1 == 1).Number == 1)
@@ -464,10 +471,12 @@ namespace StarmileFx.Api.Server.Services
                 //明细数据
                 foreach (var Product in shopCart.ProductList)
                 {
-                    OnLineOrderDetail orderDetail = new OnLineOrderDetail();
-                    orderDetail.OrderID = shopCart.OrderId;
-                    orderDetail.ProductID = Product.ProductID;
-                    orderDetail.Number = Product.Number;
+                    OnLineOrderDetail orderDetail = new OnLineOrderDetail
+                    {
+                        OrderID = shopCart.OrderId,
+                        ProductID = Product.ProductID,
+                        Number = Product.Number
+                    };
                     if (Add(orderDetail, Transaction))
                     {
                         detailCount++;
@@ -540,11 +549,13 @@ namespace StarmileFx.Api.Server.Services
                 order.PayTime = DateTime.Now;
                 if (Update(order, Transaction))
                 {
-                    TransactionRecord tr = new TransactionRecord();
-                    tr.OrderID = OrderId;
-                    tr.TotalPrice = order.TotalPrice;
-                    tr.TransactionID = TransactionId;
-                    tr.Type = PaymentTypeEnum.WeChatPayment;
+                    TransactionRecord tr = new TransactionRecord
+                    {
+                        OrderID = OrderId,
+                        TotalPrice = order.TotalPrice,
+                        TransactionID = TransactionId,
+                        Type = PaymentTypeEnum.WeChatPayment
+                    };
                     if (Add(tr, Transaction))
                     {
                         ChangeCustomerSign(order.CustomerID, SignEnum.购买商品50点积分);
@@ -605,11 +616,13 @@ namespace StarmileFx.Api.Server.Services
             OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
             if (order != null && order.OrderState == OrderStateEnum.Completed)
             {
-                ServiceRecord sr = new ServiceRecord();
-                sr.Content = Content;
-                sr.CustomerID = order.CustomerID;
-                sr.Type = Type;
-                sr.OrderID = OrederId;
+                ServiceRecord sr = new ServiceRecord
+                {
+                    Content = Content,
+                    CustomerID = order.CustomerID,
+                    Type = Type,
+                    OrderID = OrederId
+                };
                 if (Add(sr, Transaction))
                 {
                     order.IsDelete = true;
@@ -676,11 +689,13 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool SubmitComment(CommentFrom CommentFrom)
         {
-            CustomerComment comment = new CustomerComment();
-            comment.CustomerID = CommentFrom.CustomerID;
-            comment.OrderID = CommentFrom.OrderID;
-            comment.ProductID = CommentFrom.ProductID;
-            comment.Reply = CommentFrom.Reply;
+            CustomerComment comment = new CustomerComment
+            {
+                CustomerID = CommentFrom.CustomerID,
+                OrderID = CommentFrom.OrderID,
+                ProductID = CommentFrom.ProductID,
+                Reply = CommentFrom.Reply
+            };
             if (Add(comment, Transaction))
             {
                 return ChangeCustomerSign(CommentFrom.CustomerID, SignEnum.添加评论10点积分);
@@ -720,14 +735,16 @@ namespace StarmileFx.Api.Server.Services
             }
             else
             {
-                DeliveryAddress model = new DeliveryAddress();
-                model.Address = DeliveryAddressFrom.Address;
-                model.Area = DeliveryAddressFrom.Area;
-                model.City = DeliveryAddressFrom.City;
-                model.Phone = DeliveryAddressFrom.Phone;
-                model.Province = DeliveryAddressFrom.Province;
-                model.ReceiveName = DeliveryAddressFrom.ReceiveName;
-                model.IsDefault = DeliveryAddressFrom.IsDefault;
+                DeliveryAddress model = new DeliveryAddress
+                {
+                    Address = DeliveryAddressFrom.Address,
+                    Area = DeliveryAddressFrom.Area,
+                    City = DeliveryAddressFrom.City,
+                    Phone = DeliveryAddressFrom.Phone,
+                    Province = DeliveryAddressFrom.Province,
+                    ReceiveName = DeliveryAddressFrom.ReceiveName,
+                    IsDefault = DeliveryAddressFrom.IsDefault
+                };
                 if (Add(model, Transaction))
                 {
                     //提交事务
@@ -747,8 +764,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public List<DeliveryAddress> GetDeliveryAddressList(int CustomerId)
         {
-            int total = 0;
-            List<DeliveryAddress> DeliveryAddressList = List<DeliveryAddress>(a => a.CustomerID == CustomerId, out total).ToList();
+            List<DeliveryAddress> DeliveryAddressList = List<DeliveryAddress>(a => a.CustomerID == CustomerId, out int total).ToList();
             return DeliveryAddressList;
         }
 
@@ -774,7 +790,7 @@ namespace StarmileFx.Api.Server.Services
             customer.Integral += (int)signEnum;
             if (Update(customer, Transaction))
             {
-                CustomerSign sign = new CustomerSign();
+                CustomerSign sign = NewMethod1();
                 sign.CustomerID = CustomerId;
                 sign.Integral = (int)signEnum;
                 sign.Mode = signEnum.ToString();
@@ -794,6 +810,11 @@ namespace StarmileFx.Api.Server.Services
             }
         }
 
+        private static CustomerSign NewMethod1()
+        {
+            return new CustomerSign();
+        }
+
         /// <summary>
         /// 发送消息
         /// </summary>
@@ -802,9 +823,11 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool SendMessage(int CustomerId, string OrederId, MessageTypeEnum MessageType)
         {
-            Information Message = new Information();
-            Message.CustomerID = CustomerId;
-            Message.OrderID = OrederId;
+            Information Message = new Information
+            {
+                CustomerID = CustomerId,
+                OrderID = OrederId
+            };
             string message = string.Empty;
             switch (MessageType)
             {
@@ -855,9 +878,8 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public List<Information> GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
-            int total = 0;
             PageData page = new PageData { PageIndex = PageIndex, PageSize = PageSize };
-            List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out total).ToList();
+            List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out int total).ToList();
             return list;
         }
 
@@ -868,10 +890,12 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool SubmitFeedback(FeedbackFrom from)
         {
-            Feedback model = new Feedback();
-            model.Content = from.Content;
-            model.Type = from.Type;
-            model.Phone = from.Phone;
+            Feedback model = new Feedback
+            {
+                Content = from.Content,
+                Type = from.Type,
+                Phone = from.Phone
+            };
             if (Add(model, Transaction))
             {
                 return Commit();
@@ -1202,11 +1226,13 @@ namespace StarmileFx.Api.Server.Services
             int i = 0;
             foreach (string Address in Addresses)
             {
-                Resources resources = new Resources();
-                resources.ProductID = ProductId;
-                resources.Type = Type;
-                resources.Address = Address;
-                resources.Sort = Sorts[i];
+                Resources resources = new Resources
+                {
+                    ProductID = ProductId,
+                    Type = Type,
+                    Address = Address,
+                    Sort = Sorts[i]
+                };
                 i++;
                 if (Add(resources, Transaction))
                 {
