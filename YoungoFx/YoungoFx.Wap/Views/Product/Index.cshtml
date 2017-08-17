@@ -26,12 +26,12 @@
             <div class="categoryItem">
                 <div class="categoryTit"><span>@type.TypeName</span></div>
                 <ul>
-                    @{ List<Product> list = Model.ProductList.Where(a => a.Type == type.ID).ToList(); }
-                    @foreach (Product product in list)
+                    @{ List<ProductModel> list = Model.ProductList.Where(a => a.Type == type.ID).ToList(); }
+                    @foreach (ProductModel product in list)
                     {
                         <li>
                             <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
-                                <img src="@product.Label" alt="">
+                                <img src="@product.Picture" alt="">
                                 <span>@product.CnName</span>
                             </a>
                         </li>

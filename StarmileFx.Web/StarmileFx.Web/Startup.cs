@@ -33,7 +33,7 @@ namespace StarmileFx.Web
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSession();
-            services.Configure<WebConfigModel>(Configuration.GetSection("WebConfig"));
+            services.Configure<WebConfig>(Configuration.GetSection("WebConfig"));
             services.Configure<RedisModel>(Configuration.GetSection("Redis"));
             services.AddMvc();
             services.AddAuthorization(options =>

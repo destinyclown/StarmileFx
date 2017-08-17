@@ -8,6 +8,7 @@ using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
 using StarmileFx.Web.Server.IServices;
 using static StarmileFx.Models.Web.HomeFromModel;
+using Microsoft.Extensions.Options;
 
 namespace StarmileFx.Web.Server.Services
 {
@@ -18,11 +19,14 @@ namespace StarmileFx.Web.Server.Services
     {
         private string Api_Host;
         HttpHelper httpHelper = new HttpHelper();
-        public BaseManager()
+        private readonly IOptions<WebConfig> _WebConfig;
+        public BaseManager(IOptions<WebConfig> WebConfig)
         {
             //Api_Host = "http://localhost:8001/";//测试使用
             //Api_Host = "http://api.starmile.com.cn/";//线上测试
-            Api_Host = "https://api.starmile.com.cn/";//线上接口
+            //Api_Host = "https://api.starmile.com.cn/";//线上接口
+            _WebConfig = WebConfig;
+            Api_Host = _WebConfig.Value.IsTest ? _WebConfig.Value.TestApiHost : _WebConfig.Value.ApiHost;
         }
 
         public Task<ResponseResult<bool>> RefreshToken(string Token)

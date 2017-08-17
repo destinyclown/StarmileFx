@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using YoungoFx.Web.Server.IService;
 using StarmileFx.Wap.Services;
+using StarmileFx.Models.Redis;
 
 namespace StarmileFx.Wap.Controllers
 {
@@ -18,11 +19,11 @@ namespace StarmileFx.Wap.Controllers
             _YoungoServer = IYoungoServer;
         }
         //OrderService o = new OrderService();
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //string orderId = _YoungoServer.CreateOrderID();
+            CacheProductList ProductList = await _YoungoServer.GetCacheProductList();
             ViewBag.Title = "Youngo商城";
-            return View();
+            return View(ProductList);
         }
 
         public IActionResult Error()

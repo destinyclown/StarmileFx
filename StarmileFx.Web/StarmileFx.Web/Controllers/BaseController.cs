@@ -1,11 +1,7 @@
-﻿using StarmileFx.Common.Enum;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 using StarmileFx.Web.Controllers.Controllers;
 using StarmileFx.Models;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 namespace StarmileFx.Web.Controllers
@@ -21,7 +17,7 @@ namespace StarmileFx.Web.Controllers
         /// <summary>
         /// Token令牌
         /// </summary>
-        public string token { get; set; }
+        public string Token { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {

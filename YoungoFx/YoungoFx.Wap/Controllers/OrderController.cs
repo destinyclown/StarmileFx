@@ -121,7 +121,10 @@ namespace StarmileFx.Wap.Controllers
                 productList.Number = 1;
                 productList.ProductID = productId;
                 productList.TotalPrice = product.PurchasePrice;
-                cart.ProductList.Add(productList);
+                cart.ProductList = new List<ProductList>
+                {
+                    productList
+                };
                 result.IsSuccessful = _YoungoServer.CreateShopCart(cart);
                 return View(result);
             }

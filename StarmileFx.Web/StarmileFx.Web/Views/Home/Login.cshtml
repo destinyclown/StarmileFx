@@ -3,12 +3,12 @@
     ViewData["Title"] = "登录";
 }
 @using Microsoft.Extensions.Options
-@inject IOptions<WebConfigModel> WebConfigModel
+@inject IOptions<WebConfig> WebConfig
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @WebConfigModel.Value.WebName</title>
+    <title>@ViewData["Title"] - @WebConfig.Value.WebName</title>
 
     <environment names="Development">
         <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
@@ -28,7 +28,7 @@
         <div class="container" style="padding-top:10%;">
             <div class="logo">
                 <i class="fa fa-modx"></i>
-                <h1><span>@WebConfigModel.Value.WebName</span>系统管理后台</h1>
+                <h1><span>@WebConfig.Value.WebName</span>系统管理后台</h1>
             </div>
             <div class="row justify-content-md-center">
                 <div class="col-sm-9 col-md-5 col-lg-5 form-row">

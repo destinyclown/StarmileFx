@@ -1,17 +1,4 @@
-﻿@*<distributed-cache name="mycache" expires-after="TimeSpan.FromSeconds(10)">
-    <p>缓存项10秒过期-LineZero</p>
-    @DateTime.Now
-</distributed-cache>
-<distributed-cache name="mycachenew" expires-sliding="TimeSpan.FromSeconds(10)">
-    <p>缓存项有人访问就不会过期，无人访问10秒过期-LineZero</p>
-    @DateTime.Now
-</distributed-cache>
-<div class="headerBar">
-    <a class="headerBack"></a>
-    <div class="headerTit">网站名称</div>
-    <a class="headerMessage" href="search.html"><i class="iSearch"></i></a>
-</div>*@
-
+﻿@model CacheProductList
 @section Header{
     <link href="~/css/index.css" rel="stylesheet" />
 }
@@ -34,24 +21,33 @@
         <div class="productListRank">
             <div class="productListRankTit">品质·购物</div>
             <ul>
+                @{ 
+                    List<ProductModel> list = Model.ProductList.OrderByDescending(a => a.IsTop)
+                        .OrderByDescending(a => a.SalesVolume)
+                        .Skip(0)
+                        .Take(20).ToList();
+                }
+                @foreach (ProductModel product in list)
+                {
                 <li class="productListRankItem">
-                    <a asp-controller="product" asp-action="product" asp-route-productid="1">
+                    <a asp-controller="product" asp-action="product" asp-route-productid="@product.ProductID">
                         <span class="pic">
-                            <img src="/images/product.jpg" alt="">
+                            <img src="@product.Picture" alt="">
                         </span>
                         <span class="tit">
-                            又壹点 家用垃圾袋中号加厚背心式手提塑料袋抽取式
+                            @product.CnName
                         </span>
                         <span class="info">
                             <span class="price">
-                                ￥<em class="bigPrice">99</em><em class="smallPrice">.99</em>
+                                ￥<em class="bigPrice">@product.PurchasePrice</em>
                             </span>
                             <span class="praise">
-                                <em>好评率100%</em>
+                                <em>已售 @product.SalesVolume</em>
                             </span>
                         </span>
                     </a>
                 </li>
+                }
             </ul>
             <a class="productListMore">
                 加载更多内容

@@ -53,7 +53,7 @@
                 </div>
                 <div class="proTabCon">
                     <div class="proTabConItem">
-                        <img src="@Model" alt="" style="width:100%;">
+                        @Html.Raw(Model.Remarks)
                     </div>
                     <!-- end.proTabConItem -->
                     <div class="proTabConItem">
@@ -127,7 +127,7 @@
                 var CustomerId = $('#CustomerId').val();
                 $.ajax({
                     type: "post",
-                    data: { customerId : CustomerId, productId : @Model.ProductID },
+                    data: { customerId : CustomerId, productId : "@Model.ProductID" },
                     dataType: "json",
                     url: "/Order/AddProductCart",
                     success: function (result) {

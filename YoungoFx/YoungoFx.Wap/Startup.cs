@@ -32,7 +32,7 @@ namespace YoungoFx.Wap
             services.AddMvc();
 
             //读取节点为WebConfig的配置
-            services.Configure<WebConfigModel>(Configuration.GetSection("WebConfig"));
+            services.Configure<WebConfig>(Configuration.GetSection("WebConfig"));
             services.Configure<RedisModel>(Configuration.GetSection("Redis"));
             services.UserMongoLog(Configuration.GetSection("Mongo.Log"));
             //services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));

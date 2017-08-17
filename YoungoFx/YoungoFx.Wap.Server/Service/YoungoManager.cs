@@ -10,23 +10,28 @@ using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 using YoungoFx.Web.Server.IServices;
+using StarmileFx.Models.Json;
+using Microsoft.Extensions.Options;
 
 namespace YoungoFx.Web.Server.Service
 {
     public class YoungoManager : IYoungoServer
     {
         private readonly IRedisServer _IRedisServer;
+        private readonly IOptions<WebConfig> _WebConfig;
         //private readonly CacheProductListService _CacheProductListService;
         private string Api_Host;
         HttpHelper httpHelper = new HttpHelper();
-        public YoungoManager(IRedisServer IRedisServer)
+        public YoungoManager(IRedisServer IRedisServer, IOptions<WebConfig> WebConfig)
         {
+            _IRedisServer = IRedisServer;
+            _WebConfig = WebConfig;
+            _IRedisServer.conn = _WebConfig.Value.IsTest ? _WebConfig.Value.TestRedisHost : _WebConfig.Value.RedisHost;
+            Api_Host = _WebConfig.Value.IsTest ? _WebConfig.Value.TestApiHost : _WebConfig.Value.ApiHost;
             //LogsContext lc = new LogsContext(options);
             //_CacheProductListService = new CacheProductListService(lc);
-            _IRedisServer = IRedisServer;
-            _IRedisServer.conn = "127.0.0.1";
             //Api_Host = "http://localhost:8001/";//测试使用
-            Api_Host = "https://api.starmile.com.cn/";//正式环境
+            //Api_Host = "https://api.starmile.com.cn/";//正式环境
         }
         /// <summary>
         /// 创建订单编号

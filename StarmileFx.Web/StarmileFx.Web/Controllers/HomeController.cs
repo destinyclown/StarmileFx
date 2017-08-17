@@ -43,8 +43,8 @@ namespace StarmileFx.Web.Controllers.Controllers
         //[Authorize(Policy = "Authorize")]
         public IActionResult Index()
         {
-            token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
-            ViewData[SysConst.Token] = token;
+            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
+            ViewData[SysConst.Token] = Token;
             return View();
         }
         public IActionResult Default()
@@ -126,9 +126,9 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
-            token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
+            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
             HttpContext.Session.Clear();
-            ResponseResult<Result> responseResult = await _BaseServer.Logout(token);
+            ResponseResult<Result> responseResult = await _BaseServer.Logout(Token);
             if (!responseResult.IsSuccess)
             {
                 result.ReasonDescription = responseResult.ErrorMsg;

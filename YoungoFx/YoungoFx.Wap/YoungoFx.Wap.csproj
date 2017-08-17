@@ -83,4 +83,5 @@
   <PropertyGroup>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>

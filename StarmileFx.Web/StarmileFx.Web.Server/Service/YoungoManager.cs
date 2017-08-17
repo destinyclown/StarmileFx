@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StarmileFx.Common;
 using StarmileFx.Models;
+using StarmileFx.Models.Json;
 using StarmileFx.Models.Web;
 using StarmileFx.Models.Youngo;
 using StarmileFx.Web.Server.IService;
@@ -13,11 +15,14 @@ namespace StarmileFx.Web.Server.Service
     {
         private string Api_Host;
         HttpHelper httpHelper = new HttpHelper();
-        public YoungoManager()
+        private readonly IOptions<WebConfig> _WebConfig;
+        public YoungoManager(IOptions<WebConfig> WebConfig)
         {
             //Api_Host = "http://localhost:8001/";//测试使用
             //Api_Host = "http://api.starmile.com.cn/";//线上测试
-            Api_Host = "https://api.starmile.com.cn/";//线上接口
+            //Api_Host = "https://api.starmile.com.cn/";//线上接口
+            _WebConfig = WebConfig;
+            Api_Host = _WebConfig.Value.IsTest ? _WebConfig.Value.TestApiHost : _WebConfig.Value.ApiHost;
         }
 
         #region 商品管理

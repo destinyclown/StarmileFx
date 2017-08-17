@@ -7,8 +7,6 @@ using StarmileFx.Models;
 using StarmileFx.Models.Youngo;
 using YoungoFx.Web.Server.IService;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StarmileFx.Wap.Controllers
 {
     public class CustomerController : Controller
@@ -31,7 +29,6 @@ namespace StarmileFx.Wap.Controllers
             Customer model = new Customer();
             if (WeCharKey != null)
             {
-
                 ResponseResult<Customer> responseResult = await _YoungoServer.GetCustomer(WeCharKey);
                 if (responseResult.IsSuccess)
                 {
