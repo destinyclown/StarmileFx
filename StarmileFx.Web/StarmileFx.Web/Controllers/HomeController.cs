@@ -43,7 +43,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         //[Authorize(Policy = "Authorize")]
         public IActionResult Index()
         {
-            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
+            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
             ViewData[SysConst.Token] = Token;
             return View();
         }
@@ -92,11 +92,11 @@ namespace StarmileFx.Web.Controllers.Controllers
                 result = responseResult.Content;
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Authentication, responseResult.Token),
+                    new Claim("Token", responseResult.Token),
                     new Claim(ClaimTypes.Name, fromData.loginName)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
-                await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", userPrincipal,
+                await HttpContext.Authentication.SignInAsync("TOKEN_COOKIE_NAME", userPrincipal,
                     new AuthenticationProperties
                     {
                         ExpiresUtc = DateTime.UtcNow.AddHours(6),
@@ -126,7 +126,7 @@ namespace StarmileFx.Web.Controllers.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Logout()
         {
-            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Authentication).Value;
+            Token = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
             HttpContext.Session.Clear();
             ResponseResult<Result> responseResult = await _BaseServer.Logout(Token);
             if (!responseResult.IsSuccess)
@@ -137,7 +137,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             else
             {
                 result = responseResult.Content;
-                await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
+                await HttpContext.Authentication.SignOutAsync("TOKEN_COOKIE_NAME");
             }
             return Json(result);
         }
@@ -152,6 +152,12 @@ namespace StarmileFx.Web.Controllers.Controllers
 
         [AllowAnonymous]
         public IActionResult Forbidden()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Maintain()
         {
             return View();
         }

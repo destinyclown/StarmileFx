@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StarmileFx.Models.Json;
 using StarmileFx.Web.Handler;
+using StarmileFx.Web.Middleware;
 using StarmileFx.Web.Server;
 using System;
 
@@ -51,7 +52,7 @@ namespace StarmileFx.Web
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationScheme = "MyCookieMiddlewareInstance",
+                AuthenticationScheme = "TOKEN_COOKIE_NAME",
                 LoginPath = new PathString("/home/Login"),
                 AccessDeniedPath = new PathString("/home/Forbidden"),
                 AutomaticAuthenticate = true,
@@ -72,7 +73,7 @@ namespace StarmileFx.Web
             }
             app.UseSession(new SessionOptions() { IdleTimeout = TimeSpan.FromMinutes(30) });
             app.UseStaticFiles();
-
+            app.UseCustomMddleware();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

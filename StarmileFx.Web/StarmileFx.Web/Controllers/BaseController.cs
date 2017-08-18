@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using StarmileFx.Web.Controllers.Controllers;
 using StarmileFx.Models;
 using Microsoft.AspNetCore.Authorization;
+using StarmileFx.Web.Filter;
+using StarmileFx.Models.Json;
+using Microsoft.Extensions.Options;
 
 namespace StarmileFx.Web.Controllers
 {

@@ -5,11 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using System.Net;
+using StarmileFx.Models.Json;
+using Microsoft.Extensions.Options;
 
 namespace StarmileFx.Web.Filter
 {
-    public class Authorization : ActionFilterAttribute
+    /// <summary>
+    /// 用于网站维护
+    /// </summary>
+    public class ActionRestrict : ActionFilterAttribute
     {
+        private readonly IOptions<WebConfig> _WebConfig;
+        public ActionRestrict(IOptions<WebConfig> WebConfig)
+        {
+            _WebConfig = WebConfig;
+        }
         private RouteValueDictionary loginRoute = new RouteValueDictionary(new { controller = "home", action = "login" });
 
         /// <summary>
@@ -37,27 +47,15 @@ namespace StarmileFx.Web.Filter
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string session = filterContext.HttpContext.Session.GetString(SysConst.Token);
-            
-            if (string.IsNullOrEmpty(session))
+            //判断网站是否维护
+            if (!_WebConfig.Value.WebState)
             {
-                if (callType == CallType.Normal)
+                ContentResult cr = new ContentResult
                 {
-                    filterContext.Result = new RedirectToRouteResult(loginRoute);
-                }
-                else if (callType == CallType.AjaxCall)
-                {
-                    ContentResult jsonData = new ContentResult();
-                    Result result = new Result();
-                    result.Reason = HttpStatusCode.OK;
-                    filterContext.Result = jsonData;
-                }
-                else if (callType == CallType.Partial)
-                {
-                    ContentResult cr = new ContentResult();
-                    cr.Content = "<div><script>top.location.href='/home/login';</script></div>";
-                    filterContext.Result = cr;
-                }
+                    Content = "<div><script>top.location.href='/home/maintain';</script></div>",
+                    StatusCode = (int)HttpStatusCode.ServiceUnavailable
+                };
+                filterContext.Result = cr;
             }
         }
         /// <summary>
