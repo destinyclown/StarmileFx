@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using StarmileFx.Common;
 using StarmileFx.Models;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,15 @@ namespace StarmileFx.Api.FilterAttributes
                 filterContext.ActionArguments.TryGetValue(item.Trim(), out value);
                 if (value == null || string.IsNullOrEmpty(value.ToString()))
                 {
-                    ResponseResult result = new ResponseResult();
-                    result.FunnctionName = filterContext.RouteData.Values["controller"].ToString() + "/" + filterContext.RouteData.Values["action"].ToString();
-                    result.IsSuccess = false;
-                    result.SendDateTime = DateTime.Now;
-                    result.ErrorMsg = string.Format("参数错误。{0} 参数不能为Null。", item.Trim());
+                    ResponseResult result = new ResponseResult
+                    {
+                        FunnctionName = filterContext.RouteData.Values["controller"].ToString() + "/" + filterContext.RouteData.Values["action"].ToString(),
+                        IsSuccess = false,
+                        SendDateTime = DateTime.Now,
+                        ErrorMsg = string.Format("参数错误。{0} 参数不能为Null。", item.Trim())
+                    };
                     filterContext.Result = new JsonResult(result);
+                    LogHelper.Error(result.ErrorMsg);
                 }
             }
         }

@@ -9,9 +9,6 @@
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\Image\bgm.jpg" />
     <Content Include="wwwroot\Image\IMG_1005.JPG" />
-    <Content Include="wwwroot\s_lowercase_16px_1168328_easyicon.net.ico" />
-    <Content Include="wwwroot\s_lowercase_24px_1168328_easyicon.net.ico" />
-    <Content Include="wwwroot\s_lowercase_32px_1168328_easyicon.net.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
@@ -35,6 +32,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
 	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.8-dmr" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />

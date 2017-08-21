@@ -39,9 +39,11 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = BaseService.GetSysRoleOnline(Token);
-                responseModel.IsSuccess = true;
+                var responseModel = new ResponseResult
+                {
+                    Content = BaseService.GetSysRoleOnline(Token),
+                    IsSuccess = true
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -57,9 +59,11 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = BaseService.Refresh(Token, HttpContext);
-                responseModel.IsSuccess = true;
+                var responseModel = new ResponseResult
+                {
+                    Content = BaseService.Refresh(Token, HttpContext),
+                    IsSuccess = true
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -106,9 +110,11 @@ namespace StarmileFx.Api.Controllers
             var model = BaseService.GetRoleByToken(Token);
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _BaseServer.LoadMenuByRole(model);
-                responseModel.IsSuccess = true;
+                var responseModel = new ResponseResult
+                {
+                    Content = _BaseServer.LoadMenuByRole(model),
+                    IsSuccess = true
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);

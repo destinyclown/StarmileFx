@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StarmileFx.Api.Services;
 using StarmileFx.Common;
@@ -32,14 +30,17 @@ namespace StarmileFx.Api.Controllers
                 result.ErrorMsg = ex.Message;
                 string json = JsonHelper.T_To_Json(result);
                 SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), ex.Message);
+                LogHelper.Error(result.ErrorMsg);
                 return json;
             }
         }
 
         public ResponseResult ActionResponse(Func<ResponseResult> action)
         {
-            ResponseResult result = new ResponseResult();
-            result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
+            ResponseResult result = new ResponseResult
+            {
+                FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString()
+            };
             try
             {
                 result = action.Invoke();
@@ -48,6 +49,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     result.ErrorMsg = result.ErrorMsg;
                     SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), result.ErrorMsg);
+                    LogHelper.Error(result.ErrorMsg);
                 }
             }
             catch (Exception ex)
@@ -57,6 +59,7 @@ namespace StarmileFx.Api.Controllers
                 result.Content = "";
                 result.ErrorMsg = ex.Message;
                 SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), ex.Message);
+                LogHelper.Error(result.ErrorMsg);
             }
 
             return result;
@@ -84,10 +87,12 @@ namespace StarmileFx.Api.Controllers
         /// <param name="ErrorMsg"></param>
         private void SendErrorEmail(string Controller, string Action, string ErrorMsg)
         {
-            Email email = new Email();
-            email.Message = string.Format("StarmileFx.Api系统出错\r\n客户端IP地址：{0}\r\nController：{1}\r\nAction：{2}\r\n错误信息：{3}", GetUserIp(), Controller, Action, ErrorMsg);
-            email.Subject = "StarmileFx.Api系统出错";
-            email.type = StarmileFx.Models.Enum.BaseEnum.EmailTypeEnum.Error;
+            Email email = new Email
+            {
+                Message = string.Format("StarmileFx.Api系统出错\r\n客户端IP地址：{0}\r\nController：{1}\r\nAction：{2}\r\n错误信息：{3}", GetUserIp(), Controller, Action, ErrorMsg),
+                Subject = "StarmileFx.Api系统出错",
+                type = StarmileFx.Models.Enum.BaseEnum.EmailTypeEnum.Error
+            };
             EmailService.Add(email);
         }
     }

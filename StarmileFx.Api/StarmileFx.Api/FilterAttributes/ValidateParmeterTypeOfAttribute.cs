@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StarmileFx.Common;
 
 namespace StarmileFx.Api.FilterAttributes
 {
@@ -31,12 +32,15 @@ namespace StarmileFx.Api.FilterAttributes
 
             if (value == null || value.GetType() != Type)
             {
-                ResponseResult result = new ResponseResult();
-                result.FunnctionName = filterContext.RouteData.Values["controller"].ToString() + "/" + filterContext.RouteData.Values["action"].ToString();
-                result.IsSuccess = false;
-                result.SendDateTime = DateTime.Now;
-                result.ErrorMsg = string.Format("参数错误。{0} 参数类型不正确。", Name);
+                ResponseResult result = new ResponseResult
+                {
+                    FunnctionName = filterContext.RouteData.Values["controller"].ToString() + "/" + filterContext.RouteData.Values["action"].ToString(),
+                    IsSuccess = false,
+                    SendDateTime = DateTime.Now,
+                    ErrorMsg = string.Format("参数错误。{0} 参数类型不正确。", Name)
+                };
                 filterContext.Result = new JsonResult(result);
+                LogHelper.Error(result.ErrorMsg);
             }
         }
     }

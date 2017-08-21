@@ -35,10 +35,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetCacheProductList();
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetCacheProductList(),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -54,14 +56,17 @@ namespace StarmileFx.Api.Controllers
         /// <returns></returns>
         [ValidateParmeterTypeOf("OrderState", typeof(OrderStateEnum))]
         [ValidateParmeterTypeOf("CustomerId", typeof(int))]
+        //[Route("GetOrderParentcsList/{CustomerId:int}")]
         public string GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -73,14 +78,17 @@ namespace StarmileFx.Api.Controllers
         /// <param name="orderId"></param>
         /// <returns></returns>
         [ValidateParmeterNull("OrderId")]
+        //[Route("GetOrderParent/OrderId={OrderId}")]
         public string GetOrderParent(string OrderId)
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetOrderParent(OrderId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetOrderParent(OrderId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -96,10 +104,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderCreate(shopCart);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.OrderCreate(shopCart),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -113,14 +123,17 @@ namespace StarmileFx.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateParmeterNull("OrderId,TransactionId")]
+        //[Route("OrderPay/OrderId={OrderId}&TransactionId={TransactionId}")]
         public string OrderPay(string OrderId, string TransactionId)
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderPay(OrderId, TransactionId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.OrderPay(OrderId, TransactionId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -138,10 +151,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderCancel(OrderId, IsDelete);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.OrderCancel(OrderId, IsDelete),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -158,10 +173,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.OrderComplete(OrderId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.OrderComplete(OrderId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -177,10 +194,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetCustomer(WeCharKey);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetCustomer(WeCharKey),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -196,10 +215,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetDefaultAddress(CustomerId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetDefaultAddress(CustomerId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -215,10 +236,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetDeliveryAddressList(CustomerId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetDeliveryAddressList(CustomerId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -234,10 +257,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetProductResources(ProductId);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetProductResources(ProductId),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -253,10 +278,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.SubmitComment(CommentFrom);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.SubmitComment(CommentFrom),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -272,10 +299,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.SubmitResources(ResourcesFrom);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.SubmitResources(ResourcesFrom),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -291,10 +320,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -313,10 +344,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetMessageList(CustomerId, PageSize, PageIndex);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetMessageList(CustomerId, PageSize, PageIndex),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -331,10 +364,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.SubmitFeedback(from);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.SubmitFeedback(from),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -352,12 +387,13 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                int total = 0;
-                responseModel.Content = _YoungoServer.GetProductList(from, out total);
-                responseModel.total = total;
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetProductList(from, out int total),
+                    total = total,
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -373,10 +409,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.AddProduct(product);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.AddProduct(product),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -392,10 +430,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.ModifyProduct(product);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.ModifyProduct(product),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -411,10 +451,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetProduct(Id);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetProduct(Id),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -431,10 +473,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.DeleteProduct(Id);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.DeleteProduct(Id),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -451,10 +495,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.BatchDeleteProduct(ProductIds);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.BatchDeleteProduct(ProductIds),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -470,12 +516,13 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                int total = 0;
-                responseModel.Content = _YoungoServer.GetProductTypeList(out total);
-                responseModel.total = total;
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetProductTypeList(out int total),
+                    total = total,
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -491,10 +538,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.AddProductType(productType);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.AddProductType(productType),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -510,10 +559,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.ModifyProductType(productType);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.ModifyProductType(productType),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -529,10 +580,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.GetProductType(Id);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetProductType(Id),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -549,10 +602,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.DeleteProductType(Id);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.DeleteProductType(Id),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -569,10 +624,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.BatchDeleteProductType(Ids);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.BatchDeleteProductType(Ids),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -591,12 +648,13 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                int total = 0;
-                responseModel.Content = _YoungoServer.GetResourcesList(ProductId, Type, out total);
-                responseModel.total = total;
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.GetResourcesList(ProductId, Type, out int total),
+                    total = total,
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -642,10 +700,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.BatchDeleteResources(ProductId, Type);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.BatchDeleteResources(ProductId, Type),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -661,10 +721,12 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                responseModel.Content = _YoungoServer.DeleteResources(Id);
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Content = _YoungoServer.DeleteResources(Id),
+                    IsSuccess = true,
+                    ErrorMsg = ""
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
