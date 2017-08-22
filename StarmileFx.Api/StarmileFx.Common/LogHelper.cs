@@ -1,4 +1,5 @@
 ﻿using NLog;
+using StarmileFx.Models;
 
 namespace StarmileFx.Common
 {
@@ -18,7 +19,7 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Info(string message)
         {
-            logger.Info(message);
+            logger.Info(message+ "<br/>");
         }
 
         /// <summary>
@@ -27,16 +28,16 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Warn(string message)
         {
-            logger.Warn("<span class='orange'>" + message + "</span>");
+            logger.Warn("<span  style='color: orange'>" + message + "</span><br/>");
         }
 
         /// <summary>
         /// 错误日志
         /// </summary>
         /// <param name="message"></param>
-        public static void Error(string message)
+        public static void Error(ResponseResult result)
         {
-            logger.Error("<span class='red'>" + message + "</span>");
+            logger.Error(@"<br/>请求地址：<span style='color: red'> " + result.FunnctionName + "</span><br/>错误信息：<span style='color: red'>" + result.ErrorMsg + "</span><br/>");
         }
     }
 }

@@ -39,7 +39,8 @@ namespace StarmileFx.Api.FilterAttributes
                         ErrorMsg = string.Format("参数错误。{0} 参数不能为Null。", item.Trim())
                     };
                     filterContext.Result = new JsonResult(result);
-                    LogHelper.Error(result.ErrorMsg);
+                    //throw new Exception(result.ErrorMsg);
+                    LogHelper.Error(result);
                 }
             }
         }

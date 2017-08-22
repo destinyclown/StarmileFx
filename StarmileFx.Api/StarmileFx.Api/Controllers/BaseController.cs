@@ -11,6 +11,8 @@ namespace StarmileFx.Api.Controllers
 {
     public class BaseController : Controller
     {
+        public BaseController() { }
+
         public string ActionResponseGetString(Func<ResponseResult> action)
         {
             ResponseResult result = ActionResponse(action);
@@ -30,7 +32,7 @@ namespace StarmileFx.Api.Controllers
                 result.ErrorMsg = ex.Message;
                 string json = JsonHelper.T_To_Json(result);
                 SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), ex.Message);
-                LogHelper.Error(result.ErrorMsg);
+                LogHelper.Error(result);
                 return json;
             }
         }
@@ -49,7 +51,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     result.ErrorMsg = result.ErrorMsg;
                     SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), result.ErrorMsg);
-                    LogHelper.Error(result.ErrorMsg);
+                    LogHelper.Error(result);
                 }
             }
             catch (Exception ex)
@@ -59,7 +61,7 @@ namespace StarmileFx.Api.Controllers
                 result.Content = "";
                 result.ErrorMsg = ex.Message;
                 SendErrorEmail(RouteData.Values["controller"].ToString(), RouteData.Values["action"].ToString(), ex.Message);
-                LogHelper.Error(result.ErrorMsg);
+                LogHelper.Error(result);
             }
 
             return result;
