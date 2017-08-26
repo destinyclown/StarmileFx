@@ -19,6 +19,7 @@ $(function () {
     });
 
     $('#modfiy').click(function () {
+        edit(1);
     });
 });
 
@@ -33,11 +34,11 @@ function initTable() {
         striped: true,     //使表格带有条纹  
         //iconsPrefix: 'fa',
         pagination: true, //在表格底部显示分页工具栏  
-        pageSize: 10,
+        pageSize: 8,
         paginationPreText: '上一页',
         paginationNextText: '下一页',
         pageNumber: 1,
-        pageList: [10, 25, 50, 100],
+        pageList: [8, 25, 50, 100],
         idField: "id",  //标识哪个字段为id主键  
         showToggle: false,   //名片格式  
         cardView: false,//设置为True时显示名片（card）布局  
@@ -174,7 +175,7 @@ function queryParams(params) {
 }
 
 function edit(id) {
-
+    Modal.load({ msg: "测试", url: "/Home/error", title: "远程加载页面", width: 1100, height: 650 });
 }
 function del(id) {
 

@@ -32,7 +32,7 @@ namespace StarmileFx.Web.Middleware
                 };
                 context.Response.Redirect("/home/maintain");
                 context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-                _logger.LogInformation("开启30分钟获取商品列表缓存系统线程");
+                //_logger.LogInformation("开启30分钟获取商品列表缓存系统线程");
             }
             await _next.Invoke(context);
         }

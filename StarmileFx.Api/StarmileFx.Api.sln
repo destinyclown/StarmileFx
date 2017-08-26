@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api", "StarmileFx.Api\StarmileFx.Api.csproj", "{0F72BC00-3CFD-4302-8D81-9BFF722C60C1}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Models", "Starmi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api.Server", "StarmileFx.Api.Server\StarmileFx.Api.Server.csproj", "{38DAC6E8-04B9-4C23-99D5-B99CE8588E68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Resources", "StarmileFx.Resources\StarmileFx.Resources.csproj", "{B48B6EDC-2772-45BF-A928-5886BC5577FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Content", "StarmileFx.Content\StarmileFx.Content.csproj", "{B48B6EDC-2772-45BF-A928-5886BC5577FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
