@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.EntityFrameworkCore.Extensions;
 using NLog.Extensions.Logging;
@@ -10,6 +12,7 @@ using StarmileFx.Api.Middleware;
 using StarmileFx.Api.Server;
 using StarmileFx.Api.Server.Data;
 using StarmileFx.Models.Json;
+using System.IO;
 using System.Text;
 
 namespace StarmileFx.Api

@@ -82,11 +82,12 @@
         </div>
     </div>
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="@WebConfig.Value.ApiHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ApiHost/Content/config.js"></script>
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/tether/dist/js/tether.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
+        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>*@
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -95,66 +96,69 @@
         <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
         <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
     </environment>
+
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#loginForm').bootstrapValidator({
-                message: 'This value is not valid',
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    loginName: {
-                        validators: {
-                            notEmpty: {
-                                message: '请输入登录账号'
-                            }
-                        }
+        requirejs(['http://localhost:8004/Content/config.js'], function () {
+            requirejs(['tether', 'bootstrap', 'bootstrapvalidator'], function () {
+                $('#loginForm').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
                     },
-                    password: {
-                        validators: {
-                            notEmpty: {
-                                message: '请输入密码'
+                    fields: {
+                        loginName: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入登录账号'
+                                }
                             }
-                        }
-                    },
-                    validCode: {
-                        validators: {
-                            notEmpty: {
-                                message: '输入验证码'
+                        },
+                        password: {
+                            validators: {
+                                notEmpty: {
+                                    message: '请输入密码'
+                                }
+                            }
+                        },
+                        validCode: {
+                            validators: {
+                                notEmpty: {
+                                    message: '输入验证码'
+                                }
                             }
                         }
                     }
-                }
-            }).on('success.form.bv', function (e) {
-                // 防止表单提交
-                e.preventDefault();
-                $("#loginbtn").val("正在登录...")
-                // 获取表单实例
-                var $form = $(e.target);
+                }).on('success.form.bv', function (e) {
+                    // 防止表单提交
+                    e.preventDefault();
+                    $("#loginbtn").val("正在登录...")
+                    // 获取表单实例
+                    var $form = $(e.target);
 
-                // 得到bootstrapvalidator实例
-                var bv = $form.data('bootstrapValidator');
+                    // 得到bootstrapvalidator实例
+                    var bv = $form.data('bootstrapValidator');
 
-                // 使用ajax提交表单数据
-                $.ajax({
-                    type: "post",
-                    data: $form.serialize(),
-                    dataType: "json",
-                    url: $form.attr('action'),
-                    success: function (result) {
-                        $('.login_tips').find('.tips_msg').remove();
-                        if (!result.isSuccessful) {
-                            $("#loginbtn").val("登录");
-                            $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                    // 使用ajax提交表单数据
+                    $.ajax({
+                        type: "post",
+                        data: $form.serialize(),
+                        dataType: "json",
+                        url: $form.attr('action'),
+                        success: function (result) {
+                            $('.login_tips').find('.tips_msg').remove();
+                            if (!result.isSuccessful) {
+                                $("#loginbtn").val("登录");
+                                $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                            }
+                            else {
+                                $("#loginbtn").val("登录成功...");
+                                window.location.href = "/home/index";
+                            }
                         }
-                        else {
-                            $("#loginbtn").val("登录成功...");
-                            window.location.href = "/home/index";
-                        }
-                    }
-                })
+                    })
+                });
             });
         });
     </script>

@@ -124,7 +124,7 @@ namespace StarmileFx.Web.Server.Service
             string Function = "/BatchDeleteProduct";
             string Parameters = string.Format("Ids={0}", Ids);
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
@@ -144,7 +144,7 @@ namespace StarmileFx.Web.Server.Service
             string Function = "/DeleteProduct";
             string Parameters = string.Format("Id={0}", Id);
             string result = await httpHelper.QueryData(Api_Host + Action + Function
-                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select);
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
                 return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
