@@ -35,6 +35,14 @@ namespace StarmileFx.Models.Json
         /// </summary>
         public string ApiHost { get; set; }
         /// <summary>
+        /// 测试静态目录文件地址
+        /// </summary>
+        public string TestContentHost { get; set; }
+        /// <summary>
+        /// 静态目录文件地址
+        /// </summary>
+        public string ContentHost { get; set; }
+        /// <summary>
         /// 测试Redis地址
         /// </summary>
         public string TestRedisHost { get; set; }
