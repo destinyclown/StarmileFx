@@ -12,9 +12,9 @@ using static StarmileFx.Models.Web.HomeFromModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http.Authentication;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -96,7 +96,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                     new Claim(ClaimTypes.Name, fromData.loginName)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
-                await HttpContext.Authentication.SignInAsync("TOKEN_COOKIE_NAME", userPrincipal,
+                await HttpContext.SignInAsync("TOKEN_COOKIE_NAME", userPrincipal,
                     new AuthenticationProperties
                     {
                         ExpiresUtc = DateTime.UtcNow.AddHours(6),
@@ -137,7 +137,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             else
             {
                 result = responseResult.Content;
-                await HttpContext.Authentication.SignOutAsync("TOKEN_COOKIE_NAME");
+                await HttpContext.SignOutAsync("TOKEN_COOKIE_NAME");
             }
             return Json(result);
         }

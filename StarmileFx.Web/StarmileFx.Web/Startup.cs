@@ -50,14 +50,14 @@ namespace StarmileFx.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "TOKEN_COOKIE_NAME",
-                LoginPath = new PathString("/home/Login"),
-                AccessDeniedPath = new PathString("/home/Forbidden"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
-            });
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AuthenticationScheme = "TOKEN_COOKIE_NAME",
+            //    LoginPath = new PathString("/home/Login"),
+            //    AccessDeniedPath = new PathString("/home/Forbidden"),
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true
+            //});
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug((c, l) => l >= LogLevel.Error);
 
