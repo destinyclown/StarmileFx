@@ -1,9 +1,8 @@
-﻿namespace StarmileFx.Models.Base
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using SqlSugar;
 
+namespace StarmileFx.Models.Base
+{
+    [SugarTable("SysRoleLogs")]
     public partial class SysRoleLogs : ModelBase
     {
         public int RoleID { get; set; }

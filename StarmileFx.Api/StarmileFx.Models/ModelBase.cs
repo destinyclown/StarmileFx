@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using SqlSugar;
+using System;
 using System.Reflection;
 
 namespace StarmileFx.Models
@@ -14,8 +14,8 @@ namespace StarmileFx.Models
             CreatTime = DateTime.Now;
         }
 
-        [Key]
-        public virtual int ID { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "Id")]
+        public virtual int Id { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

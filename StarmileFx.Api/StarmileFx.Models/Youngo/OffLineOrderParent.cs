@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using StarmileFx.Models.Enum;
+using SqlSugar;
 
 namespace StarmileFx.Models.Youngo
 {
     /// <summary>
     /// 线下订单
     /// </summary>
+    [SugarTable("OffLineOrderParent")]
     public class OffLineOrderParent : ModelBase
     {
         /// <summary>

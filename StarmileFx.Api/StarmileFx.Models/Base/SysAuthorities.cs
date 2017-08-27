@@ -1,8 +1,8 @@
-﻿namespace StarmileFx.Models.Base
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using SqlSugar;
 
+namespace StarmileFx.Models.Base
+{
+    [SugarTable("SysAuthorities")]
     public partial class SysAuthorities : ModelBase
     {
         public int PermissionsID { get; set; }

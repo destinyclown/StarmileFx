@@ -518,8 +518,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProductTypeList(out int total),
-                    total = total,
+                    Content = _YoungoServer.GetProductTypeList(),
                     IsSuccess = true,
                     ErrorMsg = ""
                 };
@@ -650,8 +649,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetResourcesList(ProductId, Type, out int total),
-                    total = total,
+                    Content = _YoungoServer.GetResourcesList(ProductId, Type),
                     IsSuccess = true,
                     ErrorMsg = ""
                 };

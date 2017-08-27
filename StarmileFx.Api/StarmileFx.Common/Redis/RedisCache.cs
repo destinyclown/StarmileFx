@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
@@ -379,6 +380,26 @@ namespace StarmileFx.Common.Redis
             {
                 _connection.Close();
             }
+        }
+
+        public Task<byte[]> GetAsync(string key, CancellationToken token = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RefreshAsync(string key, CancellationToken token = default(CancellationToken))
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveAsync(string key, CancellationToken token = default(CancellationToken))
+        {
+            throw new NotImplementedException();
         }
     }
 }

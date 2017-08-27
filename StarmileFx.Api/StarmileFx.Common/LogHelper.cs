@@ -19,7 +19,7 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Info(string message)
         {
-            logger.Info(message+ "<br/>");
+            logger.Info(message);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Warn(string message)
         {
-            logger.Warn("<span  style='color: orange'>" + message + "</span><br/>");
+            logger.Warn(message);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Error(ResponseResult result)
         {
-            logger.Error(@"<br/>请求地址：<span style='color: red'> " + result.FunnctionName + "</span><br/>错误信息：<span style='color: red'>" + result.ErrorMsg + "</span><br/>");
+            logger.Error(@"请求地址：" + result.FunnctionName + "错误信息：" + result.ErrorMsg);
         }
     }
 }

@@ -5,8 +5,6 @@ using StarmileFx.Api.Services;
 using StarmileFx.Common;
 using StarmileFx.Models;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StarmileFx.Api.Controllers
 {
     public class BaseController : Controller

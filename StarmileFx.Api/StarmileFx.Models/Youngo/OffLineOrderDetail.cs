@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using SqlSugar;
 
 namespace StarmileFx.Models.Youngo
 {
     /// <summary>
     /// 线下订单详情
     /// </summary>
+    [SugarTable("OffLineOrderDetail")]
     public class OffLineOrderDetail : ModelBase
     {
         /// <summary>

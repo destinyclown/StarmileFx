@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\StarmileFx.Api\StarmileFx.Common\StarmileFx.Common.csproj" />
-    <ProjectReference Include="..\..\StarmileFx.Api\StarmileFx.Models\StarmileFx.Models.csproj" />
   </ItemGroup>
 
 </Project>

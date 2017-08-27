@@ -1,58 +1,42 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using MySQL.Data.EntityFrameworkCore.Extensions;
+using Microsoft.Extensions.Options;
+using StarmileFx.Models.Json;
+using StarmileFx.Api.Server;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using StarmileFx.Api.Middleware;
-using StarmileFx.Api.Server;
-using StarmileFx.Api.Server.Data;
-using StarmileFx.Models.Json;
-using System.IO;
-using System.Text;
 
 namespace StarmileFx.Api
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
             env.ConfigureNLog("nlog.config");
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
-
-            services.AddSingleton<IConfiguration>(Configuration);
-            services.AddDbContext<BaseContext>(options => options.UseMySQL(Configuration.GetConnectionString("BaseConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
-            services.AddDbContext<YoungoContext>(options => options.UseMySQL(Configuration.GetConnectionString("YoungoConnection"), builder => builder.MigrationsAssembly("StarmileFx.Api")));
             //读取配置
             services.Configure<EmailModel>(Configuration.GetSection("EmailConfig"));
             services.Configure<SysMenusModel>(Configuration.GetSection("SysMenus"));
+            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
             services.AddMvc();
-
-            // 添加应用程序服务。
             services.AddCoreServices();
-            services.AddResponseCompression();
-            services.AddResponseCaching();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             //add NLog to ASP.NET Core
@@ -64,17 +48,15 @@ namespace StarmileFx.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug((c, l) => l >= LogLevel.Error);
 
-            //app.UseApplicationInsightsRequestTelemetry();
-
-            //app.UseApplicationInsightsExceptionTelemetry();
-
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             //注册输入格式
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             app.UseCors(builder => builder.WithOrigins("https://*").AllowAnyHeader());
             //自定义中间件
             app.UseCustomMddleware();
-            app.UseResponseCompression();
-            app.UseResponseCaching();
             app.UseStaticFiles();
             app.UseMvc(routes =>
             {

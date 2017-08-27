@@ -14,93 +14,6 @@ namespace StarmileFx.Api.Server.IServices
     /// </summary>
     public interface IBaseServer
     {
-        #region 基本操作
-
-        /// <summary>
-        /// Lambda获取实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="whereLambda"></param>
-        /// <returns></returns>
-        TEntity Get<TEntity>(Expression<Func<TEntity, bool>> whereLambda) where TEntity : ModelBase;
-
-        /// <summary>
-        /// 更新实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        bool Update<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase;
-
-        /// <summary>
-        /// 添加实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        bool Add<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase;
-
-        /// <summary>
-        /// 批量添加
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        bool AddRange(IEnumerable<object> entities);
-
-        /// <summary>
-        /// 批量更新
-        /// </summary>
-        /// <param name="entities"></param>
-        bool UpdateRange(IEnumerable<object> entities);
-
-        /// <summary>
-        /// 批量删除
-        /// </summary>
-        /// <param name="entities"></param>
-        bool RemoveRange(IEnumerable<object> entities);
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> List<TEntity>(Expression<Func<TEntity, bool>> whereLambda,
-            out int total) where TEntity : ModelBase;
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> List<TEntity>(
-            Expression<Func<TEntity, bool>> whereLambda,
-            Func<TEntity, object> orderbyLambda,
-            out int total) where TEntity : ModelBase;
-
-        /// <summary>  
-        /// 分页查询 + 条件查询 + 排序  
-        /// </summary>  
-        /// <typeparam name="TEntity">泛型</typeparam>  
-        /// <param name="pageData">分页实体</param>
-        /// <param name="whereLambda">查询条件</param>  
-        /// <param name="orderbyLambda">排序条件</param>
-        /// <param name="total">总数量</param>  
-        /// <returns>IQueryable 泛型集合</returns> 
-        IQueryable<TEntity> PageData<TEntity>(
-            PageData pageData,
-            Expression<Func<TEntity, bool>> whereLambda,
-            Func<TEntity, object> orderbyLambda,
-            out int total
-            ) where TEntity : ModelBase;
-
-        #endregion 基本操作
-
         #region 登录主页操作
         /// <summary>
         /// 异步登录
@@ -125,7 +38,7 @@ namespace StarmileFx.Api.Server.IServices
 
         //Task<List<SysViews>> LoadViewList(string roleid, Guid menuid);
 
-        SysMenusModel LoadMenuByRole(SysRoles role);
+        List<SysMenus> LoadMenuByRole(SysRoles role);
         #endregion
     }
 }

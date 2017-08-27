@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using SqlSugar;
+using System;
 
 namespace StarmileFx.Models.Youngo
 {
     /// <summary>
     /// 商品
     /// </summary>
+    [SugarTable("Product")]
     public class Product : ModelBase
     {
         /// <summary>

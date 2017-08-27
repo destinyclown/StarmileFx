@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace StarmileFx.Content
 {
@@ -13,17 +14,13 @@ namespace StarmileFx.Content
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseUrls("http://*:8004")
-                //.UseContentRoot(Directory.GetCurrentDirectory())
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-                //.UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
-            host.Run();
+            BuildWebHost(args).Run();
         }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:8004")
+                .UseStartup<Startup>()
+                .Build();
     }
 }

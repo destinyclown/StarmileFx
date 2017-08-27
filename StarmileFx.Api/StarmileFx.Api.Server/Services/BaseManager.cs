@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using StarmileFx.Api.Server.Data;
 using StarmileFx.Api.Server.IServices;
 using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using static StarmileFx.Models.Web.HomeFromModel;
-using static StarmileFx.Models.Json.SysMenusModel;
-using System.Collections;
+using SqlSugar;
+using StarmileFx.Api.Server.BaseData;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -21,164 +18,15 @@ namespace StarmileFx.Api.Server.Services
     /// </summary>
     public class BaseManager : IBaseServer
     {
-        /// <summary>
-        /// 依赖注入
-        /// </summary>
-        private BaseContext _DataContext;
-        private IOptions<SysMenusModel> _SysMenusModel;
+        
+        private SqlSugarClient _db;
+        private IOptions<ConnectionStrings> _ConnectionStrings;
 
-        public BaseManager(BaseContext DataContext, IOptions<SysMenusModel> SysMenusModel)
+        public BaseManager(IOptions<ConnectionStrings> ConnectionStrings)
         {
-            _DataContext = DataContext;
-            _SysMenusModel = SysMenusModel;
+            _ConnectionStrings = ConnectionStrings;
+            _db = BaseClient.GetInstance(_ConnectionStrings.Value.BaseConnection);
         }
-
-        #region 基本数据库处理
-        #region 实体处理
-
-        /// <summary>
-        /// 提交事务
-        /// </summary>
-        /// <returns></returns>
-        private bool Commit()
-        {
-            return _DataContext.SaveChanges() > 0;
-        }
-
-        /// <summary>
-        /// Lambda获取实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="whereLambda"></param>
-        /// <returns></returns>
-        public TEntity Get<TEntity>(Expression<Func<TEntity, bool>> whereLambda) where TEntity : ModelBase
-        {
-            return _DataContext.Get<TEntity>(whereLambda);
-        }
-
-        /// <summary>
-        /// 更新实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        public bool Update<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
-        {
-            _DataContext.Update<TEntity>(entity);
-            if (IsCommit)
-            {
-                return Commit();
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 添加实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        public bool Add<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
-        {
-            _DataContext.Add<TEntity>(entity);
-            if (IsCommit)
-            {
-                return Commit();
-            }
-            return false;
-        }
-
-        #endregion 实体处理
-
-        #region 批处理
-
-        /// <summary>
-        /// 批量添加
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool AddRange(IEnumerable<object> entities)
-        {
-            _DataContext.AddRange(entities);
-            return Commit();
-        }
-
-        /// <summary>
-        /// 批量更新
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool UpdateRange(IEnumerable<object> entities)
-        {
-            _DataContext.UpdateRange(entities);
-            return Commit();
-        }
-
-        /// <summary>
-        /// 批量删除
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool RemoveRange(IEnumerable<object> entities)
-        {
-            _DataContext.RemoveRange(entities);
-            return Commit();
-        }
-
-        #endregion
-
-        #region 获取列表
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public IQueryable<TEntity> List<TEntity>(Expression<Func<TEntity, bool>> whereLambda,
-            out int total) where TEntity : ModelBase
-        {
-            return _DataContext.List<TEntity>(whereLambda, out total);
-        }
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public IQueryable<TEntity> List<TEntity>(
-            Expression<Func<TEntity, bool>> whereLambda, 
-            Func<TEntity, object> orderbyLambda,
-            out int total) where TEntity : ModelBase
-        {
-            return _DataContext.List<TEntity>(whereLambda, orderbyLambda, out total);
-        }
-
-        /// <summary>  
-        /// 分页查询 + 条件查询 + 排序  
-        /// </summary>  
-        /// <typeparam name="TEntity">泛型</typeparam>  
-        /// <param name="pageData">分页实体</param>
-        /// <param name="whereLambda">查询条件</param>  
-        /// <param name="orderbyLambda">排序条件</param>
-        /// <param name="total">总数量</param>  
-        /// <returns>IQueryable 泛型集合</returns>  
-        public IQueryable<TEntity> PageData<TEntity>(
-            PageData pageData, 
-            Expression<Func<TEntity, bool>> whereLambda,
-            Func<TEntity, object> orderbyLambda, 
-            out int total
-            ) where TEntity : ModelBase
-        {
-            return _DataContext.PageData<TEntity>(pageData, whereLambda, orderbyLambda, out total);
-        }
-        #endregion 获取列表
-        #endregion
 
         #region HomeController
         /// <summary>
@@ -191,15 +39,15 @@ namespace StarmileFx.Api.Server.Services
         public SysRoles Login(LoginFrom fromData)
         {
             SysRoles sysRole = new SysRoles();
-            sysRole = Get<SysRoles>(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
+            sysRole = _db.Queryable<SysRoles>().First(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
             if (sysRole != null)
             {
                 SysRoleLogs logs = new SysRoleLogs()
                 {
                     LoginIP = fromData.ip,
-                    RoleID = sysRole.ID
+                    RoleID = sysRole.Id
                 };
-                Add(logs);
+                _db.Insertable(logs).ExecuteCommand();
             }
             return sysRole;
         }
@@ -209,32 +57,27 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        public SysMenusModel LoadMenuByRole(SysRoles role)
+        public List<SysMenus> LoadMenuByRole(SysRoles role)
         {
-            var _SysMenusModelList = _SysMenusModel.Value;
+            var _SysMenuslList = _db.Queryable<SysMenus>().Where(a => a.State).ToList();
             if (role != null)
             {
                 if (role.Permissions == 0)
-                    return _SysMenusModelList;
+                {
+                    return _SysMenuslList;
+                }
                 else
                 {
-                    var permissionsId = Get<SysRolePermissions>(a => a.Permissions == role.Permissions && a.State).ID;
-                    var list = (from a in List<SysAuthorities>(a => a.PermissionsID == permissionsId && a.State, out int total)
-                                select new string(a.Code.ToCharArray())).ToList();
-                    var mainMenuList = (_SysMenusModelList.MainMenuList
-                        .Where(a => list.Contains(a.Code) && a.State)).ToList();
-                    for (int i = 0; i < mainMenuList.Count; i++)
-                    {
-                        mainMenuList[i].MainMenuBase = mainMenuList[i].MainMenuBase
-                            .Where(a => list.Contains(a.Code) && a.State).ToList();
-                        for (int j = 0; j < mainMenuList[i].MainMenuBase.Count; j++)
-                        {
-                            mainMenuList[i].MainMenuBase[j].MenuList = mainMenuList[i].MainMenuBase[j].MenuList
-                                .Where(a => list.Contains(a.Code) && a.State).ToList();
-                        }
-                    }
-                    return new SysMenusModel() { MainMenuList = mainMenuList };
+                    var list = _db.Queryable<SysRolePermissions, SysAuthorities>((srp, sa) => 
+                    new object[] {
+                        JoinType.Left,srp.Id == sa.PermissionsID && srp.Permissions == role.Permissions && srp.State && sa.State
+                    }).Select((srp, sa) => 
+                    new string(sa.Code.ToCharArray())).ToList();
 
+                    var mainMenuList = (_SysMenuslList
+                        .Where(a => list.Contains(a.Code))).ToList();
+
+                    return mainMenuList;
                 }
             }
             return null;

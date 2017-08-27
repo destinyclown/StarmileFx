@@ -1,9 +1,8 @@
 ﻿namespace StarmileFx.Models.Base
 {
+    using SqlSugar;
     using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    [SugarTable("SysMenus")]
     public partial class SysMessage : ModelBase
     {
         public int Sender { get; set; }

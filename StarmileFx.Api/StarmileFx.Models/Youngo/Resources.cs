@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StarmileFx.Models.Enum;
+﻿using StarmileFx.Models.Enum;
+using SqlSugar;
 
 namespace StarmileFx.Models.Youngo
 {
+    [SugarTable("CustomerComment")]
     public class Resources : ModelBase
     {
         /// <summary>

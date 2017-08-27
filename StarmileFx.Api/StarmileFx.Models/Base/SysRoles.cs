@@ -1,5 +1,8 @@
-﻿namespace StarmileFx.Models.Base
+﻿using SqlSugar;
+
+namespace StarmileFx.Models.Base
 {
+    [SugarTable("SysMenus")]
     public partial class SysRoles : ModelBase 
     {
         public string LoginName { get; set; }

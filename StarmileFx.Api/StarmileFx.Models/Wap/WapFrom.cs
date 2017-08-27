@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StarmileFx.Models.Enum;
+﻿using StarmileFx.Models.Enum;
 
 namespace StarmileFx.Models.Wap
 {
@@ -43,7 +39,7 @@ namespace StarmileFx.Models.Wap
             /// <summary>
             /// 
             /// </summary>
-            public int ID { get; set; }
+            public int Id { get; set; }
             /// <summary>
             /// 用户ID
             /// </summary>
@@ -113,7 +109,7 @@ namespace StarmileFx.Models.Wap
             /// <summary>
             /// 验证码
             /// </summary>
-            public string validCode { get; set; }
+            public string ValidCode { get; set; }
             /// <summary>
             /// 意见类型
             /// </summary>

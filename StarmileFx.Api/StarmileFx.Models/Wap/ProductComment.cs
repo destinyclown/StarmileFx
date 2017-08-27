@@ -13,7 +13,7 @@ namespace StarmileFx.Models.Wap
         /// <summary>
         /// 用户名称
         /// </summary>
-        public int UserName { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// 订单编号
         /// </summary>

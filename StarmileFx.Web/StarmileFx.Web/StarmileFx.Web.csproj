@@ -97,8 +97,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\StarmileFx.Api\StarmileFx.Common\StarmileFx.Common.csproj" />
-    <ProjectReference Include="..\..\StarmileFx.Api\StarmileFx.Models\StarmileFx.Models.csproj" />
     <ProjectReference Include="..\StarmileFx.Web.Server\StarmileFx.Web.Server.csproj" />
   </ItemGroup>
   <PropertyGroup>

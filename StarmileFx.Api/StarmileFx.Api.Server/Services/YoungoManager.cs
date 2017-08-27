@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using StarmileFx.Api.Server.Data;
 using StarmileFx.Api.Server.IServices;
 using StarmileFx.Models;
 using StarmileFx.Models.Wap;
 using StarmileFx.Models.Youngo;
 using StarmileFx.Models.Enum;
 using StarmileFx.Models.Redis;
-using MySql.Data.MySqlClient;
 using static StarmileFx.Models.Wap.WapFrom;
 using StarmileFx.Models.Web;
+using SqlSugar;
+using StarmileFx.Models.Json;
+using Microsoft.Extensions.Options;
+using StarmileFx.Api.Server.BaseData;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -21,183 +23,16 @@ namespace StarmileFx.Api.Server.Services
     public class YoungoManager : IYoungoServer
     {
         /// <summary>
-        /// 依赖注入
+        /// 
         /// </summary>
-        private YoungoContext _YoungoContext;
-        /// <summary>
-        /// 开启事务(重要)
-        /// </summary>
-        private static bool Transaction = false;
+        private SqlSugarClient _db;
+        private IOptions<ConnectionStrings> _ConnectionStrings;
 
-        public YoungoManager(YoungoContext YoungoContext)
+        public YoungoManager(IOptions<ConnectionStrings> ConnectionStrings)
         {
-            _YoungoContext = YoungoContext;
+            _ConnectionStrings = ConnectionStrings;
+            _db = BaseClient.GetInstance(_ConnectionStrings.Value.YoungoConnection);
         }
-
-        #region 基本数据库处理
-        #region 实体处理
-
-        /// <summary>
-        /// 提交事务
-        /// </summary>
-        /// <returns></returns>
-        private bool Commit()
-        {
-            return _YoungoContext.SaveChanges() > 0;
-        }
-
-        /// <summary>
-        /// Lambda获取实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="whereLambda"></param>
-        /// <returns></returns>
-        public TEntity Get<TEntity>(Expression<Func<TEntity, bool>> whereLambda) where TEntity : ModelBase
-        {
-            return _YoungoContext.Get<TEntity>(whereLambda);
-        }
-
-        /// <summary>
-        /// 更新实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        public bool Update<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
-        {
-            _YoungoContext.Update<TEntity>(entity);
-            if (IsCommit)
-            {
-                return Commit();
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 添加实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        public bool Add<TEntity>(TEntity entity, bool IsCommit = true) where TEntity : ModelBase
-        {
-            _YoungoContext.Add<TEntity>(entity);
-            if (IsCommit)
-            {
-                return Commit();
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 删除实体
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="whereLambda"></param>
-        /// <param name="IsCommit">是否提交</param>
-        /// <returns></returns>
-        public bool Delete<TEntity>(Expression<Func<TEntity, bool>> whereLambda, bool IsCommit = true) where TEntity : ModelBase
-        {
-            TEntity entity = Get(whereLambda);
-            _YoungoContext.Remove<TEntity>(entity);
-            if (IsCommit)
-            {
-                return Commit();
-            }
-            return false;
-        }
-
-        #endregion 实体处理
-
-        #region 批处理
-
-        /// <summary>
-        /// 批量添加
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool AddRange(IEnumerable<object> entities)
-        {
-            _YoungoContext.AddRange(entities);
-            return Commit();
-        }
-
-        /// <summary>
-        /// 批量更新
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool UpdateRange(IEnumerable<object> entities)
-        {
-            _YoungoContext.UpdateRange(entities);
-            return Commit();
-        }
-
-        /// <summary>
-        /// 批量删除
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
-        public bool RemoveRange(IEnumerable<object> entities)
-        {
-            _YoungoContext.RemoveRange(entities);
-            return Commit();
-        }
-
-        #endregion
-
-        #region 获取列表
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public IQueryable<TEntity> List<TEntity>(Expression<Func<TEntity, bool>> whereLambda,
-            out int total) where TEntity : ModelBase
-        {
-            return _YoungoContext.List<TEntity>(whereLambda, out total);
-        }
-
-        /// <summary>
-        /// 获取整个列表
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="orderbyLambda"></param>
-        /// <param name="total"></param>
-        /// <returns></returns>
-        public IQueryable<TEntity> List<TEntity>(
-            Expression<Func<TEntity, bool>> whereLambda, 
-            Func<TEntity, object> orderbyLambda,
-            out int total) where TEntity : ModelBase
-        {
-            return _YoungoContext.List<TEntity>(whereLambda, orderbyLambda, out total);
-        }
-
-        /// <summary>  
-        /// 分页查询 + 条件查询 + 排序  
-        /// </summary>  
-        /// <typeparam name="TEntity">泛型</typeparam>  
-        /// <param name="pageData">分页实体</param>
-        /// <param name="whereLambda">查询条件</param>  
-        /// <param name="orderbyLambda">排序条件</param>
-        /// <param name="total">总数量</param>  
-        /// <returns>IQueryable 泛型集合</returns>  
-        public IQueryable<TEntity> PageData<TEntity>(
-            PageData pageData, 
-            Expression<Func<TEntity, bool>> whereLambda,
-            Func<TEntity, object> orderbyLambda, 
-            out int total
-            ) where TEntity : ModelBase
-        {
-            return _YoungoContext.PageData<TEntity>(pageData, whereLambda, orderbyLambda, out total);
-        }
-        #endregion 获取列表
-        #endregion
 
         #region 手机商城
 
@@ -210,10 +45,10 @@ namespace StarmileFx.Api.Server.Services
         {
             CacheProductList _CacheProductList = new CacheProductList
             {
-                ProductTypeList = List<ProductType>(a => a.State, out int total).ToList()
+                ProductTypeList = _db.Queryable<ProductType>().Where(a => a.State).ToList()
             };
             string sql = @"SELECT
-	                        p.ID,
+	                        p.Id,
 	                        p.ProductID,
 	                        p.Label,
 	                        p.CnName,
@@ -241,9 +76,9 @@ namespace StarmileFx.Api.Server.Services
 	                        Product AS p
                         LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 
                         WHERE p.State";
-            MySqlParameter[] parameters = new MySqlParameter[]{};
-            _CacheProductList.ProductList = _YoungoContext.ExecuteSql<ProductModel>(sql, parameters).ToList();
-            _CacheProductList.ExpressList = List<Express>(a => a.IsDefault & !a.IsStop, out total).ToList();
+
+            _CacheProductList.ProductList = _db.Ado.SqlQuery<ProductModel>(sql).ToList();
+            _CacheProductList.ExpressList = _db.Queryable<Express>().Where(a => !a.IsStop & a.IsDefault).ToList();
             return _CacheProductList;
         }
 
@@ -261,7 +96,7 @@ namespace StarmileFx.Api.Server.Services
             ProductResources rp = NewMethod();
             rp.ProductID = productId;
             string sql = @"SELECT
-	                        cc.ID,
+	                        cc.Id,
 	                        c.UserName,
 	                        cc.OrderID,
 	                        cc.ProductID,
@@ -271,15 +106,16 @@ namespace StarmileFx.Api.Server.Services
 	                        cc.CreatTime
                         FROM
 	                        CustomerComment AS cc
-                        INNER JOIN Customer AS c ON c.ID = cc.CustomerID
+                        INNER JOIN Customer AS c ON c.Id = cc.CustomerID
                         WHERE cc.ProductID=@productId";
-            MySqlParameter[] parameters = new MySqlParameter[] {
-                new MySqlParameter("@productId", productId)
+            SugarParameter[] parameters = new SugarParameter[] 
+            {
+                new SugarParameter("@productId", productId)
             };
-            parameters[0].MySqlDbType = MySqlDbType.String;
+            parameters[0].DbType = System.Data.DbType.String;
 
-            rp.CommentList = _YoungoContext.ExecuteSql<ProductComment>(sql, parameters).ToList();
-            rp.ResourcesList = _YoungoContext.List<Resources>(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product), out int total).ToList();
+            rp.CommentList = _db.Ado.SqlQuery<ProductComment>(sql, parameters).ToList();
+            rp.ResourcesList = _db.Queryable<Resources>().Where(a => a.ProductID == productId && (a.Type == ResourcesEnum.Comment || a.Type == ResourcesEnum.Product)).ToList();
             return rp;
         }
 
@@ -295,11 +131,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool SubmitResources(Resources from)
         {
-            if (!Add(from, Transaction))
-            {
-                throw new Exception("添加图片失败！");
-            }
-            return Commit();
+            return _db.Insertable(from).ExecuteCommand() > 0;
         }
         #endregion 商品相关
 
@@ -316,7 +148,7 @@ namespace StarmileFx.Api.Server.Services
         {
             //sql语句
             string sql = @"SELECT
-	                        od.ID,
+	                        od.Id,
 	                        op.CustomerID,
 	                        od.ProductID,
 	                        od.OrderID,
@@ -346,7 +178,7 @@ namespace StarmileFx.Api.Server.Services
 	                        OnLineOrderDetail AS od
                         INNER JOIN 	OnLineOrderParent AS op ON op.OrderID = od.OrderID
                         INNER JOIN Product AS p ON p.ProductID = od.ProductID
-                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
+                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.Id
                         LEFT JOIN Resources AS r ON p.ProductID = r.ProductID
                         AND r.Type = 1 and Sort =0
                         WHERE op.IsDelete = 0 AND op.CustomerID = @customerId ";
@@ -355,19 +187,19 @@ namespace StarmileFx.Api.Server.Services
             }
             sql +="LIMIT @pageIndex,@page";
 
-            MySqlParameter[] parameters = new MySqlParameter[]
+            SugarParameter[] parameters = new SugarParameter[]
             {
-                new MySqlParameter("@orderState", OrderState),
-                new MySqlParameter("@customerId", CustomerId),
-                new MySqlParameter("@pageIndex", (PageIndex - 1) * PageSize),
-                new MySqlParameter("@page", PageSize)  
+                new SugarParameter("@orderState", OrderState),
+                new SugarParameter("@customerId", CustomerId),
+                new SugarParameter("@pageIndex", (PageIndex - 1) * PageSize),
+                new SugarParameter("@page", PageSize)  
             };
-            parameters[0].MySqlDbType = MySqlDbType.Int32;
-            parameters[1].MySqlDbType = MySqlDbType.Int32;
-            parameters[2].MySqlDbType = MySqlDbType.Int32;
-            parameters[3].MySqlDbType = MySqlDbType.Int32;
+            parameters[0].DbType = System.Data.DbType.Int32;
+            parameters[1].DbType = System.Data.DbType.Int32;
+            parameters[2].DbType = System.Data.DbType.Int32;
+            parameters[3].DbType = System.Data.DbType.Int32;
 
-            List<OrderParent> orderParentList = _YoungoContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
+            List<OrderParent> orderParentList = _db.Ado.SqlQuery<OrderParent>(sql, parameters).ToList();
             return orderParentList;
         }
 
@@ -380,7 +212,7 @@ namespace StarmileFx.Api.Server.Services
         {
             //sql语句
             string sql = @"SELECT
-	                        od.ID,
+	                        od.Id,
 	                        op.CustomerID,
 	                        od.ProductID,
 	                        od.OrderID,
@@ -410,18 +242,18 @@ namespace StarmileFx.Api.Server.Services
 	                        OnLineOrderDetail AS od
                         INNER JOIN 	OnLineOrderParent AS op ON op.OrderID = od.OrderID
                         INNER JOIN Product AS p ON p.ProductID = od.ProductID
-                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.ID
+                        INNER JOIN DeliveryAddress AS da ON op.DeliveryAddressID = da.Id
                         LEFT JOIN Resources AS r ON p.ProductID = r.ProductID
                         AND r.Type = 1 and Sort = 0
                         WHERE op.IsDelete = 0 AND op.OrderID = @orderId ";
 
-            MySqlParameter[] parameters = new MySqlParameter[]
+            SugarParameter[] parameters = new SugarParameter[]
             {
-                new MySqlParameter("@orderId", orderId)
+                new SugarParameter("@orderId", orderId)
             };
-            parameters[0].MySqlDbType = MySqlDbType.String;
+            parameters[0].DbType = System.Data.DbType.String;
 
-            List<OrderParent> orderParentList = _YoungoContext.ExecuteSql<OrderParent>(sql, parameters).ToList();
+            List<OrderParent> orderParentList = _db.Ado.SqlQuery<OrderParent>(sql, parameters).ToList();
             return orderParentList;
         }
 
@@ -441,7 +273,7 @@ namespace StarmileFx.Api.Server.Services
             //主表数据
             OnLineOrderParent order = new OnLineOrderParent
             {
-                DeliveryAddressID = shopCart.Address.ID,
+                DeliveryAddressID = shopCart.Address.Id,
                 OrderID = shopCart.OrderId,
                 OrderState = shopCart.OrderState,
                 PayTime = shopCart.PayTime,
@@ -466,36 +298,55 @@ namespace StarmileFx.Api.Server.Services
                 order.OrderType = OrderTypeEnum.多条;
             }
             order.IsDelete = false;
-            if (Add(order, Transaction))
+            try
             {
-                //明细数据
-                foreach (var Product in shopCart.ProductList)
+                //开启事务
+                _db.Ado.BeginTran();
+
+                if (_db.Insertable(order).ExecuteCommand() > 0)
                 {
-                    OnLineOrderDetail orderDetail = new OnLineOrderDetail
+                    //明细数据
+                    foreach (var Product in shopCart.ProductList)
                     {
-                        OrderID = shopCart.OrderId,
-                        ProductID = Product.ProductID,
-                        Number = Product.Number
-                    };
-                    if (Add(orderDetail, Transaction))
-                    {
-                        detailCount++;
+                        OnLineOrderDetail orderDetail = new OnLineOrderDetail
+                        {
+                            OrderID = shopCart.OrderId,
+                            ProductID = Product.ProductID,
+                            Number = Product.Number
+                        };
+                        if (_db.Insertable(orderDetail).ExecuteCommand() > 0)
+                        {
+                            detailCount++;
+                        }
                     }
-                }
-                //判断是否全部提交成功
-                if (detailCount == shopCart.ProductList.Count)
-                {
-                    return Commit();                    
+                    //判断是否全部提交成功
+                    if (detailCount == shopCart.ProductList.Count)
+                    {
+                        //提交事务
+                        _db.Ado.CommitTran();
+                        return true;
+                    }
+                    else
+                    {
+                        //回滚事务
+                        _db.Ado.RollbackTran();
+                        throw new Exception("创建订单异常！");
+                    }
                 }
                 else
                 {
+                    //回滚事务
+                    _db.Ado.RollbackTran();
                     throw new Exception("创建订单异常！");
                 }
+                
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("创建订单异常！");
-            }
+                //回滚事务
+                _db.Ado.RollbackTran();
+                throw ex;
+            } 
         }
 
         /// <summary>
@@ -511,7 +362,7 @@ namespace StarmileFx.Api.Server.Services
                 throw new Exception("订单号为空！");
             }
             OrderId = OrderId.ToUpper();
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID.Equals(OrderId) & a.IsDelete == false);
+            OnLineOrderParent order = _db.Queryable<OnLineOrderParent>().First(a => a.OrderID.Equals(OrderId) & a.IsDelete == false);
             if (order == null)
             {
                 throw new Exception("订单信息为空，请检查！");
@@ -519,14 +370,31 @@ namespace StarmileFx.Api.Server.Services
             var type = order.OrderState;
             order.OrderState = OrderStateEnum.Canceled;
             order.IsDelete = IsDelete;
-            if (Update(order, Transaction))
+
+            try
             {
-                //发送通知
-                return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Cancel);
+                _db.Ado.BeginTran();
+                if (_db.Updateable(order).ExecuteCommand() > 0)
+                {
+                    //发送通知
+                    if (SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Cancel))
+                    {
+                        _db.Ado.CommitTran();
+                        return true;
+                    }
+                    _db.Ado.RollbackTran();
+                    return false;
+                }
+                else
+                {
+                    _db.Ado.RollbackTran();
+                    throw new Exception("删除订单异常！");
+                }
             }
-            else
+            catch (Exception)
             {
-                throw new Exception("删除订单异常！");
+                _db.Ado.RollbackTran();
+                throw;
             }
         }
 
@@ -542,33 +410,41 @@ namespace StarmileFx.Api.Server.Services
             {
                 throw new Exception("订单编号或交易编号不能为空！");
             }
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrderId);
+            OnLineOrderParent order = _db.Queryable<OnLineOrderParent>().First(a => a.OrderID == OrderId);
             if (order != null && order.OrderState == OrderStateEnum.WaitPayment)
             {
                 order.OrderState = OrderStateEnum.WaitShipment;
                 order.PayTime = DateTime.Now;
-                if (Update(order, Transaction))
+                try
                 {
-                    TransactionRecord tr = new TransactionRecord
+                    if (_db.Updateable(order).ExecuteCommand() > 0)
                     {
-                        OrderID = OrderId,
-                        TotalPrice = order.TotalPrice,
-                        TransactionID = TransactionId,
-                        Type = PaymentTypeEnum.WeChatPayment
-                    };
-                    if (Add(tr, Transaction))
-                    {
-                        ChangeCustomerSign(order.CustomerID, SignEnum.购买商品50点积分);
-                        return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Confirm);
+                        TransactionRecord tr = new TransactionRecord
+                        {
+                            OrderID = OrderId,
+                            TotalPrice = order.TotalPrice,
+                            TransactionID = TransactionId,
+                            Type = PaymentTypeEnum.WeChatPayment
+                        };
+                        if (_db.Insertable(tr).ExecuteCommand() > 0)
+                        {
+                            ChangeCustomerSign(order.CustomerID, SignEnum.购买商品50点积分);
+                            return SendMessage(order.CustomerID, order.OrderID, MessageTypeEnum.Confirm);
+                        }
+                        else
+                        {
+                            throw new Exception("添加交易日志异常！");
+                        }
                     }
                     else
                     {
-                        throw new Exception("添加交易日志异常！");
+                        throw new Exception("更新订单异常！");
                     }
                 }
-                else
+                catch (Exception)
                 {
-                    throw new Exception("更新订单异常！");
+
+                    throw;
                 }
             }
             else
@@ -584,14 +460,14 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool OrderComplete(string OrederId)
         {
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            OnLineOrderParent order = _db.Queryable<OnLineOrderParent>().First(a => a.OrderID == OrederId);
             if (order != null && order.OrderState == OrderStateEnum.WaitDelivery)
             {
                 order.OrderState = OrderStateEnum.WaitShipment;
                 order.PayTime = DateTime.Now;
-                if (Update(order, Transaction))
+                if (_db.Updateable(order).ExecuteCommand() > 0)
                 {
-                    return Commit();
+                    return true;
                 }
                 else
                 {
@@ -613,7 +489,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool OrderServiceApply(string OrederId, ServiceTypeEnum Type, string Content)
         {
-            OnLineOrderParent order = Get<OnLineOrderParent>(a => a.OrderID == OrederId);
+            OnLineOrderParent order = _db.Queryable<OnLineOrderParent>().First(a => a.OrderID == OrederId);
             if (order != null && order.OrderState == OrderStateEnum.Completed)
             {
                 ServiceRecord sr = new ServiceRecord
@@ -623,7 +499,7 @@ namespace StarmileFx.Api.Server.Services
                     Type = Type,
                     OrderID = OrederId
                 };
-                if (Add(sr, Transaction))
+                if (_db.Insertable(sr).ExecuteCommand() > 0)
                 {
                     order.IsDelete = true;
                     switch (Type)
@@ -638,7 +514,7 @@ namespace StarmileFx.Api.Server.Services
                             order.OrderState = OrderStateEnum.ApplyReturns;
                             break;
                     }
-                    if (Update(order, Transaction))
+                    if (_db.Updateable(order).ExecuteCommand() > 0)
                     {
                         //发送通知
                         switch (Type)
@@ -678,7 +554,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public Customer GetCustomer(string WeCharKey)
         {
-            Customer customer = Get<Customer>(a => a.State & a.WeCharKey == WeCharKey);
+            Customer customer = _db.Queryable<Customer>().First(a => a.State & a.WeCharKey == WeCharKey);
             return customer;
         }
 
@@ -696,7 +572,7 @@ namespace StarmileFx.Api.Server.Services
                 ProductID = CommentFrom.ProductID,
                 Reply = CommentFrom.Reply
             };
-            if (Add(comment, Transaction))
+            if (_db.Insertable(comment).ExecuteCommand() > 0)
             {
                 return ChangeCustomerSign(CommentFrom.CustomerID, SignEnum.添加评论10点积分);
             }
@@ -715,7 +591,7 @@ namespace StarmileFx.Api.Server.Services
         {
             if (DeliveryAddressFrom.IsModify)
             {
-                DeliveryAddress model = Get<DeliveryAddress>(a => a.ID == DeliveryAddressFrom.ID);
+                DeliveryAddress model = _db.Queryable<DeliveryAddress>().First(a => a.Id == DeliveryAddressFrom.Id);
                 model.Address = DeliveryAddressFrom.Address;
                 model.Area = DeliveryAddressFrom.Area;
                 model.City = DeliveryAddressFrom.City;
@@ -723,10 +599,9 @@ namespace StarmileFx.Api.Server.Services
                 model.Province = DeliveryAddressFrom.Province;
                 model.ReceiveName = DeliveryAddressFrom.ReceiveName;
                 model.IsDefault = DeliveryAddressFrom.IsDefault;
-                if (Update(model, Transaction))
+                if (_db.Updateable(model).ExecuteCommand() > 0)
                 {
-                    //提交事务
-                    return Commit();
+                    return true;
                 }
                 else
                 {
@@ -745,10 +620,9 @@ namespace StarmileFx.Api.Server.Services
                     ReceiveName = DeliveryAddressFrom.ReceiveName,
                     IsDefault = DeliveryAddressFrom.IsDefault
                 };
-                if (Add(model, Transaction))
+                if (_db.Insertable(model).ExecuteCommand() > 0)
                 {
-                    //提交事务
-                    return Commit();
+                    return true;
                 }
                 else
                 {
@@ -764,7 +638,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public List<DeliveryAddress> GetDeliveryAddressList(int CustomerId)
         {
-            List<DeliveryAddress> DeliveryAddressList = List<DeliveryAddress>(a => a.CustomerID == CustomerId, out int total).ToList();
+            List<DeliveryAddress> DeliveryAddressList = _db.Queryable<DeliveryAddress>().Where(a => a.CustomerID == CustomerId).ToList();
             return DeliveryAddressList;
         }
 
@@ -775,7 +649,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public DeliveryAddress GetDefaultAddress(int CustomerId)
         {
-            return Get<DeliveryAddress>(a => a.CustomerID == CustomerId && a.IsDefault);
+            return _db.Queryable<DeliveryAddress>().First(a => a.CustomerID == CustomerId && a.IsDefault);
         }
 
         /// <summary>
@@ -786,18 +660,18 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool ChangeCustomerSign(int CustomerId, SignEnum signEnum)
         {
-            Customer customer = Get<Customer>(a => a.State & a.ID == CustomerId);
+            Customer customer = _db.Queryable<Customer>().First(a => a.State & a.Id == CustomerId);
             customer.Integral += (int)signEnum;
-            if (Update(customer, Transaction))
+            if (_db.Updateable(customer).ExecuteCommand() > 0)
             {
                 CustomerSign sign = NewMethod1();
                 sign.CustomerID = CustomerId;
                 sign.Integral = (int)signEnum;
                 sign.Mode = signEnum.ToString();
-                if (Add(sign, Transaction))
+                if (_db.Insertable(sign).ExecuteCommand() > 0)
                 {
                     //提交事务
-                    return Commit();
+                    return true;
                 }
                 else
                 {
@@ -859,12 +733,13 @@ namespace StarmileFx.Api.Server.Services
                     message = string.Format("尊敬的用户，您好：您的订单{0}已换货完成！", OrederId);
                     break;
             }
-            if (Add(Message, Transaction))
+            if (_db.Insertable(Message).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             else
             {
+                _db.Ado.RollbackTran();
                 throw new Exception("发送消息异常！");
             }
         }
@@ -879,7 +754,8 @@ namespace StarmileFx.Api.Server.Services
         public List<Information> GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
             PageData page = new PageData { PageIndex = PageIndex, PageSize = PageSize };
-            List<Information> list = PageData<Information>(page, a => a.CustomerID == CustomerId, a => a.CreatTime, out int total).ToList();
+            int total = 0;
+            List<Information> list = _db.Queryable<Information>().Where(a => a.CustomerID == CustomerId).OrderBy(a => a.CreatTime).ToPageList(page.PageIndex, page.PageSize, ref total).ToList();
             return list;
         }
 
@@ -896,9 +772,9 @@ namespace StarmileFx.Api.Server.Services
                 Type = from.Type,
                 Phone = from.Phone
             };
-            if (Add(model, Transaction))
+            if (_db.Insertable(model).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             else
             {
@@ -921,7 +797,7 @@ namespace StarmileFx.Api.Server.Services
         public List<ProductWeb> GetProductList(ProductSearch search, out int total)
         {
             string sql = @"SELECT
-	                        p.ID,
+	                        p.Id,
 	                        p.ProductID,
 	                        p.Label,
 	                        p.CnName,
@@ -947,13 +823,13 @@ namespace StarmileFx.Api.Server.Services
                             r.Address as Picture
                         FROM
 	                        Product AS p
-                        LEFT JOIN ProductType AS pt ON p.Type = pt.ID
+                        LEFT JOIN ProductType AS pt ON p.Type = pt.Id
                         LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 AND r.Sort = 0
                         WHERE p.State = @state AND p.IsDelete = 0 ";
             string sqlcount = @"SELECT COUNT(0) AS Count
                         FROM
 	                        Product AS p
-                        LEFT JOIN ProductType AS pt ON p.Type = pt.ID 
+                        LEFT JOIN ProductType AS pt ON p.Type = pt.Id 
                         LEFT JOIN Resources AS r ON p.ProductID = r.ProductID AND r.Type = 1 AND r.Sort = 0 
                         WHERE p.State = @state AND p.IsDelete = 0 ";
             if (!string.IsNullOrEmpty(search.CnName))
@@ -999,29 +875,29 @@ namespace StarmileFx.Api.Server.Services
             }
             sql += "LIMIT @pageIndex,@page";
             search.Evaluate();
-            MySqlParameter[] parameters = new MySqlParameter[]
+            SugarParameter[] parameters = new SugarParameter[]
             {
-                new MySqlParameter("@name", search.CnName),
-                new MySqlParameter("@productId", search.ProductID),
-                new MySqlParameter("@type", search.Type),
-                new MySqlParameter("@startDate", search.startDate.ToString()),
-                new MySqlParameter("@endDate", search.endDate),
-                new MySqlParameter("@pageIndex", (search.PageIndex - 1) * search.PageSize),
-                new MySqlParameter("@page", search.PageSize),
-                new MySqlParameter("@state", search.State)
+                new SugarParameter("@name", search.CnName),
+                new SugarParameter("@productId", search.ProductID),
+                new SugarParameter("@type", search.Type),
+                new SugarParameter("@startDate", search.startDate.ToString()),
+                new SugarParameter("@endDate", search.endDate),
+                new SugarParameter("@pageIndex", (search.PageIndex - 1) * search.PageSize),
+                new SugarParameter("@page", search.PageSize),
+                new SugarParameter("@state", search.State)
             };
-            parameters[0].MySqlDbType = MySqlDbType.String;
-            parameters[1].MySqlDbType = MySqlDbType.String;
-            parameters[2].MySqlDbType = MySqlDbType.Int32;
-            parameters[3].MySqlDbType = MySqlDbType.String;
-            parameters[4].MySqlDbType = MySqlDbType.String;
-            parameters[5].MySqlDbType = MySqlDbType.Int32;
-            parameters[6].MySqlDbType = MySqlDbType.Int32;
-            parameters[6].MySqlDbType = MySqlDbType.Bit;
+            parameters[0].DbType = System.Data.DbType.String;
+            parameters[1].DbType = System.Data.DbType.String;
+            parameters[2].DbType = System.Data.DbType.Int32;
+            parameters[3].DbType = System.Data.DbType.String;
+            parameters[4].DbType = System.Data.DbType.String;
+            parameters[5].DbType = System.Data.DbType.Int32;
+            parameters[6].DbType = System.Data.DbType.Int32;
+            parameters[7].DbType = System.Data.DbType.Boolean;
 
             //总数
-            total = _YoungoContext.SqlQuery<Total>(_YoungoContext, sqlcount, parameters).FirstOrDefault().Count;
-            List<ProductWeb> list = _YoungoContext.ExecuteSql<ProductWeb>(sql, parameters).ToList();
+            total = _db.Ado.GetInt(sqlcount, parameters);
+            List<ProductWeb> list = _db.Ado.SqlQuery<ProductWeb>(sql, parameters).ToList();
             return list;
         }
 
@@ -1032,7 +908,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public Product GetProduct(int id)
         {
-            return Get<Product>(a => a.ID == id); ;
+            return _db.Queryable<Product>().InSingle(id);
         }
 
         /// <summary>
@@ -1042,9 +918,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool AddProduct(Product Product)
         {
-            if(Add(Product, Transaction))
+            if(_db.Insertable(Product).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1056,9 +932,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool ModifyProduct(Product Product)
         {
-            if (Update(Product, Transaction))
+            if (_db.Updateable(Product).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1072,9 +948,9 @@ namespace StarmileFx.Api.Server.Services
         {
             Product product = GetProduct(Id);
             product.IsDelete = true;
-            if (Update(product, Transaction))
+            if (_db.Updateable(product).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1091,7 +967,7 @@ namespace StarmileFx.Api.Server.Services
             {
                 Product product = GetProduct(Id);
                 product.IsDelete = true;
-                if (Update(product, Transaction))
+                if (_db.Updateable(product).ExecuteCommand() > 0)
                 {
                     count++;
                 }
@@ -1102,7 +978,7 @@ namespace StarmileFx.Api.Server.Services
             }
             if (count == Ids.Count())
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1114,9 +990,9 @@ namespace StarmileFx.Api.Server.Services
         /// </summary>
         /// <param name="total"></param>
         /// <returns></returns>
-        public List<ProductType> GetProductTypeList(out int total)
+        public List<ProductType> GetProductTypeList()
         {
-            return List<ProductType>(a => a.State, out total).ToList();
+            return _db.Queryable<ProductType>().Where(a => a.State).ToList();
         }
 
         /// <summary>
@@ -1137,9 +1013,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool AddProductType(ProductType ProductType)
         {
-            if (Add(ProductType, Transaction))
+            if (_db.Insertable(ProductType).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1151,9 +1027,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool ModifyProductType(ProductType ProductType)
         {
-            if (Update(ProductType, Transaction))
+            if (_db.Updateable(ProductType).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1165,9 +1041,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool DeleteProductType(int Id)
         {
-            if (Delete<ProductType>(a => a.ID == Id))
+            if (_db.Deleteable<ProductType>().In(Id).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1179,21 +1055,10 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool BatchDeleteProductType(int[] Ids)
         {
-            int count = 0;
-            foreach (int Id in Ids)
-            {
-                if (Delete<ProductType>(a => a.ID == Id))
-                {
-                    count++;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            int count = _db.Deleteable<ProductType>().In(Ids).ExecuteCommand();
             if (count == Ids.Count())
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1207,9 +1072,9 @@ namespace StarmileFx.Api.Server.Services
         /// <param name="Type"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public List<Resources> GetResourcesList(string ProductId, ResourcesEnum Type, out int total)
+        public List<Resources> GetResourcesList(string ProductId, ResourcesEnum Type)
         {
-            return List<Resources>(a => a.ProductID == ProductId && a.Type == Type, out total).ToList();
+            return _db.Queryable<Resources>().Where(a => a.ProductID == ProductId && a.Type == Type).ToList();
         }
 
         /// <summary>
@@ -1234,7 +1099,7 @@ namespace StarmileFx.Api.Server.Services
                     Sort = Sorts[i]
                 };
                 i++;
-                if (Add(resources, Transaction))
+                if (_db.Insertable(resources).ExecuteCommand() > 0)
                 {
                     count++;
                 }
@@ -1245,7 +1110,7 @@ namespace StarmileFx.Api.Server.Services
             }
             if (count == Addresses.Count())
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1257,9 +1122,9 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool DeleteResources(int Id)
         {
-            if (Delete<Resources>(a => a.ID == Id))
+            if (_db.Deleteable<Resources>().In(Id).ExecuteCommand() > 0)
             {
-                return Commit();
+                return true;
             }
             return false;
         }
@@ -1272,274 +1137,10 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public bool BatchDeleteResources(string ProductId, ResourcesEnum Type)
         {
-            string sql = @"DELETE FROM Resources 
-                            WHERE ProductID = @productId AND Type = @type";
-            MySqlParameter[] parameters = new MySqlParameter[]
+            if (_db.Deleteable<Resources>().Where(a => a.ProductID == ProductId && a.Type == Type).ExecuteCommand() > 0)
             {
-                new MySqlParameter("@productId", ProductId),
-                new MySqlParameter("@type", (int)Type)
-            };
-            parameters[0].MySqlDbType = MySqlDbType.String;
-            parameters[1].MySqlDbType = MySqlDbType.Int32;
-  
-            if (_YoungoContext.ExecuteSqlCommand(sql, parameters) > 0)
-            {
-                return Commit();
+                return true;
             }
-            return false;
-        }
-        #endregion
-
-
-        #region Customer
-        public Customer GetCustomer(int Id)
-        {
-            Customer Customer = new Customer();
-            return Customer;
-        }
-
-        public bool AddCustomer(Customer Customer)
-        {
-            return false;
-        }
-
-        public bool ModifyCustomer(Customer Customer)
-        {
-            return false;
-        }
-
-        public bool DeleteCustomer(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region CustomerComment
-        public CustomerComment GetCustomerComment(int Id)
-        {
-            CustomerComment CustomerComment = new CustomerComment();
-            return CustomerComment;
-        }
-
-        public bool AddCustomerComment(CustomerComment CustomerComment)
-        {
-            return false;
-        }
-
-        public bool ModifyCustomerComment(CustomerComment CustomerComment)
-        {
-            return false;
-        }
-
-        public bool DeleteCustomerComment(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region CustomerSign
-        public CustomerSign GetCustomerSign(int Id)
-        {
-            CustomerSign CustomerSign = new CustomerSign();
-            return CustomerSign;
-        }
-
-        public bool AddCustomerSign(CustomerSign CustomerSign)
-        {
-            return false;
-        }
-
-        public bool ModifyCustomerSign(CustomerSign CustomerSign)
-        {
-            return false;
-        }
-
-        public bool DeleteCustomerSign(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region DeliveryAddress
-        public DeliveryAddress GetDeliveryAddress(int Id)
-        {
-            DeliveryAddress deliveryAddress = new DeliveryAddress();
-            return deliveryAddress;
-        }
-
-        public bool AddDeliveryAddress(DeliveryAddress DeliveryAddress)
-        {
-            return false;
-        }
-
-        public bool ModifyDeliveryAddress(DeliveryAddress DeliveryAddress)
-        {
-            return false;
-        }
-
-        public bool DeleteDeliveryAddress(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region OffLineOrderDetail
-        public OffLineOrderDetail GetOffLineOrderDetail(int Id)
-        {
-            OffLineOrderDetail OffLineOrderDetail = new OffLineOrderDetail();
-            return OffLineOrderDetail;
-        }
-
-        public bool AddOffLineOrderDetail(OffLineOrderDetail OffLineOrderDetail)
-        {
-            return false;
-        }
-
-        public bool ModifyOffLineOrderDetail(OffLineOrderDetail OffLineOrderDetail)
-        {
-            return false;
-        }
-
-        public bool DeleteOffLineOrderDetail(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region OffLineOrderParent
-        public OffLineOrderParent GetOffLineOrderParent(string OrderId)
-        {
-            OffLineOrderParent OffLineOrderParent = new OffLineOrderParent();
-            return OffLineOrderParent;
-        }
-
-        public bool AddOffLineOrderParent(OffLineOrderParent OffLineOrderParent)
-        {
-            return false;
-        }
-
-        public bool ModifyOffLineOrderParent(OffLineOrderParent OffLineOrderParent)
-        {
-            return false;
-        }
-
-        public bool DeleteOffLineOrderParent(string OrderId)
-        {
-            return false;
-        }
-        #endregion
-
-        #region OnLineOrderDetail
-        public OnLineOrderDetail GetOnLineOrderDetail(int Id)
-        {
-            OnLineOrderDetail OnLineOrderDetail = new OnLineOrderDetail();
-            return OnLineOrderDetail;
-        }
-
-        public bool AddOnLineOrderDetail(OnLineOrderDetail OnLineOrderDetail)
-        {
-            return false;
-        }
-
-        public bool ModifyOnLineOrderDetail(OnLineOrderDetail OnLineOrderDetail)
-        {
-            return false;
-        }
-
-        public bool DeleteOnLineOrderDetail(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region OnLineOrderParent
-        public OnLineOrderParent GetOnLineOrderParent(string OrderId)
-        {
-            OnLineOrderParent OnLineOrderParent = new OnLineOrderParent();
-            return OnLineOrderParent;
-        }
-
-        public bool AddOnLineOrderParent(OnLineOrderParent OnLineOrderParent)
-        {
-            return false;
-        }
-
-        public bool ModifyOnLineOrderParent(OnLineOrderParent OnLineOrderParent)
-        {
-            return false;
-        }
-
-        public bool DeleteOnLineOrderParent(string OrderId)
-        {
-            return false;
-        }
-        #endregion
-
-        #region OrderEstablish
-        public OrderEstablish GetOrderEstablish(int Id)
-        {
-            OrderEstablish OrderEstablish = new OrderEstablish();
-            return OrderEstablish;
-        }
-
-        public bool AddOrderEstablish(OrderEstablish OrderEstablish)
-        {
-            return false;
-        }
-
-        public bool ModifyOrderEstablish(OrderEstablish OrderEstablish)
-        {
-            return false;
-        }
-
-        public bool DeleteOrderEstablish(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region Post
-        public Express GetPost(int Id)
-        {
-            Express Post = new Express();
-            return Post;
-        }
-
-        public bool AddPost(Express Post)
-        {
-            return false;
-        }
-
-        public bool ModifyPost(Express Post)
-        {
-            return false;
-        }
-
-        public bool DeletePost(int Id)
-        {
-            return false;
-        }
-        #endregion
-
-        #region SKUEstablish
-        public SKUEstablish GetSKUEstablish(int Id)
-        {
-            SKUEstablish SKUEstablish = new SKUEstablish();
-            return SKUEstablish;
-        }
-
-        public bool AddSKUEstablish(SKUEstablish SKUEstablish)
-        {
-            return false;
-        }
-
-        public bool ModifySKUEstablish(SKUEstablish SKUEstablish)
-        {
-            return false;
-        }
-
-        public bool DeleteSKUEstablish(int Id)
-        {
             return false;
         }
         #endregion

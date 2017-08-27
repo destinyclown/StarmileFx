@@ -1,7 +1,10 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.Reflection;
 
 namespace StarmileFx.Api
 {
@@ -9,21 +12,13 @@ namespace StarmileFx.Api
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                //.UseKestrel(option => {
-                //    option.UseHttps("server.pfx", "linezero");
-                //})
-                .UseKestrel()
-                .UseUrls("http://*:8001")
-                //.UseUrls("https://*:443")//正式使用
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
-                //.UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
-            host.Run();
+            BuildWebHost(args).Run();
         }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:8001")
+                .UseStartup<Startup>()
+                .Build();
     }
 }

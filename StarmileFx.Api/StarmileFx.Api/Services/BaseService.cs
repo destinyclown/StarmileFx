@@ -98,10 +98,10 @@ namespace StarmileFx.Api.Services
             {
                 lock (syncRoot)
                 {
-                    SysRoleOnline sysRoleOnline = SysRolesOnline.Instance.SysRolesList.Find(a => a.RoleID == model.ID);
+                    SysRoleOnline sysRoleOnline = SysRolesOnline.Instance.SysRolesList.Find(a => a.RoleID == model.Id);
                     if (sysRoleOnline == null)
                     {
-                        sysRoleOnline = new SysRoleOnline(context) { RoleID = model.ID, SysRole = model };
+                        sysRoleOnline = new SysRoleOnline(context) { RoleID = model.Id, SysRole = model };
                         baseService.AddItem(sysRoleOnline);
                         return sysRoleOnline.Token;
                     }

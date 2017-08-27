@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StarmileFx.Models.Enum;
+﻿using StarmileFx.Models.Enum;
+using SqlSugar;
 
 namespace StarmileFx.Models.Youngo
 {
     /// <summary>
     /// 交易记录
     /// </summary>
+    [SugarTable("TransactionRecord")]
     public class TransactionRecord : ModelBase
     {
         /// <summary>
