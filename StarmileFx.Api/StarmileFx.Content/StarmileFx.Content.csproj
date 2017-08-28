@@ -11,4 +11,5 @@
   <ItemGroup>
     <ProjectReference Include="..\StarmileFx.Common\StarmileFx.Common.csproj" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties bower_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

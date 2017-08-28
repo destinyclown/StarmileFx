@@ -12,12 +12,6 @@
     "bootstrap-validator": "v0.11.9",
     "bootstrap-datetimepicker": "v0.0.11",
     "bootstrap": "v3.3.7",
-    "jQuery": "3.2.1",
-    "requirejs": "2.3.5"
-  },
-  "resolutions": {
-    "bootstrap": "v3.3.7",
-    "jquery": "1.9.1 - 3",
     "requirejs": "2.3.5"
   }
 }

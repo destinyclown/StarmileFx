@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 namespace StarmileFx.Api
 {
@@ -17,8 +18,11 @@ namespace StarmileFx.Api
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
                 .UseUrls("http://*:8001")
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
                 .UseStartup<Startup>()
+                .UseApplicationInsights()
                 .Build();
     }
 }

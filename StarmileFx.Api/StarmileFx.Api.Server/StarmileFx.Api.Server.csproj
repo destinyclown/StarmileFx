@@ -6,11 +6,17 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="6.10.3-rc" />
-    <PackageReference Include="sqlSugarCore" Version="4.4.0" />
+    <PackageReference Include="sqlSugarCore" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StarmileFx.Common\StarmileFx.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.options\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

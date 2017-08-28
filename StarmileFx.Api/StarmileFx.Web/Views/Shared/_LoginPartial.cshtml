@@ -1,0 +1,46 @@
+﻿<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>@WebConfig.Value.WebName</strong> 
+    </div>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
+            @foreach (var MainMenuBase in (await IBaseServer.LoadMenuByRole(User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value)).Content.MainMenuList)
+            {
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="@MainMenuBase.Icon"></span> @MainMenuBase.Name <span class="am-icon-caret-down"></span>
+                </a>
+                <div class="am-dropdown-content">
+                    <div style="display:inline-flex">
+                        @foreach (var MainMenuList in MainMenuBase.MainMenuBase)
+                        {
+                            <ul style="color: #444;list-style: none;min-width:120px;">
+                                <li style="padding:10px 5px; "><b>@MainMenuList.Name</b></li>
+                                @foreach (var MainMenu in MainMenuList.MenuList)
+                                {
+                                    <li><a asp-controller="@MainMenuList.Url" asp-action="@MainMenu.Url" style="color: #666;" class="am-cf menuItem"><span class="@MainMenu.Icon"></span> @MainMenu.Name</a></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </li>
+            }
+        </ul>
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-user"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="javascript:;" class="user"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="javascript:;"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a asp-controller="home" asp-action="logout"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
