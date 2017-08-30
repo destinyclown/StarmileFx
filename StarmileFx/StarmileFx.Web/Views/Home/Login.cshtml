@@ -82,7 +82,7 @@
         </div>
     </div>
     <environment names="Development">
-        <script src="@WebConfig.Value.ApiHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ApiHost/Content/config.js"></script>
+        <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
         @*<script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/tether/dist/js/tether.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -90,15 +90,11 @@
         <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>*@
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/tether/dist/js/tether.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
+        <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
     </environment>
 
     <script type="text/javascript">
-        requirejs(['http://localhost:8004/Content/config.js'], function () {
+        requirejs(['@WebConfig.Value.ContentHost/Content/config.js'], function () {
             requirejs(['tether', 'bootstrap', 'bootstrapvalidator'], function () {
                 $('#loginForm').bootstrapValidator({
                     message: 'This value is not valid',

@@ -4,8 +4,8 @@
 (function() {
     var _config = {
         urlArgs: 'v=1488857471034',
-        //baseUrl: 'https://content.starmile.com.cn/Content',//正式
-        baseUrl: 'http://localhost:8004/Content',//测试
+        baseUrl: 'https://content.starmile.com.cn/Content',//正式
+        //baseUrl: 'http://localhost:8004/Content',//测试
         map: {
             '*': {
                 'css': 'css/css'
