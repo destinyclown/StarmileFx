@@ -3,18 +3,18 @@
  */
 define([
     'jquery',
-    'bootstrap-datetimepicker' 
+    'bootstrap' 
 ], function ($) {
     $(function () {
         // 日期选择
-        $('[data-datetimepicker]').each(function () {
-            $(this).datetimepicker({
-                minDate: $(this).data('mindate') || undefined,
-                maxDate: $(this).data('maxdate') || undefined,
-                format: $(this).data('datetimepicker'),
-                showTodayButton: true,
-                showClear: true
-            })
-        });
+        //$('[data-datetimepicker]').each(function () {
+        //    $(this).datetimepicker({
+        //        minDate: $(this).data('mindate') || undefined,
+        //        maxDate: $(this).data('maxdate') || undefined,
+        //        format: $(this).data('datetimepicker'),
+        //        showTodayButton: true,
+        //        showClear: true
+        //    })
+        //});
     });
 })

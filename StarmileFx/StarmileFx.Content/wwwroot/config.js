@@ -3,22 +3,21 @@
  */
 (function() {
     var _config = {
-        urlArgs: 'v=1488857471034',
+        urlArgs: 'v=105014892161',
         baseUrl: 'https://content.starmile.com.cn/Content',//正式
         //baseUrl: 'http://localhost:8004/Content',//测试
         map: {
             '*': {
-                'css': 'css/css'
+                'css': 'js/css'
             }
         },
 
         paths: {
             //-- commont
-            'jquery': 'lib/font-awesome/css/font-awesome.min',
             'font': 'lib/font-awesome/css/font-awesome.min',
             'commonInit': 'js/commonInit', // 全局基础控件初始化脚本
-            'tether': 'lib/tether/dist/js/tether.min',
-            'bootstrap': 'lib/bootstrap/dist/js/bootstrap.min',
+            'tether': 'lib/tether/dist/js/tether',
+            'bootstrap': 'lib/bootstrap/dist/js/bootstrap',
             'bootstrap-table': 'lib/bootstrap-table/dist/bootstrap-table.min',
             'bootstrap-datetimepicker': 'lib/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min',
             'bootstrapvalidator': 'lib/bootstrapvalidator/dist/js/bootstrapValidator',
@@ -26,17 +25,22 @@
             'bootstrap-table-cn': 'lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min',
             'indextab': 'js/indextab',
             'Default': 'js/Default',
+            'app': 'js/app',
             'amazeui': 'js/amazeui.min',
             'Chart': 'js/Chart'
         },
 
         shim: {
             //-- commont
-            'bootstrap': ['jquery', 'css!lib/bootstrap/dist/css/bootstrap.css'],
-            'bootstrap-datetimepicker': ['jquery', 'css!lib/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'],
+            'tether': ['jquery'],
+            'bootstrap': ['tether', 'css!lib/bootstrap/dist/css/bootstrap.css'],
+            'font': ['jquery', 'css!lib/font-awesome/css/font-awesome.min.css'],
+            'bootstrapvalidator-cn': ['bootstrapvalidator'],
+            'bootstrapvalidator': ['bootstrap', 'css!lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css'],
+            'bootstrap-datetimepicker': ['bootstrap', 'css!lib/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'],
             'amazeui': ['jquery', 'css!css/amazeui.min.css'],
             'admin': ['jquery', 'css!css/admin.css'],
-            'app': ['jquery', 'css!css/app.css']
+            'app': ['amazeui', 'css!css/app.css']
         }
     }
 

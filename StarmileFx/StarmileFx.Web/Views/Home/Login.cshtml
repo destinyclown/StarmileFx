@@ -11,16 +11,16 @@
     <title>@ViewData["Title"] - @WebConfig.Value.WebName</title>
 
     <environment names="Development">
-        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.css" rel="stylesheet" />
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/css/app.css" rel="stylesheet" />
+        <link href="~/css/app.css" rel="stylesheet" />*@
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
         <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/css/app.css" rel="stylesheet" />
+        <link href="~/css/app.css" rel="stylesheet" />*@
     </environment>
 </head>
 <body>
@@ -95,7 +95,7 @@
 
     <script type="text/javascript">
         requirejs(['@WebConfig.Value.ContentHost/Content/config.js'], function () {
-            requirejs(['tether', 'bootstrap', 'bootstrapvalidator'], function () {
+            requirejs(['app', 'amazeui'], function () {
                 $('#loginForm').bootstrapValidator({
                     message: 'This value is not valid',
                     feedbackIcons: {
