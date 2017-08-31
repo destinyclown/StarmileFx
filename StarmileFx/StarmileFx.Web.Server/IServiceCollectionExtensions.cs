@@ -20,6 +20,7 @@ namespace StarmileFx.Web.Server
             //            Configuration = "127.0.0.1",
             //            InstanceName = "Session:"
             //        }));
+			
 
             //依赖服务
             services.AddTransient<IRedisServer, RedisManager>()
