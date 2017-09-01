@@ -81,80 +81,80 @@
             适用浏览器：IE8以上、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.
         </div>
     </div>
-    <environment names="Development">
+    @*<environment names="Development">
         <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
-        @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/tether/dist/js/tether.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>*@
+        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
-    </environment>
-
+    </environment>*@
+    <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
     <script type="text/javascript">
         requirejs(['@WebConfig.Value.ContentHost/Content/config.js'], function () {
-            requirejs(['app', 'amazeui'], function () {
-                $('#loginForm').bootstrapValidator({
-                    message: 'This value is not valid',
-                    feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
-                    },
-                    fields: {
-                        loginName: {
-                            validators: {
-                                notEmpty: {
-                                    message: '请输入登录账号'
-                                }
-                            }
-                        },
-                        password: {
-                            validators: {
-                                notEmpty: {
-                                    message: '请输入密码'
-                                }
-                            }
-                        },
-                        validCode: {
-                            validators: {
-                                notEmpty: {
-                                    message: '输入验证码'
-                                }
-                            }
-                        }
-                    }
-                }).on('success.form.bv', function (e) {
-                    // 防止表单提交
-                    e.preventDefault();
-                    $("#loginbtn").val("正在登录...")
-                    // 获取表单实例
-                    var $form = $(e.target);
+            requirejs(['app', 'bootstrapvalidator'], function () {
+                //$('#loginForm').bootstrapValidator({
+                //    message: 'This value is not valid',
+                //    feedbackIcons: {
+                //        valid: 'glyphicon glyphicon-ok',
+                //        invalid: 'glyphicon glyphicon-remove',
+                //        validating: 'glyphicon glyphicon-refresh'
+                //    },
+                //    fields: {
+                //        loginName: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: '请输入登录账号'
+                //                }
+                //            }
+                //        },
+                //        password: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: '请输入密码'
+                //                }
+                //            }
+                //        },
+                //        validCode: {
+                //            validators: {
+                //                notEmpty: {
+                //                    message: '输入验证码'
+                //                }
+                //            }
+                //        }
+                //    }
+                //}).on('success.form.bv', function (e) {
+                //    // 防止表单提交
+                //    e.preventDefault();
+                //    $("#loginbtn").val("正在登录...")
+                //    // 获取表单实例
+                //    var $form = $(e.target);
 
-                    // 得到bootstrapvalidator实例
-                    var bv = $form.data('bootstrapValidator');
+                //    // 得到bootstrapvalidator实例
+                //    var bv = $form.data('bootstrapValidator');
 
-                    // 使用ajax提交表单数据
-                    $.ajax({
-                        type: "post",
-                        data: $form.serialize(),
-                        dataType: "json",
-                        url: $form.attr('action'),
-                        success: function (result) {
-                            $('.login_tips').find('.tips_msg').remove();
-                            if (!result.isSuccessful) {
-                                $("#loginbtn").val("登录");
-                                $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
-                            }
-                            else {
-                                $("#loginbtn").val("登录成功...");
-                                window.location.href = "/home/index";
-                            }
-                        }
-                    })
-                });
+                //    // 使用ajax提交表单数据
+                //    $.ajax({
+                //        type: "post",
+                //        data: $form.serialize(),
+                //        dataType: "json",
+                //        url: $form.attr('action'),
+                //        success: function (result) {
+                //            $('.login_tips').find('.tips_msg').remove();
+                //            if (!result.isSuccessful) {
+                //                $("#loginbtn").val("登录");
+                //                $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
+                //            }
+                //            else {
+                //                $("#loginbtn").val("登录成功...");
+                //                window.location.href = "/home/index";
+                //            }
+                //        }
+                //    })
+                //});
             });
         });
     </script>
