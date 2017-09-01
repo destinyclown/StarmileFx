@@ -39,7 +39,7 @@
             'bootstrapvalidator': ['bootstrap', 'css!lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css'],
             'bootstrap-datetimepicker': ['bootstrap', 'css!lib/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'],
             'amazeui': ['jquery', 'css!../Content/css/amazeui.min.css'], 
-            'app': ['amazeui', 'css!../Content/css/app.css']
+            'app': ['jquery', 'css!../Content/css/app.css']
         }
     }
 
