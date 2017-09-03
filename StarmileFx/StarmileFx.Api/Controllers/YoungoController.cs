@@ -390,7 +390,7 @@ namespace StarmileFx.Api.Controllers
                 var responseModel = new ResponseResult
                 {
                     Content = _YoungoServer.GetProductList(from, out int total),
-                    total = total,
+                    Total = total,
                     IsSuccess = true,
                     ErrorMsg = ""
                 };
@@ -677,7 +677,7 @@ namespace StarmileFx.Api.Controllers
                 var responseModel = new ResponseResult();
                 int total = 0;
                 responseModel.Content = _YoungoServer.AddResources(ProductId, Type, Addresses, Sorts);
-                responseModel.total = total;
+                responseModel.Total = total;
                 responseModel.IsSuccess = true;
                 responseModel.ErrorMsg = "";
                 return responseModel;

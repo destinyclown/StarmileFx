@@ -9,19 +9,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @WebConfig.Value.WebName</title>
-
-    <environment names="Development">
-        @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-        <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.css" rel="stylesheet" />
-        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/css/app.css" rel="stylesheet" />*@
-    </environment>
-    <environment names="Staging,Production">
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link href="~/lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
-        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/css/app.css" rel="stylesheet" />*@
-    </environment>
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -81,27 +70,15 @@
             适用浏览器：IE8以上、360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗.
         </div>
     </div>
-    @*<environment names="Development">
-        <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/tether/dist/js/tether.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
-        <script src="~/lib/bootstrapvalidator/dist/js/language/zh_CN.js"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js" data-main="@WebConfig.Value.ContentHost/Content/config.js"></script>
-    </environment>*@
-    <script src="@WebConfig.Value.ContentHost/Content/lib/requirejs/require.js"></script>
     <script type="text/javascript">
         requirejs(['@WebConfig.Value.ContentHost/Content/config.js'], function () {
-            requirejs(['app', 'bootstrapvalidator'], function () {
+            requirejs(['css!css/starmilefx-login.css', 'css!lib/bootstrap/dist/css/bootstrap.min.css', 'bootstrapvalidator'], function () {
                 $('#loginForm').bootstrapValidator({
                     message: 'This value is not valid',
                     feedbackIcons: {
-                        valid: 'glyphicon glyphicon-ok',
-                        invalid: 'glyphicon glyphicon-remove',
-                        validating: 'glyphicon glyphicon-refresh'
+                        valid: 'fa fa-ok',
+                        invalid: 'fa fa-remove',
+                        validating: 'fa fa-refresh'
                     },
                     fields: {
                         loginName: {

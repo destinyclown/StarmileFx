@@ -1,11 +1,12 @@
-﻿using SqlSugar;
+﻿using Newtonsoft.Json;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 
 namespace StarmileFx.Models.Base
 {
     [SugarTable("SysMenus")]
-    public partial class SysMenus : ModelContext
+    public class SysMenus : ModelContext
     {
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "Id")]
         public virtual int Id { get; set; }
@@ -14,20 +15,11 @@ namespace StarmileFx.Models.Base
         public string Icon { get; set; }
         public string Code { get; set; }
         public int? PId { get; set; }
-        /// <summary>
-        /// 状态
-        /// </summary>
         public bool State { get; set; }
-
         public DateTime CreatTime { get; set; }
-
+        [JsonIgnore]
         [SugarColumn(IsIgnore = true)]
-        public List<SysMenus> SysMenusList
-        {
-            get
-            {
-                return CreateMapping<SysMenus>().Where(it => it.PId == Id).ToList();
-            }
-        }
+        public List<SysMenus> Children
+        { get { return CreateMapping<SysMenus>().Where(it => it.PId == Id).ToList();}}
     }
 }

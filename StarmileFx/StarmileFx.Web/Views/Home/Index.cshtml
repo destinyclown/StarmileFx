@@ -1,47 +1,88 @@
 ﻿@using Microsoft.Extensions.Options
-@model IQueryable<SysRoles>
 @inject IOptions<WebConfig> WebConfig
-@await Html.PartialAsync("_LoginPartial", Model)
-<div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
-    <img src="/images/ajax-loader.gif" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;" />
-</div>
-<div class="am-cf admin-main">
-    <div class="admin-content">
-        <div class="admin-content-body">
-            <div class="content-tabs">
-                <button class="roll-nav roll-left tabLeft">
-                    <i class="fa fa-backward"></i>
-                </button>
-                <nav class="page-tabs menuTabs">
-                    <div class="page-tabs-content" style="margin-left: 0px;">
-                        <a href="javascript:;" class="menuTab active" data-id="/home/Default">我的主页</a>
-                    </div>
-                </nav>
-                <button class="roll-nav roll-right tabRight">
-                    <i class="fa fa-forward" style="margin-left: 3px;"></i>
-                </button>
-                <div class="btn-group roll-nav roll-right">
-                    <button class="dropdown tabClose" data-toggle="dropdown">
-                        页签操作<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a class="tabReload" href="javascript:;">刷新当前</a></li>
-                        <li><a class="tabCloseCurrent" href="javascript:;">关闭当前</a></li>
-                        <li><a class="tabCloseAll" href="javascript:;">全部关闭</a></li>
-                        <li><a class="tabCloseOther" href="javascript:;">除此之外全部关闭</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="content-iframe" style="background-color: #f9f9f9; overflow: hidden;">
-                <div class="mainContent" id="content-main" style="margin: 10px; margin-bottom: 0px; padding: 0;">
-                    <iframe class="StarmileFx_iframe" width="100%" height="100%" src="/home/Default" frameborder="0" data-id="/home/Default"></iframe>
-                </div>
-            </div>         
+<input type="hidden" id="token" name="token" value="@ViewData[SysConst.Token]" />
+<div class="content-container">
+    <div class="container-left container-left-lg">
+        <div class="content-logo" id="contentMore">
+            <span class="content-more"></span>
+            <span class="content-logo-text">StarmileFx</span>
+        </div>
+        <div id="conterNavTrre"></div>
+        <div class="menu-open-btn">
+            <div class="menu-all-open"><i class="fa fa-expand"></i><span>全部展开</span></div>
+            <div class="menu-all-stop"><i class="fa fa-compress"></i><span>全部折叠</span></div>
         </div>
     </div>
+
+    <div class="container-right">
+        <div class="container-top">
+            <div class="cont-heand heand-left">
+                <span class="heand-btn-nav"><i class="fa fa-outdent"></i></span>
+                <span class="move-left "><i class="fa fa-caret-left"></i></span>
+            </div>
+
+            <div class="cont-heand label-nav-bar">
+                <div class="label-nav-cont"></div>
+            </div>
+
+            <div class="cont-heand heand-right">
+                <span class="move-right"><i class="fa fa-caret-right"></i></span>
+                <span class="show-select-viwe"><i class="fa fa-th"></i></span>
+                <div class="heand-user-info">
+                    <div class="heand-portrait-name user-info-ctrl">
+                        <span class="user-info-img"><i class="fa fa-user-circle-o"></i></span>
+                        <span class="user-info-name"></span>
+                        <div class="auxiliary-dropdown">
+                            <div class="right-menu-list" rel="./ChangePassword.html" alert="true" tit="弹出窗" iframe="true"><span class="right-menu-ico"><i class="fa fa-cog"></i></span><span class="right-menu-text">修改密码</span></div>
+                            <div class="right-menu-list" rel="https://www.baidu.com/" bank="true"><span class="right-menu-ico"><i class="fa fa-cog"></i></span><span class="right-menu-text">跳转到百度</span></div>
+                            <div class="right-menu-list" rel="http://192.168.1.102:801/document/" bank="false"><span class="right-menu-ico"><i class="fa fa-cog"></i></span><span class="right-menu-text">退出</span></div>
+                        </div>
+                    </div>
+                    <div class="user-info-ctrl skin-peeler">
+                        <span><i class="fa fa fa-ellipsis-v"></i></span>
+                        <div class="auxiliary-dropdown"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="iframe-container" id="iframeListContainer"></div>
+    </div>
 </div>
+<script>
+    var sDropDownMenuTree, tab;
+    requirejs(['https://content.starmile.com.cn/Content/config.js'], function () {
+        //requirejs(['introjs','StandingContOther'], function (introJs) {
+        requirejs(['layer', 'starmilefx-tree'], function (layer) {
+            var navTrreData = '';
+            sDropDownMenuTree = new DropDownMenuTree({
+                control: { layer: layer },
+                //hostName: "https://api.starmile.com.cn",//API接口，默认：false
+                hostName: "http://localhost:8001",//API接口，默认：false
+                data: navTrreData, //当存在API接口时候该值无效
+                container: "#conterNavTrre", //菜单树容器ID
+                moreMenu: "#contentMore", //触发显示系统名按钮
+                iframes: "#iframeListContainer",
+                defualtPage: { href: "/home/Default", text: "工作台", close: true, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
+                //defualtPage:{href:"./test.html",text:"工作台",close:false,mid:120},
+                viweW: '100%',//可视宽度; 默认 100%
+                search: false, //是否可以搜索,默认false
+                showMinW: 100,//子菜单弹窗最小宽度
+                showRigth: 50,//子菜单弹窗离右边的距离
+                labelNav: '.cont-heand.label-nav-bar',//头部导向标签区域
+                collection: false,    //是支持收藏 默认 false
+                colScreen: true,     //是否支持菜单横屏切换
+                //completionTips: promptContent, //调用Intro提示内容
+            });
+            // 初始化 Intro 提示内容
+            tab = sDropDownMenuTree.tool;
+            function promptContent() {
+                typeof promptContentMethod == "function" ? new promptContentMethod(introJs, '.background-anyway-sign') : null;
+            }
+        })
+    })
+</script>
+
 <div id="loadingPage" style="display: none;">
     <div class="loading-shade"></div>
     <div class="loading-content" onclick="$.loading(false)">数据加载中，请稍后…</div>
 </div>
-@await Html.PartialAsync("_FooterPartial", Model)

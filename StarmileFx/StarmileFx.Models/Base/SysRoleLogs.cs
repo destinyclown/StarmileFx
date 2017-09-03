@@ -3,7 +3,7 @@
 namespace StarmileFx.Models.Base
 {
     [SugarTable("SysRoleLogs")]
-    public partial class SysRoleLogs : ModelBase
+    public class SysRoleLogs : ModelBase
     {
         public int RoleID { get; set; }
         public string LoginIP { get; set; }

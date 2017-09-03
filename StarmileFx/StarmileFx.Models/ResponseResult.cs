@@ -13,8 +13,10 @@ namespace StarmileFx.Models
         public ResponseResult()
         {
             IsSuccess = false;
-            ErrorMsg = "请求失败，请检查API接口是否正常！";
+            ErrorMsg = string.Empty;
             SendDateTime = DateTime.Now;
+            Total = 0;
+            Token = "";
         }
         /// <summary>
         /// 请求方法
@@ -35,7 +37,7 @@ namespace StarmileFx.Models
         /// <summary>
         /// 总数
         /// </summary>
-        public int? total { get; set; }
+        public int Total { get; set; }
         /// <summary>
         /// Token令牌（临时存在7天）
         /// </summary>
@@ -66,7 +68,7 @@ namespace StarmileFx.Models
         /// <summary>
         /// 总数
         /// </summary>
-        public int? total { get; set; }
+        public int? Total { get; set; }
         /// <summary>
         /// 错误信息
         /// </summary>

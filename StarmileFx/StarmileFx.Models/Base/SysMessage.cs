@@ -3,7 +3,7 @@
     using SqlSugar;
     using System;
     [SugarTable("SysMessage")]
-    public partial class SysMessage : ModelBase
+    public class SysMessage : ModelBase
     {
         public int Sender { get; set; }
         public int Receiver { get; set; }

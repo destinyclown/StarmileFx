@@ -59,7 +59,7 @@ namespace StarmileFx.Web.Controllers
                                isClearStock = m.IsClearStock ? "<i class='fa fa-ok fa-fw'></i>" : "<i class='fa fa-ban fa-fw'></i>",
                                creatTime = m.CreatTime.ToString("yyyy-MM-dd hh:mm"),
                            };
-                total = int.Parse(responseResult.total.ToString());
+                total = int.Parse(responseResult.Total.ToString());
                 return Json(new { rows = data, total = total });
             }
             return Json(new { rows = list, total = total });

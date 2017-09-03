@@ -8,38 +8,67 @@
         //baseUrl: 'http://localhost:8004/Content',//测试
         map: {
             '*': {
-                'css': 'js/css'
+                'css': 'css'
             }
         },
 
         paths: {
-            //-- commont
+            //--starmilefx
             'commonInit': 'js/commonInit', // 全局基础控件初始化脚本
+            'starmilefx': 'js/starmilefx', // 框架基础
+            'starmilefx-tree': 'js/starmilefx-tree', // 菜单架构
+            'ChineseToPinyin': 'js/ChineseToPinyin', // 菜单架构
+
+            //--第三方控件
+
+            //--bootstrap
             'tether': 'lib/tether/dist/js/tether',
             'bootstrap': 'lib/bootstrap/dist/js/bootstrap',
-            'bootstrap-table': 'lib/bootstrap-table/dist/bootstrap-table.min',
             'bootstrap-datetimepicker': 'lib/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min',
             'bootstrapvalidator': 'lib/bootstrapvalidator/dist/js/bootstrapValidator',
             'bootstrapvalidator-cn': 'lib/bootstrapvalidator/dist/js/language/zh_CN',
-            'bootstrap-table-cn': 'lib/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min',
+
+            //-- jQuery UI
+            'jquery-ui': 'lib/jquery-ui/jquery-ui.min',
+
+            //-- jqGrid
+            'jqGrid': 'lib/jqGrid/js/jqGrid.min',
+
+            //--layer
+            'layer': 'lib/layer/build/layer',          
+
             'indextab': 'js/indextab',
             'Default': 'js/Default',
-            'app': 'js/app',
             'amazeui': 'js/amazeui.min',
             'Chart': 'js/Chart',
-            'admin': 'css!css/admin.css'
+            'font': 'css!lib/font-awesome/css/font-awesome.min.css'
         },
 
         shim: {
-            //-- commont
+            //-- starmilefx
+            'starmilefx': ['css!css/starmilefx.css'], // 框架基础           
+            'commonInit': ['css!css/commonInit.css'], // 全局基础控件初始化样式
+            'starmilefx-login': ['css!css/starmilefx-login.css'],
+            'starmilefx-tree': ['ChineseToPinyin', 'css!css/starmilefx-tree.css', 'jquery', 'js/beyondWrap', 'js/pageScroll'],
+
+
+            //--第三方控件
+
+            //--bootstrap
             'tether': ['jquery'],
-            'bootstrap': ['tether', 'css!lib/bootstrap/dist/css/bootstrap.min.css'],
-            'font': ['jquery', 'css!lib/font-awesome/css/font-awesome.min.css'],
+            'bootstrap': ['jquery'],
             'bootstrapvalidator-cn': ['bootstrapvalidator'],
             'bootstrapvalidator': ['bootstrap', 'css!lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css'],
             'bootstrap-datetimepicker': ['bootstrap', 'css!lib/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'],
-            'amazeui': ['jquery', 'css!../Content/css/amazeui.min.css'], 
-            'app': ['jquery', 'css!../Content/css/app.css']
+
+            //-- jQuery UI
+            'jquery-ui': ['jquery', 'css!jquery-ui/themes/base/jquery-ui.min.css'],
+
+            //-- jqGrid
+            'jqGrid': ['jquery', 'css!jqGrid/css/ui.jqgrid.css'],
+
+            //--layer
+            'layer': ['css!lib/layer/build/skin/default/layer.css'],
         }
     }
 
@@ -76,7 +105,7 @@
 
     requirejs.config(_config);
 
-    // 加载全局基础控件初始化脚本
+    // 加载全局基础控件初始化脚本和样式
     requirejs(['commonInit']);
 })();
 
