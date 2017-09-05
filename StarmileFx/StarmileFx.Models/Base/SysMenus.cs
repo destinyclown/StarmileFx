@@ -17,7 +17,6 @@ namespace StarmileFx.Models.Base
         public int? PId { get; set; }
         public bool State { get; set; }
         public DateTime CreatTime { get; set; }
-        [JsonIgnore]
         [SugarColumn(IsIgnore = true)]
         public List<SysMenus> Children
         { get { return CreateMapping<SysMenus>().Where(it => it.PId == Id).ToList();}}

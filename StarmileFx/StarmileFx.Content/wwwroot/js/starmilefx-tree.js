@@ -190,7 +190,7 @@ DropDownMenuTree.prototype.Initialization = function () {//初始化
         //}
         $.ajax({
             url: self.hostName + '/api/LoadMenuByRole',
-            //dataType: 'jsonp',
+            dataType: 'jsonp',
             //jsonp: 'callback',
             data: { Token: $('#token').val() },
             success: function (data) {
@@ -2240,7 +2240,7 @@ DropDownMenuTree.prototype.LeftTrreSearch = function (sear) {//菜单搜索
     var Handle = {
         showCollection: function (data) {
             var Chtml = '', locaHtml = '',
-                MenuList = data ? data.MenuList ? data.MenuList : '' : '',
+                MenuList = data ? data.Content ? data.Content : '' : '',
                 locaData = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'collectionOrderJSON' }),//获取缓存数据
                 openA = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'defaultOpnePage' }),
                 homeP = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'defaultHomePage' }),
