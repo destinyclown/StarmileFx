@@ -3,7 +3,7 @@
     using SqlSugar;
 
     [SugarTable("SysEmailLogs")]
-    public partial class SysEmailLogs : ModelBase
+    public class SysEmailLogs : ModelBase
     {
         public string Email { get; set; }
         public string EmailLog { get; set; }

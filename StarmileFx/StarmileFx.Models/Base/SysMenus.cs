@@ -1,11 +1,12 @@
-﻿using SqlSugar;
+﻿using Newtonsoft.Json;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 
 namespace StarmileFx.Models.Base
 {
     [SugarTable("SysMenus")]
-    public partial class SysMenus : ModelContext
+    public class SysMenus : ModelContext
     {
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "Id")]
         public virtual int Id { get; set; }
