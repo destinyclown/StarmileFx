@@ -144,5 +144,21 @@ namespace StarmileFx.Api.Controllers
             };
             return ActionResponseGetString(funcAction);
         }
+
+        //[ValidateParmeterNull("Token")]
+        public string GetMenuJson()
+        {
+            //var model = BaseService.GetRoleByToken(Token);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Content = _BaseServer.GetMenuJson(),
+                    IsSuccess = true
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
     }
 }

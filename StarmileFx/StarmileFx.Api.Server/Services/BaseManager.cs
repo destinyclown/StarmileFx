@@ -82,6 +82,12 @@ namespace StarmileFx.Api.Server.Services
             }
             return null;
         }
+
+        public List<SysMenus> GetMenuJson()
+        {
+            var _SysMenuslList = _db.Queryable<SysMenus>().Where(a => a.State).ToList();
+            return _SysMenuslList;
+        }
         #endregion home
     }
 }

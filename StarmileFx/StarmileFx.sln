@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Content", "StarmileFx.Content\StarmileFx.Content.csproj", "{6C82979D-389E-46A5-B58F-0FBC6C921F6D}"
 EndProject
@@ -17,11 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Api", "StarmileF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StarmileFx.Service", "StarmileFx.Service", "{EBBE6B49-1635-4F1C-B14A-FF3A4FD25067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Redis", "StarmileFx.Redis\StarmileFx.Redis.csproj", "{631ED582-C4E3-4FC7-AA3E-E5BAC57AE6FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Redis", "StarmileFx.Redis\StarmileFx.Redis.csproj", "{631ED582-C4E3-4FC7-AA3E-E5BAC57AE6FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Web.Server", "StarmileFx.Web.Server\StarmileFx.Web.Server.csproj", "{D2E9FEEC-F436-4290-8C7B-139D0180931C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Web.Server", "StarmileFx.Web.Server\StarmileFx.Web.Server.csproj", "{D2E9FEEC-F436-4290-8C7B-139D0180931C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Web", "StarmileFx.Web\StarmileFx.Web.csproj", "{E3F948A5-0D81-4419-A9B4-84B6A8FCF88F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Web", "StarmileFx.Web\StarmileFx.Web.csproj", "{E3F948A5-0D81-4419-A9B4-84B6A8FCF88F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.UnitTest", "StarmileFx.UnitTest\StarmileFx.UnitTest.csproj", "{F0E694B1-8EBE-47DA-88FF-283F9689DF69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{E3F948A5-0D81-4419-A9B4-84B6A8FCF88F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F948A5-0D81-4419-A9B4-84B6A8FCF88F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3F948A5-0D81-4419-A9B4-84B6A8FCF88F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E694B1-8EBE-47DA-88FF-283F9689DF69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E694B1-8EBE-47DA-88FF-283F9689DF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E694B1-8EBE-47DA-88FF-283F9689DF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E694B1-8EBE-47DA-88FF-283F9689DF69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

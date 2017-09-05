@@ -39,6 +39,9 @@ namespace StarmileFx.Api.Server.IServices
         //Task<List<SysViews>> LoadViewList(string roleid, Guid menuid);
 
         List<SysMenus> LoadMenuByRole(SysRoles role);
+
+
+        List<SysMenus> GetMenuJson();
         #endregion
     }
 }
