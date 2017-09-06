@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Web", "StarmileFx.Web\StarmileFx.Web.csproj", "{AEF24972-DC60-4C30-9FBD-708A1912D3D3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Web.Server", "StarmileFx.Web.Server\StarmileFx.Web.Server.csproj", "{7446D39E-04C1-4DD9-B816-23F5895A60E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Common", "..\StarmileFx.Api\StarmileFx.Common\StarmileFx.Common.csproj", "{080B507C-3C45-4927-8931-B614A9ECEC4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarmileFx.Models", "..\StarmileFx.Api\StarmileFx.Models\StarmileFx.Models.csproj", "{A4C67D24-3A70-42E6-8918-BAABCDCB2E73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarmileFx.Web.Server", "StarmileFx.Web.Server\StarmileFx.Web.Server.csproj", "{3E4B9D82-5962-468C-AC22-52E3528044C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{AEF24972-DC60-4C30-9FBD-708A1912D3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEF24972-DC60-4C30-9FBD-708A1912D3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF24972-DC60-4C30-9FBD-708A1912D3D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7446D39E-04C1-4DD9-B816-23F5895A60E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7446D39E-04C1-4DD9-B816-23F5895A60E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7446D39E-04C1-4DD9-B816-23F5895A60E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7446D39E-04C1-4DD9-B816-23F5895A60E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{080B507C-3C45-4927-8931-B614A9ECEC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{080B507C-3C45-4927-8931-B614A9ECEC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{080B507C-3C45-4927-8931-B614A9ECEC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{A4C67D24-3A70-42E6-8918-BAABCDCB2E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C67D24-3A70-42E6-8918-BAABCDCB2E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C67D24-3A70-42E6-8918-BAABCDCB2E73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4B9D82-5962-468C-AC22-52E3528044C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4B9D82-5962-468C-AC22-52E3528044C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4B9D82-5962-468C-AC22-52E3528044C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4B9D82-5962-468C-AC22-52E3528044C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

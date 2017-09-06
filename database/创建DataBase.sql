@@ -78,3 +78,18 @@ IF NOT EXISTS `SysMessage`(
 	`ReceiveDate` TIMESTAMP COMMENT '接收时间',
 	`CreatTime` TIMESTAMP COMMENT '创建时间'
 );
+
+/*菜单列表*/
+CREATE TABLE 
+IF NOT EXISTS `SysMenus`(
+	`ID` INT (11) NOT NULL auto_increment PRIMARY KEY,
+	`Name` varchar(30) NOT NULL COMMENT '名称',
+	`Icon` varchar(20) NULL COMMENT '图标',
+	`Url` varchar(20) NULL COMMENT '地址',
+	`Code` varchar(20) NOT NULL COMMENT '标识',
+	`PId` INT (11) NULL COMMENT '父类ID',
+	`State` boolean DEFAULT 0 COMMENT '状态',
+	CHECK (`State` = 0 OR `State` = 1),
+	`UpdateTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+	`CreatTime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' 
+);
