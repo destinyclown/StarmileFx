@@ -23,7 +23,6 @@ namespace StarmileFx.Api.Controllers
         {
             SysRoles model = new SysRoles();
             BaseService.Insert(model, HttpContext);
-            //return "启动StarmileFx.Api系统！";
             return View();
         }
 

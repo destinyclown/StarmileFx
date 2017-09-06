@@ -16,4 +16,6 @@
     <ProjectReference Include="..\StarmileFx.Api.Server\StarmileFx.Api.Server.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>
