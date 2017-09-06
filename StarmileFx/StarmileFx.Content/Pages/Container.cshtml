@@ -54,7 +54,6 @@
 <script>
     var sDropDownMenuTree, tab;
     requirejs(['https://content.starmile.com.cn/Content/config.js'], function () {
-        //requirejs(['introjs','StandingContOther'], function (introJs) {
         requirejs(['layer', 'starmilefx-tree'], function (layer) {
             var navTrreData = '';
             sDropDownMenuTree = new DropDownMenuTree({
@@ -64,7 +63,7 @@
                 container: "#conterNavTrre", //菜单树容器ID
                 moreMenu: "#contentMore", //触发显示系统名按钮
                 iframes: "#iframeListContainer",
-                defualtPage: { href: "http://www.baidu.com", text: "工作台", close: true, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
+                defualtPage: { href: "/System/index", text: "工作台", close: true, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
                 //defualtPage:{href:"./test.html",text:"工作台",close:false,mid:120},
                 viweW: '100%',//可视宽度; 默认 100%
                 search: true, //是否可以搜索,默认false

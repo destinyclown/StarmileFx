@@ -10,6 +10,9 @@ using System.Reflection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using StarmileFx.Models.Json;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using StarmileFx.Web.Server;
 
 namespace StarmileFx.Content
 {
@@ -25,7 +28,20 @@ namespace StarmileFx.Content
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
+            services.Configure<WebConfig>(Configuration.GetSection("WebConfig"));
+            services.Configure<RedisModel>(Configuration.GetSection("Redis"));
             services.AddMvc();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                //.AddScheme<HasPasswordHandler, IAuthorizationHandler>("")
+                .AddCookie(a =>
+                {
+                    a.LoginPath = new PathString("/home/login");
+                    a.AccessDeniedPath = new PathString("/home/Forbidden");
+
+                });
+            // 添加应用程序服务。
+            services.AddCoreServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +56,7 @@ namespace StarmileFx.Content
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            app.UseSession(new SessionOptions() { IdleTimeout = TimeSpan.FromMinutes(30) });
             app.UseCors("AllowSpecificOrigin");
             app.UseStaticFiles(new StaticFileOptions()
             {
