@@ -51,6 +51,7 @@ namespace StarmileFx.Content.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        [Route("Login")]
         public async Task<IActionResult> Login([FromForm]LoginFrom fromData)
         {
             if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
@@ -72,7 +73,7 @@ namespace StarmileFx.Content.Controllers
                 var claims = new List<Claim>()
                 {
                     new Claim("Token", responseResult.Token),
-                    new Claim(ClaimTypes.Name, fromData.loginName)
+                    new Claim(ClaimTypes.Email, fromData.loginName)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
@@ -83,6 +84,7 @@ namespace StarmileFx.Content.Controllers
                         AllowRefresh = false
                     });
             }
+            string UserName = User.Claims.FirstOrDefault().Value;
             return Json(result);
         }
 
@@ -91,6 +93,7 @@ namespace StarmileFx.Content.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
+        [Route("Captcha")]
         public IActionResult Captcha()
         {
             System.IO.MemoryStream ms = VierificationCode.Create(out string code);
@@ -103,6 +106,7 @@ namespace StarmileFx.Content.Controllers
         /// 退出登录
         /// </summary>
         /// <returns></returns>
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             string Token = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
