@@ -73,7 +73,7 @@ namespace StarmileFx.Content.Controllers
                 var claims = new List<Claim>()
                 {
                     new Claim("Token", responseResult.Token),
-                    new Claim(ClaimTypes.Name, fromData.loginName)
+                    new Claim(ClaimTypes.Email, fromData.loginName)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
