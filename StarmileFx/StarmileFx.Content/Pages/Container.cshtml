@@ -3,6 +3,7 @@
 @{
 
 }
+<input type="hidden" value="@Model.Toekn" id="token" />
 <div class="content-container">
     <div class="container-left container-left-lg">
         <div class="content-logo" id="contentMore">
@@ -34,7 +35,7 @@
                 <div class="heand-user-info">
                     <div class="heand-portrait-name user-info-ctrl">
                         <span class="user-info-img"><i class="fa fa-user-circle-o"></i></span>
-                        <span class="user-info-name">@Model.UserName</span>
+                        <span class="user-info-name">@User.Identity.Name</span>
                         <div class="auxiliary-dropdown">
                             <div class="right-menu-list" rel="./ChangePassword.html" alert="true" tit="弹出窗" iframe="true"><span class="right-menu-ico"><i class="fa fa-cog"></i></span><span class="right-menu-text">修改密码</span></div>
                             <div class="right-menu-list" rel="https://www.baidu.com/" bank="true"><span class="right-menu-ico"><i class="fa fa-cog"></i></span><span class="right-menu-text">跳转到百度</span></div>
@@ -42,7 +43,7 @@
                         </div>
                     </div>
                     <div class="user-info-ctrl skin-peeler">
-                        <span><i class="fa fa fa-ellipsis-v"></i></span>
+                        <span><i class="fa fa-cog"></i></span>
                         <div class="auxiliary-dropdown"></div>
                     </div>
                 </div>
@@ -54,17 +55,16 @@
 <script>
     var sDropDownMenuTree, tab;
     requirejs(['https://content.starmile.com.cn/Content/config.js'], function () {
-        requirejs(['layer', 'starmilefx-tree'], function (layer) {
+        requirejs(['ui','layer', 'starmilefx-tree'], function (ui, layer) {
             var navTrreData = '';
             sDropDownMenuTree = new DropDownMenuTree({
-                control: { layer: layer },
+                control: { ui: ui, layer: layer },
                 hostName: "https://api.starmile.com.cn",//API接口，默认：false
                 data: navTrreData, //当存在API接口时候该值无效
                 container: "#conterNavTrre", //菜单树容器ID
                 moreMenu: "#contentMore", //触发显示系统名按钮
                 iframes: "#iframeListContainer",
-                defualtPage: { href: "/home/index", text: "工作台", close: true, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
-                //defualtPage:{href:"./test.html",text:"工作台",close:false,mid:120},
+                defualtPage: { href: "index", text: "工作台", close: false, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
                 viweW: '100%',//可视宽度; 默认 100%
                 search: true, //是否可以搜索,默认false
                 showMinW: 100,//子菜单弹窗最小宽度

@@ -114,7 +114,7 @@ namespace StarmileFx.Api.Controllers
                 };
                 return responseModel;
             };
-            return ActionResponseGetString(funcAction);
+            return ActionResponseJsonp(funcAction);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace StarmileFx.Api.Controllers
                 };
                 return responseModel;
             };
-            return ActionResponseGetString(funcAction);
+            return ActionResponseJsonp(funcAction);
         }
     }
 }

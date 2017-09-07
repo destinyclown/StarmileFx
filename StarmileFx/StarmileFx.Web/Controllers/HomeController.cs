@@ -105,6 +105,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                         AllowRefresh = false
                     });
             }
+            //string UserName = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
             return Json(result);
         }
 

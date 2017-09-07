@@ -36,8 +36,8 @@ var DropDownMenuTree = function (trreInfo) {
         this.helpUrl = (trreInfo.helpUrl ? this.helpUrl : './help.php?id=');    //帮助的链接
         this.subUrl = (trreInfo.subUrl ? this.subUrl : './sub.php?id=');		//订阅的处理链接
         this.defualtPage = (typeof trreInfo.defualtPage == "object" ? trreInfo.defualtPage : false); //工作台页面
-        this.sysIco = (typeof trreInfo.sysIco == "string" ? trreInfo.sysIco : "fa fa-file-text-o");//默认系统图标
-        this.NavIco = (typeof trreInfo.NavIco == "string" ? trreInfo.NavIco : "fa fa-file-text-o");  //默认菜单图标
+        this.sysIco = (typeof trreInfo.sysIco == "string" ? trreInfo.sysIco : "fa-file-text-o");//默认系统图标
+        this.NavIco = (typeof trreInfo.NavIco == "string" ? trreInfo.NavIco : "fa-file-text-o");  //默认菜单图标
         this.labelNav = (typeof trreInfo.labelNav == "string" ? trreInfo.labelNav : false); //导航标签容器
         this.iframes = trreInfo.iframes ? trreInfo.iframes : "#iframeListContainer";  //iframe容器ID
         this.winWidth = (typeof trreInfo.winWidth == "number" ? (trreInfo.winWidth > 300 ? trreInfo.winWidth : 300) : 1348);//屏幕宽度
@@ -197,9 +197,9 @@ DropDownMenuTree.prototype.Initialization = function () {//初始化
                 if ($('#isGetOaMenu').length > 0 && $('#isGetOaMenu').text() == 'true') {
                     //getOAMenu(data);
                 } else {
-                    self.LeftTrreSearch(data);
+                    self.LeftTrreSearch(data.Content);
                     initFunct.isOadata ? initFunct.menuNav() : null;
-                    self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data) }); //保存
+                    self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data.Content) }); //保存
                 }
             },
             error: function (err) {
@@ -354,15 +354,15 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                 + '</div>';
             sysHtml += '<div class="system-menu-block">';
             for (var i = 0; i < data.length; i++) {
-                state = (typeof self.signStata[data[i].id] == "boolean" ? (self.signStata[data[i].id] ? "" : " system-menu-state") : (data[i].show ? " system-menu-state" : ""));
-                sysHtml += '<div  class = "system-menu-list' + state + '"  signind="' + data[i].id + '">';
+                state = (typeof self.signStata[data[i].Id] == "boolean" ? (self.signStata[data[i].Id] ? "" : " system-menu-state") : (data[i].State ? " system-menu-state" : ""));
+                sysHtml += '<div  class = "system-menu-list' + state + '"  signind="' + data[i].Id + '">';
                 sysHtml += '<div class="system-menu-listCont">';
-                sysHtml += '<div class="system-menu-ico ' + (data[i].icon ? data[i].icon : self.sysIco) + '"> </div>';
-                sysHtml += '<div class="system-menu-text">' + (data[i].text ? data[i].text : "") + '</div>';
+                sysHtml += '<div class="system-menu-ico fa ' + (data[i].Icon ? data[i].Icon : self.sysIco) + '"> </div>';
+                sysHtml += '<div class="system-menu-text">' + (data[i].Name ? data[i].Name : "") + '</div>';
                 sysHtml += '<div class = "system-menu-sign"><i class="fa fa-check"></i></div>';
                 sysHtml += '</div>';
                 sysHtml += '</div>';
-                self.signStata[data[i].id] ? null : showChild.push(self.signStata[data[i].id]);
+                self.signStata[data[i].Id] ? null : showChild.push(self.signStata[data[i].Id]);
             }
             sysHtml += '</div>';
             $('.system-menu-cont').append(sysHtml);
@@ -375,19 +375,19 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
         system: function () {
             var thisText = '', seachSign = '', seachSign1 = '', navHtml = '', texHtml = '', state = '', showMun = '', iconClass = '', fristNav = Object;
             for (var i = 0; i < data.length; i++) {
-                state = (typeof self.signStata[data[i].id] == "boolean" ? (self.signStata[data[i].id] ? " this-hidden" : "") : (data[i].show ? "" : " this-hidden"));
-                showMun = (self.showMun[data[i].id] ? " mune-nav-stop" : " system-cont-hover");
-                iconClass = (self.showMun[data[i].id] ? " fa-angle-down" : " fa-angle-up");
-                fristNav = data[i].children ? (data[i].children == "" ? false : data[i].children) : false;//判断一级是否存在
-                thisText = self.getThisText({ val: searVal, texts: (data[i].text ? data[i].text : ""), level: "sys", index: [i] });
-                texHtml = myFun.friNav({ nav: fristNav, f: i, sysId: data[i].id });
+                state = (typeof self.signStata[data[i].Id] == "boolean" ? (self.signStata[data[i].Id] ? " this-hidden" : "") : (data[i].State ? "" : " this-hidden"));
+                showMun = (self.showMun[data[i].Id] ? " mune-nav-stop" : " system-cont-hover");
+                iconClass = (self.showMun[data[i].Id] ? " fa-angle-down" : " fa-angle-up");
+                fristNav = data[i].Children ? (data[i].Children == "[]" ? false : data[i].Children) : false;//判断一级是否存在
+                thisText = self.getThisText({ val: searVal, texts: (data[i].Name ? data[i].Name : ""), level: "sys", index: [i] });
+                texHtml = myFun.friNav({ nav: fristNav, f: i, sysId: data[i].Id });
                 thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                 texHtml.html.indexOf('select-text-yellow') >= 0 ? seachSign1 = " search-state" : seachSign1 = "";
                 navHtml = '';
                 navHtml += '<div class="system-cont-box' + state + '' + showMun + '" signind="' + data[i].id + '">';
                 navHtml += '<div class="system-name-nav' + (seachSign != "" ? seachSign : seachSign1) + '">';
-                navHtml += '<span class="sys-tiem-icon ' + (data[i].icon ? data[i].icon : self.sysIco) + '"></span>';
-                navHtml += '<span class="system-nav-text" title="' + (data[i].text ? data[i].text : "") + '">' + thisText + '</span>';
+                navHtml += '<span class="sys-tiem-icon fa ' + (data[i].Icon ? data[i].Icon : self.sysIco) + '"></span>';
+                navHtml += '<span class="system-nav-text" title="' + (data[i].Name ? data[i].Name : "") + '">' + thisText + '</span>';
                 navHtml += '<span class="remove-system" title="收起菜单"><i class="fa' + iconClass + '"></i></span>'; //
                 navHtml += '</div>';
                 navHtml += texHtml.html;
@@ -399,28 +399,28 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
             var navHtml = '', texHtml = '', thisText = '', seachSign = '', seachSign1 = '', secNav = Object;
             if (info.nav) {
                 for (var i = 0; i < info.nav.length; i++) {
-                    secNav = info.nav[i].children ? (info.nav[i].children == "" ? false : info.nav[i].children) : false;//判断二级是否存在
-                    thisText = self.getThisText({ val: searVal, texts: (info.nav[i].text ? info.nav[i].text : ""), level: "fri", index: [info.f, i] });
+                    secNav = info.nav[i].Children ? (info.nav[i].Children == "[]" ? false : info.nav[i].Children) : false;//判断二级是否存在
+                    thisText = self.getThisText({ val: searVal, texts: (info.nav[i].Name ? info.nav[i].Name : ""), level: "fri", index: [info.f, i] });
                     texHtml = myFun.secNav({ nav: secNav, f: info.f, s: i });
 
                     thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                     texHtml.html.indexOf('select-text-yellow') >= 0 ? seachSign1 = " search-state" : seachSign1 = "";
-                    if ((typeof info.nav[i].show == "boolean" ? info.nav[i].show : true)) {
+                    if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                         navHtml += '<div class="frist-cont-list' + (seachSign != "" ? seachSign : seachSign1) + (info.nav[i].newest ? ' fri-cont-listnew' : '') + '">';
                         navHtml += '<div class="nav-trre-click trre-text-info" signend="' + info.f + '-' + i + '"' +
                             (info.nav[i].text ? 'title="' + info.nav[i].text + '"' : '') +
                             //(info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"':'')+
-                            (info.nav[i].href ? 'hrefl="' + info.nav[i].href + '"' : '') +
-                            (info.nav[i].id ? 'mid="' + info.nav[i].id + '"' : '') +
+                            (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '') +
+                            (info.nav[i].Id ? 'mid="' + info.nav[i].Id + '"' : '') +
                             (info.nav[i].blank ? 'blank="' + info.nav[i].blank + '"' : '') +
                             '>';
-                        navHtml += '<span class="nav-tiem-icon"> <i class="' + (info.nav[i].icon ? info.nav[i].icon : self.NavIco) + '">' + '</i> </span>';
+                        navHtml += '<span class="nav-tiem-icon"> <i class="fa ' + (info.nav[i].Icon ? info.nav[i].Icon : self.NavIco) + '">' + '</i> </span>';
                         navHtml += '<span class="reture-nav-text nav-tiem-text">' + thisText + '</span>';
                         navHtml += '<span class="nav-tiem-nextIcon"> <i class="fa fa-angle-right' + (secNav ? "" : " next-right-opa") + ' "></i> </span>';
                         navHtml += '</div>';
                         navHtml += '<div class="sec-cont-parent' + (secNav ? " sec-cont-active" : "") + '">';
                         navHtml += '<div class="show-system-name"> <span class="system-sign-text">'
-                            + (self.getThisText({ val: searVal, texts: (data[info.f].text ? data[info.f].text : ""), level: "sys", index: [info.f] }))
+                            + (self.getThisText({ val: searVal, texts: (data[info.f].Name ? data[info.f].Name : ""), level: "sys", index: [info.f] }))
                             + '</span> <i class="fa fa-angle-right  sign-text-ico"></i> <span class="frinav-sign-text">' + thisText + '</span></div>';
                         navHtml += '<div class="mune-cont-move-c">' + texHtml.html + '</div>';
                         navHtml += '</div>';
@@ -438,18 +438,18 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                     navHtml += '<div class="cont-list-col">';
                     for (var i = cols.s[c]; i < cols.e[c]; i++) {
                         //for(var i=0;i<info.nav.length;i++){
-                        thrNav = info.nav[i].children ? (info.nav[i].children == "" ? false : info.nav[i].children) : false;//判断三级是否存在
-                        thisText = self.getThisText({ val: searVal, texts: (info.nav[i].text ? info.nav[i].text : ""), level: "sec", index: [info.f, info.s, i] });
+                        thrNav = info.nav[i].Children ? (info.nav[i].Children == "[]" ? false : info.nav[i].Children) : false;//判断三级是否存在
+                        thisText = self.getThisText({ val: searVal, texts: (info.nav[i].Name ? info.nav[i].Name : ""), level: "sec", index: [info.f, info.s, i] });
 
                         thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                         texHtml = myFun.thrNav({ nav: thrNav, f: info.f, s: info.s, t: i });
-                        if ((typeof info.nav[i].show == "boolean" ? info.nav[i].show : true)) {
+                        if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                             navHtml += '<div class="sec-cont-list' + seachSign + (info.nav[i].newest ? ' sec-cont-listnew' : '') + '">';
-                            navHtml += '<div class="nav-trre-click sec-cont-title' + (info.nav[i].href ? " sec-cont-titleHerf" : "") + '" signend="' + info.f + '-' + info.s + '-' + i + '"';
+                            navHtml += '<div class="nav-trre-click sec-cont-title' + (info.nav[i].Url ? " sec-cont-titleHerf" : "") + '" signend="' + info.f + '-' + info.s + '-' + i + '"';
                             //navHtml += (info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"': '');
-                            navHtml += (info.nav[i].href ? 'hrefl="' + info.nav[i].href + '"' : '');
-                            navHtml += (info.nav[i].id ? 'mid="' + info.nav[i].id + '"' : '');
-                            navHtml += (info.nav[i].text ? 'title="' + info.nav[i].text + '"' : '');
+                            navHtml += (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '');
+                            navHtml += (info.nav[i].Id ? 'mid="' + info.nav[i].Id + '"' : '');
+                            navHtml += (info.nav[i].Name ? 'title="' + info.nav[i].Name + '"' : '');
                             navHtml += (info.nav[i].blank ? 'blank="' + info.nav[i].blank + '">' : '>');
                             navHtml += '<span class="reture-nav-text sec-title-text">' + thisText + '</span> ';
                             navHtml += (info.nav[i].sub ? '<span class="sub-document-cont ' + (info.nav[i].subState ? "sub-state-active" : "") +
@@ -472,14 +472,14 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                 for (var i = 0; i < info.nav.length; i++) {
                     thisText = self.getThisText({ val: searVal, texts: (info.nav[i].text ? info.nav[i].text : ""), level: "thr", index: [info.f, info.s, info.t, i] });
                     thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
-                    if ((typeof info.nav[i].show == "boolean" ? info.nav[i].show : true)) {
+                    if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                         navHtml += '<div class="nav-trre-click thr-cont-list';
                         navHtml += (info.nav[i].newest ? ' thr-cont-listnew' : '') + seachSign + '"';
                         navHtml += '" signend="' + info.f + '-' + info.s + '-' + info.t + '-' + i + '"';
                         //navHtml += (info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"': '');
-                        navHtml += (info.nav[i].href ? 'hrefl="' + info.nav[i].href + '"' : '');
-                        navHtml += (info.nav[i].id ? 'mid="' + info.nav[i].id + '"' : '');
-                        navHtml += (info.nav[i].text ? ' title="' + info.nav[i].text + '"' : '');
+                        navHtml += (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '');
+                        navHtml += (info.nav[i].Id ? 'mid="' + info.nav[i].Id + '"' : '');
+                        navHtml += (info.nav[i].Name ? ' title="' + info.nav[i].Name + '"' : '');
                         navHtml += (info.nav[i].blank ? ' blank="' + info.nav[i].blank + '">' : '>');
                         navHtml += '<span class="reture-nav-text" >' + thisText + '</span>';
                         navHtml += (info.nav[i].sub ? '<span class="sub-document-cont ' + (info.nav[i].subState ? "sub-state-active" : "") +
@@ -563,7 +563,7 @@ DropDownMenuTree.prototype.locationHref = function () {//菜单点击跳转
     var workeClase = typeof self.defualtPage.close == "boolean" ? self.defualtPage.close : false;
     $(self.labelNav).find('.label-nav-cont').length <= 0 ? $(self.labelNav).append('<div class="label-nav-cont"></div>') : null;//添加标签容器
     if (self.defualtPage && $(self.labelNav).find('div[signend="mywroke"]').length <= 0 && !self.defualtPageClose) {
-        self.tool.addTab({ id: 'mywroke', title: (self.defualtPage.text ? self.defualtPage.text : "工作台"), href: self.defualtPage.href, cont: false, ifarm: false, close: workeClase }, false);
+        self.tool.addTab({ id: 'mywroke', title: (self.defualtPage.text ? self.defualtPage.text : "工作台"), href: "/../" +self.defualtPage.href, cont: false, ifarm: false, close: workeClase }, false);
         $(self.labelNav).parents('.container-top').find('.move-right').removeClass('move-label-active');//移除移动按钮激活状态
     }
     var myFun = {
@@ -2236,7 +2236,7 @@ DropDownMenuTree.prototype.boxHideArr = function () {//点击页面，隐藏或�
 DropDownMenuTree.prototype.LeftTrreSearch = function (sear) {//菜单搜索
     var self = this,
         searchValF = '';
-    zTree_Menu = self.tool.getNodesByParam(sear);
+    zTree_Menu = self.tool.getNodesByParam(sear.Content);
     var Handle = {
         showCollection: function (data) {
             var Chtml = '', locaHtml = '',
@@ -2377,21 +2377,21 @@ DropDownMenuTree.prototype.LeftTrreSearch = function (sear) {//菜单搜索
     self.MenuArrySeparate({ data: sear });//转为拼音
     self.creaTree({ data: sear });//创建菜单
     //创建收藏菜单
-    $.ajax({
-        url: self.hostName + '/Home/GetCollectionList',
-        dataType: 'jsonp',
-        jsonp: 'callback',
-        success: function (data) {
-            Handle.showCollection(data);
-            typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
-        },
-        error: function (err) {
-            console.log('收藏列表获取错误');
-            self.tool.uiMessage({ type: 'error', text: '无法获取到收藏列表！' });
-            typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
-            Handle.showCollection();
-        }
-    })
+    //$.ajax({
+    //    url: self.hostName + '/Home/GetCollectionList',
+    //    dataType: 'jsonp',
+    //    jsonp: 'callback',
+    //    success: function (data) {
+    //        Handle.showCollection(data);
+    //        typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
+    //    },
+    //    error: function (err) {
+    //        console.log('收藏列表获取错误');
+    //        self.tool.uiMessage({ type: 'error', text: '无法获取到收藏列表！' });
+    //        typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
+    //        Handle.showCollection();
+    //    }
+    //})
 
     $(window.document).on('click', '.container-left-sm .tiem-search-tiem', function () {//收起时候
         if (!$('.content-container').hasClass('cross-screen-style')) {
@@ -2496,15 +2496,15 @@ DropDownMenuTree.prototype.MenuArrySeparate = function (info) {//将菜单数组
     self.secData = [];
     self.thrData = [];
     for (var i = 0; i < data.length; i++) {
-        fri = self.pinyin.ConvertPinyin({ chinas: data[i].text, arr: true, first: false, firstCase: false });
+        fri = self.pinyin.ConvertPinyin({ chinas: data[i].Name, arr: true, first: false, firstCase: false });
         self.sysData.push(fri);
         if (data[i].href) {
             self.searchChinesList.push({
-                tit: data[i].text,
+                tit: data[i].Name,
                 title: '',
-                chin: data[i].text,
-                sysTit: data[i].text,
-                childT: data[i].text,
+                chin: data[i].Name,
+                sysTit: data[i].Name,
+                childT: data[i].Name,
                 mid: data[i].id,
                 sysId: data[i].id,
                 pinyinArr: fri,
@@ -2517,15 +2517,15 @@ DropDownMenuTree.prototype.MenuArrySeparate = function (info) {//将菜单数组
         self.showMun[data[i].id] = true;  //初始化时候，隐藏全部一级菜单
         if (data[i].children != "" && data[i].children) {
             for (var f = 0; f < data[i].children.length; f++) {
-                sec = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].text, arr: true, first: false, firstCase: false });
+                sec = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].Name, arr: true, first: false, firstCase: false });
                 self.friData[i].push(sec);
                 if (data[i].children[f].href) {
                     self.searchChinesList.push({
-                        tit: data[i].text + ' > ' + data[i].children[f].text,
-                        title: data[i].text + ' > ',
-                        chin: data[i].children[f].text,
-                        sysTit: data[i].text,
-                        childT: data[i].children[f].text,
+                        tit: data[i].Name + ' > ' + data[i].children[f].Name,
+                        title: data[i].Name + ' > ',
+                        chin: data[i].children[f].Name,
+                        sysTit: data[i].Name,
+                        childT: data[i].children[f].Name,
                         mid: data[i].children[f].id,
                         sysId: data[i].id,
                         pinyinArr: self.tool.arrayMerge({ arr: [fri, sec], str: '>', interval: ' ' }),
@@ -2536,15 +2536,15 @@ DropDownMenuTree.prototype.MenuArrySeparate = function (info) {//将菜单数组
                 self.thrData[i].push([]);
                 if (data[i].children[f].children != "" && data[i].children[f].children) {
                     for (var s = 0; s < data[i].children[f].children.length; s++) {
-                        thr = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].children[s].text, arr: true, first: false, firstCase: false });
+                        thr = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].children[s].Name, arr: true, first: false, firstCase: false });
                         self.secData[i][f].push(thr);
                         if (data[i].children[f].children[s].href) {
                             self.searchChinesList.push({
-                                tit: data[i].text + ' > ' + data[i].children[f].text + ' > ' + data[i].children[f].children[s].text,
-                                title: data[i].text + ' > ' + data[i].children[f].text + ' > ',
-                                chin: data[i].children[f].children[s].text,
-                                sysTit: data[i].text,
-                                childT: data[i].children[f].text + ' > ' + data[i].children[f].children[s].text,
+                                tit: data[i].Name + ' > ' + data[i].children[f].Name + ' > ' + data[i].children[f].children[s].Name,
+                                title: data[i].Name + ' > ' + data[i].children[f].Name + ' > ',
+                                chin: data[i].children[f].children[s].Name,
+                                sysTit: data[i].Name,
+                                childT: data[i].children[f].Name + ' > ' + data[i].children[f].children[s].Name,
                                 mid: data[i].children[f].children[s].id,
                                 sysId: data[i].id,
                                 pinyinArr: self.tool.arrayMerge({ arr: [fri, sec, thr], str: '>', interval: ' ' }),
@@ -2554,15 +2554,15 @@ DropDownMenuTree.prototype.MenuArrySeparate = function (info) {//将菜单数组
                         self.thrData[i][f].push([]);
                         if (data[i].children[f].children[s].children != "" && data[i].children[f].children[s].children) {
                             for (var t = 0; t < data[i].children[f].children[s].children.length; t++) {
-                                tho = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].children[s].children[t].text, arr: true, first: false, firstCase: false });
+                                tho = self.pinyin.ConvertPinyin({ chinas: data[i].children[f].children[s].children[t].Name, arr: true, first: false, firstCase: false });
                                 self.thrData[i][f][s].push(tho);
                                 if (data[i].children[f].children[s].children[t].href) {
                                     self.searchChinesList.push({
-                                        tit: data[i].text + ' > ' + data[i].children[f].text + ' > ' + data[i].children[f].children[s].text + ' > ' + data[i].children[f].children[s].children[t].text,
-                                        title: data[i].text + ' > ' + data[i].children[f].text + ' > ' + data[i].children[f].children[s].text + ' > ',
-                                        chin: data[i].children[f].children[s].children[t].text,
-                                        sysTit: data[i].text,
-                                        childT: data[i].children[f].text + ' > ' + data[i].children[f].children[s].text + ' > ' + data[i].children[f].children[s].children[t].text,
+                                        tit: data[i].Name + ' > ' + data[i].children[f].Name + ' > ' + data[i].children[f].children[s].Name + ' > ' + data[i].children[f].children[s].children[t].Name,
+                                        title: data[i].Name + ' > ' + data[i].children[f].Name + ' > ' + data[i].children[f].children[s].Name + ' > ',
+                                        chin: data[i].children[f].children[s].children[t].Name,
+                                        sysTit: data[i].Name,
+                                        childT: data[i].children[f].Name + ' > ' + data[i].children[f].children[s].Name + ' > ' + data[i].children[f].children[s].children[t].Name,
                                         mid: data[i].children[f].children[s].children[t].id,
                                         sysId: data[i].id,
                                         pinyinArr: self.tool.arrayMerge({ arr: [fri, sec, thr, tho], str: '>', interval: ' ' }),

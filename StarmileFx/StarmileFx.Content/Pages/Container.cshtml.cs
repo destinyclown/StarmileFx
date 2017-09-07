@@ -5,16 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StarmileFx.Content.Pages
 {
+    [Authorize]
     public class ContainerModel : PageModel
     {
         public void OnGet()
         {
-            UserName = User.Identities.First(u => u.IsAuthenticated).FindFirst(ClaimTypes.Name).Value;
+            Toekn = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
         }
 
-        public string UserName { get; set; }
+        /// <summary>
+        /// 令牌
+        /// </summary>
+        public string Toekn { get; set; }
     }
 }
