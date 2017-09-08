@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace StarmileFx.Content.Pages
+namespace StarmileFx.Content.Pages.Home
 {
-    public class IndexModel : PageModel
+    public class ConsoleModel : PageModel
     {
         public void OnGet()
         {

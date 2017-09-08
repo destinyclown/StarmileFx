@@ -1,5 +1,5 @@
 ﻿@page
-@model ContainerModel
+@model IndexModel
 @{
 
 }
@@ -16,19 +16,15 @@
             <div class="menu-all-stop"><i class="fa fa-compress"></i><span>全部折叠</span></div>
         </div>
     </div>
-
     <div class="container-right">
-
         <div class="container-top">
             <div class="cont-heand heand-left">
                 <span class="heand-btn-nav"><i class="fa fa-outdent"></i></span>
                 <span class="move-left "><i class="fa fa-caret-left"></i></span>
             </div>
-
             <div class="cont-heand label-nav-bar">
                 <div class="label-nav-cont"></div>
             </div>
-
             <div class="cont-heand heand-right">
                 <span class="move-right"><i class="fa fa-caret-right"></i></span>
                 <span class="show-select-viwe"><i class="fa fa-th"></i></span>
@@ -64,7 +60,7 @@
                 container: "#conterNavTrre", //菜单树容器ID
                 moreMenu: "#contentMore", //触发显示系统名按钮
                 iframes: "#iframeListContainer",
-                defualtPage: { href: "index", text: "工作台", close: false, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
+                defualtPage: { href: "/home/Console", text: "工作台", close: false, mid: 120 },//工作台信息  text默认:工作台；close默认false;mid是ID 默认空
                 viweW: '100%',//可视宽度; 默认 100%
                 search: true, //是否可以搜索,默认false
                 showMinW: 100,//子菜单弹窗最小宽度

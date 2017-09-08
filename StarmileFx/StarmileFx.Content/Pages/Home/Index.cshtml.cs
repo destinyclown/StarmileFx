@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace StarmileFx.Content.Pages
+namespace StarmileFx.Content.Pages.Home
 {
     [Authorize]
-    public class ContainerModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
