@@ -15,6 +15,7 @@
         paths: {
             //--starmilefx
             'ui': 'js/ui.min',
+            'introjs': 'js/intro.min',
             'commonInit': 'js/commonInit', // 全局基础控件初始化脚本
             'starmilefx': 'js/starmilefx', // 框架基础
             'starmilefx-tree': 'js/starmilefx-tree', // 菜单架构
@@ -47,8 +48,9 @@
         },
 
         shim: {
-            //-- starmilefx
+            //-- starmilefx     
             'ui': ['jquery', 'css!css/ui.min.css'],
+            'introjs': ['css!css/introjs.min.css'],
             'starmilefx': ['css!css/starmilefx.css'], // 框架基础           
             'commonInit': ['css!css/commonInit.css'], // 全局基础控件初始化样式
             'starmilefx-login': ['css!css/starmilefx-login.css'],

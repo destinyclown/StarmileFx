@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 namespace StarmileFx.Models.Base
 {
-    [SugarTable("SysMenus")]
-    public class SysMenus : ModelContext
+    public class WebMenus : ModelContext
     {
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "Id")]
         public virtual int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
@@ -21,7 +19,6 @@ namespace StarmileFx.Models.Base
         public bool State { get; set; }
         public DateTime CreatTime { get; set; }
         [SugarColumn(IsIgnore = true)]
-        public List<SysMenus> Children
-        { get { return CreateMapping<SysMenus>().Where(it => it.PId == Id).ToList();}}
+        public List<WebMenus> Children { get; set; }
     }
 }

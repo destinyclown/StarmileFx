@@ -1,15 +1,5 @@
 ﻿var tab = Object, redirectLogin, publicInterface = Object; //创建标签接口  
 var zTree_Menu = Object;
-//if (window.location.hostname.match(/banggood\.cn/)) {
-//    try {
-//        document.domain = 'banggood.cn';
-//    } catch (e) { }
-//}
-//if (window.location.hostname.match(/sellercube\.com/)) {
-//    try {
-//        document.domain = 'sellercube.com';
-//    } catch (e) { }
-//}
 var DropDownMenuTree = function (trreInfo) {
     if (top !== window) {//阻止外层框架嵌套
         var hrefl = $(window.parent.document).find('#iframe-' + window.name).attr('src');
@@ -27,7 +17,7 @@ var DropDownMenuTree = function (trreInfo) {
         this.cont = trreInfo.container;//菜单容器ID
         this.sysMenu = trreInfo.moreMenu ? trreInfo.moreMenu : '#contentMore'; //触发显示系统名按钮
         this.viweW = "100%"; //菜单可视宽度
-        this.viweH = "100%"; //菜单可视高度
+        this.viweH = $(window).height();//"100%"; //菜单可视高度
         this.search = (typeof trreInfo.search == "boolean" ? trreInfo.search : false); //是否支持搜索
         this.collection = (typeof trreInfo.collection == "boolean" ? trreInfo.collection : false); //是否支持收藏常用菜单
         this.maxW = (typeof trreInfo.showMaxW == "number" ? trreInfo.showMaxW : 505);//最大宽度
@@ -117,7 +107,7 @@ var DropDownMenuTree = function (trreInfo) {
         this.tool = this.tools(); //载入工具包 
         tab = this.tool;
         publicInterface = this.tool;
-        this.hostName = trreInfo.hostName;
+        this.hostName = (this.tool.isContain({ arr: ['localhost', 'content.starmile.com.cn'], str: location.hostname }) ? '' : trreInfo.hostName);
         //滚动条
         this.onesF = new PageScrollMouse({ noNew: false });
         this.twosF = new PageScrollMouse({ noNew: false });
@@ -156,56 +146,19 @@ DropDownMenuTree.prototype.Initialization = function () {//初始化
             initFunct.isOadata = false;
             //self.tool.removeLocalCache({strKey:"userSiteContainerMenuLocalCache"});//删除
         }
-        //function getOAMenu(data) {
-        //    //var GetMenuTree = document.location.protocol+'//192.168.1.147:8080/BaseMenuService/BaseMenuService.svc/GetMenuTree';
-        //    var GetMenuTree = document.location.protocol + '//erpapi.banggood.cn/BaseMenuService/BaseMenuService.svc/GetMenuTree';
-        //    if (document.location.hostname == "erpv2.banggood.cn" || document.location.hostname == "erpv2cas.banggood.cn") {
-        //        GetMenuTree = document.location.protocol + '//erpapi.banggood.cn/BaseMenuService/BaseMenuService.svc/GetMenuTree';
-        //    }
-        //    $.ajax({
-        //        url: GetMenuTree,
-        //        //data:{email:'wuzecheng@banggood.com'},
-        //        data: { email: $('#userEmail').text() },
-        //        success: function (oadata) {
-        //            if (oadata && oadata.length > 0) {
-        //                oadataA = data.length > 0 ? self.JsonReomveHeavy(data, self.JsonTransformation(oadata)) : self.JsonTransformation(oadata);
-        //                self.LeftTrreSearch(oadataA);
-        //                initFunct.isOadata ? initFunct.menuNav() : null;
-        //                self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(oadataA) }); //保存
-        //            } else {
-        //                self.LeftTrreSearch(data);
-        //                initFunct.isOadata ? initFunct.menuNav() : null;
-        //                self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data) }); //保存
-        //                console.warn('OA菜单列表为空！');
-        //            }
-        //        },
-        //        error: function (err) {
-        //            self.LeftTrreSearch(data);
-        //            initFunct.isOadata ? initFunct.menuNav() : null;
-        //            self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data) }); //保存
-        //            console.warn('OA菜单列表无法获取！');
-        //            console.warn(err);
-        //        }
-        //    });
-        //}
         $.ajax({
-            url: self.hostName + '/api/LoadMenuByRole',
+            url: self.hostName + '/Account/GetMenuJson',
             dataType: 'jsonp',
-            //jsonp: 'callback',
-            data: { Token: $('#token').val() },
+            jsonp: 'callback',
+            data: { email: $('#userEmail').text() },
             success: function (data) {
-                if ($('#isGetOaMenu').length > 0 && $('#isGetOaMenu').text() == 'true') {
-                    //getOAMenu(data);
-                } else {
-                    self.LeftTrreSearch(data.Content);
-                    initFunct.isOadata ? initFunct.menuNav() : null;
-                    self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data.Content) }); //保存
-                }
+                self.LeftTrreSearch(data.Content);
+                initFunct.isOadata ? initFunct.menuNav() : null;
+                self.tool.saveLocalCache({ strKey: "userSiteContainerMenuLocalCache", strValue: JSON.stringify(data.Content) }); //保存
             },
             error: function (err) {
                 console.warn('菜单数据无法获取！');
                 self.tool.uiMessage({ type: 'error', text: '无法获取到菜单数据,请检查网络是否连接成功！' });
-                //getOAMenu([]);
             }
         })
     }
@@ -384,7 +337,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                 thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                 texHtml.html.indexOf('select-text-yellow') >= 0 ? seachSign1 = " search-state" : seachSign1 = "";
                 navHtml = '';
-                navHtml += '<div class="system-cont-box' + state + '' + showMun + '" signind="' + data[i].id + '">';
+                navHtml += '<div class="system-cont-box' + state + '' + showMun + '" signind="' + data[i].Id + '">';
                 navHtml += '<div class="system-name-nav' + (seachSign != "" ? seachSign : seachSign1) + '">';
                 navHtml += '<span class="sys-tiem-icon fa ' + (data[i].Icon ? data[i].Icon : self.sysIco) + '"></span>';
                 navHtml += '<span class="system-nav-text" title="' + (data[i].Name ? data[i].Name : "") + '">' + thisText + '</span>';
@@ -406,7 +359,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                     thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                     texHtml.html.indexOf('select-text-yellow') >= 0 ? seachSign1 = " search-state" : seachSign1 = "";
                     if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
-                        navHtml += '<div class="frist-cont-list' + (seachSign != "" ? seachSign : seachSign1) + (info.nav[i].newest ? ' fri-cont-listnew' : '') + '">';
+                        navHtml += '<div class="frist-cont-list' + (seachSign != "" ? seachSign : seachSign1) + (info.nav[i].Newest ? ' fri-cont-listnew' : '') + '">';
                         navHtml += '<div class="nav-trre-click trre-text-info" signend="' + info.f + '-' + i + '"' +
                             (info.nav[i].text ? 'title="' + info.nav[i].text + '"' : '') +
                             //(info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"':'')+
@@ -444,7 +397,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                         thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                         texHtml = myFun.thrNav({ nav: thrNav, f: info.f, s: info.s, t: i });
                         if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
-                            navHtml += '<div class="sec-cont-list' + seachSign + (info.nav[i].newest ? ' sec-cont-listnew' : '') + '">';
+                            navHtml += '<div class="sec-cont-list' + seachSign + (info.nav[i].Newest ? ' sec-cont-listnew' : '') + '">';
                             navHtml += '<div class="nav-trre-click sec-cont-title' + (info.nav[i].Url ? " sec-cont-titleHerf" : "") + '" signend="' + info.f + '-' + info.s + '-' + i + '"';
                             //navHtml += (info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"': '');
                             navHtml += (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '');
@@ -455,7 +408,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                             navHtml += (info.nav[i].sub ? '<span class="sub-document-cont ' + (info.nav[i].subState ? "sub-state-active" : "") +
                                 '" title="' + (info.nav[i].subState ? "取消订阅" : "订阅") + '">'
                                 + (info.nav[i].subState ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span>' : '');
-                            navHtml += (info.nav[i].help ? '<span class="help-document-cont" title="帮助"><i class="fa fa-question-circle-o"></i></span>' : '');
+                            navHtml += (info.nav[i].Help ? '<span class="help-document-cont" title="帮助"><i class="fa fa-question-circle-o"></i></span>' : '');
                             navHtml += '</div>';
                             navHtml += texHtml.html;
                             navHtml += '</div>';
@@ -474,7 +427,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                     thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                     if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                         navHtml += '<div class="nav-trre-click thr-cont-list';
-                        navHtml += (info.nav[i].newest ? ' thr-cont-listnew' : '') + seachSign + '"';
+                        navHtml += (info.nav[i].Newest ? ' thr-cont-listnew' : '') + seachSign + '"';
                         navHtml += '" signend="' + info.f + '-' + info.s + '-' + info.t + '-' + i + '"';
                         //navHtml += (info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"': '');
                         navHtml += (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '');
@@ -485,7 +438,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                         navHtml += (info.nav[i].sub ? '<span class="sub-document-cont ' + (info.nav[i].subState ? "sub-state-active" : "") +
                             '" title="' + (info.nav[i].subState ? "取消订阅" : "订阅") + '">'
                             + (info.nav[i].subState ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span>' : '');
-                        navHtml += (info.nav[i].help ? '<span class="help-document-cont" title="帮助"><i class="fa fa-question-circle-o"></i></span>' : '');
+                        navHtml += (info.nav[i].Help ? '<span class="help-document-cont" title="帮助"><i class="fa fa-question-circle-o"></i></span>' : '');
                         navHtml += '</div>';
                     }
                 }
@@ -2240,7 +2193,7 @@ DropDownMenuTree.prototype.LeftTrreSearch = function (sear) {//菜单搜索
     var Handle = {
         showCollection: function (data) {
             var Chtml = '', locaHtml = '',
-                MenuList = data ? data.Content ? data.Content : '' : '',
+                MenuList = data.Content ? data.Content.MenuList ? data.Content.MenuList : '' : '',
                 locaData = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'collectionOrderJSON' }),//获取缓存数据
                 openA = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'defaultOpnePage' }),
                 homeP = self.tool.getLocalCache({ strKey: location.pathname.replace(/[^\w]/g, '') + 'defaultHomePage' }),
@@ -2377,21 +2330,22 @@ DropDownMenuTree.prototype.LeftTrreSearch = function (sear) {//菜单搜索
     self.MenuArrySeparate({ data: sear });//转为拼音
     self.creaTree({ data: sear });//创建菜单
     //创建收藏菜单
-    //$.ajax({
-    //    url: self.hostName + '/Home/GetCollectionList',
-    //    dataType: 'jsonp',
-    //    jsonp: 'callback',
-    //    success: function (data) {
-    //        Handle.showCollection(data);
-    //        typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
-    //    },
-    //    error: function (err) {
-    //        console.log('收藏列表获取错误');
-    //        self.tool.uiMessage({ type: 'error', text: '无法获取到收藏列表！' });
-    //        typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
-    //        Handle.showCollection();
-    //    }
-    //})
+    $.ajax({
+        url: self.hostName + '/Account/GetCollectionList',
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        data: { email: $('#userEmail').text() },
+        success: function (data) {
+            Handle.showCollection(data);
+            typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
+        },
+        error: function (err) {
+            console.log('收藏列表获取错误');
+            self.tool.uiMessage({ type: 'error', text: '无法获取到收藏列表！' });
+            typeof self.comp == "function" ? self.comp() : null; //菜单加载完成后执行
+            Handle.showCollection();
+        }
+    })
 
     $(window.document).on('click', '.container-left-sm .tiem-search-tiem', function () {//收起时候
         if (!$('.content-container').hasClass('cross-screen-style')) {
@@ -3041,11 +2995,11 @@ DropDownMenuTree.prototype.tools = function () {//工具模块
         Collection: function (getInfo) {//收藏菜单函数
             $.ajax({
                 type: 'POST',
-                url: self.hostName + '/Home/ConfirmCollection',
-                data: { "menuKey": getInfo.mid, "MenuName": getInfo.title, "MenuContent": getInfo.muneCont },
+                url: self.hostName + '/Account/ConfirmCollection',
+                data: { email: $('#userEmail').text(), "MenuKey": getInfo.mid, "MenuUrl": getInfo.Url, "MenuName": getInfo.title, "MenuContent": getInfo.muneCont },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.Success) {
+                    if (data.IsSuccess) {
                         $('#bottomNavContShouC .nav-collection-cont').append('<div class="bottom-nav-box"><div class="bottom-nav-btn" mid="' + getInfo.mid
                             + '"><span class="bottom-nav-text">' + getInfo.title + '</span></div></div>');
                         typeof getInfo.success == "function" ? getInfo.success() : null;
@@ -3064,11 +3018,11 @@ DropDownMenuTree.prototype.tools = function () {//工具模块
         cancelCollection: function (getInfo) {//取消收藏菜单函数
             $.ajax({
                 type: 'POST',
-                url: self.hostName + '/Home/CancelCollection',
-                data: { "menuKey": getInfo.mid, "MenuName": getInfo.title },
+                url: self.hostName + '/Account/CancelCollection',
+                data: { email: $('#userEmail').text(), "MenuKey": getInfo.mid, "MenuName": getInfo.title },
                 dataType: 'json',
                 success: function (data) {
-                    if (data.Success) {
+                    if (data.IsSuccess) {
                         $('#bottomNavContShouC').find('div[mid="' + getInfo.mid + '"]').parent().remove();
                         typeof getInfo.success == "function" ? getInfo.success() : null;
                         self.BeyondWrapMove.wrapHandle();

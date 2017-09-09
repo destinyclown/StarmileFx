@@ -8,6 +8,7 @@ using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
 using Microsoft.AspNetCore.Http;
 using static StarmileFx.Models.Web.HomeFromModel;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Web.Server.IServices
 {
@@ -22,6 +23,12 @@ namespace StarmileFx.Web.Server.IServices
 
         Task<ResponseResult<Result>> Login(LoginFrom fromData);
 
-        Task<ResponseResult<SysMenusModel>> LoadMenuByRole(string Token);
+        Task<ResponseResult<List<WebMenus>>> GetMenuJson(string Token);
+
+        Task<ResponseResult<List<SysCollection>>> GetCollectionList(string Token);
+
+        Task<ResponseResult<Result>> ConfirmCollection(WebCollection fromData);
+
+        Task<ResponseResult<Result>> CancelCollection(WebCollection fromData);
     }
 }

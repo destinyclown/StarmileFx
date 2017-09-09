@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using static StarmileFx.Models.Web.HomeFromModel;
 using SqlSugar;
 using StarmileFx.Api.Server.BaseData;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Server.Services
 {
@@ -38,8 +39,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public SysRoles Login(LoginFrom fromData)
         {
-            SysRoles sysRole = new SysRoles();
-            sysRole = _db.Queryable<SysRoles>().First(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
+            SysRoles sysRole = _db.Queryable<SysRoles>().First(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
             if (sysRole != null)
             {
                 SysRoleLogs logs = new SysRoleLogs()
@@ -87,6 +87,48 @@ namespace StarmileFx.Api.Server.Services
         {
             var _SysMenuslList = _db.Queryable<SysMenus>().Where(a => a.State && a.PId == null).ToList();
             return _SysMenuslList;
+        }
+
+        public List<SysCollection> GetCollectionList(SysRoles role)
+        {
+            if (role != null)
+            {
+                var _SysCollectionList = _db.Queryable<SysCollection>().Where(a => a.UserId == role.Id).ToList();
+                return _SysCollectionList;
+            }
+            return null;
+        }
+
+        public bool ConfirmCollection(SysRoles role, WebCollection fromData)
+        {
+            if (role != null)
+            {
+                SysCollection from = new SysCollection
+                {
+                    UserId = role.Id,
+                    MenuKey = fromData.MenuKey,
+                    MenuUrl = fromData.MenuUrl,
+                    MenuName = fromData.MenuName,
+                    MenuContent = fromData.MenuContent,
+                };
+                return _db.Insertable(from).ExecuteCommand() > 0;
+            }
+            return false;
+        }
+
+        public bool CancelCollection(SysRoles role, WebCollection fromData)
+        {
+            if (fromData != null)
+            {
+                if (_db.Deleteable<SysCollection>()
+                    .Where(a => a.UserId == role.Id & a.MenuKey == fromData.MenuKey & a.MenuName == fromData.MenuName)
+                    .ExecuteCommand() > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
         #endregion home
     }

@@ -6,6 +6,7 @@ using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
 using static StarmileFx.Models.Web.HomeFromModel;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Api.Server.IServices
 {
@@ -42,6 +43,12 @@ namespace StarmileFx.Api.Server.IServices
 
 
         List<SysMenus> GetMenuJson();
+
+        List<SysCollection> GetCollectionList(SysRoles role);
+
+        bool ConfirmCollection(SysRoles role, WebCollection fromData);
+
+        bool CancelCollection(SysRoles role, WebCollection fromData);
         #endregion
     }
 }

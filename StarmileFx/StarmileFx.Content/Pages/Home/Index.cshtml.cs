@@ -14,12 +14,12 @@ namespace StarmileFx.Content.Pages.Home
     {
         public void OnGet()
         {
-            Toekn = User.Identities.First(u => u.IsAuthenticated).FindFirst("Token").Value;
+            UserEmail = User.Identity.Name;
         }
 
         /// <summary>
-        /// 令牌
+        /// 用户Email
         /// </summary>
-        public string Toekn { get; set; }
+        public string UserEmail { get; set; }
     }
 }

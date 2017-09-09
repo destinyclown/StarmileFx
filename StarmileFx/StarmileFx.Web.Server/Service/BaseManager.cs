@@ -9,6 +9,7 @@ using StarmileFx.Models.Json;
 using StarmileFx.Web.Server.IServices;
 using static StarmileFx.Models.Web.HomeFromModel;
 using Microsoft.Extensions.Options;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Web.Server.Services
 {
@@ -92,15 +93,15 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public Task<ResponseResult<SysMenusModel>> LoadMenuByRole(string Token)
+        public Task<ResponseResult<List<WebMenus>>> GetMenuJson(string Token)
         {
             return Task.Run(() =>
             {
-                return LoadMenuByRoleAsync(Token);
+                return GetMenuJsonAsync(Token);
             });
         }
 
-        public async Task<ResponseResult<SysMenusModel>> LoadMenuByRoleAsync(string Token)
+        public async Task<ResponseResult<List<WebMenus>>> GetMenuJsonAsync(string Token)
         {
             string Action = "Api";
             string Function = "/LoadMenuByRole";
@@ -109,7 +110,70 @@ namespace StarmileFx.Web.Server.Services
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<SysMenusModel>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<List<WebMenus>>>(result);
+            });
+        }
+
+        public Task<ResponseResult<List<SysCollection>>> GetCollectionList(string Token)
+        {
+            return Task.Run(() =>
+            {
+                return GetCollectionListAsync(Token);
+            });
+        }
+
+        public async Task<ResponseResult<List<SysCollection>>> GetCollectionListAsync(string Token)
+        {
+            string Action = "Api";
+            string Function = "/GetCollectionList";
+            string Parameters = string.Format(@"Token={0}", Token);
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<List<SysCollection>>>(result);
+            });
+        }
+
+        public Task<ResponseResult<Result>> ConfirmCollection(WebCollection fromData)
+        {
+            return Task.Run(() =>
+            {
+                return ConfirmCollectionAsync(fromData);
+            });
+        }
+
+        public async Task<ResponseResult<Result>> ConfirmCollectionAsync(WebCollection fromData)
+        {
+            string Action = "Api";
+            string Function = "/ConfirmCollection";
+            string Parameters = string.Empty;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
+            });
+        }
+
+        public Task<ResponseResult<Result>> CancelCollection(WebCollection fromData)
+        {
+            return Task.Run(() =>
+            {
+                return CancelCollectionAsync(fromData);
+            });
+        }
+
+        public async Task<ResponseResult<Result>> CancelCollectionAsync(WebCollection fromData)
+        {
+            string Action = "Api";
+            string Function = "/CancelCollection";
+            string Parameters = string.Empty;
+            string result = await httpHelper.QueryData(Api_Host + Action + Function
+                , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
+            return await Task.Run(() =>
+            {
+                return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
             });
         }
     }
