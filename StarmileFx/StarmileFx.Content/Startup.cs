@@ -58,20 +58,19 @@ namespace StarmileFx.Content
                 app.UseExceptionHandler("/Error");
             }
             app.UseSession(new SessionOptions() { IdleTimeout = TimeSpan.FromMinutes(30) });
-            app.UseCors("AllowSpecificOrigin");
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                //FileProvider = new PhysicalFileProvider(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), @"wwwroot")),
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
-                RequestPath = new PathString("/Content")
-            });
-
+            app.UseStaticFiles();
+            app.UseCors(builder => builder.WithOrigins("https://*").AllowAnyHeader());
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), @"wwwroot")),
+            //    //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+            //    RequestPath = new PathString("/Content")
+            //});
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                     name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

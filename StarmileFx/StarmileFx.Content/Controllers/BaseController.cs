@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace StarmileFx.Content.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BaseController : Controller
     {
         public BaseController() { }
