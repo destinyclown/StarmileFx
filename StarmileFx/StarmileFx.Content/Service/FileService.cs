@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace StarmileFx.Api.Service
+namespace StarmileFx.Content.Service
 {
     public class FileService
     {

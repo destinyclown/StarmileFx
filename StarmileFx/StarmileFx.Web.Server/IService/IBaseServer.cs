@@ -7,7 +7,6 @@ using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
 using Microsoft.AspNetCore.Http;
-using static StarmileFx.Models.Web.HomeFromModel;
 using StarmileFx.Models.Web;
 
 namespace StarmileFx.Web.Server.IServices

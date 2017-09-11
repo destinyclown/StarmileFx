@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace StarmileFx.Content.Pages.Home
+namespace StarmileFx.Content.Pages
 {
     [Authorize]
     public class IndexModel : PageModel

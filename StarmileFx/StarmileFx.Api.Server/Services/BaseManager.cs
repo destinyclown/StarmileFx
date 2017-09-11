@@ -7,7 +7,6 @@ using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using StarmileFx.Models.Json;
 using Microsoft.Extensions.Options;
-using static StarmileFx.Models.Web.HomeFromModel;
 using SqlSugar;
 using StarmileFx.Api.Server.BaseData;
 using StarmileFx.Models.Web;
@@ -39,12 +38,12 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public SysRoles Login(LoginFrom fromData)
         {
-            SysRoles sysRole = _db.Queryable<SysRoles>().First(a => a.LoginName == fromData.loginName && a.Pwd == fromData.password);
+            SysRoles sysRole = _db.Queryable<SysRoles>().First(a => a.LoginName == fromData.Email && a.Pwd == fromData.Password);
             if (sysRole != null)
             {
                 SysRoleLogs logs = new SysRoleLogs()
                 {
-                    LoginIP = fromData.ip,
+                    LoginIP = fromData.Ip,
                     RoleID = sysRole.Id
                 };
                 _db.Insertable(logs).ExecuteCommand();

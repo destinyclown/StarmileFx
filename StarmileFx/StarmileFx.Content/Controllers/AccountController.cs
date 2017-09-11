@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using static StarmileFx.Models.Web.HomeFromModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using StarmileFx.Web.Server.IServices;
@@ -55,13 +54,13 @@ namespace StarmileFx.Content.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromForm]LoginFrom fromData)
         {
-            if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
-            {
-                result.ReasonDescription = "验证码错误！";
-                return Json(result);
-            }
-            fromData.password = Encryption.ToMd5(fromData.password);
-            fromData.ip = HttpContext.Connection.RemoteIpAddress.ToString();
+            //if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
+            //{
+            //    result.ReasonDescription = "验证码错误！";
+            //    return Json(result);
+            //}
+            fromData.Password = Encryption.ToMd5(fromData.Password);
+            fromData.Ip = HttpContext.Connection.RemoteIpAddress.ToString();
             ResponseResult<Result> responseResult = await _BaseServer.Login(fromData);
             if (!responseResult.IsSuccess)
             {
@@ -73,8 +72,8 @@ namespace StarmileFx.Content.Controllers
                 result = responseResult.Content;
                 var claims = new List<Claim>()
                 {
-                    new Claim(fromData.loginName, responseResult.Token),
-                    new Claim(ClaimTypes.Name, fromData.loginName)
+                    new Claim(fromData.Email, responseResult.Token),
+                    new Claim(ClaimTypes.Name, fromData.Email)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,

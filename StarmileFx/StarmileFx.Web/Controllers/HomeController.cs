@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using StarmileFx.Models;
 using StarmileFx.Common;
 using StarmileFx.Web.Server.IServices;
-using static StarmileFx.Models.Web.HomeFromModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -16,6 +15,7 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using StarmileFx.Models.Web;
 
 namespace StarmileFx.Web.Controllers.Controllers
 {
@@ -75,13 +75,13 @@ namespace StarmileFx.Web.Controllers.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromForm]LoginFrom fromData)
         {
-            if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
-            {
-                result.ReasonDescription = "验证码错误！";
-                return Json(result);
-            }
-            fromData.password = Encryption.ToMd5(fromData.password);
-            fromData.ip = HttpContext.Connection.RemoteIpAddress.ToString();
+            //if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
+            //{
+            //    result.ReasonDescription = "验证码错误！";
+            //    return Json(result);
+            //}
+            fromData.Password = Encryption.ToMd5(fromData.Password);
+            fromData.Ip = HttpContext.Connection.RemoteIpAddress.ToString();
             ResponseResult<Result> responseResult = await _BaseServer.Login(fromData);
             if (!responseResult.IsSuccess)
             {
@@ -94,7 +94,7 @@ namespace StarmileFx.Web.Controllers.Controllers
                 var claims = new List<Claim>()
                 {
                     new Claim("Token", responseResult.Token),
-                    new Claim(ClaimTypes.Name, fromData.loginName)
+                    new Claim(ClaimTypes.Name, fromData.Email)
                 };
                 var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,

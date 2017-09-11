@@ -140,7 +140,7 @@ DropDownMenuTree.prototype.Initialization = function () {//初始化
         var userSiteContainerMenu = self.tool.getLocalCache({ strKey: "userSiteContainerMenuLocalCache" });//获取
         var oadataA = {};
         var data = [];
-        if (userSiteContainerMenu.length > 0) {
+        if (userSiteContainerMenu !== "null" && userSiteContainerMenu.length > 0) {
             self.LeftTrreSearch(JSON.parse(userSiteContainerMenu));
             initFunct.menuNav();
             initFunct.isOadata = false;
@@ -2772,7 +2772,7 @@ DropDownMenuTree.prototype.switchBGFun = function () {//换肤
                 var links = document.createElement('link');
                 links.type = "text/css";
                 links.rel = "stylesheet";
-                links.href = "https://content.starmile.com.cn/Content/css/themes/"+ this_.attr('signback') + ".css";
+                links.href = "https://content.starmile.com.cn/css/themes/"+ this_.attr('signback') + ".css";
                 $(window.document).find('head link').each(function (i, dom) {
                     if ($(dom).attr('href').indexOf('content-change-color') >= 0) {
                         $(window.document).find('head')[0].appendChild(links);
@@ -3466,4 +3466,3 @@ DropDownMenuTree.prototype.tools = function () {//工具模块
 
 
 
-//、、、

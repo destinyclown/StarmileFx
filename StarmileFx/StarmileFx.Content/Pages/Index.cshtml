@@ -50,11 +50,10 @@
     var sDropDownMenuTree, tab;
     requirejs(['https://content.starmile.com.cn/config.js'], function () {
         requirejs(['introjs', 'ui', 'layer', 'starmilefx-tree'], function (introJs, ui) {
-            var navTrreData = '';
             sDropDownMenuTree = new DropDownMenuTree({
                 control: { ui: ui, layer: layer },
                 //hostName: "https://api.starmile.com.cn",//API接口，默认：false
-                data: navTrreData, //当存在API接口时候该值无效
+                //data: navTrreData, //当存在API接口时候该值无效
                 container: "#conterNavTrre", //菜单树容器ID
                 moreMenu: "#contentMore", //触发显示系统名按钮
                 iframes: "#iframeListContainer",
@@ -74,6 +73,13 @@
             function promptContent() {
                 typeof promptContentMethod == "function" ? new promptContentMethod(introJs, '.background-anyway-sign') : null;
             }
+        },
+            function (error) {
+            console.log('Custom ERROR handler', error);
+            //error.requireModules : is Array of all failed modules
+            var failedId = error.requireModules && error.requireModules[0];
+            console.log(failedId);
+            console.log(error.message);
         })
     })
 </script>

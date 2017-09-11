@@ -4,7 +4,6 @@ using StarmileFx.Api.Server.IServices;
 using StarmileFx.Api.Services;
 using StarmileFx.Models;
 using StarmileFx.Models.Base;
-using static StarmileFx.Models.Web.HomeFromModel;
 using StarmileFx.Api.FilterAttributes;
 using StarmileFx.Models.Web;
 

@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
 using Microsoft.Net.Http.Headers;
-using static StarmileFx.Api.Service.FileService;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Cors;
+using static StarmileFx.Content.Service.FileService;
+
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarmileFx.Api.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("AllowSpecificOrigin")]
-    public class PicturesController : Controller
+    public class FilesController : Controller
     {
         private IHostingEnvironment hostingEnv;
 
-        string[] pictureFormatArray = { "png", "jpg", "jpeg", "bmp", "gif", "ico", "PNG", "JPG", "JPEG", "BMP", "GIF", "ICO" };
-
-        public PicturesController(IHostingEnvironment env)
+        public FilesController(IHostingEnvironment env)
         {
             this.hostingEnv = env;
         }
@@ -31,9 +31,9 @@ namespace StarmileFx.Api.Controllers
             long size = files.Sum(f => f.Length);
 
             //size > 100MB refuse upload !
-            if (size > 1048576 * 2)
+            if (size > 10485760)
             {
-                return Json(FileHelper.ErrorMsg("上传的图片不能大于2MB！"));
+                return Json(FileHelper.ErrorMsg("上传的文件不能大于10MB！"));
             }
 
             List<string> filePathResultList = new List<string>();
@@ -42,21 +42,14 @@ namespace StarmileFx.Api.Controllers
             {
                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"');
 
-                string filePath = hostingEnv.WebRootPath + $@"\Files\Pictures\";
+                string filePath = hostingEnv.WebRootPath + $@"\Files\Files\";
 
                 if (!Directory.Exists(filePath))
                 {
                     Directory.CreateDirectory(filePath);
                 }
 
-                string suffix = fileName.Split('.')[1];
-
-                if (!pictureFormatArray.Contains(suffix))
-                {
-                    return Json(FileHelper.ErrorMsg("上传的图片格式不支持，后缀名必须为：'png','jpg','jpeg','bmp','gif','ico'！"));
-                }
-
-                fileName = Guid.NewGuid().ToString().Replace("-", "") + "." + suffix;
+                fileName = Guid.NewGuid().ToString().Replace("-","") + "." + fileName.Split('.')[1];
 
                 string fileFullName = filePath + fileName;
 
@@ -65,12 +58,13 @@ namespace StarmileFx.Api.Controllers
                     file.CopyTo(fs);
                     fs.Flush();
                 }
-                filePathResultList.Add($"/src/Pictures/{fileName}");
+                filePathResultList.Add($"/src/Files/{fileName}");
             }
 
             string message = $"{files.Count} file(s) /{size} bytes uploaded successfully!";
 
             return Json(FileHelper.SuccessMsg(message, filePathResultList));
         }
+
     }
 }

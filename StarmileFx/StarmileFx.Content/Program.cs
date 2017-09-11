@@ -14,11 +14,11 @@ namespace StarmileFx.Content
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
+                //.UseKestrel()
                 .UseUrls("http://*:8004")
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
+                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
+                //.UseApplicationInsights()
                 .Build();
     }
 }
