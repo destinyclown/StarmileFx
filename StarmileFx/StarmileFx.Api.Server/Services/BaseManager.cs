@@ -58,7 +58,7 @@ namespace StarmileFx.Api.Server.Services
         /// <returns></returns>
         public List<SysMenus> LoadMenuByRole(SysRoles role)
         {
-            var _SysMenuslList = _db.Queryable<SysMenus>().Where(a => a.State && a.PId == null).ToList();
+            var _SysMenuslList = _db.Queryable<SysMenus>().Where(a => a.State && a.PId == null).OrderBy(a => a.Sort).ToList();
             if (role != null)
             {
                 if (role.Permissions == 0)

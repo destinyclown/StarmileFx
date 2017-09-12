@@ -22,6 +22,6 @@ namespace StarmileFx.Models.Base
         public DateTime CreatTime { get; set; }
         [SugarColumn(IsIgnore = true)]
         public List<SysMenus> Children
-        { get { return CreateMapping<SysMenus>().Where(it => it.PId == Id).ToList();}}
+        { get { return CreateMapping<SysMenus>().Where(it => it.PId == Id).OrderBy(a => a.Sort).ToList();}}
     }
 }

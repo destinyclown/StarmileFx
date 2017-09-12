@@ -361,7 +361,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
                     if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                         navHtml += '<div class="frist-cont-list' + (seachSign != "" ? seachSign : seachSign1) + (info.nav[i].Newest ? ' fri-cont-listnew' : '') + '">';
                         navHtml += '<div class="nav-trre-click trre-text-info" signend="' + info.f + '-' + i + '"' +
-                            (info.nav[i].text ? 'title="' + info.nav[i].text + '"' : '') +
+                            (info.nav[i].Name ? 'title="' + info.nav[i].Name + '"' : '') +
                             //(info.nav[i].href?'hrefl="'+(info.nav[i].href.indexOf(self.host)>=0?info.nav[i].href.split(self.host)[1]:info.nav[i].href)+'"':'')+
                             (info.nav[i].Url ? 'hrefl="' + info.nav[i].Url + '"' : '') +
                             (info.nav[i].Id ? 'mid="' + info.nav[i].Id + '"' : '') +
@@ -423,7 +423,7 @@ DropDownMenuTree.prototype.creaTree = function (creaInfo) {
             var navHtml = '', thisText = '';
             if (info.nav) {
                 for (var i = 0; i < info.nav.length; i++) {
-                    thisText = self.getThisText({ val: searVal, texts: (info.nav[i].text ? info.nav[i].text : ""), level: "thr", index: [info.f, info.s, info.t, i] });
+                    thisText = self.getThisText({ val: searVal, texts: (info.nav[i].Name ? info.nav[i].Name : ""), level: "thr", index: [info.f, info.s, info.t, i] });
                     thisText.indexOf('select-text-yellow') >= 0 ? seachSign = " search-state" : seachSign = "";
                     if ((typeof info.nav[i].State == "boolean" ? info.nav[i].State : true)) {
                         navHtml += '<div class="nav-trre-click thr-cont-list';
