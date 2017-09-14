@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StarmileFx.Common;
 using StarmileFx.Models;
 using Microsoft.AspNetCore.Authorization;
+using static StarmileFx.Models.Enum.BaseEnum;
 
 namespace StarmileFx.Content.Controllers
 {
@@ -19,25 +20,7 @@ namespace StarmileFx.Content.Controllers
         /// <returns></returns>
         public string ActionResponseGetString(Func<ResponseResult> action)
         {
-            ResponseResult result = ActionResponse(action);
-            result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
-            try
-            {
-                result.IsSuccess = true;
-                string json = JsonHelper.T_To_Json(result);
-                return json;
-            }
-            catch (Exception ex)
-            {
-                result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
-                result.IsSuccess = false;
-                result.SendDateTime = DateTime.Now;
-                result.Data = "";
-                result.ErrorMsg = ex.Message;
-                string json = JsonHelper.T_To_Json(result);
-                LogHelper.Error(result);
-                return json;
-            }
+            return ActionResponse(action);
         }
 
         /// <summary>
@@ -47,59 +30,40 @@ namespace StarmileFx.Content.Controllers
         /// <returns></returns>
         public string ActionResponseJsonp(Func<ResponseResult> action)
         {
-            ResponseResult result = ActionResponse(action);
             string callback = Request.Query["callback"];
-            result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
-            try
-            {
-                result.IsSuccess = true;
-                string json = string.Format("{0}({1})", callback, JsonHelper.T_To_Json(result));
-                return json;
-            }
-            catch (Exception ex)
-            {
-                result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
-                result.IsSuccess = false;
-                result.SendDateTime = DateTime.Now;
-                result.Data = "";
-                result.ErrorMsg = ex.Message;
-                string json = string.Format("{0}({1})", callback, JsonHelper.T_To_Json(result));
-                LogHelper.Error(result);
-                return json;
-            }
+            return string.Format("{0}({1})", callback, ActionResponse(action));
         }
 
         /// <summary>
-        /// 
+        /// 执行请求内容，返回结果json
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public ResponseResult ActionResponse(Func<ResponseResult> action)
+        public string ActionResponse(Func<ResponseResult> action)
         {
-            ResponseResult result = new ResponseResult
-            {
-                FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString()
-            };
+            ResponseResult result = new ResponseResult();
             try
             {
                 result = action.Invoke();
-                result.SendDateTime = DateTime.Now;
-                if (!result.IsSuccess && !string.IsNullOrEmpty(result.ErrorMsg))
-                {
-                    result.ErrorMsg = result.ErrorMsg;
-                    LogHelper.Error(result);
-                }
+                return JsonHelper.T_To_Json(result);
             }
             catch (Exception ex)
             {
                 result.IsSuccess = false;
-                result.SendDateTime = DateTime.Now;
-                result.Data = "";
-                result.ErrorMsg = ex.Message;
-                LogHelper.Error(result);
+                result.Data = null;
+                result.Error = new Error
+                {
+                    Code = ex.GetType().ToString() == "System.Exception" ? ErrorCode.DataError : ErrorCode.SystemError,
+                    Message = ex.Message
+                };
+                result.SystemError = ex.GetType().ToString() == "System.Exception" ? null : new SystemError
+                {
+                    ExceptionType = ex.GetType().ToString(),
+                    Message = ex.Message,
+                    HelpUrl = "https://api.starmile.com.cn/api/help/" + ErrorCode.SystemError,
+                };
+                return JsonHelper.T_To_Json(result);
             }
-
-            return result;
         }
 
         /// <summary>

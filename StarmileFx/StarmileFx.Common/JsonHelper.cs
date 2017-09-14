@@ -23,7 +23,7 @@ namespace StarmileFx.Common
             {
                 return JsonConvert.SerializeObject(t);
             }
-            catch(System.Exception ex)
+            catch
             {
                 return string.Empty;
             }

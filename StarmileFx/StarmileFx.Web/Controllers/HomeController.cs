@@ -82,7 +82,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             //}
             fromData.Password = Encryption.ToMd5(fromData.Password);
             fromData.Ip = HttpContext.Connection.RemoteIpAddress.ToString();
-            ResponseResult<Result> responseResult = await _BaseServer.Login(fromData);
+            ResponseResult responseResult = await _BaseServer.Login(fromData);
             if (!responseResult.IsSuccess)
             {
                 result.ReasonDescription = responseResult.ErrorMsg;

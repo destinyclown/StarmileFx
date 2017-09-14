@@ -50,7 +50,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public Task<ResponseResult<Result>> Login(LoginFrom fromData)
+        public Task<ResponseResult> Login(LoginFrom fromData)
         {
             return Task.Run(() =>
             {
@@ -58,7 +58,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public async Task<ResponseResult<Result>> LoginAsync(LoginFrom fromData)
+        public async Task<ResponseResult> LoginAsync(LoginFrom fromData)
         {
             string Action = "Api";
             string Function = "/Login";
@@ -67,11 +67,11 @@ namespace StarmileFx.Web.Server.Services
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
             return await Task.Run(() =>
            {
-               return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
+               return JsonConvert.DeserializeObject<ResponseResult>(result);
            });
         }
 
-        public Task<ResponseResult<Result>> Logout(string Token)
+        public Task<ResponseResult<bool>> Logout(string Token)
         {
             return Task.Run(() =>
             {
@@ -79,7 +79,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public async Task<ResponseResult<Result>> LogoutAsync(string Token)
+        public async Task<ResponseResult<bool>> LogoutAsync(string Token)
         {
             string Action = "Api";
             string Function = "/Logout";
@@ -88,7 +88,7 @@ namespace StarmileFx.Web.Server.Services
                 , Parameters, HttpHelper.MethodType.GET, HttpHelper.SelectType.Select);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
             });
         }
 
@@ -134,7 +134,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public Task<ResponseResult<Result>> ConfirmCollection(WebCollection fromData)
+        public Task<ResponseResult<bool>> ConfirmCollection(WebCollection fromData)
         {
             return Task.Run(() =>
             {
@@ -142,7 +142,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public async Task<ResponseResult<Result>> ConfirmCollectionAsync(WebCollection fromData)
+        public async Task<ResponseResult<bool>> ConfirmCollectionAsync(WebCollection fromData)
         {
             string Action = "Api";
             string Function = "/ConfirmCollection";
@@ -151,11 +151,11 @@ namespace StarmileFx.Web.Server.Services
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
             });
         }
 
-        public Task<ResponseResult<Result>> CancelCollection(WebCollection fromData)
+        public Task<ResponseResult<bool>> CancelCollection(WebCollection fromData)
         {
             return Task.Run(() =>
             {
@@ -163,7 +163,7 @@ namespace StarmileFx.Web.Server.Services
             });
         }
 
-        public async Task<ResponseResult<Result>> CancelCollectionAsync(WebCollection fromData)
+        public async Task<ResponseResult<bool>> CancelCollectionAsync(WebCollection fromData)
         {
             string Action = "Api";
             string Function = "/CancelCollection";
@@ -172,7 +172,7 @@ namespace StarmileFx.Web.Server.Services
                 , Parameters, HttpHelper.MethodType.POST, HttpHelper.SelectType.Select, fromData);
             return await Task.Run(() =>
             {
-                return JsonConvert.DeserializeObject<ResponseResult<Result>>(result);
+                return JsonConvert.DeserializeObject<ResponseResult<bool>>(result);
             });
         }
     }

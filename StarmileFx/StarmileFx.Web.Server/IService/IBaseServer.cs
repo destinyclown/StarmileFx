@@ -18,16 +18,16 @@ namespace StarmileFx.Web.Server.IServices
     {
         Task<ResponseResult<bool>> RefreshToken(string Token);
 
-        Task<ResponseResult<Result>> Logout(string Token);
+        Task<ResponseResult<bool>> Logout(string Token);
 
-        Task<ResponseResult<Result>> Login(LoginFrom fromData);
+        Task<ResponseResult> Login(LoginFrom fromData);
 
         Task<ResponseResult<List<WebMenus>>> GetMenuJson(string Token);
 
         Task<ResponseResult<List<SysCollection>>> GetCollectionList(string Token);
 
-        Task<ResponseResult<Result>> ConfirmCollection(WebCollection fromData);
+        Task<ResponseResult<bool>> ConfirmCollection(WebCollection fromData);
 
-        Task<ResponseResult<Result>> CancelCollection(WebCollection fromData);
+        Task<ResponseResult<bool>> CancelCollection(WebCollection fromData);
     }
 }

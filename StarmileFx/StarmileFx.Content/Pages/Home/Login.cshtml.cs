@@ -64,31 +64,25 @@ namespace StarmileFx.Content.Pages.Home
             {
                 FromData.Password = Encryption.ToMd5(FromData.Password);
                 FromData.Ip = HttpContext.Connection.RemoteIpAddress.ToString();
-                ResponseResult<Result> responseResult = await _BaseServer.Login(FromData);
-                if (!responseResult.IsSuccess)
+                ResponseResult responseResult = await _BaseServer.Login(FromData);
+                if (!responseResult.IsSuccess && responseResult.Error != null)
                 {
-                    ErrorMessage = responseResult.ErrorMsg;
+                    ErrorMessage = responseResult.Error.Message;
                     ModelState.AddModelError(string.Empty, ErrorMessage);
                     return Page();
                 }
                 else
                 {
-                    if (!responseResult.Data.IsSuccess)
-                    {
-                        ErrorMessage = responseResult.Data.ReasonDescription;
-                        ModelState.AddModelError(string.Empty, ErrorMessage);
-                        return Page();
-                    }
                     var claims = new List<Claim>()
                 {
-                    new Claim(FromData.Email, responseResult.Token),
+                    new Claim(FromData.Email, responseResult.Data.ToString()),
                     new Claim(ClaimTypes.Name, FromData.Email)
                 };
-                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, responseResult.Data.ReasonDescription));
+                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, ""));
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
                         new AuthenticationProperties
                         {
-                            ExpiresUtc = FromData.RememberMe?DateTime.UtcNow.AddHours(3): DateTime.UtcNow.AddDays(1),
+                            ExpiresUtc = FromData.RememberMe ? DateTime.UtcNow.AddHours(3) : DateTime.UtcNow.AddDays(1),
                             IsPersistent = false,
                             AllowRefresh = false
                         });

@@ -14,6 +14,15 @@ namespace StarmileFx.Api.Server.IServices
     /// </summary>
     public interface IBaseServer
     {
+        #region 日志
+        /// <summary>
+        /// 日志记录
+        /// </summary>
+        /// <param name="lgo"></param>
+        /// <returns></returns>
+        bool Logger(SysLog lgo);
+        #endregion
+
         #region 登录主页操作
         /// <summary>
         /// 登录授权

@@ -6,16 +6,34 @@ using StarmileFx.Common;
 using StarmileFx.Models;
 using StarmileFx.Api.FilterAttributes;
 using static StarmileFx.Models.Enum.BaseEnum;
+using Microsoft.AspNetCore.Mvc.Filters;
+using StarmileFx.Models.Base;
+using StarmileFx.Api.Server.IServices;
 
 namespace StarmileFx.Api.Controllers
 {
     /// <summary>
     /// 控制器基类
     /// </summary>
-    [TypeFilter(typeof(OverallExceptionFilterAttribute))]
+    //[TypeFilter(typeof(OverallExceptionFilterAttribute))]
     public class BaseController : Controller
     {
         public BaseController() { }
+
+        //依赖注入
+        private readonly IBaseServer _BaseServer;
+
+        public BaseController(IBaseServer IBaseServer)
+        {
+            _BaseServer = IBaseServer;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            //认证暂时不使用
+            string Authorization = context.HttpContext.Request.Headers["Authorization"].ToString();
+        }
 
         /// <summary>
         /// 返回结果json
@@ -48,7 +66,17 @@ namespace StarmileFx.Api.Controllers
             ResponseResult result = new ResponseResult();
             try
             {
+                DateTime timer = DateTime.Now;
                 result = action.Invoke();
+                //创建日志记录
+                SysLog log = new SysLog
+                {
+                    Ip = GetUserIp(),
+                    IsError = false,
+                    Herf = Request.Path.Value,
+                    ResponseSpan = (decimal)DateTime.Now.Subtract(timer).Milliseconds / 1000
+                };
+                //_BaseServer.Logger(log);
                 return JsonHelper.T_To_Json(result);
             }
             catch (Exception ex)

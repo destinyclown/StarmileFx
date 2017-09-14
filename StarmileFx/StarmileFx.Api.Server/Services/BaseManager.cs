@@ -28,6 +28,24 @@ namespace StarmileFx.Api.Server.Services
             _db = BaseClient.GetInstance(_ConnectionStrings.Value.BaseConnection);
         }
 
+        #region 日志
+        /// <summary>
+        /// 记录日志
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="fromData"></param>
+        /// <returns></returns>
+        public bool Logger(SysLog log)
+        {
+            if (log != null)
+            {
+                return _db.Insertable(log).ExecuteCommand() > 0;
+            }
+            return false;
+        }
+
+        #endregion
+
         #region HomeController
         /// <summary>
         /// 登录方法

@@ -42,89 +42,6 @@ namespace StarmileFx.Content.Controllers
         /// </summary>
         public Result result = new Result();
 
-        #region 登录模块
-        /// <summary>
-        /// 登录请求
-        /// </summary>
-        /// <param name="fromData"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromForm]LoginFrom fromData)
-        {
-            //if (string.Compare(fromData.validCode, HttpContext.Session.GetString(SysConst.Captcha), true) != 0)
-            //{
-            //    result.ReasonDescription = "验证码错误！";
-            //    return Json(result);
-            //}
-            fromData.Password = Encryption.ToMd5(fromData.Password);
-            fromData.Ip = HttpContext.Connection.RemoteIpAddress.ToString();
-            ResponseResult<Result> responseResult = await _BaseServer.Login(fromData);
-            if (!responseResult.IsSuccess)
-            {
-                result.ReasonDescription = responseResult.ErrorMsg;
-                return Json(result);
-            }
-            else
-            {
-                result = responseResult.Data;
-                var claims = new List<Claim>()
-                {
-                    new Claim(fromData.Email, responseResult.Token),
-                    new Claim(ClaimTypes.Name, fromData.Email)
-                };
-                var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, result.ReasonDescription));
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
-                    new AuthenticationProperties
-                    {
-                        ExpiresUtc = DateTime.UtcNow.AddHours(6),
-                        IsPersistent = false,
-                        AllowRefresh = false
-                    });
-            }
-            return Json(result);
-        }
-
-        /// <summary>
-        /// 验证码
-        /// </summary>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route("Captcha")]
-        public IActionResult Captcha()
-        {
-            System.IO.MemoryStream ms = VierificationCode.Create(out string code);
-            HttpContext.Session.SetString(SysConst.Captcha, code);
-            Response.Body.Dispose();
-            return File(ms.ToArray(), @"image/png");
-        }
-
-        /// <summary>
-        /// 退出登录
-        /// </summary>
-        /// <returns></returns>
-        [Route("Logout")]
-        public async Task<IActionResult> Logout(string email)
-        {
-            string Token = User.Identities.First(u => u.IsAuthenticated).FindFirst(email).Value;
-            HttpContext.Session.Clear();
-            ResponseResult<Result> responseResult = await _BaseServer.Logout(Token);
-            if (!responseResult.IsSuccess)
-            {
-                result.ReasonDescription = responseResult.ErrorMsg;
-                return Json(result);
-            }
-            else
-            {
-                result = responseResult.Data;
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            }
-            return Json(result);
-        }
-        #endregion
-
         #region 菜单操作
         /// <summary>
         /// 获取菜单
@@ -195,12 +112,12 @@ namespace StarmileFx.Content.Controllers
                 MenuKey = MenuKey,
                 MenuName = MenuName
             };
-            ResponseResult<Result> responseResult = await _BaseServer.ConfirmCollection(collection);
+            ResponseResult<bool> responseResult = await _BaseServer.ConfirmCollection(collection);
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Data.IsSuccess
+                    IsSuccess = responseResult.Data
                 };
                 return responseModel;
             };
@@ -224,12 +141,12 @@ namespace StarmileFx.Content.Controllers
                 MenuKey = MenuKey,
                 MenuName = MenuName
             };
-            ResponseResult<Result> responseResult = await _BaseServer.CancelCollection(collection);
+            ResponseResult<bool> responseResult = await _BaseServer.CancelCollection(collection);
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Data.IsSuccess
+                    IsSuccess = responseResult.Data
                 };
                 return responseModel;
             };

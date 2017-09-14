@@ -18,10 +18,11 @@ namespace StarmileFx.Common
         /// </summary>
         /// <param name="Url">Url连接</param>
         /// <param name="PostData">参数</param>
+        /// <param name="Token">令牌</param>
         /// <param name="Method">访问类型（GET/POST）</param>
         /// <param name="select">数据访问类型（select/update/insert/delete）</param>
         /// <returns></returns>
-        public async Task<string> QueryData(string Url, string PostData, MethodType Method = MethodType.GET, SelectType select = SelectType.Select, object formData = null)
+        public async Task<string> QueryData(string Url, string PostData, MethodType Method = MethodType.GET, SelectType select = SelectType.Select, object formData = null, string Token = null)
         {
             Encoding encoding = Encoding.GetEncoding("utf-8");
             var begTime = DateTime.Now;
@@ -109,9 +110,12 @@ namespace StarmileFx.Common
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public async Task<string> HttpGetAsync(string url, Encoding encoding = null)
+        public async Task<string> HttpGetAsync(string url, Encoding encoding = null, string token = null)
         {
             HttpClient httpClient = new HttpClient();
+            string userKey = "Sf-Developer " + token + ";" + Guid.NewGuid().ToString().Replace("-", "");
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", userKey);
             var data = await httpClient.GetByteArrayAsync(url);
             var ret = encoding.GetString(data);
             return ret;
@@ -140,8 +144,9 @@ namespace StarmileFx.Common
         /// <param name="postStream"></param>
         /// <param name="encoding"></param>
         /// <param name="timeOut"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<string> HttpPostAsync(string url, Dictionary<string, string> formData = null, Encoding encoding = null, int timeOut = 10000)
+        public async Task<string> HttpPostAsync(string url, Dictionary<string, string> formData = null, Encoding encoding = null, int timeOut = 10000, string token = null)
         {
 
             HttpClientHandler handler = new HttpClientHandler();
@@ -151,12 +156,9 @@ namespace StarmileFx.Common
             //formData.FillFormDataStream(ms);//填充formData
             HttpContent hc = new FormUrlEncodedContent(formData);
 
-
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xhtml+xml"));
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/webp"));
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
+            string userKey = "Sf-Developer " + token + ";" + Guid.NewGuid().ToString().Replace("-", "");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Authorization", userKey);
             hc.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36");
             hc.Headers.Add("Timeout", timeOut.ToString());
             hc.Headers.Add("KeepAlive", "true");
