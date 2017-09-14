@@ -73,9 +73,9 @@ namespace StarmileFx.Content.Pages.Home
                 }
                 else
                 {
-                    if (!responseResult.Content.IsSuccess)
+                    if (!responseResult.Data.IsSuccess)
                     {
-                        ErrorMessage = responseResult.Content.ReasonDescription;
+                        ErrorMessage = responseResult.Data.ReasonDescription;
                         ModelState.AddModelError(string.Empty, ErrorMessage);
                         return Page();
                     }
@@ -84,7 +84,7 @@ namespace StarmileFx.Content.Pages.Home
                     new Claim(FromData.Email, responseResult.Token),
                     new Claim(ClaimTypes.Name, FromData.Email)
                 };
-                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, responseResult.Content.ReasonDescription));
+                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, responseResult.Data.ReasonDescription));
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
                         new AuthenticationProperties
                         {

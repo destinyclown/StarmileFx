@@ -90,7 +90,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             }
             else
             {
-                result = responseResult.Content;
+                result = responseResult.Data;
                 var claims = new List<Claim>()
                 {
                     new Claim("Token", responseResult.Token),
@@ -138,7 +138,7 @@ namespace StarmileFx.Web.Controllers.Controllers
             }
             else
             {
-                result = responseResult.Content;
+                result = responseResult.Data;
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
             return Json(result);

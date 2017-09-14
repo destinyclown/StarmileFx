@@ -44,7 +44,7 @@ namespace StarmileFx.Web.Controllers
             ResponseResult<List<ProductWeb>> responseResult = await _YoungoServer.GetProductList(search);
             if (responseResult.IsSuccess)
             {
-                var data = from m in responseResult.Content
+                var data = from m in responseResult.Data
                            select new
                            {
                                id = m.Id,
@@ -68,14 +68,14 @@ namespace StarmileFx.Web.Controllers
         public async Task<IActionResult> DeleteProduct(int Id)
         {
             ResponseResult<bool> responseResult = await _YoungoServer.DeleteProduct(Id);
-            if (responseResult.IsSuccess && responseResult.Content)
+            if (responseResult.IsSuccess && responseResult.Data)
             {
-                result.IsSuccess = responseResult.Content;
+                result.IsSuccess = responseResult.Data;
                 return Json(result);
             }
             else
             {
-                result.IsSuccess = responseResult.Content;
+                result.IsSuccess = responseResult.Data;
                 result.ReasonDescription = responseResult.ErrorMsg;
                 return Json(result);
             }
@@ -83,14 +83,14 @@ namespace StarmileFx.Web.Controllers
         public async Task<IActionResult> BatchDeleteProduct(int[] Ids)
         {
             ResponseResult<bool> responseResult = await _YoungoServer.BatchDeleteProduct(Ids);
-            if (responseResult.IsSuccess && responseResult.Content)
+            if (responseResult.IsSuccess && responseResult.Data)
             {
-                result.IsSuccess = responseResult.Content;
+                result.IsSuccess = responseResult.Data;
                 return Json(result);
             }
             else
             {
-                result.IsSuccess = responseResult.Content;
+                result.IsSuccess = responseResult.Data;
                 result.ReasonDescription = responseResult.ErrorMsg;
                 return Json(result);
             }

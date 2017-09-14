@@ -37,9 +37,8 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetCacheProductList(),
-                    IsSuccess = true,
-                    ErrorMsg = ""
+                    Data = _YoungoServer.GetCacheProductList(),
+                    IsSuccess = true, 
                 };
                 return responseModel;
             };
@@ -63,9 +62,8 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex),
-                    IsSuccess = true,
-                    ErrorMsg = ""
+                    Data = _YoungoServer.GetOrderParentcsList(OrderState, CustomerId, PageSize, PageIndex),
+                    IsSuccess = true, 
                 };
                 return responseModel;
             };
@@ -85,9 +83,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetOrderParent(OrderId),
+                    Data = _YoungoServer.GetOrderParent(OrderId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -106,9 +104,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.OrderCreate(shopCart),
+                    Data = _YoungoServer.OrderCreate(shopCart),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -130,9 +128,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.OrderPay(OrderId, TransactionId),
+                    Data = _YoungoServer.OrderPay(OrderId, TransactionId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -153,9 +151,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.OrderCancel(OrderId, IsDelete),
+                    Data = _YoungoServer.OrderCancel(OrderId, IsDelete),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -175,9 +173,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.OrderComplete(OrderId),
+                    Data = _YoungoServer.OrderComplete(OrderId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -196,9 +194,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetCustomer(WeCharKey),
+                    Data = _YoungoServer.GetCustomer(WeCharKey),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -217,9 +215,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetDefaultAddress(CustomerId),
+                    Data = _YoungoServer.GetDefaultAddress(CustomerId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -238,9 +236,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetDeliveryAddressList(CustomerId),
+                    Data = _YoungoServer.GetDeliveryAddressList(CustomerId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -259,9 +257,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProductResources(ProductId),
+                    Data = _YoungoServer.GetProductResources(ProductId),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -280,9 +278,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.SubmitComment(CommentFrom),
+                    Data = _YoungoServer.SubmitComment(CommentFrom),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -301,9 +299,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.SubmitResources(ResourcesFrom),
+                    Data = _YoungoServer.SubmitResources(ResourcesFrom),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -322,9 +320,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom),
+                    Data = _YoungoServer.SubmitDeliveryAddress(DeliveryAddressFrom),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -346,9 +344,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetMessageList(CustomerId, PageSize, PageIndex),
+                    Data = _YoungoServer.GetMessageList(CustomerId, PageSize, PageIndex),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -366,9 +364,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.SubmitFeedback(from),
+                    Data = _YoungoServer.SubmitFeedback(from),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -389,10 +387,13 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProductList(from, out int total),
-                    Total = total,
+                    Data = new PageResult<List<ProductWeb>>
+                    {
+                        Data = _YoungoServer.GetProductList(from, out int total),
+                        Total = total
+                    },
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -411,9 +412,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.AddProduct(product),
+                    Data = _YoungoServer.AddProduct(product),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -432,9 +433,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.ModifyProduct(product),
+                    Data = _YoungoServer.ModifyProduct(product),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -453,9 +454,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProduct(Id),
+                    Data = _YoungoServer.GetProduct(Id),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -475,9 +476,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.DeleteProduct(Id),
+                    Data = _YoungoServer.DeleteProduct(Id),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -497,9 +498,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.BatchDeleteProduct(ProductIds),
+                    Data = _YoungoServer.BatchDeleteProduct(ProductIds),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -518,9 +519,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProductTypeList(),
+                    Data = _YoungoServer.GetProductTypeList(),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -539,9 +540,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.AddProductType(productType),
+                    Data = _YoungoServer.AddProductType(productType),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -560,9 +561,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.ModifyProductType(productType),
+                    Data = _YoungoServer.ModifyProductType(productType),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -581,9 +582,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetProductType(Id),
+                    Data = _YoungoServer.GetProductType(Id),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -603,9 +604,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.DeleteProductType(Id),
+                    Data = _YoungoServer.DeleteProductType(Id),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -625,9 +626,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.BatchDeleteProductType(Ids),
+                    Data = _YoungoServer.BatchDeleteProductType(Ids),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -649,9 +650,9 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.GetResourcesList(ProductId, Type),
+                    Data = _YoungoServer.GetResourcesList(ProductId, Type),
                     IsSuccess = true,
-                    ErrorMsg = ""
+                    
                 };
                 return responseModel;
             };
@@ -674,12 +675,11 @@ namespace StarmileFx.Api.Controllers
         {
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                int total = 0;
-                responseModel.Content = _YoungoServer.AddResources(ProductId, Type, Addresses, Sorts);
-                responseModel.Total = total;
-                responseModel.IsSuccess = true;
-                responseModel.ErrorMsg = "";
+                var responseModel = new ResponseResult
+                {
+                    Data = _YoungoServer.AddResources(ProductId, Type, Addresses, Sorts),
+                    IsSuccess = true
+                };
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -700,9 +700,8 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.BatchDeleteResources(ProductId, Type),
+                    Data = _YoungoServer.BatchDeleteResources(ProductId, Type),
                     IsSuccess = true,
-                    ErrorMsg = ""
                 };
                 return responseModel;
             };
@@ -721,9 +720,8 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _YoungoServer.DeleteResources(Id),
+                    Data = _YoungoServer.DeleteResources(Id),
                     IsSuccess = true,
-                    ErrorMsg = ""
                 };
                 return responseModel;
             };

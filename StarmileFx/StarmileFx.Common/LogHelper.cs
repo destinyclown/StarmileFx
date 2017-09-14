@@ -37,7 +37,7 @@ namespace StarmileFx.Common
         /// <param name="message"></param>
         public static void Error(ResponseResult result)
         {
-            logger.Error(@"请求地址：" + result.FunnctionName + "错误信息：" + result.ErrorMsg);
+            //logger.Error(@"请求地址：" + result.FunnctionName + "错误信息：" + result.ErrorMsg);
         }
     }
 }

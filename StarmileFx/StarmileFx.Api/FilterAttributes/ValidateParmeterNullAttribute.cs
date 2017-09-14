@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static StarmileFx.Models.Enum.BaseEnum;
 
 namespace StarmileFx.Api.FilterAttributes
 {
@@ -33,14 +34,14 @@ namespace StarmileFx.Api.FilterAttributes
                 {
                     ResponseResult result = new ResponseResult
                     {
-                        FunnctionName = filterContext.RouteData.Values["controller"].ToString() + "/" + filterContext.RouteData.Values["action"].ToString(),
                         IsSuccess = false,
-                        SendDateTime = DateTime.Now,
-                        ErrorMsg = string.Format("参数错误。{0} 参数不能为Null。", item.Trim())
+                        Error = new Error
+                        {
+                            Code= ErrorCode.ParameterError,
+                            Message= string.Format("{0} 参数不能为Null。", item.Trim())
+                        },
                     };
                     filterContext.Result = new JsonResult(result);
-                    //throw new Exception(result.ErrorMsg);
-                    LogHelper.Error(result);
                 }
             }
         }

@@ -16,7 +16,7 @@ namespace StarmileFx.Api.Server.IServices
     {
         #region 登录主页操作
         /// <summary>
-        /// 异步登录
+        /// 登录授权
         /// </summary>
         /// <param name="LoginName"></param>
         /// <param name="Password"></param>

@@ -6,7 +6,7 @@ namespace StarmileFx.Models
     /// <summary>
     /// 分页
     /// </summary>
-    public partial class PageData
+    public class PageData
     {
         /// <summary>
         /// 每页大小
@@ -53,5 +53,22 @@ namespace StarmileFx.Models
                 return false;
             }
         }
+    }
+
+    /// <summary>
+    /// 分页结果集封装
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class PageResult<T> where T : new()
+    {
+        /// <summary>
+        /// 结果集
+        /// </summary>
+        public T Data { get; set; }
+
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int Total { get; set; }
     }
 }

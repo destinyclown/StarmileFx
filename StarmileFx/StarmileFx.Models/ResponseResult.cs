@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static StarmileFx.Models.Enum.BaseEnum;
 
 namespace StarmileFx.Models
 {
@@ -13,15 +15,18 @@ namespace StarmileFx.Models
         public ResponseResult()
         {
             IsSuccess = false;
-            ErrorMsg = string.Empty;
-            SendDateTime = DateTime.Now;
-            Total = 0;
-            Token = "";
+            Data = null;
+            Error = null;
+            SystemError = null;
+            //ErrorMsg = string.Empty;
+            //SendDateTime = DateTime.Now;
+            //Total = 0;
+            //Token = "";
         }
         /// <summary>
         /// 请求方法
         /// </summary>
-        public string FunnctionName { get; set; }
+        //public string FunnctionName { get; set; }
         /// <summary>
         /// 是否成功
         /// </summary>
@@ -29,23 +34,36 @@ namespace StarmileFx.Models
         /// <summary>
         /// 内容
         /// </summary>
-        public object Content { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public object Data { get; set; }
+
+        /// <summary>
+        /// 违背业务规则类异常
+        /// </summary>
+        public Error Error { get; set; }
+
+        /// <summary>
+        /// 系统异常
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public SystemError SystemError { get; set; }
+
         /// <summary>
         /// 错误信息
         /// </summary>
-        public string ErrorMsg { get; set; }
+        //public string ErrorMsg { get; set; }
         /// <summary>
         /// 总数
         /// </summary>
-        public int Total { get; set; }
+        //public int Total { get; set; }
         /// <summary>
         /// Token令牌（临时存在7天）
         /// </summary>
-        public string Token { get; set; }
+        //public string Token { get; set; }
         /// <summary>
         /// 发送时间
         /// </summary>
-        public DateTime SendDateTime { get; set; }
+        //public DateTime SendDateTime { get; set; }
     }
 
     /// <summary>
@@ -53,10 +71,13 @@ namespace StarmileFx.Models
     /// </summary>
     public class ResponseResult<T> where T : new()
     {
-        /// <summary>
-        /// 请求方法
-        /// </summary>
-        public string FunnctionName { get; set; }
+        public ResponseResult()
+        {
+            IsSuccess = false;
+            Data = default(T);
+            Error = null;
+            SystemError = null;
+        }
         /// <summary>
         /// 是否成功
         /// </summary>
@@ -64,22 +85,71 @@ namespace StarmileFx.Models
         /// <summary>
         /// 内容
         /// </summary>
-        public T Content { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public T Data { get; set; }
+
+        /// <summary>
+        /// 违背业务规则类异常
+        /// </summary>
+        public Error Error { get; set; }
+
+        /// <summary>
+        /// 系统异常
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public SystemError SystemError { get; set; }
+
         /// <summary>
         /// 总数
         /// </summary>
-        public int? Total { get; set; }
+        //public int? Total { get; set; }
         /// <summary>
         /// 错误信息
         /// </summary>
-        public string ErrorMsg { get; set; }
+        //public string ErrorMsg { get; set; }
         /// <summary>
         /// Token令牌（临时存在7天）
         /// </summary>
-        public string Token { get; set; }
+        //public string Token { get; set; }
         /// <summary>
         /// 发送时间
         /// </summary>
-        public DateTime SendDateTime { get; set; }
+        //public DateTime SendDateTime { get; set; }
+    }
+
+    /// <summary>
+    /// 违背业务规则类异常
+    /// </summary>
+    public class Error
+    {
+        /// <summary>
+        /// 错误码
+        /// </summary>
+        public string Code { get; set; }
+        /// <summary>
+        /// 错误信息
+        /// </summary>
+        public string Message { get; set; }
+    }
+
+    /// <summary>
+    /// 系统异常
+    /// </summary>
+    public class SystemError
+    {
+        /// <summary>
+        /// 异常信息
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// 异常类型
+        /// </summary>
+        public string ExceptionType { get; set; }
+
+        /// <summary>
+        /// 帮助地址
+        /// </summary>
+        public string HelpUrl { get; set; }
     }
 }

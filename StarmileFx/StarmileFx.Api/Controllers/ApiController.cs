@@ -38,7 +38,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = BaseService.GetSysRoleOnline(Token),
+                    Data = BaseService.GetSysRoleOnline(Token),
                     IsSuccess = true
                 };
                 return responseModel;
@@ -58,7 +58,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = BaseService.Refresh(Token, HttpContext),
+                    Data = BaseService.Refresh(Token, HttpContext),
                     IsSuccess = true
                 };
                 return responseModel;
@@ -80,7 +80,7 @@ namespace StarmileFx.Api.Controllers
                 Result result = new Result();
                 if (model != null)
                 {
-                    responseModel.Token = BaseService.Insert(model, HttpContext);
+                    responseModel.Data = BaseService.Insert(model, HttpContext);
                     result.IsSuccess = true;
                     result.ReasonDescription = "登录成功！";
                 }
@@ -88,7 +88,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     result.ReasonDescription = "用户名或密码错误！";
                 }
-                responseModel.Content = result;
+                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -107,7 +107,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _BaseServer.LoadMenuByRole(model),
+                    Data = _BaseServer.LoadMenuByRole(model),
                     IsSuccess = true
                 };
                 return responseModel;
@@ -136,7 +136,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     result.ReasonDescription = "Token错误，请检查！";
                 }
-                responseModel.Content = result;
+                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -155,7 +155,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _BaseServer.LoadMenuByRole(model),
+                    Data = _BaseServer.LoadMenuByRole(model),
                     IsSuccess = true
                 };
                 return responseModel;
@@ -176,7 +176,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = _BaseServer.GetCollectionList(model),
+                    Data = _BaseServer.GetCollectionList(model),
                     IsSuccess = true
                 };
                 return responseModel;
@@ -197,7 +197,7 @@ namespace StarmileFx.Api.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = new
+                    Data = new
                     {
                         UserId = model.LoginName,
                         MenuList = _BaseServer.GetCollectionList(model)
@@ -224,7 +224,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     IsSuccess = _BaseServer.ConfirmCollection(model, fromData)
                 };
-                responseModel.Content = result;
+                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -245,7 +245,7 @@ namespace StarmileFx.Api.Controllers
                 {
                     IsSuccess = _BaseServer.CancelCollection(model, fromData)
                 };
-                responseModel.Content = result;
+                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);

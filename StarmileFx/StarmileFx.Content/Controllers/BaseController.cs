@@ -32,7 +32,7 @@ namespace StarmileFx.Content.Controllers
                 result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
                 result.IsSuccess = false;
                 result.SendDateTime = DateTime.Now;
-                result.Content = "";
+                result.Data = "";
                 result.ErrorMsg = ex.Message;
                 string json = JsonHelper.T_To_Json(result);
                 LogHelper.Error(result);
@@ -61,7 +61,7 @@ namespace StarmileFx.Content.Controllers
                 result.FunnctionName = RouteData.Values["controller"].ToString() + "/" + RouteData.Values["action"].ToString();
                 result.IsSuccess = false;
                 result.SendDateTime = DateTime.Now;
-                result.Content = "";
+                result.Data = "";
                 result.ErrorMsg = ex.Message;
                 string json = string.Format("{0}({1})", callback, JsonHelper.T_To_Json(result));
                 LogHelper.Error(result);
@@ -94,7 +94,7 @@ namespace StarmileFx.Content.Controllers
             {
                 result.IsSuccess = false;
                 result.SendDateTime = DateTime.Now;
-                result.Content = "";
+                result.Data = "";
                 result.ErrorMsg = ex.Message;
                 LogHelper.Error(result);
             }

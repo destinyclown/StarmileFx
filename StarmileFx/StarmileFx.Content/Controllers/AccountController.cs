@@ -69,7 +69,7 @@ namespace StarmileFx.Content.Controllers
             }
             else
             {
-                result = responseResult.Content;
+                result = responseResult.Data;
                 var claims = new List<Claim>()
                 {
                     new Claim(fromData.Email, responseResult.Token),
@@ -118,7 +118,7 @@ namespace StarmileFx.Content.Controllers
             }
             else
             {
-                result = responseResult.Content;
+                result = responseResult.Data;
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
             return Json(result);
@@ -140,7 +140,7 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = responseResult.Content,
+                    Data = responseResult.Data,
                     IsSuccess = true
                 };
                 return responseModel;
@@ -162,10 +162,10 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    Content = new
+                    Data = new
                     {
                         UserId = email,
-                        MenuList = responseResult.Content
+                        MenuList = responseResult.Data
                     },
                     IsSuccess = true
                 };
@@ -200,7 +200,7 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Content.IsSuccess
+                    IsSuccess = responseResult.Data.IsSuccess
                 };
                 return responseModel;
             };
@@ -229,7 +229,7 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Content.IsSuccess
+                    IsSuccess = responseResult.Data.IsSuccess
                 };
                 return responseModel;
             };
