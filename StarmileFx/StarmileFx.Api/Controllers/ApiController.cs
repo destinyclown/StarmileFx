@@ -81,7 +81,7 @@ namespace StarmileFx.Api.Controllers
                 if (model != null)
                 {
                     responseModel.Token = BaseService.Insert(model, HttpContext);
-                    result.IsSuccessful = true;
+                    result.IsSuccess = true;
                     result.ReasonDescription = "登录成功！";
                 }
                 else
@@ -129,7 +129,7 @@ namespace StarmileFx.Api.Controllers
                 Result result = new Result();
                 if (BaseService.ClearRole(Token))
                 {
-                    result.IsSuccessful = true;
+                    result.IsSuccess = true;
                     result.ReasonDescription = "登录成功！";
                 }
                 else
@@ -222,7 +222,7 @@ namespace StarmileFx.Api.Controllers
                 var responseModel = new ResponseResult();
                 Result result = new Result
                 {
-                    IsSuccessful = _BaseServer.ConfirmCollection(model, fromData)
+                    IsSuccess = _BaseServer.ConfirmCollection(model, fromData)
                 };
                 responseModel.Content = result;
                 return responseModel;
@@ -243,7 +243,7 @@ namespace StarmileFx.Api.Controllers
                 var responseModel = new ResponseResult();
                 Result result = new Result
                 {
-                    IsSuccessful = _BaseServer.CancelCollection(model, fromData)
+                    IsSuccess = _BaseServer.CancelCollection(model, fromData)
                 };
                 responseModel.Content = result;
                 return responseModel;

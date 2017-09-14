@@ -16,7 +16,7 @@ namespace StarmileFx.Models
         /// </summary>
         public Result()
         {
-            IsSuccessful = false;
+            IsSuccess = false;
             Reason = HttpStatusCode.OK;
             ReasonDescription = "";
             ParamList = new Dictionary<string, object>();
@@ -25,7 +25,7 @@ namespace StarmileFx.Models
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool IsSuccessful { get; set; }
+        public bool IsSuccess { get; set; }
 
         /// <summary>
         /// 原因，数值

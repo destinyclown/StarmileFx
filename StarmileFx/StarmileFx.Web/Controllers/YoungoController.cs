@@ -70,12 +70,12 @@ namespace StarmileFx.Web.Controllers
             ResponseResult<bool> responseResult = await _YoungoServer.DeleteProduct(Id);
             if (responseResult.IsSuccess && responseResult.Content)
             {
-                result.IsSuccessful = responseResult.Content;
+                result.IsSuccess = responseResult.Content;
                 return Json(result);
             }
             else
             {
-                result.IsSuccessful = responseResult.Content;
+                result.IsSuccess = responseResult.Content;
                 result.ReasonDescription = responseResult.ErrorMsg;
                 return Json(result);
             }
@@ -85,12 +85,12 @@ namespace StarmileFx.Web.Controllers
             ResponseResult<bool> responseResult = await _YoungoServer.BatchDeleteProduct(Ids);
             if (responseResult.IsSuccess && responseResult.Content)
             {
-                result.IsSuccessful = responseResult.Content;
+                result.IsSuccess = responseResult.Content;
                 return Json(result);
             }
             else
             {
-                result.IsSuccessful = responseResult.Content;
+                result.IsSuccess = responseResult.Content;
                 result.ReasonDescription = responseResult.ErrorMsg;
                 return Json(result);
             }

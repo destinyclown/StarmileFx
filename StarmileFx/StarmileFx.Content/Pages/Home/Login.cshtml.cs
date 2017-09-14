@@ -73,7 +73,7 @@ namespace StarmileFx.Content.Pages.Home
                 }
                 else
                 {
-                    if (!responseResult.Content.IsSuccessful)
+                    if (!responseResult.Content.IsSuccess)
                     {
                         ErrorMessage = responseResult.Content.ReasonDescription;
                         ModelState.AddModelError(string.Empty, ErrorMessage);

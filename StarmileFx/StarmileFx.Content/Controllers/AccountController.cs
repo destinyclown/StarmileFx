@@ -200,7 +200,7 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Content.IsSuccessful
+                    IsSuccess = responseResult.Content.IsSuccess
                 };
                 return responseModel;
             };
@@ -229,7 +229,7 @@ namespace StarmileFx.Content.Controllers
             {
                 var responseModel = new ResponseResult
                 {
-                    IsSuccess = responseResult.Content.IsSuccessful
+                    IsSuccess = responseResult.Content.IsSuccess
                 };
                 return responseModel;
             };

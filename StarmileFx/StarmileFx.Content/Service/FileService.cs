@@ -34,7 +34,7 @@ namespace StarmileFx.Content.Service
             {
                 Result result = new Result
                 {
-                    IsSuccessful = true
+                    IsSuccess = true
                 };
                 foreach (var a in data)
                 {
@@ -54,7 +54,7 @@ namespace StarmileFx.Content.Service
             {
                 Result result = new Result
                 {
-                    IsSuccessful = false,
+                    IsSuccess = false,
                     ReasonDescription = msg,
                     Reason = httpCode
                 };

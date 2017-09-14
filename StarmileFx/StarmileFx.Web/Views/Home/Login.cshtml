@@ -121,7 +121,7 @@
                         url: $form.attr('action'),
                         success: function (result) {
                             $('.login_tips').find('.tips_msg').remove();
-                            if (!result.isSuccessful) {
+                            if (!result.isSuccess) {
                                 $("#loginbtn").val("登录");
                                 $('.login_tips').append('<div class="tips_msg"><i class="fa fa-question-circle"></i>' + result.reasonDescription + '</div>');
                             }
