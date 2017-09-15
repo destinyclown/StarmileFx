@@ -20,14 +20,6 @@ namespace StarmileFx.Api.Controllers
     {
         public BaseController() { }
 
-        //依赖注入
-        private readonly IBaseServer _BaseServer;
-
-        public BaseController(IBaseServer IBaseServer)
-        {
-            _BaseServer = IBaseServer;
-        }
-
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
@@ -64,9 +56,9 @@ namespace StarmileFx.Api.Controllers
         public string ActionResponse(Func<ResponseResult> action)
         {
             ResponseResult result = new ResponseResult();
+            DateTime timer = DateTime.Now;
             try
             {
-                DateTime timer = DateTime.Now;
                 result = action.Invoke();
                 //创建日志记录
                 SysLog log = new SysLog
@@ -76,7 +68,7 @@ namespace StarmileFx.Api.Controllers
                     Herf = Request.Path.Value,
                     ResponseSpan = (decimal)DateTime.Now.Subtract(timer).Milliseconds / 1000
                 };
-                //_BaseServer.Logger(log);
+                LogService.Add(log);
                 return JsonHelper.T_To_Json(result);
             }
             catch (Exception ex)
@@ -94,6 +86,17 @@ namespace StarmileFx.Api.Controllers
                     Message = ex.Message,
                     HelpUrl = "https://api.starmile.com.cn/api/help/" + ErrorCode.SystemError,
                 };
+                //创建日志记录
+                SysLog log = new SysLog
+                {
+                    Ip = GetUserIp(),
+                    Code = result.Error.Code,
+                    ErrorMessage = ex.Message,
+                    IsError = true,
+                    Herf = Request.Path.Value,
+                    ResponseSpan = (decimal)DateTime.Now.Subtract(timer).Milliseconds / 1000
+                };
+                LogService.Add(log);
                 return JsonHelper.T_To_Json(result);
             }
         }
@@ -124,7 +127,7 @@ namespace StarmileFx.Api.Controllers
             {
                 Message = string.Format("StarmileFx.Api系统出错\r\n客户端IP地址：{0}\r\nController：{1}\r\nAction：{2}\r\n错误信息：{3}", GetUserIp(), Controller, Action, ErrorMsg),
                 Subject = "StarmileFx.Api系统出错",
-                type = EmailTypeEnum.Error
+                Type = EmailTypeEnum.Error
             };
             EmailService.Add(email);
         }

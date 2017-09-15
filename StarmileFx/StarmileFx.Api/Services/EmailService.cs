@@ -100,7 +100,7 @@ namespace StarmileFx.Api.Services
 
             foreach (Email email in elist)
             {
-                switch (email.type)
+                switch (email.Type)
                 {
                     case EmailTypeEnum.Youngo:
                         MailHelper.Send(_EmailConfig, _EmailConfig.YoungoEamil, email.Subject, email.Message);
@@ -194,7 +194,7 @@ namespace StarmileFx.Api.Services
         /// <summary>
         /// 邮寄类型
         /// </summary>
-        public EmailTypeEnum type { get; set; }
+        public EmailTypeEnum Type { get; set; }
         /// <summary>
         /// 标题
         /// </summary>
