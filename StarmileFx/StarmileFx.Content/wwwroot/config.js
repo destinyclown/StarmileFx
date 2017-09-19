@@ -36,9 +36,12 @@
             //-- jqGrid
             'jqGrid': 'lib/jqGrid/js/jqGrid.min',
 
-            //--layer
+            //-- layer
             'layer': 'lib/layer/build/layer',     
             '_layer-addon': 'js/jquery.layer.ext',
+
+            //-- laydate
+            'laydate':'lib/laydate/src/laydate',
 
             'indextab': 'js/indextab',
             'Default': 'js/Default',
@@ -72,8 +75,11 @@
             //-- jqGrid
             'jqGrid': ['jquery', 'css!jqGrid/css/ui.jqgrid.css'],
 
-            //--layer
+            //-- layer
             'layer': ['css!lib/layer/build/skin/default/layer.css'],
+
+            //-- laydate
+            'laydate': ['css!lib/laydate/src/theme/default/laydate.css'],
         }
     }
 

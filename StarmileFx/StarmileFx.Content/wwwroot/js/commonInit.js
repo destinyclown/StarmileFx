@@ -2,8 +2,7 @@
  * 仅存放全局最基础常用控件初始化等，尽可能保持精简
  */
 define([
-    'jquery',
-    'bootstrap' 
+    'jquery'
 ], function ($) {
     $(function () {
         // 日期选择

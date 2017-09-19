@@ -15,7 +15,8 @@
     "jquery-ui": "1.12.1",
     "jqGrid": "jqgrid#v5.2.1",
     "classnames": "v2.2.5",
-    "layer": "3.0.3"
+    "layer": "3.0.3",
+    "laydate": "*"
   },
   "resolutions": {
     "jquery": "3.2.1",

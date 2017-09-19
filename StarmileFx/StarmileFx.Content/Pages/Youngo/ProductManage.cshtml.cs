@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace StarmileFx.Content.Pages.Youngo
 {
-    public class OrderModel : PageModel
+    public class ProductManageModel : PageModel
     {
         public void OnGet()
         {
