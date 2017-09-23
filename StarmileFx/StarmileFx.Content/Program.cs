@@ -16,7 +16,7 @@ namespace StarmileFx.Content
             WebHost.CreateDefaultBuilder(args)
                 //.UseKestrel()
                 .UseUrls("http://*:8004")
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
+                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))//正式使用
                 .UseStartup<Startup>()
                 //.UseApplicationInsights()
                 .Build();

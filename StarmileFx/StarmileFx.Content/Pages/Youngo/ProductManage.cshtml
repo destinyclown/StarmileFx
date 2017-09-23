@@ -2,3 +2,448 @@
 @model ProductManageModel
 @{
 }
+@section style{
+    <link href="~/css/listview.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="page-header-wrap">
+        <h3 class="page-header-title">折扣管理</h3>
+        <ol class="page-header-breadcrumb breadcrumb">
+            <li><a href="#">棒谷电商平台</a></li>
+            <li><a href="#">平台1</a></li>
+            <li class="active">折扣管理</li>
+        </ol>
+    </div>
+    <!-- 注：如果页面中不需要侧栏的树结构，则不需要下方这个 <ul /> ！ -->
+    <!-- 注：如果页面中不需要侧栏的树结构，则不需要下方这个 <ul /> ！ -->
+    <!-- 注：如果页面中不需要侧栏的树结构，则不需要下方这个 <ul /> ！ -->
+    <ul id="treeDemo" style="display:none"></ul>
+    <div id="main_grid"></div>
+</div>
+<script>
+    requirejs(['https://content.banggood.cn/Content/config.js'], function () {
+      requirejs([
+        'ui',
+        'layer',
+          'clipboard-js',
+          'bootstrap',
+        'jqGrid',
+        'searchConditionDrag'
+      ], function(ui, layer, Clipboard) {
+        var sideTree, departmentTree;
+       $grid = new $.createJqGrid({
+            // locale: 'en_US',
+            url: 'http://192.168.1.102:3000/api/cc34b0b4196e98481455679ef4c7ac23?pureresult',
+            sortname:'dp.ID',
+            sortorder:'DESC',
+            footerrow : true, // 是否显示底部汇总行
+            autoload: true, // 是否自动加载第一页数据
+            // multiselect: false, // 隐藏第一列复选框
+            // highlightCol: false, // 设为 false 可关闭列高亮效果
+            // sortable: false, // 禁用表格列拖动排序功能
+
+            // 默认 Filter 提交字段拼接为一个字符串，并通过 search 参数提交，
+            // 如： search: `dp`dp|`ProductCode`DiscountBeginDate|`1`2017/01/01|`eq`GreatEq
+            // 如果该项为 true ，则 Filter 搜索提交数据按键值传输，
+            // 如： {key1: '1', key2: '2'}
+            // useObjectSearch: true,
+
+            // 实现行单选
+            // beforeSelectRow: function() {
+            //   $(this).jqGrid('resetSelection');
+            // },
+            // loadComplete: function(data) {
+            //   // 函数内部 this 指向实例自身
+            //   $('#cb_main_grid').hide();
+            //   $('[id^=jqg_main_grid]').attr('type', 'radio');
+            // },
+
+            // saveSearchCondition 为 true 的话 filter 的提交按钮会展现为带保存查询功能的下拉菜单按钮
+            // 下方 searchConditionAPI 各接口地址也必须正确配置不为空，保存功能才会开启
+            saveSearchCondition: true,
+            // 搜索条件保存的 key 标识默认是当前 url 地址，如果是单页应用， url 不改变但需要保存不同表格中的搜索条件，可手动设置该值为能够区分的标识字符串即可
+            // searchConditionKey: 'otherKey',
+
+            // 测试环境中，可直接用下方的配置值，线上必须指定域名到 `https://easale.banggood.cn` 该域下
+            // 测试环境中，可直接用下方的配置值，线上必须指定域名到 `https://easale.banggood.cn` 该域下
+            // 测试环境中，可直接用下方的配置值，线上必须指定域名到 `https://easale.banggood.cn` 该域下
+            // searchConditionAPI: {
+            //   getData: '/SCBeBay/EBayCommonQueryManage/GetDataByUrlAndUseId',
+            //   add: '/SCBeBay/EBayCommonQueryManage/AddData',
+            //   edit: '/SCBeBay/EBayCommonQueryManage/EditTitle',
+            //   delete: '/SCBeBay/EBayCommonQueryManage/Delete',
+            //   setDefault: '/SCBeBay/EBayCommonQueryManage/SetDefault',
+            // },
+
+
+            // 填充进侧栏的元素，若该配置有效，则会生成带侧栏结构的布局
+            sidebarEle: $('#treeDemo'),
+            // sidebarDefaultShow: true, // sidebarDefaultShow 为 true 则默认展开侧栏
+
+            gridComplete: function() {
+              // 每次 search 都会触发一次该函数，因此如果有控件初始化等一次性的操作，需要放在下方的 onInitComplete 方法内执行
+
+              // 演示底部 “数量” 汇总列
+              var $table = $(this);
+              var QuantitySum = $table.jqGrid('getCol', 'Quantity', false, 'sum');
+              $table.jqGrid('footerData', 'set', { 'Quantity': QuantitySum });
+            },
+
+            onInitComplete: function() {
+              function resizeSideTreeHeight() {
+                var $treeBody = $('.page-sidebar .tree-body');
+                $treeBody.height($(window).height() - $treeBody.offset().top - 8);
+              }
+              resizeSideTreeHeight();
+              window.addEventListener('resize', resizeSideTreeHeight);
+
+              // 部门选择
+              departmentTree = new treeDataSelect('#departmentId', {
+                treedata: depdata,
+                resetTreeAfterClick: false,
+              });
+
+              // 默认选中某个节点，注意需配合下方的 onFilterReset
+              // var selectedDepartmentNode = departmentTree.treeObj.getNodeByParam('id', '1a49f139267b026404e589603a589e28');
+              // if (selectedDepartmentNode) {
+              //   departmentTree.treeObj.selectNode(selectedDepartmentNode); // 设置节点选中效果
+              //   departmentTree.treeObj.setting.callback.onClick(null, departmentTree.treeObj.setting.treeId, selectedDepartmentNode); // 触发节点点击事件
+              // }
+
+              $('#departmentId').on('change:searchCondition', function() {
+                var selectedDepartmentNode = departmentTree.treeObj.getNodeByParam('id', this.value);
+                if (selectedDepartmentNode) {
+                  departmentTree.treeObj.selectNode(selectedDepartmentNode); // 设置节点选中效果
+                  departmentTree.treeObj.setting.callback.onClick(null, departmentTree.treeObj.setting.treeId, selectedDepartmentNode); // 触发节点点击事件
+                }
+              });
+            },
+
+            // onFilterReset: function() {
+            //   setTimeout(function() {
+            //     var selectedDepartmentNode = departmentTree.treeObj.getNodeByParam('id', '1a49f139267b026404e589603a589e28');
+            //     if (selectedDepartmentNode) {
+            //       departmentTree.treeObj.selectNode(selectedDepartmentNode); // 设置节点选中效果
+            //       departmentTree.treeObj.setting.callback.onClick(null, departmentTree.treeObj.setting.treeId, selectedDepartmentNode); // 触发节点点击事件
+            //     }
+            //   }, 0);
+            // },
+
+            colModel: [
+              { display: 'ID', name: 'ID', index: 'dp.ID', hidden: true },
+              { display: '自定义标签<span class="thLabel J_thLabel"><i class="fa fa-question-circle"></i></span>', align: 'center', name: 'ProductCode', index: 'dp.ProductCode', width: 100, sortable: false, fixed: true, formatter: function(val, options, row) {
+                return '<span class="J_sku">' + val + '</span>';
+              } },
+              { display: '产品名称<span class="thLabel J_thLabel"><i class="fa fa-question-circle"></i></span>', name: 'Name', index: 'p.Name', width: 120, sortable: false, formatter: function(val, options, row) {
+                return '<span data-img="' + row.img + '">' + val + '</span>';
+              } },
+
+              /**
+               * 对于诸如行内操作按钮等对宽度有固定要求的，需要增加 fixed: true 参数
+               */
+              /**
+               * $grid.ceateOpBtn(row['ID'], '设置折扣|edit', '删除|del');
+               * '设置|xxx|pencil' 可通过 | 分隔的第三个文本传入自定义的 font-awesome 图标
+               */
+              { display: '操作样式1', name: 'operator1', width: 80, resizable: false, fixed: true, align: 'center', formatter: function (val, options, row) {
+                return $grid.ceateOpBtn(row['ID'], '设置折扣|edit', '删除|del');
+              } },
+              { display: '操作样式2', name: 'operator2', width: 80, resizable: false, fixed: true, align: 'center', formatter: function (val, options, row) {
+                /**
+                 * 数组项支持配置
+                 * {
+                 *   text: 主按钮文本
+                 *   icon: 主按钮图标
+                 *   className: 可选，主按钮 class 属性
+                 *   caret: 是否生成中间有分裂样式的主按钮
+                 *   children: 接受数组，数组子项配置与父级一致
+                 *
+                 *   除了上面几项，其他属性都会原样传给按钮元素，比如可以设置：
+                 *   onclick: 'alert("点击了按钮")',
+                 * }
+                 */
+                return $grid.createOpBtnGroup({
+                  text: '按钮',
+                  icon: 'pencil',
+                  className: 'J_test',
+                  // caret: false,
+                  children: [{
+                    text: '子级按钮1',
+                    className: 'J_sub1',
+                    icon: 'eye',
+                    onclick: 'alert("点击了子级按钮1")',
+                    'value-id': row['ID'],
+                  }, {
+                    text: '子级按钮2',
+                    className: 'J_sub2',
+                    icon: 'plus',
+                    onclick: 'alert("点击了子级按钮2")',
+                    'value-id': row['ID'],
+                  }],
+                });
+              } },
+              { display: '操作样式3', name: 'operator3', width: 120, resizable: false, fixed: true, align: 'center', formatter: function (val, options, row) {
+                /**
+                 * 配置说明：
+                 * $grid.createBlockBtn(Array) 接受一个数组参数，
+                 *
+                 * {
+                 *   btnType: 可选值 add , del , edit , view ，分别对应4个颜色
+                 *   className: 传入字符串定义按钮的的 class 属性
+                 *   icon: 可选设置，可传入 font-awesome 的图标名，若没有传入则自动填充 btnType 内部匹配好的默认图标
+                 *   caret: 是否生成中间有分裂样式的主按钮
+                 *   children: 用法与上方 createOpBtnGroup 方法的 children 一致
+                 *
+                 *   除了上面几项，其他属性都会原样传给按钮元素，比如可以设置：
+                 *   onclick: 'alert("点击了按钮")',
+                 * }
+                 */
+                return $grid.createBlockBtn([{
+                  tag: 'span',
+                  btnType: 'add',
+                  className: 'J_btnedit',
+                }, {
+                  btnType: 'del',
+                  className: 'J_btndel',
+                  text: '<strong title="自定义内容">C</strong>',
+                }, {
+                  btnType: 'edit',
+                  className: 'J_btnedit',
+                  children: [{
+                    text: '编辑字段1',
+                    className: 'J_blocksub1',
+                    icon: 'eye',
+                    onclick: 'alert("点击了子级按钮1")',
+                    'value-id': row['ID'],
+                  }, {
+                    text: '编辑字段2',
+                    className: 'J_blocksub2',
+                    icon: 'plus',
+                    onclick: 'alert("点击了子级按钮2")',
+                    'value-id': row['ID'],
+                  }],
+                }, {
+                  btnType: 'view',
+                  className: 'J_btnview',
+                  caret: false,
+                  children: [{
+                    text: '查看字段1',
+                    onclick: 'alert("点击了子级按钮1")',
+                  }, {
+                    text: '查看字段2',
+                    onclick: 'alert("点击了子级按钮2")',
+                  }],
+                }]);
+              } },
+
+              { display: '品项<br/>销售员', align: 'center', name: 'UserName', index: 'u.UserName', width: 50, sortable: true, formatter: function (val, options, row) { return row['UserName'] + '<br/>' + row['xsUserName']; } },
+              { display: '仓库', align: 'center', name: 'WarehouseType', index: 'dp.WarehouseType', width: 50, sortable: true, formatter: function (val, option, row) { return $grid.GetWTName(row['WarehouseType']); } },
+              { display: '零售价格', align: 'center', name: 'SalePrice', index: '', width: 50, sortable: false, formatter: function (val, options, row) { return $grid.GetWTPriceName(row['WarehouseType'], row); } },
+              // { display: '折扣率', name: 'Discount', index: 'dp.Discount', width: 60, sortable: true },
+              // { display: '折后价', name: 'DiscountPrice', index: 'dp.DiscountPrice', width: 50, sortable: true },
+              { display: '折扣率<br />折后价', align: 'center', name: 'Discount', index: 'dp.Discount', width: 50, sortable: true, formatter: function(val, options, row) { return row['Discount'] + '<br/>' + row['DiscountPrice']; } },
+              { display: '折扣开始日期', align: 'center', name: 'DiscountBeginDate', index: 'dp.DiscountBeginDate', width: 70, sortable: true, formatter: function (val, options, row) { return row['DiscountBeginDate'].substring(0, row['DiscountBeginDate'].indexOf(' ')) } },
+              { display: '折扣结束日期', align: 'center', name: 'DiscountEndDate', index: 'dp.DiscountEndDate', width: 70, sortable: true, formatter: function (val, options, row) { return row['DiscountEndDate'].substring(0, row['DiscountEndDate'].indexOf(' ')) } },
+              { display: '折扣开始时间', align: 'center', name: 'DiscountBeginTime', index: 'dp.DiscountBeginTime', width: 70, sortable: true, formatter: function (val, options, row) { var v = row['DiscountBeginTime'];return v != null ? v.substring(v.indexOf(' ')) : '' } },
+              { display: '折扣结束时间', align: 'center', name: 'DiscountEndTime', index: 'dp.DiscountEndTime', width: 70, sortable: true, formatter: function (val, options, row) { v = row['DiscountEndTime']; return v != null ? v.substring(v.indexOf(' ')) : ''; } },
+              { display: '数量', align: 'center', name: 'Quantity', index: 'dp.Quantity', width: 40, sortable: true },
+              { display: '是否启用', align: 'center', name: 'IsStartUp', index: 'dp.IsStartUp', width: 50, sortable: true, formatter: function (val, options, row) { return row['IsStartUp'] == true ? '<span class=\'label label-success\'>是</span>' : '否' } },
+              { display: '创建人<br/>创建时间', align: 'center', name: 'CreateTime', index: 'dp.CreateTime', width: 100, sortable: true, formatter: function (val, options, row) {
+                return $grid.TNS(row['CreateUser']) + '<br/>' + $grid.TNS(row['CreateTime'])
+              } },
+              { display: '修改人<br/>修改时间', align: 'center', name: 'UpdateTime', index: 'dp.UpdateTime', width: 100, sortable: true, formatter: function (val, options, row) {
+                return $grid.TNS(row['UpdateUser']) + '<br/>' + $grid.TNS(row['UpdateTime'])
+              } }
+            ],
+            filters: [
+              {id:'departmentId',html: '<input class="form-control input-sm no-history" data-val="true" id="departmentId" tname="pkpipr" cname="DepartmentId" name="DepartmentId" placeholder="部门" operate="In" type="text">'},
+              {id:'Departure',html:'<select multiple="multiple" placeholder="发货地" id="Departure" style="width:100px"><option value="1">初级</option><option value="2">中级</option><option value="3">高级</option></select>'},
+              {id:'ProductCode',html:'<input type="text" name="ProductCode" id="ProductCode" placeholder="SKU" tName="dp" cName="ProductCode" operate="eq" class="filter form-control "  /> '},
+              {id:'daterangepicker',html:'<input class="form-control input-sm" type="text" id="daterangepicker" cname="daterangepicker" placeholder="选择日期范围" style="width:180px">'},
+              {if:'sBegDate',html:'<input type="text" name="sBegDate" id="sBegDate" placeholder="折扣起始日期" tName="dp" cName="DiscountBeginDate" operate="GreatEq" class="filter form-control calendar J_calendar" />'},
+              {id:'sEndDate',html:'<input type="text" name="sEndDate" id="sEndDate" placeholder="折扣结束日期" tName="dp" cName="DiscountEndDate" operate="LessEq" class="filter form-control calendar J_calendar not-reset-empty" />'},
+              {id:'productLabelList',html:'<select class="filter" id="productLabelList" name="productLabelList"><option selected="selected">产品特性标注</option><option value="1">PI965_纯锂离子电池</option><option value="2">PI968_纯锂金属电池</option><option value="3">PI966_配套包装锂离子电池</option><option value="4">PI967_内置安装锂离子电池</option><option value="5">PI969_配套包装锂金属电池</option><option value="6">PI970_内置安装锂金属电池</option><option value="14">液体100ml以上</option><option value="16">磁铁</option><option value="17">膏状</option><option value="18">品牌</option><option value="19">带logo</option><option value="21">管制刀具</option><option value="22">武器</option><option value="23">危险品</option><option value="24">易碎</option><option value="25">勿折</option><option value="26">墨盒</option><option value="28">天然物品</option><option value="29">大于12伏</option><option value="30">无线</option><option value="31">蓝牙</option><option value="32">FDA</option><option value="33">手表电池</option><option value="40">乒乓球</option><option value="41">手铐</option><option value="42">音箱/大耳机</option><option value="43">大包</option><option value="44">指甲油</option><option value="45">LED产品</option><option value="46">情趣用品</option><option value="47">航模</option><option value="48">手机平板</option><option value="50">CE认证</option><option value="51">疑似违禁品</option><option value="52">大于50伏并且是LED产品</option><option value="53">儿童警示标签</option><option value="54">气球</option><option value="55">移动电源</option><option value="60">假发</option><option value="61">需配套改内置</option><option value="62">有配件</option><option value="63">粉末</option><option value="64">片装面膜</option><option value="65">液体100ml以下</option><option value="66">室内使用</option><option value="67">激光瞄准器</option><option value="68">电子烟</option><option value="69">超容内置电池</option><option value="70">陶瓷刀</option><option value="71">内置微小带电</option><option value="72">金属饰品</option><option value="73">餐具（接触食物）</option><option value="74">枪形外观（非武器）</option><option value="75">车载点烟器</option><option value="76">鞋类</option><option value="77">特殊包装</option><option value="78">尖锐物品</option><option value="79">磨刀石</option><option value="80">服饰磁性扣</option><option value="81">内含酒精棉</option><option value="83">测试测试</option><option value="86">气柱袋包装</option><option value="88">种子</option><option value="89">光盘</option></select>'},
+               {id:'WarehouseType',html:'<select name="WarehouseType" id="WarehouseType" tName="dp" cName="WarehouseType" operate="eq" class="filter form-control chosen-select-deselect"><option selected="selected">请选择仓库</option><option value="1" >中仓</option><option value="2" >英仓</option><option value="3" >美仓</option><option value="4" >香港仓</option></select>'},
+               {id:'IsStartUp',html:'<select name="IsStartUp" id="IsStartUp" tName="dp" cName="IsStartUp" operate="eq" class="filter form-control chosen-select-deselect"><option selected="selected">是否启用</option><option value="1" >是</option><option value="0" >否</option></select>'},
+              {id:'DateType',html:'<select name="DateType" id="DateType" tName="dp" cName="DateType" operate="eq" class="filter form-control chosen-select-deselect"><option selected="selected">请选择折扣活动类型</option><option value="1" >时段打折</option><option value="2" >持续打折</option></select>'},
+              {id:'product_specialer',html:'<select name="product_specialer" id="product_specialer" tName="p" cName="WebSellerID" operate="eq" class="filter form-control chosen-select-deselect"><option selected="selected">请选择品项专员</option><option value="3807" >曾浩然</option><option value="17445" >曾浩然（灯泡）</option><option value="7788" >陈超荣</option><option value="9753" >陈东</option><option value="9557" >陈胡容</option></select>'},
+              {id:'byself',html:'<input type="text" name="byself" id="byself" cname="cname1" tname="tname1" placeholder="不合并到 search 字符串中" class="filter form-control" data-submit-self />'},
+              {id:'product_manager',html:'<input type="hidden" id="product_manager" cname="product_manager" name="product_manager" class="filter" /><div class="sear-group multi-select" id="ProductManager"><div class="input-group input-group-sm"><input type="text" class="form-control input-sm input-click" id="ProductManager_Text" placeholder="产品经理"> <span class="input-group-addon">0项</span></div><div class="pro-sear sear-click" style="display:none"><div>加载中...</div></div></div>'}
+            ],
+
+            buttons: [
+              { id: 'GetSelectedNodes', icon: 'tree', name:'获取选中树节点', styleType:'success' },
+              { id: 'MultipleDelete', icon: 'trash', name:'批量删除', styleType:'danger' },
+              { id: 'GetEmptyGrid', name:'获取空记录', styleType:'warning' },
+              { id: 'GetTips', icon: 'lightbulb-o', styleType:'info', title:'功能提示' },
+            ]
+          });
+          window.$grid = $grid;
+        // 多列表头合并，合并显示的情况下必须禁用列排序功能避免结构混乱
+        // $('#main_grid').jqGrid('setGroupHeaders', {
+        //   useColSpanStyle: true,
+        //   groupHeaders: [
+        //     { startColumnName: 'DiscountBeginDate', numberOfColumns: 2, titleText: '折扣日期' },
+        //     { startColumnName: 'CreateTime', numberOfColumns: 2, titleText: '操作人员' },
+        //   ]
+        // });
+
+        // 表头提示标签
+        $('body').on('mouseenter', '.J_thLabel', function() {
+          $(this).popover({
+            content: '<strong>支持</strong>自定义<code>HTML</code>代码提示内容。',
+            placement: 'bottomLeft',
+            styleType: 'primary',
+            arrowPointAtCenter: true,
+          }, true);
+        });
+
+        // 行编辑
+        $('body').on('click', '.J_btnedit', function (e) {
+          e.stopPropagation();
+          $grid.openModal({
+            title: '设置折扣',
+            area: ['800px', '500px'],
+            content: 'http://192.168.1.102:801/demo/EditDiscount.html'
+          });
+        });
+
+        // 行删除
+        $('body').on('click', '.J_btndel', function (e) {
+          e.stopPropagation();
+          ui.popconfirm(this, {
+            placement: 'bottom',
+            styleType: 'danger',
+            content: '确定删除该条内容吗？',
+            onOk: function() {
+              ui.message.success('点击了确定。');
+            },
+            onCancel: function() {
+              ui.message.info('点击了取消。');
+            },
+            afterShow: function($target, $pop) {
+              $target.parent().css('visibility', 'visible');
+            },
+            afterHide: function($target, $pop) {
+              $target.parent().css('visibility', '');
+            }
+          }, true);
+        });
+        $('.ui-jqgrid-bdiv').scroll(function() {
+          $(window).trigger('hide.tooltip');
+          $(window).trigger('hide.popover');
+          $(window).trigger('hide.popconfirm');
+        });
+
+        // 批量删除
+        $('body').on('click', '#MultipleDelete', function() {
+          var ids = $grid.getCheckedIds();
+          if (ids.length) {
+            ui.dialog.confirm({
+              size: 'small',
+              title: '确认操作',
+              content: '确认删除选中的 [' + ids.length + '] 条内容吗？',
+              onOk: function() {
+                // ui.message.success('点击了确定。');
+                var loading = ui.message.loading('内容提交中...');
+                setTimeout(function() {
+                  loading.close();
+
+                  if (ids.length === 1) {
+                    ui.message.success('删除成功。');
+                  } else {
+                    var detail = $('<a href="javascript:;">详细</a>');
+                    var content = $('<span>(测试信息): ' + (ids.length - 1) + ' 条信息删除成功, 1 条信息删除失败。</span>');
+
+                    ui.message.error({
+                      content: content.append(detail),
+                      timeout: 0,
+                    });
+                    ui.popover(detail, {
+                      content: 'id = ' + ids[0] + ' 的信息被占用，无法删除。',
+                      placement: 'bottomRight',
+                      arrowPointAtCenter: true
+                    });
+                  }
+
+                }, 1000);
+              },
+              onCancel: function() {
+                ui.message.info('点击了取消。');
+              }
+            });
+          } else {
+            ui.message.error('请至少选择一条数据。')
+          }
+        });
+
+        // 获取当前选中的树节点
+        $('body').on('click', '#GetSelectedNodes', function() {
+         
+        });
+
+        // SKU 复制
+        $('body').on('mouseenter', '.J_sku', function (e) {
+          e.stopPropagation();
+          $(this).parent().attr('data-title', $(this).parent().attr('title')).removeAttr('title');
+          var $a = $('<a href="javascript:;" data-clipboard-text="' + $(this).text() + '" style="color:#fff;text-decoration:none;"><i class="fa fa-copy"></i> 点击复制</span>');
+          $a.click(function() {
+            $(window).trigger('hide.tooltip');
+            ui.message.info($(this).data('clipboard-text') + ' 复制成功');
+          });
+          new Clipboard($a[0]);
+          ui.tooltip(this, {
+            placement: 'right',
+            content: $a,
+          }, true);
+        });
+
+        // 获取空白数据记录效果
+        $('body').on('click', '#GetEmptyGrid', function() {
+          var _url = $('#main_grid').jqGrid('getGridParam', 'url');
+          $('#main_grid').jqGrid('setGridParam', { url: 'http://192.168.1.102:3000/api/aafc2af1ddbc56659f7b198395682fc8?pureresult' });
+          $grid.search();
+          $('#main_grid').jqGrid('setGridParam', { url: _url });
+        });
+
+        // 产品名称弹出详细
+        var timer;
+        $('body').on('mouseenter', '#main_grid td[aria-describedby="main_grid_Name"]', function() {
+          var _this = $(this);
+          _this.parent().removeAttr('title');
+          clearTimeout(timer);
+          timer = setTimeout(function() {
+            var $content = $('<div style="width:200px;text-align:center;" />').append(
+              $('<img src="' + _this.find('span').data('img') + '" style="width:auto;height:100px;" />'),
+              $('<div style="line-height:1.6em;margin-top:.5em;" />').append(_this.text())
+            );
+            ui.popover(_this, {
+              placement: 'bottomLeft',
+              styleType: 'warning',
+              hideHoverPopup: true,
+              title: _this.siblings('[aria-describedby="main_grid_ProductCode"]').text(),
+              content: $content,
+              mouseEnterDelay: 1000
+            }, true);
+          }, 100);
+        }).on('mouseleave', 'td[aria-describedby="main_grid_Name"]', function() {
+          clearTimeout(timer);
+        });
+
+        // MultiSelectControl
+        $.MultiSelectControl({
+          groupId: 'ProductManager',
+          hiddenId: 'product_manager',
+          textId: 'ProductManager_Text',
+          showPanelClass: 'sear-click',
+          cookieName: 'product_manager_cookie',
+          cookieCount: 8,
+          ajaxLoad: true,
+          // ajaxUrl: 'https://easale.banggood.cn/SCBeBay/ProductManagerUniteRelate/ProductManagerMultiSelect',
+          ajaxUrl: '_ProductManagerMultiSelect.html'
+        });
+      })
+    })
+
+</script>

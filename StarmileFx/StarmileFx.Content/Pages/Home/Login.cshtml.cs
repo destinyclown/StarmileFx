@@ -78,7 +78,7 @@ namespace StarmileFx.Content.Pages.Home
                     new Claim(FromData.Email, responseResult.Data.ToString()),
                     new Claim(ClaimTypes.Name, FromData.Email)
                 };
-                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, ""));
+                    var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "µÇÂ¼³É¹¦£¡"));
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal,
                         new AuthenticationProperties
                         {

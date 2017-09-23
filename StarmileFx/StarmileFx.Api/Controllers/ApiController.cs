@@ -6,6 +6,7 @@ using StarmileFx.Models;
 using StarmileFx.Models.Base;
 using StarmileFx.Api.FilterAttributes;
 using StarmileFx.Models.Web;
+using static StarmileFx.Models.Enum.BaseEnum;
 
 namespace StarmileFx.Api.Controllers
 {
@@ -77,18 +78,17 @@ namespace StarmileFx.Api.Controllers
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                Result result = new Result();
                 if (model != null)
                 {
+                    responseModel.IsSuccess = true;
                     responseModel.Data = BaseService.Insert(model, HttpContext);
-                    result.IsSuccess = true;
-                    result.ReasonDescription = "登录成功！";
                 }
                 else
                 {
-                    result.ReasonDescription = "用户名或密码错误！";
+                    responseModel.IsSuccess = false;
+                    responseModel.Data = null;
+                    responseModel.Error = new Error { Code = ErrorCode.AuthorizationError, Message = "用户名或密码错误！" };
                 }
-                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -126,17 +126,14 @@ namespace StarmileFx.Api.Controllers
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult();
-                Result result = new Result();
                 if (BaseService.ClearRole(Token))
                 {
-                    result.IsSuccess = true;
-                    result.ReasonDescription = "登录成功！";
+                    responseModel.Data = true;
                 }
                 else
                 {
-                    result.ReasonDescription = "Token错误，请检查！";
+                    responseModel.Data = false;
                 }
-                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -219,12 +216,10 @@ namespace StarmileFx.Api.Controllers
             var model = BaseService.GetRoleByToken(fromData.Token);
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                Result result = new Result
+                var responseModel = new ResponseResult
                 {
-                    IsSuccess = _BaseServer.ConfirmCollection(model, fromData)
+                    Data = _BaseServer.ConfirmCollection(model, fromData)
                 };
-                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);
@@ -240,12 +235,10 @@ namespace StarmileFx.Api.Controllers
             var model = BaseService.GetRoleByToken(fromData.Token);
             Func<ResponseResult> funcAction = () =>
             {
-                var responseModel = new ResponseResult();
-                Result result = new Result
+                var responseModel = new ResponseResult
                 {
-                    IsSuccess = _BaseServer.CancelCollection(model, fromData)
+                    Data = _BaseServer.CancelCollection(model, fromData)
                 };
-                responseModel.Data = result;
                 return responseModel;
             };
             return ActionResponseGetString(funcAction);

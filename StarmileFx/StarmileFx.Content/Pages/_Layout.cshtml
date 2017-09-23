@@ -6,11 +6,10 @@
     <title>@WebConfig.Value.WebName</title>
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <script src="https://content.starmile.com.cn/lib/requirejs/require.js"></script>
+    @RenderSection("style", required: false)
 </head>
 <body>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+    @RenderBody()
 
     @RenderSection("Scripts", required: false)
 </body>

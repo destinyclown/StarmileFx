@@ -114,8 +114,8 @@ namespace StarmileFx.Common
         {
             HttpClient httpClient = new HttpClient();
             string userKey = "Sf-Developer " + token + ";" + Guid.NewGuid().ToString().Replace("-", "");
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Add("Authorization", userKey);
+            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //httpClient.DefaultRequestHeaders.Add("Authorization", userKey);
             var data = await httpClient.GetByteArrayAsync(url);
             var ret = encoding.GetString(data);
             return ret;
@@ -157,8 +157,8 @@ namespace StarmileFx.Common
             HttpContent hc = new FormUrlEncodedContent(formData);
 
             string userKey = "Sf-Developer " + token + ";" + Guid.NewGuid().ToString().Replace("-", "");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Authorization", userKey);
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.Add("Authorization", userKey);
             hc.Headers.Add("UserAgent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36");
             hc.Headers.Add("Timeout", timeOut.ToString());
             hc.Headers.Add("KeepAlive", "true");
