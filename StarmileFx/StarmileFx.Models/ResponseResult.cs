@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using static StarmileFx.Models.Enum.BaseEnum;
@@ -30,21 +31,25 @@ namespace StarmileFx.Models
         /// <summary>
         /// 是否成功
         /// </summary>
+        [Description("是否成功")]
         public bool IsSuccess { get; set; }
         /// <summary>
         /// 内容
         /// </summary>
+        [Description("内容")]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object Data { get; set; }
 
         /// <summary>
         /// 违背业务规则类异常
         /// </summary>
+        [Description("违背业务规则类异常")]
         public Error Error { get; set; }
 
         /// <summary>
         /// 系统异常
         /// </summary>
+        [Description("系统异常")]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public SystemError SystemError { get; set; }
 

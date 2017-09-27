@@ -290,7 +290,7 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 提交图片资源
         /// </summary>
-        /// <param name="CommentFrom"></param>
+        /// <param name="ResourcesFrom"></param>
         /// <returns></returns>
         [HttpPost]
         public string SubmitResources([FromForm]Resources ResourcesFrom)

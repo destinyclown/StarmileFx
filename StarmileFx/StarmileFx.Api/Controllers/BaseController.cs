@@ -16,6 +16,7 @@ namespace StarmileFx.Api.Controllers
     /// 控制器基类
     /// </summary>
     //[TypeFilter(typeof(OverallExceptionFilterAttribute))]
+    [Produces("application/json")]
     public class BaseController : Controller
     {
         public BaseController() { }
@@ -32,7 +33,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public string ActionResponseGetString(Func<ResponseResult> action)
+        protected string ActionResponseGetString(Func<ResponseResult> action)
         {
             return ActionResponse(action);
         }
@@ -42,7 +43,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public string ActionResponseJsonp(Func<ResponseResult> action)
+        protected string ActionResponseJsonp(Func<ResponseResult> action)
         {
             string callback = Request.Query["callback"];
             return string.Format("{0}({1})", callback, ActionResponse(action));
@@ -53,7 +54,7 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public string ActionResponse(Func<ResponseResult> action)
+        protected string ActionResponse(Func<ResponseResult> action)
         {
             ResponseResult result = new ResponseResult();
             DateTime timer = DateTime.Now;
@@ -105,7 +106,7 @@ namespace StarmileFx.Api.Controllers
         /// 获取客户端IP地址
         /// </summary>
         /// <returns></returns>
-        public string GetUserIp()
+        protected string GetUserIp()
         {
             var ip = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
             if (string.IsNullOrEmpty(ip))
@@ -121,7 +122,7 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Controller"></param>
         /// <param name="Action"></param>
         /// <param name="ErrorMsg"></param>
-        private void SendErrorEmail(string Controller, string Action, string ErrorMsg)
+        protected void SendErrorEmail(string Controller, string Action, string ErrorMsg)
         {
             Email email = new Email
             {
