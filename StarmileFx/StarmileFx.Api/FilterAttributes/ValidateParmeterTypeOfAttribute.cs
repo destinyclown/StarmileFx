@@ -16,14 +16,29 @@ namespace StarmileFx.Api.FilterAttributes
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = true)]
     public class ValidateParmeterTypeOfAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// 参数名称
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 参数类型
+        /// </summary>
         public Type Type { get; set; }
+        /// <summary>
+        /// 验证方法
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
         public ValidateParmeterTypeOfAttribute(string name, Type type)
         {
             this.Type = type;
             this.Name = name;
         }
 
+        /// <summary>
+        /// 参数类型验证
+        /// </summary>
+        /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -42,6 +57,7 @@ namespace StarmileFx.Api.FilterAttributes
                         Message = string.Format("{0} 参数类型不正确。", Name)
                     },
                 };
+                filterContext.HttpContext.Response.StatusCode = 400;
                 filterContext.Result = new JsonResult(result);
             }
         }

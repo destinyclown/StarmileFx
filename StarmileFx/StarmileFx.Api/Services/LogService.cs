@@ -15,6 +15,10 @@ namespace StarmileFx.Api.Services
     {
         private readonly IBaseServer _BaseServer;
 
+        /// <summary>
+        /// 构造法
+        /// </summary>
+        /// <param name="IBaseServer"></param>
         public LogService(IBaseServer IBaseServer)
         {
             _BaseServer = IBaseServer;
@@ -43,7 +47,7 @@ namespace StarmileFx.Api.Services
         /// <summary>
         /// 添加日志
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="log"></param>
         public static void Add(SysLog log)
         {
             if (IsStarted)

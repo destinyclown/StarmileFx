@@ -8,6 +8,9 @@ using StarmileFx.Api.Models;
 
 namespace StarmileFx.Api.Services
 {
+    /// <summary>
+    /// 基础线程
+    /// </summary>
     public class BaseService
     {
         // Lock对象，线程安全所用
@@ -44,7 +47,7 @@ namespace StarmileFx.Api.Services
         /// <summary>
         /// 获取用户Token
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="roleId"></param>
         /// <returns></returns>
         public static string GetToken(int roleId)
         {
@@ -133,6 +136,7 @@ namespace StarmileFx.Api.Services
         /// 刷新用户返回新Token(令牌)
         /// </summary>
         /// <param name="Token"></param>
+        /// <param name="context"></param>
         public static string Refresh(string Token, HttpContext context)
         {
             SysRoleOnline sysRoleOnline = SysRolesOnline.Instance.SysRolesList.Find(a => a.Token == Token);
@@ -159,7 +163,7 @@ namespace StarmileFx.Api.Services
         /// <summary>
         /// 移除用户
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="Token"></param>
         public static bool ClearRole(string Token)
         {
             if (Token != null)

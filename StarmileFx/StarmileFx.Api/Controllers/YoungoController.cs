@@ -14,11 +14,19 @@ using StarmileFx.Api.FilterAttributes;
 
 namespace StarmileFx.Api.Controllers
 {
-    public class YoungoController : BaseController
+    /// <summary>
+    /// 雅戈控制器
+    /// </summary>
+    [Route("api/[controller]")]
+    public class YoungoController : ApiController
     {
         //依赖注入
         private readonly IYoungoServer _YoungoServer;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="IYoungoServer"></param>
         public YoungoController(IYoungoServer IYoungoServer)
         {
             _YoungoServer = IYoungoServer;
@@ -29,9 +37,11 @@ namespace StarmileFx.Api.Controllers
         /// 获取商品列表
         /// </summary>
         /// <returns></returns>
-        //[Route("")]
+        /// <response code="200">获取商品列表</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("GetCacheProductList")]
         [ResponseCache(VaryByHeader = "Accept-Encoding", Location = ResponseCacheLocation.Client, Duration = 10)]
-        public string GetCacheProductList()
+        public IActionResult GetCacheProductList()
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -53,10 +63,12 @@ namespace StarmileFx.Api.Controllers
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterTypeOf("OrderState", typeof(OrderStateEnum))]
         [ValidateParmeterTypeOf("CustomerId", typeof(int))]
-        //[Route("GetOrderParentcsList/{CustomerId:int}")]
-        public string GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
+        [HttpGet("GetOrderParentcsList")]
+        public IActionResult GetOrderParentcsList(OrderStateEnum OrderState, int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -73,11 +85,14 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 查询订单
         /// </summary>
-        /// <param name="orderId"></param>
+        /// <param name="OrderId"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterNull("OrderId")]
+        [HttpGet("GetOrderParent")]
         //[Route("GetOrderParent/OrderId={OrderId}")]
-        public string GetOrderParent(string OrderId)
+        public IActionResult GetOrderParent(string OrderId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -97,8 +112,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="shopCart">购物车</param>
         /// <returns></returns>
-        [HttpPost]
-        public string OrderCreate([FromForm]ShopCart shopCart)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("OrderCreate")]
+        public IActionResult OrderCreate([FromForm]ShopCart shopCart)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -119,10 +136,12 @@ namespace StarmileFx.Api.Controllers
         /// <param name="OrderId">订单编号</param>
         /// <param name="TransactionId">交易编号</param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("OrderPay")]
         [ValidateParmeterNull("OrderId,TransactionId")]
         //[Route("OrderPay/OrderId={OrderId}&TransactionId={TransactionId}")]
-        public string OrderPay(string OrderId, string TransactionId)
+        public IActionResult OrderPay(string OrderId, string TransactionId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -143,9 +162,11 @@ namespace StarmileFx.Api.Controllers
         /// <param name="OrderId">订单编号</param>
         /// <param name="IsDelete">是否删除</param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("OrderCancel")]
         [ValidateParmeterNull("OrderId")]
-        public string OrderCancel(string OrderId, bool IsDelete = false)
+        public IActionResult OrderCancel(string OrderId, bool IsDelete = false)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -165,9 +186,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="OrderId">订单编号</param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("OrderComplete")]
         [ValidateParmeterNull("OrderId")]
-        public string OrderComplete(string OrderId)
+        public IActionResult OrderComplete(string OrderId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -187,8 +210,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="WeCharKey"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("GetCustomer")]
         [ValidateParmeterNull("WeCharKey")]
-        public string GetCustomer(string WeCharKey)
+        public IActionResult GetCustomer(string WeCharKey)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -208,8 +234,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterTypeOf("CustomerId", typeof(int))]
-        public string GetDefaultAddress(int CustomerId)
+        [HttpGet("GetDefaultAddress")]
+        public IActionResult GetDefaultAddress(int CustomerId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -229,8 +258,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CustomerId"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterTypeOf("CustomerId", typeof(int))]
-        public string GetDeliveryAddressList(int CustomerId)
+        [HttpGet("GetDeliveryAddressList")]
+        public IActionResult GetDeliveryAddressList(int CustomerId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -250,8 +282,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="ProductId"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterNull("ProductId")]
-        public string GetProductResources(string ProductId)
+        [HttpGet("GetProductResources")]
+        public IActionResult GetProductResources(string ProductId)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -271,8 +306,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="CommentFrom"></param>
         /// <returns></returns>
-        [HttpPost]
-        public string SubmitComment([FromForm]CommentFrom CommentFrom)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("SubmitComment")]
+        public IActionResult SubmitComment([FromForm]CommentFrom CommentFrom)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -292,8 +329,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="ResourcesFrom"></param>
         /// <returns></returns>
-        [HttpPost]
-        public string SubmitResources([FromForm]Resources ResourcesFrom)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("SubmitResources")]
+        public IActionResult SubmitResources([FromForm]Resources ResourcesFrom)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -313,8 +352,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="DeliveryAddressFrom"></param>
         /// <returns></returns>
-        [HttpPost]
-        public string SubmitDeliveryAddress([FromForm]DeliveryAddressFrom DeliveryAddressFrom)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("SubmitDeliveryAddress")]
+        public IActionResult SubmitDeliveryAddress([FromForm]DeliveryAddressFrom DeliveryAddressFrom)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -333,12 +374,16 @@ namespace StarmileFx.Api.Controllers
         /// 获取消息列表
         /// </summary>
         /// <param name="CustomerId"></param>
-        /// <param name="page"></param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterTypeOf("CustomerId", typeof(int))]
         [ValidateParmeterTypeOf("PageSize", typeof(int))]
         [ValidateParmeterTypeOf("PageIndex", typeof(int))]
-        public string GetMessageList(int CustomerId, int PageSize, int PageIndex)
+        [HttpGet("GetMessageList")]
+        public IActionResult GetMessageList(int CustomerId, int PageSize, int PageIndex)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -358,7 +403,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        public string SubmitFeedback([FromForm]FeedbackFrom from)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("SubmitFeedback")]
+        public IActionResult SubmitFeedback([FromForm]FeedbackFrom from)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -381,7 +429,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        public string GetProductList([FromForm]ProductSearch from)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("GetProductList")]
+        public IActionResult GetProductList([FromForm]ProductSearch from)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -405,8 +456,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="product">购物车</param>
         /// <returns></returns>
-        [HttpPost]
-        public string AddProduct([FromForm]Product product)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("AddProduct")]
+        public IActionResult AddProduct([FromForm]Product product)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -426,8 +479,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="product">购物车</param>
         /// <returns></returns>
-        [HttpPost]
-        public string ModifyProduct([FromForm]Product product)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("ModifyProduct")]
+        public IActionResult ModifyProduct([FromForm]Product product)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -447,8 +502,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("GetProduct")]
         [ValidateParmeterTypeOf("Id", typeof(int))]
-        public string GetProduct(int Id)
+        public IActionResult GetProduct(int Id)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -468,9 +526,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("DeleteProduct")]
         [ValidateParmeterTypeOf("Id", typeof(int))]
-        public string DeleteProduct(int Id)
+        public IActionResult DeleteProduct(int Id)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -490,15 +550,17 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Ids"></param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("BatchDeleteProduct")]
         [ValidateParmeterTypeOf("Ids", typeof(int[]))]
-        public string BatchDeleteProduct(int[] ProductIds)
+        public IActionResult BatchDeleteProduct(int[] Ids)
         {
             Func<ResponseResult> funcAction = () =>
             {
                 var responseModel = new ResponseResult
                 {
-                    Data = _YoungoServer.BatchDeleteProduct(ProductIds),
+                    Data = _YoungoServer.BatchDeleteProduct(Ids),
                     IsSuccess = true,
                     
                 };
@@ -513,7 +575,10 @@ namespace StarmileFx.Api.Controllers
         /// 查询商品类型
         /// </summary>
         /// <returns></returns>
-        public string GetProductTypeList()
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("GetProductTypeList")]
+        public IActionResult GetProductTypeList()
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -533,8 +598,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="productType">购物车</param>
         /// <returns></returns>
-        [HttpPost]
-        public string AddProductType([FromForm]ProductType productType)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("AddProductType")]
+
+        public IActionResult AddProductType([FromForm]ProductType productType)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -554,8 +622,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="productType">购物车</param>
         /// <returns></returns>
-        [HttpPost]
-        public string ModifyProductType([FromForm]ProductType productType)
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("ModifyProductType")]
+        public IActionResult ModifyProductType([FromForm]ProductType productType)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -575,8 +645,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("GetProductType")]
         [ValidateParmeterTypeOf("Id", typeof(int))]
-        public string GetProductType(int Id)
+        public IActionResult GetProductType(int Id)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -596,9 +669,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("DeleteProductType")]
         [ValidateParmeterTypeOf("Id", typeof(int))]
-        public string DeleteProductType(int Id)
+        public IActionResult DeleteProductType(int Id)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -618,9 +693,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Ids"></param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("BatchDeleteProductType")]
         [ValidateParmeterTypeOf("Ids", typeof(int[]))]
-        public string BatchDeleteProductType(int[] Ids)
+        public IActionResult BatchDeleteProductType(int[] Ids)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -640,11 +717,15 @@ namespace StarmileFx.Api.Controllers
         /// <summary>
         /// 获取网站资源列表
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="ProductId"></param>
+        /// <param name="Type"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterNull("ProductId")]
         [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
-        public string GetResourcesList(string ProductId, ResourcesEnum Type)
+        [HttpGet("GetResourcesList")]
+        public IActionResult GetResourcesList(string ProductId, ResourcesEnum Type)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -667,11 +748,14 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Addresses"></param>
         /// <param name="Sorts"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterNull("ProductId")]
         [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
         [ValidateParmeterTypeOf("Addresses", typeof(string[]))]
         [ValidateParmeterTypeOf("Sorts", typeof(int[]))]
-        public string AddResources(string ProductId, ResourcesEnum Type, string[] Addresses, int[] Sorts)
+        [HttpPost("AddResources")]
+        public IActionResult AddResources(string ProductId, ResourcesEnum Type, string[] Addresses, int[] Sorts)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -691,10 +775,12 @@ namespace StarmileFx.Api.Controllers
         /// <param name="ProductId"></param>
         /// <param name="Type"></param>
         /// <returns></returns>
-        [HttpPost]
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("BatchDeleteResources")]
         [ValidateParmeterNull("ProductId")]
         [ValidateParmeterTypeOf("Type", typeof(ResourcesEnum))]
-        public string BatchDeleteResources(string ProductId, ResourcesEnum Type)
+        public IActionResult BatchDeleteResources(string ProductId, ResourcesEnum Type)
         {
             Func<ResponseResult> funcAction = () =>
             {
@@ -713,8 +799,11 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
         [ValidateParmeterTypeOf("Id", typeof(int))]
-        public string DeleteResources(int Id)
+        [HttpPost("DeleteResources")]
+        public IActionResult DeleteResources(int Id)
         {
             Func<ResponseResult> funcAction = () =>
             {

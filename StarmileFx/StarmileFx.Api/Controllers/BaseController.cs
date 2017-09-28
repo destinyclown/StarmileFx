@@ -1,136 +1,248 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using StarmileFx.Api.Services;
-using StarmileFx.Common;
-using StarmileFx.Models;
-using StarmileFx.Api.FilterAttributes;
-using static StarmileFx.Models.Enum.BaseEnum;
-using Microsoft.AspNetCore.Mvc.Filters;
-using StarmileFx.Models.Base;
 using StarmileFx.Api.Server.IServices;
+using StarmileFx.Models.Web;
+using StarmileFx.Api.Services;
+using StarmileFx.Models;
+using static StarmileFx.Models.Enum.BaseEnum;
+using StarmileFx.Api.FilterAttributes;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarmileFx.Api.Controllers
 {
     /// <summary>
-    /// 控制器基类
+    /// 基本控制器
     /// </summary>
-    //[TypeFilter(typeof(OverallExceptionFilterAttribute))]
-    [Produces("application/json")]
-    public class BaseController : Controller
+    [Route("api/[controller]")]
+    public class BaseController : ApiController
     {
-        public BaseController() { }
+        //依赖注入
+        private readonly IBaseServer _BaseServer;
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="IBaseServer"></param>
+        public BaseController(IBaseServer IBaseServer)
         {
-            base.OnActionExecuting(context);
-            //认证暂时不使用
-            string Authorization = context.HttpContext.Request.Headers["Authorization"].ToString();
+            _BaseServer = IBaseServer;
         }
 
         /// <summary>
-        /// 返回结果json
+        /// 获取在线用户列表
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="Token">Token令牌</param>
         /// <returns></returns>
-        protected string ActionResponseGetString(Func<ResponseResult> action)
+        /// <response code="200">返回获取在线用户列表</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [ValidateParmeterNull("Token")]
+        [HttpGet("GetSysRolesOnline")]
+        public IActionResult GetSysRolesOnline(string Token)
         {
-            return ActionResponse(action);
-        }
-
-        /// <summary>
-        /// 处理跨域请求
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected string ActionResponseJsonp(Func<ResponseResult> action)
-        {
-            string callback = Request.Query["callback"];
-            return string.Format("{0}({1})", callback, ActionResponse(action));
-        }
-
-        /// <summary>
-        /// 执行请求内容，返回结果json
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        protected string ActionResponse(Func<ResponseResult> action)
-        {
-            ResponseResult result = new ResponseResult();
-            DateTime timer = DateTime.Now;
-            try
+            Func<ResponseResult> funcAction = () =>
             {
-                result = action.Invoke();
-                //创建日志记录
-                SysLog log = new SysLog
+                var responseModel = new ResponseResult
                 {
-                    Ip = GetUserIp(),
-                    IsError = false,
-                    Herf = Request.Path.Value,
-                    ResponseSpan = (decimal)DateTime.Now.Subtract(timer).Milliseconds / 1000
+                    Data = BaseService.GetSysRoleOnline(Token),
+                    IsSuccess = true
                 };
-                LogService.Add(log);
-                return JsonHelper.T_To_Json(result);
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Data = null;
-                result.Error = new Error
-                {
-                    Code = ex.GetType().ToString() == "System.Exception" ? ErrorCode.DataError : ErrorCode.SystemError,
-                    Message = ex.Message
-                };
-                result.SystemError = ex.GetType().ToString() == "System.Exception" ? null : new SystemError
-                {
-                    ExceptionType = ex.GetType().ToString(),
-                    Message = ex.Message,
-                    HelpUrl = "https://api.starmile.com.cn/api/help/" + ErrorCode.SystemError,
-                };
-                //创建日志记录
-                SysLog log = new SysLog
-                {
-                    Ip = GetUserIp(),
-                    Code = result.Error.Code,
-                    ErrorMessage = ex.Message,
-                    IsError = true,
-                    Herf = Request.Path.Value,
-                    ResponseSpan = (decimal)DateTime.Now.Subtract(timer).Milliseconds / 1000
-                };
-                LogService.Add(log);
-                return JsonHelper.T_To_Json(result);
-            }
-        }
-
-        /// <summary>
-        /// 获取客户端IP地址
-        /// </summary>
-        /// <returns></returns>
-        protected string GetUserIp()
-        {
-            var ip = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
-            if (string.IsNullOrEmpty(ip))
-            {
-                ip = HttpContext.Connection.RemoteIpAddress.ToString();
-            }
-            return ip;
-        }
-
-        /// <summary>
-        /// 发送错误邮件
-        /// </summary>
-        /// <param name="Controller"></param>
-        /// <param name="Action"></param>
-        /// <param name="ErrorMsg"></param>
-        protected void SendErrorEmail(string Controller, string Action, string ErrorMsg)
-        {
-            Email email = new Email
-            {
-                Message = string.Format("StarmileFx.Api系统出错\r\n客户端IP地址：{0}\r\nController：{1}\r\nAction：{2}\r\n错误信息：{3}", GetUserIp(), Controller, Action, ErrorMsg),
-                Subject = "StarmileFx.Api系统出错",
-                Type = EmailTypeEnum.Error
+                return responseModel;
             };
-            EmailService.Add(email);
+            return ActionResponseGetString(funcAction);
         }
+
+        /// <summary>
+        /// 刷新Token令牌
+        /// </summary>
+        /// <param name="Token">Token令牌</param>
+        /// <returns></returns>
+        /// <response code="200">返回刷新令牌信息</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [ValidateParmeterNull("Token")]
+        [HttpGet("RefreshToken")]
+        public IActionResult RefreshToken(string Token)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Data = BaseService.Refresh(Token, HttpContext),
+                    IsSuccess = true
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        #region 登录
+        /// <summary>
+        /// 登录接口
+        /// </summary>
+        /// <remarks>
+        /// 请求示例:
+        ///
+        ///     POST /LoginFrom
+        ///     {
+        ///        "Email": "youremail@qq.com",
+        ///        "Password": "******",
+        ///        "RememberMe": true,
+        ///        "Ip": "192.168.0.1"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="fromData"></param>
+        /// <returns>返回登录授权信息</returns>
+        /// <response code="200">返回登录授权信息</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost("Login")]
+        public IActionResult Login([FromForm]LoginFrom fromData)
+        {
+            var model = _BaseServer.Login(fromData);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                if (model != null)
+                {
+                    responseModel.IsSuccess = true;
+                    responseModel.Data = BaseService.Insert(model, HttpContext);
+                }
+                else
+                {
+                    responseModel.IsSuccess = false;
+                    responseModel.Data = null;
+                    responseModel.Error = new Error { Code = ErrorCode.AuthorizationError, Message = "用户名或密码错误！" };
+                }
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction); //ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 退出登录接口
+        /// </summary>
+        /// <param name="Token">Token令牌</param>
+        /// <returns></returns>
+        /// <response code="200">退出登录信息</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("Logout")]  
+        [ValidateParmeterNull("Token")]
+        public IActionResult Logout(string Token)
+        {
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult();
+                if (BaseService.ClearRole(Token))
+                {
+                    responseModel.Data = true;
+                }
+                else
+                {
+                    responseModel.Data = false;
+                }
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+        #endregion
+
+        #region 菜单
+        /// <summary>
+        /// 获取系统菜单
+        /// </summary>
+        /// <param name="Token">Token令牌</param>
+        /// <returns></returns>
+        /// <response code="200">返回菜单列表</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpGet("LoadMenuByRole")]
+        [ValidateParmeterNull("Token")]
+        public IActionResult LoadMenuByRole(string Token)
+        {
+            var model = BaseService.GetRoleByToken(Token);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Data = _BaseServer.LoadMenuByRole(model),
+                    IsSuccess = true
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 获取收藏列表
+        /// </summary>
+        /// <param name="Token">Token令牌</param>
+        /// <returns></returns>
+        /// <response code="200">返回收藏列表</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [ValidateParmeterNull("Token")]
+        [HttpGet("GetCollectionList")]
+        public IActionResult GetCollectionList(string Token)
+        {
+            var model = BaseService.GetRoleByToken(Token);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Data = _BaseServer.GetCollectionList(model),
+                    IsSuccess = true
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 收藏菜单
+        /// </summary>
+        /// <param name="fromData"></param>
+        /// <returns></returns>
+        /// <response code="200">返回收藏信息</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost]
+        [Route("ConfirmCollection")]
+        public IActionResult ConfirmCollection([FromForm]WebCollection fromData)
+        {
+            var model = BaseService.GetRoleByToken(fromData.Token);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Data = _BaseServer.ConfirmCollection(model, fromData)
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+
+        /// <summary>
+        /// 取消收藏
+        /// </summary>
+        /// <param name="fromData"></param>
+        /// <returns></returns>
+        /// <response code="200">返回取消收藏信息</response>
+        [ProducesResponseType(typeof(ResponseResult), 200)]
+        [HttpPost]
+        [Route("CancelCollection")]
+        public IActionResult CancelCollection([FromForm]WebCollection fromData)
+        {
+            var model = BaseService.GetRoleByToken(fromData.Token);
+            Func<ResponseResult> funcAction = () =>
+            {
+                var responseModel = new ResponseResult
+                {
+                    Data = _BaseServer.CancelCollection(model, fromData)
+                };
+                return responseModel;
+            };
+            return ActionResponseGetString(funcAction);
+        }
+        #endregion
     }
 }

@@ -9,6 +9,9 @@ using static StarmileFx.Models.Enum.BaseEnum;
 
 namespace StarmileFx.Api.Services
 {
+    /// <summary>
+    /// 邮寄系统
+    /// </summary>
     public class EmailService
     {
         // Lock对象，线程安全所用
@@ -116,7 +119,7 @@ namespace StarmileFx.Api.Services
         /// <summary>
         /// 添加邮件
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="email"></param>
         public static void Add(Email email)
         {
             if (IsStarted)

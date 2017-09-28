@@ -16,12 +16,23 @@ namespace StarmileFx.Api.FilterAttributes
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false)]
     public class ValidateParmeterNullAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// 参数
+        /// </summary>
         public string Parmters { get; set; }
+        /// <summary>
+        /// 参数为空验证
+        /// </summary>
+        /// <param name="parmters"></param>
         public ValidateParmeterNullAttribute(string parmters)
         {
             this.Parmters = parmters;
         }
 
+        /// <summary>
+        /// 参数为空验证
+        /// </summary>
+        /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -41,6 +52,7 @@ namespace StarmileFx.Api.FilterAttributes
                             Message= string.Format("{0} 参数不能为Null。", item.Trim())
                         },
                     };
+                    filterContext.HttpContext.Response.StatusCode = 400;
                     filterContext.Result = new JsonResult(result);
                 }
             }
