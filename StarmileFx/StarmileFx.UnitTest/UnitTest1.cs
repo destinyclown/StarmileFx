@@ -6,6 +6,7 @@ using StarmileFx.Common.Encryption;
 using StarmileFx.Models;
 using StarmileFx.Models.Web;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace StarmileFx.UnitTest
 {
@@ -18,15 +19,22 @@ namespace StarmileFx.UnitTest
         /// 构造方法
         /// </summary>
         /// <param name="IBaseServer"></param>
-        public UnitTest1(IBaseServer IBaseServer)
-        {
-            _BaseServer = IBaseServer;
-        }
+        //public UnitTest1(IBaseServer IBaseServer)
+        //{
+        //    _BaseServer = IBaseServer;
+        //}
         [TestMethod]
         public void TestMethod1()
         {
-            string str = "erewr";
+            string str = "A000091707!@#$2408OK#$%";
             str = str.Length > 200 ? str.Substring(0, 200) : str;
+            //string str1 = str.Substring(1, 5);
+            string str1 = GetReal(str);
+        }
+
+        private string GetReal(string hexData)
+        {
+            return Regex.Replace(hexData, "^[\\w|\\s|\\/|\\-|\\#|\\(|\\)|\\'|\\+|\\.]{ 1,32}$", " ");
         }
 
         [TestMethod]

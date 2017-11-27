@@ -34,8 +34,8 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Token" required="true">Token令牌</param>
         /// <returns></returns>
         [ValidateParmeterNull("Token")]
-        [HttpGet("GetMenuJson")]
-        public string GetMenuJson(string Token)
+        [HttpGet("GetMenuJson/{Token}")]
+        public IActionResult GetMenuJson(string Token)
         {
             var model = BaseService.GetRoleByToken(Token);
             Func<ResponseResult> funcAction = () =>
@@ -56,8 +56,8 @@ namespace StarmileFx.Api.Controllers
         /// <param name="Token">Token令牌</param>
         /// <returns></returns>
         [ValidateParmeterNull("Token")]
-        [HttpGet("GetCollectionListJson")]
-        public string GetCollectionListJson(string Token)
+        [HttpGet("GetCollectionListJson/{Token}")]
+        public IActionResult GetCollectionListJson(string Token)
         {
             var model = BaseService.GetRoleByToken(Token);
             Func<ResponseResult> funcAction = () =>

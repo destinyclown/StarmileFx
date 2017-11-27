@@ -50,10 +50,10 @@ namespace StarmileFx.Api.Controllers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        protected string ActionResponseJsonp(Func<ResponseResult> action)
+        protected IActionResult ActionResponseJsonp(Func<ResponseResult> action)
         {
             string callback = Request.Query["callback"];
-            return string.Format("{0}({1})", callback, ActionResponse(action));
+            return Content(string.Format("{0}({1})", callback, JsonHelper.T_To_Json(ActionResponse(action))));
         }
 
         /// <summary>
